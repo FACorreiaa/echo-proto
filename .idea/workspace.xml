@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="33d42ea0-6a41-450f-b590-9f5a7e0ad814" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buf.gen.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/buf.gen.yaml" afterDir="false" />
-    </list>
+    <list default="true" id="33d42ea0-6a41-450f-b590-9f5a7e0ad814" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
