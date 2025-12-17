@@ -1,6 +1,12 @@
 version: v2
 managed:
-  enabled: false
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: echoapi/gen
+  disable:
+    - module: buf.build/bufbuild/protovalidate
+    - module: buf.build/protocolbuffers/wellknowntypes
 plugins:
   - remote: buf.build/protocolbuffers/go:v1.36.10
     out: gen/go
