@@ -2,8 +2,9 @@ version: v2
 managed:
   enabled: true
   override:
-    - file_option: go_package_prefix
-      value: echoapi/gen
+    - file_option: go_package
+      value: echoapi/gen/echo/v1;echov1
+      path: echo/v1
   disable:
     - module: buf.build/bufbuild/protovalidate
     - module: buf.build/protocolbuffers/wellknowntypes
