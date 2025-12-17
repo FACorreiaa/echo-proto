@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+// “Money OS” primitives: durable tasks and user-defined automation rules.
+service AutomationService {
+  rpc CreateRule(CreateRuleRequest) returns (CreateRuleResponse);
+  rpc ListRules(ListRulesRequest) returns (ListRulesResponse);
+  rpc UpdateRule(UpdateRuleRequest) returns (UpdateRuleResponse);
+  rpc DeleteRule(DeleteRuleRequest) returns (DeleteRuleResponse);
+
+  rpc ListTasks(ListTasksRequest) returns (ListTasksResponse);
+  rpc CompleteTask(CompleteTaskRequest) returns (CompleteTaskResponse);
+}
+
+enum TaskStatus {
+  TASK_STATUS_UNSPECIFIED = 0;
+  TASK_STATUS_OPEN = 1;
+  TASK_STATUS_DONE = 2;
+  TASK_STATUS_DISMISSED = 3;
+}
+
+enum TaskPriority {
+  TASK_PRIORITY_UNSPECIFIED = 0;
+  TASK_PRIORITY_LOW = 1;
+  TASK_PRIORITY_MEDIUM = 2;
+  TASK_PRIORITY_HIGH = 3;
+}
+
+message Task {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string title = 3 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  string body = 4 [(buf.validate.field).string = { max_len: 2048 }];
+  TaskStatus status = 5 [(buf.validate.field).enum = { defined_only: true }];
+  TaskPriority priority = 6 [(buf.validate.field).enum = { defined_only: true }];
+  google.protobuf.Timestamp due_at = 7;
+  google.protobuf.Timestamp completed_at = 8;
+  google.protobuf.Timestamp created_at = 9 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 10 [(buf.validate.field).required = true];
+}
+
+message ListTasksRequest {
+  PageRequest page = 1;
+  TaskStatus status = 2 [(buf.validate.field).enum = { defined_only: true }];
+}
+
+message ListTasksResponse {
+  repeated Task tasks = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+message CompleteTaskRequest {
+  string task_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message CompleteTaskResponse {
+  Task task = 1 [(buf.validate.field).required = true];
+}
+
+message AutomationRule {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  bool enabled = 4;
+
+  // JSON configuration for triggers/conditions/actions (kept generic early; becomes typed over time).
+  string config_json = 5 [(buf.validate.field).string = { max_len: 100000 }];
+
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message CreateRuleRequest {
+  string name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  bool enabled = 2;
+  string config_json = 3 [(buf.validate.field).string = { max_len: 100000 }];
+}
+
+message CreateRuleResponse {
+  AutomationRule rule = 1 [(buf.validate.field).required = true];
+}
+
+message ListRulesRequest {
+  PageRequest page = 1;
+}
+
+message ListRulesResponse {
+  repeated AutomationRule rules = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+message UpdateRuleRequest {
+  string rule_id = 1 [(buf.validate.field).string = { uuid: true }];
+  string name = 2 [(buf.validate.field).string = { max_len: 120 }];
+  bool enabled = 3;
+  string config_json = 4 [(buf.validate.field).string = { max_len: 100000 }];
+}
+
+message UpdateRuleResponse {
+  AutomationRule rule = 1 [(buf.validate.field).required = true];
+}
+
+message DeleteRuleRequest {
+  string rule_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message DeleteRuleResponse {}

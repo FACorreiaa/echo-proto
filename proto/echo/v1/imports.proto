@@ -1,0 +1,178 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+service ImportService {
+  // Stores a file for later processing (CSV/XLSX/PDF/image).
+  rpc UploadUserFile(UploadUserFileRequest) returns (UploadUserFileResponse);
+  rpc GetUserFile(GetUserFileRequest) returns (GetUserFileResponse);
+  rpc ListUserFiles(ListUserFilesRequest) returns (ListUserFilesResponse);
+
+  // Creates an import job that parses a file into canonical records (transactions, documents).
+  rpc CreateImportJob(CreateImportJobRequest) returns (CreateImportJobResponse);
+  rpc GetImportJob(GetImportJobRequest) returns (GetImportJobResponse);
+  rpc ListImportJobs(ListImportJobsRequest) returns (ListImportJobsResponse);
+
+  // Invoice/receipt documents (post‑MVP ingestion from PDF/images).
+  rpc GetDocument(GetDocumentRequest) returns (GetDocumentResponse);
+  rpc ListDocuments(ListDocumentsRequest) returns (ListDocumentsResponse);
+}
+
+enum UserFileType {
+  USER_FILE_TYPE_UNSPECIFIED = 0;
+  USER_FILE_TYPE_CSV = 1;
+  USER_FILE_TYPE_XLSX = 2;
+  USER_FILE_TYPE_PDF = 3;
+  USER_FILE_TYPE_IMAGE = 4;
+}
+
+message UserFile {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  UserFileType type = 3 [(buf.validate.field).enum = { defined_only: true }];
+  string mime_type = 4 [(buf.validate.field).string = { min_len: 1 max_len: 127 }];
+  string file_name = 5 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  int64 size_bytes = 6 [(buf.validate.field).int64 = { gte: 1 lte: 20000000 }];
+  optional string checksum_sha256 = 7 [(buf.validate.field).string = {
+    pattern: "^[a-fA-F0-9]{64}$"
+  }];
+  string storage_url = 8 [(buf.validate.field).string = { max_len: 2048 }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+}
+
+message UploadUserFileRequest {
+  UserFileType type = 1 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string mime_type = 2 [(buf.validate.field).string = { min_len: 1 max_len: 127 }];
+  string file_name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  bytes file_bytes = 4 [(buf.validate.field).bytes = { min_len: 1 max_len: 20000000 }];
+  optional string checksum_sha256 = 5 [(buf.validate.field).string = {
+    pattern: "^[a-fA-F0-9]{64}$"
+  }];
+}
+
+message UploadUserFileResponse {
+  UserFile file = 1 [(buf.validate.field).required = true];
+}
+
+message GetUserFileRequest {
+  string file_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message GetUserFileResponse {
+  UserFile file = 1 [(buf.validate.field).required = true];
+}
+
+message ListUserFilesRequest {
+  PageRequest page = 1;
+  UserFileType type = 2 [(buf.validate.field).enum = { defined_only: true }];
+}
+
+message ListUserFilesResponse {
+  repeated UserFile files = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+enum ImportKind {
+  IMPORT_KIND_UNSPECIFIED = 0;
+  IMPORT_KIND_TRANSACTIONS = 1;
+  IMPORT_KIND_INVOICE = 2;
+}
+
+enum ImportStatus {
+  IMPORT_STATUS_UNSPECIFIED = 0;
+  IMPORT_STATUS_PENDING = 1;
+  IMPORT_STATUS_RUNNING = 2;
+  IMPORT_STATUS_SUCCEEDED = 3;
+  IMPORT_STATUS_FAILED = 4;
+  IMPORT_STATUS_CANCELED = 5;
+}
+
+message ImportStats {
+  int32 rows_total = 1 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  int32 rows_imported = 2 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  int32 rows_failed = 3 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+}
+
+message ImportJob {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string file_id = 3 [(buf.validate.field).string = { uuid: true }];
+  ImportKind kind = 4 [(buf.validate.field).enum = { defined_only: true }];
+  ImportStatus status = 5 [(buf.validate.field).enum = { defined_only: true }];
+  string timezone = 6 [(buf.validate.field).string = { max_len: 64 }];
+  string error_message = 7 [(buf.validate.field).string = { max_len: 2048 }];
+  ImportStats stats = 8;
+  google.protobuf.Timestamp requested_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp started_at = 11;
+  google.protobuf.Timestamp finished_at = 12;
+}
+
+message CreateImportJobRequest {
+  string file_id = 1 [(buf.validate.field).string = { uuid: true }];
+  ImportKind kind = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+
+  // If provided for transaction imports, links imported transactions to an account.
+  optional string account_id = 3 [(buf.validate.field).string = { uuid: true }];
+
+  // IANA timezone identifier, e.g. "America/Los_Angeles".
+  string timezone = 4 [(buf.validate.field).string = { max_len: 64 }];
+
+  // Optional hints for parsing.
+  string date_format = 5 [(buf.validate.field).string = { max_len: 32 }];
+}
+
+message CreateImportJobResponse {
+  ImportJob job = 1 [(buf.validate.field).required = true];
+}
+
+message GetImportJobRequest {
+  string job_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message GetImportJobResponse {
+  ImportJob job = 1 [(buf.validate.field).required = true];
+}
+
+message ListImportJobsRequest {
+  PageRequest page = 1;
+  ImportStatus status = 2 [(buf.validate.field).enum = { defined_only: true }];
+  ImportKind kind = 3 [(buf.validate.field).enum = { defined_only: true }];
+}
+
+message ListImportJobsResponse {
+  repeated ImportJob jobs = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+message Document {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string file_id = 3 [(buf.validate.field).string = { uuid: true }];
+  string merchant_name = 4 [(buf.validate.field).string = { max_len: 255 }];
+  google.protobuf.Timestamp issued_at = 5;
+  Money total = 6;
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message GetDocumentRequest {
+  string document_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message GetDocumentResponse {
+  Document document = 1 [(buf.validate.field).required = true];
+}
+
+message ListDocumentsRequest {
+  PageRequest page = 1;
+}
+
+message ListDocumentsResponse {
+  repeated Document documents = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}

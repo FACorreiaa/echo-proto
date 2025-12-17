@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+service InsightsService {
+  rpc GetMonthlyInsights(GetMonthlyInsightsRequest) returns (GetMonthlyInsightsResponse);
+  rpc GetWrapped(GetWrappedRequest) returns (GetWrappedResponse);
+}
+
+message CategorySpend {
+  string category_id = 1 [(buf.validate.field).string = { uuid: true }];
+  Money total = 2 [(buf.validate.field).required = true];
+}
+
+message MerchantSpend {
+  string merchant_name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  Money total = 2 [(buf.validate.field).required = true];
+}
+
+message MonthlyInsights {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+
+  google.protobuf.Timestamp month_start = 3 [(buf.validate.field).required = true];
+  Money total_spend = 4 [(buf.validate.field).required = true];
+  Money total_income = 5 [(buf.validate.field).required = true];
+  Money net = 6 [(buf.validate.field).required = true];
+
+  repeated CategorySpend top_categories = 10 [(buf.validate.field).repeated = { max_items: 50 }];
+  repeated MerchantSpend top_merchants = 11 [(buf.validate.field).repeated = { max_items: 50 }];
+
+  // Human-readable, privacy-safe bullet insights.
+  repeated string highlights = 20 [(buf.validate.field).repeated = {
+    max_items: 20
+    items: { string: { min_len: 1 max_len: 240 } }
+  }];
+
+  google.protobuf.Timestamp created_at = 30 [(buf.validate.field).required = true];
+}
+
+message GetMonthlyInsightsRequest {
+  google.protobuf.Timestamp month_start = 1 [(buf.validate.field).required = true];
+}
+
+message GetMonthlyInsightsResponse {
+  MonthlyInsights insights = 1 [(buf.validate.field).required = true];
+}
+
+enum WrappedPeriod {
+  WRAPPED_PERIOD_UNSPECIFIED = 0;
+  WRAPPED_PERIOD_MONTH = 1;
+  WRAPPED_PERIOD_YEAR = 2;
+}
+
+message WrappedCard {
+  string title = 1 [(buf.validate.field).string = { min_len: 1 max_len: 64 }];
+  string subtitle = 2 [(buf.validate.field).string = { max_len: 128 }];
+  string body = 3 [(buf.validate.field).string = { max_len: 512 }];
+  string accent = 4 [(buf.validate.field).string = { max_len: 32 }];
+}
+
+message WrappedSummary {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  WrappedPeriod period = 3 [(buf.validate.field).enum = { defined_only: true }];
+  google.protobuf.Timestamp period_start = 4 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp period_end = 5 [(buf.validate.field).required = true];
+  repeated WrappedCard cards = 10 [(buf.validate.field).repeated = { max_items: 200 }];
+  google.protobuf.Timestamp created_at = 20 [(buf.validate.field).required = true];
+}
+
+message GetWrappedRequest {
+  WrappedPeriod period = 1 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  google.protobuf.Timestamp period_start = 2 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp period_end = 3 [(buf.validate.field).required = true];
+}
+
+message GetWrappedResponse {
+  WrappedSummary wrapped = 1 [(buf.validate.field).required = true];
+}

@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+service PaymentsService {
+  // Starts a Stripe Checkout flow for subscription or one-time purchase.
+  rpc CreateCheckoutSession(CreateCheckoutSessionRequest) returns (CreateCheckoutSessionResponse);
+
+  // Creates a Stripe Billing Portal session for managing an existing subscription.
+  rpc CreateBillingPortalSession(CreateBillingPortalSessionRequest) returns (CreateBillingPortalSessionResponse);
+
+  rpc GetEntitlements(GetEntitlementsRequest) returns (GetEntitlementsResponse);
+}
+
+enum BillingProvider {
+  BILLING_PROVIDER_UNSPECIFIED = 0;
+  BILLING_PROVIDER_STRIPE = 1;
+}
+
+enum Entitlement {
+  ENTITLEMENT_UNSPECIFIED = 0;
+  ENTITLEMENT_PREMIUM = 1;
+  ENTITLEMENT_LIFETIME = 2;
+}
+
+enum CheckoutMode {
+  CHECKOUT_MODE_UNSPECIFIED = 0;
+  CHECKOUT_MODE_SUBSCRIPTION = 1;
+  CHECKOUT_MODE_PAYMENT = 2; // one-time
+}
+
+message CreateCheckoutSessionRequest {
+  BillingProvider provider = 1 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  CheckoutMode mode = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+
+  // Stripe identifiers (implementation-specific). At least one is typically required.
+  string stripe_price_id = 3 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+
+  // What access this purchase is intended to grant (server validates against the price).
+  Entitlement entitlement = 6 [(buf.validate.field).enum = { defined_only: true }];
+
+  // Where the client should be redirected after checkout.
+  string success_url = 4 [(buf.validate.field).string = { min_len: 1 max_len: 2048 }];
+  string cancel_url = 5 [(buf.validate.field).string = { min_len: 1 max_len: 2048 }];
+}
+
+message CreateCheckoutSessionResponse {
+  string checkout_url = 1 [(buf.validate.field).string = { min_len: 1 max_len: 2048 }];
+  string provider_session_id = 2 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  google.protobuf.Timestamp expires_at = 3 [(buf.validate.field).required = true];
+}
+
+message CreateBillingPortalSessionRequest {
+  BillingProvider provider = 1 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string return_url = 2 [(buf.validate.field).string = { min_len: 1 max_len: 2048 }];
+}
+
+message CreateBillingPortalSessionResponse {
+  string portal_url = 1 [(buf.validate.field).string = { min_len: 1 max_len: 2048 }];
+  google.protobuf.Timestamp expires_at = 2 [(buf.validate.field).required = true];
+}
+
+message Entitlements {
+  repeated Entitlement entitlements = 1 [(buf.validate.field).repeated = { max_items: 20 }];
+  google.protobuf.Timestamp checked_at = 2 [(buf.validate.field).required = true];
+}
+
+message GetEntitlementsRequest {}
+
+message GetEntitlementsResponse {
+  Entitlements entitlements = 1 [(buf.validate.field).required = true];
+}

@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/users.proto";
+
+service AuthService {
+  rpc Register(RegisterRequest) returns (AuthResponse);
+  rpc Login(LoginRequest) returns (AuthResponse);
+  rpc Refresh(RefreshRequest) returns (AuthResponse);
+  rpc Logout(LogoutRequest) returns (LogoutResponse);
+  rpc GetMe(GetMeRequest) returns (GetMeResponse);
+}
+
+message RegisterRequest {
+  string email = 1 [(buf.validate.field).string = { min_len: 3 max_len: 254 email: true }];
+  string password = 2 [(buf.validate.field).string = { min_len: 8 max_len: 128 }];
+  optional string username = 3 [(buf.validate.field).string = {
+    min_len: 3
+    max_len: 32
+    pattern: "^[a-zA-Z0-9_]+$"
+  }];
+}
+
+message LoginRequest {
+  string email = 1 [(buf.validate.field).string = { min_len: 3 max_len: 254 email: true }];
+  string password = 2 [(buf.validate.field).string = { min_len: 8 max_len: 128 }];
+}
+
+message RefreshRequest {
+  string refresh_token = 1 [(buf.validate.field).string = { min_len: 20 max_len: 4096 }];
+}
+
+message LogoutRequest {
+  // If empty, server may revoke the current session.
+  string refresh_token = 1 [(buf.validate.field).string = { max_len: 4096 }];
+}
+
+message AuthTokens {
+  string access_token = 1 [(buf.validate.field).string = { min_len: 20 max_len: 4096 }];
+  string refresh_token = 2 [(buf.validate.field).string = { min_len: 20 max_len: 4096 }];
+  google.protobuf.Timestamp access_token_expires_at = 3 [(buf.validate.field).required = true];
+}
+
+message AuthResponse {
+  User user = 1 [(buf.validate.field).required = true];
+  AuthTokens tokens = 2 [(buf.validate.field).required = true];
+}
+
+message LogoutResponse {}
+
+message GetMeRequest {}
+
+message GetMeResponse {
+  User user = 1 [(buf.validate.field).required = true];
+}

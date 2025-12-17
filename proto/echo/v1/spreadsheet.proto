@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+service SpreadsheetService {
+  rpc CreateTemplate(CreateTemplateRequest) returns (CreateTemplateResponse);
+  rpc ListTemplates(ListTemplatesRequest) returns (ListTemplatesResponse);
+  rpc CreateMapping(CreateMappingRequest) returns (CreateMappingResponse);
+  rpc ListMappings(ListMappingsRequest) returns (ListMappingsResponse);
+  rpc EvaluateTemplate(EvaluateTemplateRequest) returns (EvaluateTemplateResponse);
+}
+
+enum SpreadsheetCanonicalField {
+  SPREADSHEET_CANONICAL_FIELD_UNSPECIFIED = 0;
+  SPREADSHEET_CANONICAL_FIELD_TRANSACTIONS = 1;
+  SPREADSHEET_CANONICAL_FIELD_CATEGORIES = 2;
+  SPREADSHEET_CANONICAL_FIELD_ACCOUNTS = 3;
+  SPREADSHEET_CANONICAL_FIELD_GOALS = 4;
+  SPREADSHEET_CANONICAL_FIELD_MONTHLY_INSIGHTS = 5;
+}
+
+message SpreadsheetTemplate {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  string file_name = 4 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string storage_url = 5 [(buf.validate.field).string = { max_len: 2048 }];
+  string checksum_sha256 = 6 [(buf.validate.field).string = { max_len: 64 pattern: "^[a-fA-F0-9]{0,64}$" }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message CreateTemplateRequest {
+  string name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  string file_name = 2 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  bytes xlsx_bytes = 3 [(buf.validate.field).bytes = { min_len: 1 max_len: 20000000 }];
+}
+
+message CreateTemplateResponse {
+  SpreadsheetTemplate template = 1 [(buf.validate.field).required = true];
+}
+
+message ListTemplatesRequest {}
+
+message ListTemplatesResponse {
+  repeated SpreadsheetTemplate templates = 1 [(buf.validate.field).repeated = { max_items: 1000 }];
+}
+
+message SpreadsheetMapping {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string template_id = 2 [(buf.validate.field).string = { uuid: true }];
+  SpreadsheetCanonicalField field = 3 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string sheet_name = 4 [(buf.validate.field).string = { min_len: 1 max_len: 64 }];
+  string range_name = 5 [(buf.validate.field).string = { min_len: 1 max_len: 128 }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+}
+
+message CreateMappingRequest {
+  string template_id = 1 [(buf.validate.field).string = { uuid: true }];
+  SpreadsheetCanonicalField field = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string sheet_name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 64 }];
+  string range_name = 4 [(buf.validate.field).string = { min_len: 1 max_len: 128 }];
+}
+
+message CreateMappingResponse {
+  SpreadsheetMapping mapping = 1 [(buf.validate.field).required = true];
+}
+
+message ListMappingsRequest {
+  string template_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message ListMappingsResponse {
+  repeated SpreadsheetMapping mappings = 1 [(buf.validate.field).repeated = { max_items: 5000 }];
+}
+
+message EvaluateTemplateRequest {
+  string template_id = 1 [(buf.validate.field).string = { uuid: true }];
+  TimeRange time_range = 2 [(buf.validate.field).required = true];
+}
+
+message EvaluateTemplateResponse {
+  // Computed outputs (privacy-safe). Concrete shape is implementation-defined.
+  bytes computed_xlsx_bytes = 1 [(buf.validate.field).bytes = { max_len: 20000000 }];
+  google.protobuf.Timestamp computed_at = 2 [(buf.validate.field).required = true];
+}

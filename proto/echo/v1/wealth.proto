@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+// Financial foundation: manual net worth inputs + snapshots (post‑MVP bank sync can populate too).
+service WealthService {
+  rpc CreateNetWorthEntry(CreateNetWorthEntryRequest) returns (CreateNetWorthEntryResponse);
+  rpc ListNetWorthEntries(ListNetWorthEntriesRequest) returns (ListNetWorthEntriesResponse);
+  rpc GetNetWorthSnapshot(GetNetWorthSnapshotRequest) returns (GetNetWorthSnapshotResponse);
+}
+
+enum NetWorthEntryKind {
+  NET_WORTH_ENTRY_KIND_UNSPECIFIED = 0;
+  NET_WORTH_ENTRY_KIND_ASSET = 1;
+  NET_WORTH_ENTRY_KIND_LIABILITY = 2;
+}
+
+message NetWorthEntry {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  NetWorthEntryKind kind = 3 [(buf.validate.field).enum = { defined_only: true }];
+  string name = 4 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  Money amount = 5 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp as_of = 6 [(buf.validate.field).required = true];
+  string notes = 7 [(buf.validate.field).string = { max_len: 2048 }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message CreateNetWorthEntryRequest {
+  NetWorthEntryKind kind = 1 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string name = 2 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  Money amount = 3 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp as_of = 4 [(buf.validate.field).required = true];
+  string notes = 5 [(buf.validate.field).string = { max_len: 2048 }];
+}
+
+message CreateNetWorthEntryResponse {
+  NetWorthEntry entry = 1 [(buf.validate.field).required = true];
+}
+
+message ListNetWorthEntriesRequest {
+  PageRequest page = 1;
+  TimeRange time_range = 2;
+}
+
+message ListNetWorthEntriesResponse {
+  repeated NetWorthEntry entries = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+message NetWorthSnapshot {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  google.protobuf.Timestamp as_of = 3 [(buf.validate.field).required = true];
+  Money total_assets = 4 [(buf.validate.field).required = true];
+  Money total_liabilities = 5 [(buf.validate.field).required = true];
+  Money net_worth = 6 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+}
+
+message GetNetWorthSnapshotRequest {
+  google.protobuf.Timestamp as_of = 1 [(buf.validate.field).required = true];
+}
+
+message GetNetWorthSnapshotResponse {
+  NetWorthSnapshot snapshot = 1 [(buf.validate.field).required = true];
+}

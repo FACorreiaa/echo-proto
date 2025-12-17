@@ -1,0 +1,243 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+service FinanceService {
+  rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
+  rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
+
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc ListCategories(ListCategoriesRequest) returns (ListCategoriesResponse);
+
+  rpc ImportTransactionsCsv(ImportTransactionsCsvRequest) returns (ImportTransactionsCsvResponse);
+  rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse);
+
+  rpc CreateGoal(CreateGoalRequest) returns (CreateGoalResponse);
+  rpc ListGoals(ListGoalsRequest) returns (ListGoalsResponse);
+
+  rpc ListRecurringSubscriptions(ListRecurringSubscriptionsRequest) returns (ListRecurringSubscriptionsResponse);
+}
+
+enum AccountType {
+  ACCOUNT_TYPE_UNSPECIFIED = 0;
+  ACCOUNT_TYPE_CASH = 1;
+  ACCOUNT_TYPE_CHECKING = 2;
+  ACCOUNT_TYPE_SAVINGS = 3;
+  ACCOUNT_TYPE_CREDIT_CARD = 4;
+  ACCOUNT_TYPE_INVESTMENT = 5;
+  ACCOUNT_TYPE_LOAN = 6;
+  ACCOUNT_TYPE_OTHER = 7;
+}
+
+message Account {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  AccountType type = 4 [(buf.validate.field).enum = { defined_only: true }];
+  string currency_code = 5 [(buf.validate.field).string = { pattern: "^[A-Z]{3}$" }];
+
+  string institution = 10 [(buf.validate.field).string = { max_len: 120 }];
+  optional string last4 = 11 [(buf.validate.field).string = {
+    pattern: "^[0-9]{4}$"
+  }];
+  bool is_active = 12;
+
+  google.protobuf.Timestamp created_at = 20 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 21 [(buf.validate.field).required = true];
+}
+
+message CreateAccountRequest {
+  string name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  AccountType type = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  string currency_code = 3 [(buf.validate.field).string = { pattern: "^[A-Z]{3}$" }];
+  string institution = 4 [(buf.validate.field).string = { max_len: 120 }];
+  optional string last4 = 5 [(buf.validate.field).string = {
+    pattern: "^[0-9]{4}$"
+  }];
+}
+
+message CreateAccountResponse {
+  Account account = 1 [(buf.validate.field).required = true];
+}
+
+message ListAccountsRequest {}
+
+message ListAccountsResponse {
+  repeated Account accounts = 1 [(buf.validate.field).repeated = { max_items: 1000 }];
+}
+
+message Category {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 80 }];
+  optional string parent_id = 4 [(buf.validate.field).string = { uuid: true }];
+  string color = 10 [(buf.validate.field).string = { max_len: 32 }];
+  string icon = 11 [(buf.validate.field).string = { max_len: 64 }];
+  google.protobuf.Timestamp created_at = 20 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 21 [(buf.validate.field).required = true];
+}
+
+message CreateCategoryRequest {
+  string name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 80 }];
+  optional string parent_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string color = 3 [(buf.validate.field).string = { max_len: 32 }];
+  string icon = 4 [(buf.validate.field).string = { max_len: 64 }];
+}
+
+message CreateCategoryResponse {
+  Category category = 1 [(buf.validate.field).required = true];
+}
+
+message ListCategoriesRequest {}
+
+message ListCategoriesResponse {
+  repeated Category categories = 1 [(buf.validate.field).repeated = { max_items: 5000 }];
+}
+
+enum TransactionSource {
+  TRANSACTION_SOURCE_UNSPECIFIED = 0;
+  TRANSACTION_SOURCE_MANUAL = 1;
+  TRANSACTION_SOURCE_CSV = 2;
+  TRANSACTION_SOURCE_AGGREGATOR = 3;
+}
+
+message Transaction {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  optional string account_id = 3 [(buf.validate.field).string = { uuid: true }];
+  optional string category_id = 4 [(buf.validate.field).string = { uuid: true }];
+
+  google.protobuf.Timestamp posted_at = 10 [(buf.validate.field).required = true];
+  string description = 11 [(buf.validate.field).string = { min_len: 1 max_len: 512 }];
+  string merchant_name = 12 [(buf.validate.field).string = { max_len: 255 }];
+  string original_description = 13 [(buf.validate.field).string = { max_len: 512 }];
+
+  Money amount = 20 [(buf.validate.field).required = true];
+  TransactionSource source = 21 [(buf.validate.field).enum = { defined_only: true }];
+  string external_id = 22 [(buf.validate.field).string = { max_len: 255 }];
+  string notes = 23 [(buf.validate.field).string = { max_len: 2048 }];
+
+  google.protobuf.Timestamp created_at = 30 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 31 [(buf.validate.field).required = true];
+}
+
+message ImportTransactionsCsvRequest {
+  // If omitted, the server may create/use a default import account.
+  optional string account_id = 1 [(buf.validate.field).string = { uuid: true }];
+
+  // Raw CSV content. For large files, prefer a pre-signed upload in a future version.
+  bytes csv_bytes = 2 [(buf.validate.field).bytes = { min_len: 1 max_len: 20000000 }];
+
+  // Optional: a client hint, like "MM/DD/YYYY".
+  string date_format = 3 [(buf.validate.field).string = { max_len: 32 }];
+  string timezone = 4 [(buf.validate.field).string = { max_len: 64 }];
+}
+
+message ImportTransactionsCsvResponse {
+  int32 imported_count = 1 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+}
+
+message ListTransactionsRequest {
+  PageRequest page = 1;
+  TimeRange time_range = 2;
+  optional string account_id = 3 [(buf.validate.field).string = { uuid: true }];
+  optional string category_id = 4 [(buf.validate.field).string = { uuid: true }];
+}
+
+message ListTransactionsResponse {
+  repeated Transaction transactions = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+enum GoalType {
+  GOAL_TYPE_UNSPECIFIED = 0;
+  GOAL_TYPE_SAVE = 1;
+  GOAL_TYPE_PAY_DOWN_DEBT = 2;
+  GOAL_TYPE_SPEND_CAP = 3;
+}
+
+enum GoalStatus {
+  GOAL_STATUS_UNSPECIFIED = 0;
+  GOAL_STATUS_ACTIVE = 1;
+  GOAL_STATUS_PAUSED = 2;
+  GOAL_STATUS_COMPLETED = 3;
+  GOAL_STATUS_ARCHIVED = 4;
+}
+
+message Goal {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  GoalType type = 4 [(buf.validate.field).enum = { defined_only: true }];
+  GoalStatus status = 5 [(buf.validate.field).enum = { defined_only: true }];
+
+  Money target = 10 [(buf.validate.field).required = true];
+  int64 current_amount_minor = 11 [(buf.validate.field).int64 = {
+    gte: -900000000000000
+    lte: 900000000000000
+  }];
+
+  google.protobuf.Timestamp start_at = 20 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp end_at = 21 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp created_at = 22 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 23 [(buf.validate.field).required = true];
+}
+
+message CreateGoalRequest {
+  string name = 1 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  GoalType type = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+  Money target = 3 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp start_at = 4 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp end_at = 5 [(buf.validate.field).required = true];
+}
+
+message CreateGoalResponse {
+  Goal goal = 1 [(buf.validate.field).required = true];
+}
+
+message ListGoalsRequest {}
+
+message ListGoalsResponse {
+  repeated Goal goals = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+}
+
+enum RecurringStatus {
+  RECURRING_STATUS_UNSPECIFIED = 0;
+  RECURRING_STATUS_ACTIVE = 1;
+  RECURRING_STATUS_PAUSED = 2;
+  RECURRING_STATUS_CANCELED = 3;
+}
+
+enum RecurringCadence {
+  RECURRING_CADENCE_UNSPECIFIED = 0;
+  RECURRING_CADENCE_WEEKLY = 1;
+  RECURRING_CADENCE_MONTHLY = 2;
+  RECURRING_CADENCE_QUARTERLY = 3;
+  RECURRING_CADENCE_ANNUAL = 4;
+  RECURRING_CADENCE_UNKNOWN = 5;
+}
+
+message RecurringSubscription {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string merchant_name = 3 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  Money amount = 4 [(buf.validate.field).required = true];
+  RecurringCadence cadence = 5 [(buf.validate.field).enum = { defined_only: true }];
+  RecurringStatus status = 6 [(buf.validate.field).enum = { defined_only: true }];
+  google.protobuf.Timestamp first_seen_at = 10;
+  google.protobuf.Timestamp last_seen_at = 11;
+  google.protobuf.Timestamp next_expected_at = 12;
+  google.protobuf.Timestamp created_at = 20 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 21 [(buf.validate.field).required = true];
+}
+
+message ListRecurringSubscriptionsRequest {}
+
+message ListRecurringSubscriptionsResponse {
+  repeated RecurringSubscription subscriptions = 1 [(buf.validate.field).repeated = { max_items: 5000 }];
+}

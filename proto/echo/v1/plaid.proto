@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+import "echo/v1/common.proto";
+
+// Plaid integration is post‑MVP, but schemas exist now so we can store and normalize data.
+service PlaidService {
+  rpc CreateLinkToken(CreateLinkTokenRequest) returns (CreateLinkTokenResponse);
+  rpc ExchangePublicToken(ExchangePublicTokenRequest) returns (ExchangePublicTokenResponse);
+  rpc SyncTransactions(SyncTransactionsRequest) returns (SyncTransactionsResponse);
+  rpc ListPlaidItems(ListPlaidItemsRequest) returns (ListPlaidItemsResponse);
+}
+
+enum PlaidItemStatus {
+  PLAID_ITEM_STATUS_UNSPECIFIED = 0;
+  PLAID_ITEM_STATUS_ACTIVE = 1;
+  PLAID_ITEM_STATUS_ERROR = 2;
+  PLAID_ITEM_STATUS_REVOKED = 3;
+}
+
+message PlaidItem {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string plaid_item_id = 3 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string institution_id = 4 [(buf.validate.field).string = { max_len: 255 }];
+  string institution_name = 5 [(buf.validate.field).string = { max_len: 255 }];
+  PlaidItemStatus status = 6 [(buf.validate.field).enum = { defined_only: true }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message PlaidAccount {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string item_id = 3 [(buf.validate.field).string = { uuid: true }];
+  string plaid_account_id = 4 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string name = 5 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  string mask = 6 [(buf.validate.field).string = { max_len: 4 pattern: "^[0-9]{0,4}$" }];
+  string type = 7 [(buf.validate.field).string = { max_len: 32 }];
+  string subtype = 8 [(buf.validate.field).string = { max_len: 64 }];
+  string currency_code = 9 [(buf.validate.field).string = { pattern: "^[A-Z]{3}$" }];
+  google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+}
+
+message PlaidTransaction {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string item_id = 3 [(buf.validate.field).string = { uuid: true }];
+  string plaid_transaction_id = 4 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string plaid_account_id = 5 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  google.protobuf.Timestamp posted_at = 6 [(buf.validate.field).required = true];
+  Money amount = 7 [(buf.validate.field).required = true];
+  string name = 8 [(buf.validate.field).string = { min_len: 1 max_len: 512 }];
+  string merchant_name = 9 [(buf.validate.field).string = { max_len: 255 }];
+  string category_primary = 10 [(buf.validate.field).string = { max_len: 120 }];
+  string category_detailed = 11 [(buf.validate.field).string = { max_len: 255 }];
+  string raw_json = 12 [(buf.validate.field).string = { max_len: 1000000 }];
+  google.protobuf.Timestamp created_at = 13 [(buf.validate.field).required = true];
+  google.protobuf.Timestamp updated_at = 14 [(buf.validate.field).required = true];
+}
+
+message CreateLinkTokenRequest {
+  repeated string country_codes = 1 [(buf.validate.field).repeated = {
+    max_items: 10
+    items: { string: { pattern: "^[A-Z]{2}$" } }
+  }];
+  string language = 2 [(buf.validate.field).string = { max_len: 8 }];
+  string redirect_uri = 3 [(buf.validate.field).string = { max_len: 2048 }];
+}
+
+message CreateLinkTokenResponse {
+  string link_token = 1 [(buf.validate.field).string = { min_len: 1 max_len: 4096 }];
+  google.protobuf.Timestamp expires_at = 2 [(buf.validate.field).required = true];
+}
+
+message ExchangePublicTokenRequest {
+  string public_token = 1 [(buf.validate.field).string = { min_len: 1 max_len: 4096 }];
+}
+
+message ExchangePublicTokenResponse {
+  PlaidItem item = 1 [(buf.validate.field).required = true];
+}
+
+message SyncTransactionsRequest {
+  string item_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message SyncTransactionsResponse {
+  int32 added = 1 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  int32 modified = 2 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  int32 removed = 3 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  google.protobuf.Timestamp synced_at = 4 [(buf.validate.field).required = true];
+}
+
+message ListPlaidItemsRequest {
+  PageRequest page = 1;
+}
+
+message ListPlaidItemsResponse {
+  repeated PlaidItem items = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+  PageResponse page = 2 [(buf.validate.field).required = true];
+}
