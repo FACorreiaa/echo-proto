@@ -10,6 +10,18 @@ service UserService {
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
 }
 
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_DISABLED = 2;
+}
+
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_USER = 1;
+  USER_ROLE_ADMIN = 2;
+}
+
 message User {
   string id = 1 [(buf.validate.field).string = { uuid: true }];
   string email = 2 [(buf.validate.field).string = { min_len: 3 max_len: 254 email: true }];
@@ -17,6 +29,8 @@ message User {
   string display_name = 4 [(buf.validate.field).string = { max_len: 120 }];
   google.protobuf.Timestamp created_at = 10 [(buf.validate.field).required = true];
   google.protobuf.Timestamp updated_at = 11 [(buf.validate.field).required = true];
+  UserStatus status = 12 [(buf.validate.field).enum = { defined_only: true }];
+  repeated UserRole roles = 13 [(buf.validate.field).repeated = { max_items: 16 }];
 }
 
 message GetUserRequest {

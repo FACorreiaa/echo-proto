@@ -175,6 +175,33 @@
         
           
           <li>
+            <a href="#echo%2fv1%2fcommon.proto">echo/v1/common.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#echo.v1.Money"><span class="badge">M</span>Money</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.PageRequest"><span class="badge">M</span>PageRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.PageResponse"><span class="badge">M</span>PageResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.TimeRange"><span class="badge">M</span>TimeRange</a>
+                </li>
+              
+              
+              
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#echo%2fv1%2fusers.proto">echo/v1/users.proto</a>
             <ul>
               
@@ -199,10 +226,77 @@
                 </li>
               
               
+                <li>
+                  <a href="#echo.v1.UserRole"><span class="badge">E</span>UserRole</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UserStatus"><span class="badge">E</span>UserStatus</a>
+                </li>
+              
               
               
                 <li>
                   <a href="#echo.v1.UserService"><span class="badge">S</span>UserService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
+            <a href="#echo%2fv1%2fadmin.proto">echo/v1/admin.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#echo.v1.AdminGetUserRequest"><span class="badge">M</span>AdminGetUserRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminGetUserResponse"><span class="badge">M</span>AdminGetUserResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminListUsersRequest"><span class="badge">M</span>AdminListUsersRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminListUsersResponse"><span class="badge">M</span>AdminListUsersResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminSetUserRolesRequest"><span class="badge">M</span>AdminSetUserRolesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminSetUserRolesResponse"><span class="badge">M</span>AdminSetUserRolesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminSetUserStatusRequest"><span class="badge">M</span>AdminSetUserStatusRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminSetUserStatusResponse"><span class="badge">M</span>AdminSetUserStatusResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminUpdateUserRequest"><span class="badge">M</span>AdminUpdateUserRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminUpdateUserResponse"><span class="badge">M</span>AdminUpdateUserResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AdminUser"><span class="badge">M</span>AdminUser</a>
+                </li>
+              
+              
+              
+              
+                <li>
+                  <a href="#echo.v1.AdminUserService"><span class="badge">S</span>AdminUserService</a>
                 </li>
               
             </ul>
@@ -255,33 +349,6 @@
                 <li>
                   <a href="#echo.v1.AuthService"><span class="badge">S</span>AuthService</a>
                 </li>
-              
-            </ul>
-          </li>
-        
-          
-          <li>
-            <a href="#echo%2fv1%2fcommon.proto">echo/v1/common.proto</a>
-            <ul>
-              
-                <li>
-                  <a href="#echo.v1.Money"><span class="badge">M</span>Money</a>
-                </li>
-              
-                <li>
-                  <a href="#echo.v1.PageRequest"><span class="badge">M</span>PageRequest</a>
-                </li>
-              
-                <li>
-                  <a href="#echo.v1.PageResponse"><span class="badge">M</span>PageResponse</a>
-                </li>
-              
-                <li>
-                  <a href="#echo.v1.TimeRange"><span class="badge">M</span>TimeRange</a>
-                </li>
-              
-              
-              
               
             </ul>
           </li>
@@ -901,6 +968,137 @@
     
       
       <div class="file-heading">
+        <h2 id="echo/v1/common.proto">echo/v1/common.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="echo.v1.Money">Money</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>amount_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Minor units (e.g., cents). Negative values represent outflows. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>currency_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>ISO-4217 currency code, e.g. &#34;USD&#34;. </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.PageRequest">PageRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>page_size</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page_token</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.PageResponse">PageResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>next_page_token</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.TimeRange">TimeRange</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>start_time</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end_time</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+    
+      
+      <div class="file-heading">
         <h2 id="echo/v1/users.proto">echo/v1/users.proto</h2><a href="#title">Top</a>
       </div>
       <p></p>
@@ -1054,6 +1252,20 @@
                   <td><p> </p></td>
                 </tr>
               
+                <tr>
+                  <td>status</td>
+                  <td><a href="#echo.v1.UserStatus">UserStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#echo.v1.UserRole">UserRole</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -1062,6 +1274,64 @@
         
       
 
+      
+        <h3 id="echo.v1.UserRole">UserRole</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>USER_ROLE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>USER_ROLE_USER</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>USER_ROLE_ADMIN</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="echo.v1.UserStatus">UserStatus</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>USER_STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>USER_STATUS_ACTIVE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>USER_STATUS_DISABLED</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
       
 
       
@@ -1086,6 +1356,401 @@
                 <td>UpdateUser</td>
                 <td><a href="#echo.v1.UpdateUserRequest">UpdateUserRequest</a></td>
                 <td><a href="#echo.v1.UpdateUserResponse">UpdateUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="echo/v1/admin.proto">echo/v1/admin.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="echo.v1.AdminGetUserRequest">AdminGetUserRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminGetUserResponse">AdminGetUserResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#echo.v1.AdminUser">AdminUser</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminListUsersRequest">AdminListUsersRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>page</td>
+                  <td><a href="#echo.v1.PageRequest">PageRequest</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>query</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#echo.v1.UserStatus">UserStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>role</td>
+                  <td><a href="#echo.v1.UserRole">UserRole</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminListUsersResponse">AdminListUsersResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>users</td>
+                  <td><a href="#echo.v1.AdminUser">AdminUser</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page</td>
+                  <td><a href="#echo.v1.PageResponse">PageResponse</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminSetUserRolesRequest">AdminSetUserRolesRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>roles</td>
+                  <td><a href="#echo.v1.UserRole">UserRole</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminSetUserRolesResponse">AdminSetUserRolesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#echo.v1.AdminUser">AdminUser</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminSetUserStatusRequest">AdminSetUserStatusRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#echo.v1.UserStatus">UserStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminSetUserStatusResponse">AdminSetUserStatusResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#echo.v1.AdminUser">AdminUser</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminUpdateUserRequest">AdminUpdateUserRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>email</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>username</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>display_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminUpdateUserResponse">AdminUpdateUserResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#echo.v1.AdminUser">AdminUser</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AdminUser">AdminUser</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>user</td>
+                  <td><a href="#echo.v1.User">User</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_login_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+
+      
+
+      
+        <h3 id="echo.v1.AdminUserService">AdminUserService</h3>
+        <p></p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ListUsers</td>
+                <td><a href="#echo.v1.AdminListUsersRequest">AdminListUsersRequest</a></td>
+                <td><a href="#echo.v1.AdminListUsersResponse">AdminListUsersResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GetUser</td>
+                <td><a href="#echo.v1.AdminGetUserRequest">AdminGetUserRequest</a></td>
+                <td><a href="#echo.v1.AdminGetUserResponse">AdminGetUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateUser</td>
+                <td><a href="#echo.v1.AdminUpdateUserRequest">AdminUpdateUserRequest</a></td>
+                <td><a href="#echo.v1.AdminUpdateUserResponse">AdminUpdateUserResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>SetUserStatus</td>
+                <td><a href="#echo.v1.AdminSetUserStatusRequest">AdminSetUserStatusRequest</a></td>
+                <td><a href="#echo.v1.AdminSetUserStatusResponse">AdminSetUserStatusResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>SetUserRoles</td>
+                <td><a href="#echo.v1.AdminSetUserRolesRequest">AdminSetUserRolesRequest</a></td>
+                <td><a href="#echo.v1.AdminSetUserRolesResponse">AdminSetUserRolesResponse</a></td>
                 <td><p></p></td>
               </tr>
             
@@ -1378,137 +2043,6 @@
         </table>
 
         
-    
-      
-      <div class="file-heading">
-        <h2 id="echo/v1/common.proto">echo/v1/common.proto</h2><a href="#title">Top</a>
-      </div>
-      <p></p>
-
-      
-        <h3 id="echo.v1.Money">Money</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>amount_minor</td>
-                  <td><a href="#int64">int64</a></td>
-                  <td></td>
-                  <td><p>Minor units (e.g., cents). Negative values represent outflows. </p></td>
-                </tr>
-              
-                <tr>
-                  <td>currency_code</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p>ISO-4217 currency code, e.g. &#34;USD&#34;. </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="echo.v1.PageRequest">PageRequest</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>page_size</td>
-                  <td><a href="#int32">int32</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>page_token</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="echo.v1.PageResponse">PageResponse</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>next_page_token</td>
-                  <td><a href="#string">string</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-        <h3 id="echo.v1.TimeRange">TimeRange</h3>
-        <p></p>
-
-        
-          <table class="field-table">
-            <thead>
-              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
-            </thead>
-            <tbody>
-              
-                <tr>
-                  <td>start_time</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-                <tr>
-                  <td>end_time</td>
-                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
-                  <td></td>
-                  <td><p> </p></td>
-                </tr>
-              
-            </tbody>
-          </table>
-
-          
-
-        
-      
-
-      
-
-      
-
-      
     
       
       <div class="file-heading">

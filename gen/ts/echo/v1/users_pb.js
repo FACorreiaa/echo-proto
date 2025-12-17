@@ -2,7 +2,7 @@
 // @generated from file echo/v1/users.proto (package echo.v1, syntax proto3)
 /* eslint-disable */
 
-import { fileDesc, messageDesc, serviceDesc } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc, tsEnum } from "@bufbuild/protobuf/codegenv2";
 import { file_buf_validate_validate } from "../../buf/validate/validate_pb";
 import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
 
@@ -10,7 +10,7 @@ import { file_google_protobuf_timestamp } from "@bufbuild/protobuf/wkt";
  * Describes the file echo/v1/users.proto.
  */
 export const file_echo_v1_users = /*@__PURE__*/
-  fileDesc("ChNlY2hvL3YxL3VzZXJzLnByb3RvEgdlY2hvLnYxIuMBCgRVc2VyEhQKAmlkGAEgASgJQgi6SAVyA7ABARIbCgVlbWFpbBgCIAEoCUIMukgJcgcQAxj+AWABEhkKCHVzZXJuYW1lGAMgASgJQge6SARyAhggEh0KDGRpc3BsYXlfbmFtZRgEIAEoCUIHukgEcgIYeBI2CgpjcmVhdGVkX2F0GAogASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEIGukgDyAEBEjYKCnVwZGF0ZWRfYXQYCyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wQga6SAPIAQEiKwoOR2V0VXNlclJlcXVlc3QSGQoHdXNlcl9pZBgBIAEoCUIIukgFcgOwAQEiNgoPR2V0VXNlclJlc3BvbnNlEiMKBHVzZXIYASABKAsyDS5lY2hvLnYxLlVzZXJCBrpIA8gBASIyChFVcGRhdGVVc2VyUmVxdWVzdBIdCgxkaXNwbGF5X25hbWUYASABKAlCB7pIBHICGHgiOQoSVXBkYXRlVXNlclJlc3BvbnNlEiMKBHVzZXIYASABKAsyDS5lY2hvLnYxLlVzZXJCBrpIA8gBATKSAQoLVXNlclNlcnZpY2USPAoHR2V0VXNlchIXLmVjaG8udjEuR2V0VXNlclJlcXVlc3QaGC5lY2hvLnYxLkdldFVzZXJSZXNwb25zZRJFCgpVcGRhdGVVc2VyEhouZWNoby52MS5VcGRhdGVVc2VyUmVxdWVzdBobLmVjaG8udjEuVXBkYXRlVXNlclJlc3BvbnNlQnQKC2NvbS5lY2hvLnYxQgpVc2Vyc1Byb3RvUAFaGmVjaG9hcGkvZ2VuL2VjaG8vdjE7ZWNob3YxogIDRVhYqgIHRWNoby5WMcoCCEVjaG9fXFYx4gIURWNob19cVjFcR1BCTWV0YWRhdGHqAghFY2hvOjpWMWIGcHJvdG8z", [file_buf_validate_validate, file_google_protobuf_timestamp]);
+  fileDesc("ChNlY2hvL3YxL3VzZXJzLnByb3RvEgdlY2hvLnYxIr4CCgRVc2VyEhQKAmlkGAEgASgJQgi6SAVyA7ABARIbCgVlbWFpbBgCIAEoCUIMukgJcgcQAxj+AWABEhkKCHVzZXJuYW1lGAMgASgJQge6SARyAhggEh0KDGRpc3BsYXlfbmFtZRgEIAEoCUIHukgEcgIYeBI2CgpjcmVhdGVkX2F0GAogASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEIGukgDyAEBEjYKCnVwZGF0ZWRfYXQYCyABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wQga6SAPIAQESLQoGc3RhdHVzGAwgASgOMhMuZWNoby52MS5Vc2VyU3RhdHVzQgi6SAWCAQIQARIqCgVyb2xlcxgNIAMoDjIRLmVjaG8udjEuVXNlclJvbGVCCLpIBZIBAhAQIisKDkdldFVzZXJSZXF1ZXN0EhkKB3VzZXJfaWQYASABKAlCCLpIBXIDsAEBIjYKD0dldFVzZXJSZXNwb25zZRIjCgR1c2VyGAEgASgLMg0uZWNoby52MS5Vc2VyQga6SAPIAQEiMgoRVXBkYXRlVXNlclJlcXVlc3QSHQoMZGlzcGxheV9uYW1lGAEgASgJQge6SARyAhh4IjkKElVwZGF0ZVVzZXJSZXNwb25zZRIjCgR1c2VyGAEgASgLMg0uZWNoby52MS5Vc2VyQga6SAPIAQEqWwoKVXNlclN0YXR1cxIbChdVU0VSX1NUQVRVU19VTlNQRUNJRklFRBAAEhYKElVTRVJfU1RBVFVTX0FDVElWRRABEhgKFFVTRVJfU1RBVFVTX0RJU0FCTEVEEAIqTgoIVXNlclJvbGUSGQoVVVNFUl9ST0xFX1VOU1BFQ0lGSUVEEAASEgoOVVNFUl9ST0xFX1VTRVIQARITCg9VU0VSX1JPTEVfQURNSU4QAjKSAQoLVXNlclNlcnZpY2USPAoHR2V0VXNlchIXLmVjaG8udjEuR2V0VXNlclJlcXVlc3QaGC5lY2hvLnYxLkdldFVzZXJSZXNwb25zZRJFCgpVcGRhdGVVc2VyEhouZWNoby52MS5VcGRhdGVVc2VyUmVxdWVzdBobLmVjaG8udjEuVXBkYXRlVXNlclJlc3BvbnNlQnQKC2NvbS5lY2hvLnYxQgpVc2Vyc1Byb3RvUAFaGmVjaG9hcGkvZ2VuL2VjaG8vdjE7ZWNob3YxogIDRVhYqgIHRWNoby5WMcoCCEVjaG9fXFYx4gIURWNob19cVjFcR1BCTWV0YWRhdGHqAghFY2hvOjpWMWIGcHJvdG8z", [file_buf_validate_validate, file_google_protobuf_timestamp]);
 
 /**
  * Describes the message echo.v1.User.
@@ -46,6 +46,30 @@ export const UpdateUserRequestSchema = /*@__PURE__*/
  */
 export const UpdateUserResponseSchema = /*@__PURE__*/
   messageDesc(file_echo_v1_users, 4);
+
+/**
+ * Describes the enum echo.v1.UserStatus.
+ */
+export const UserStatusSchema = /*@__PURE__*/
+  enumDesc(file_echo_v1_users, 0);
+
+/**
+ * @generated from enum echo.v1.UserStatus
+ */
+export const UserStatus = /*@__PURE__*/
+  tsEnum(UserStatusSchema);
+
+/**
+ * Describes the enum echo.v1.UserRole.
+ */
+export const UserRoleSchema = /*@__PURE__*/
+  enumDesc(file_echo_v1_users, 1);
+
+/**
+ * @generated from enum echo.v1.UserRole
+ */
+export const UserRole = /*@__PURE__*/
+  tsEnum(UserRoleSchema);
 
 /**
  * @generated from service echo.v1.UserService

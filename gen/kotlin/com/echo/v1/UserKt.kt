@@ -150,7 +150,96 @@ public object UserKt {
 
     public val UserKt.Dsl.updatedAtOrNull: com.google.protobuf.Timestamp?
       get() = _builder.updatedAtOrNull
-  }
+
+    /**
+     * `.echo.v1.UserStatus status = 12 [json_name = "status", (.buf.validate.field) = { ... }`
+     */
+    public var status: com.echo.v1.UserStatus
+      @kotlin.jvm.JvmName("getStatus")
+        get() = _builder.status
+      @kotlin.jvm.JvmName("setStatus")
+        set(value) {
+        _builder.status = value
+      }
+    public var statusValue: kotlin.Int
+      @kotlin.jvm.JvmName("getStatusValue")
+        get() = _builder.statusValue
+      @kotlin.jvm.JvmName("setStatusValue")
+        set(value) {
+        _builder.statusValue = value
+      }
+    /**
+     * `.echo.v1.UserStatus status = 12 [json_name = "status", (.buf.validate.field) = { ... }`
+     */
+    public fun clearStatus() {
+      _builder.clearStatus()
+    }
+
+    /**
+     * An uninstantiable, behaviorless type to represent the field in
+     * generics.
+     */
+    @kotlin.OptIn(com.google.protobuf.kotlin.OnlyForUseByGeneratedProtoCode::class)
+    public class RolesProxy private constructor() : com.google.protobuf.kotlin.DslProxy()
+    /**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     */
+     public val roles: com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>
+      @kotlin.jvm.JvmSynthetic
+  get() = com.google.protobuf.kotlin.DslList(
+        _builder.rolesList
+      )
+    /**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     * @param value The roles to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("addRoles")
+    public fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.add(value: com.echo.v1.UserRole) {
+      _builder.addRoles(value)
+    }/**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     * @param value The roles to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("plusAssignRoles")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.plusAssign(value: com.echo.v1.UserRole) {
+      add(value)
+    }/**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     * @param values The roles to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("addAllRoles")
+    public fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.addAll(values: kotlin.collections.Iterable<com.echo.v1.UserRole>) {
+      _builder.addAllRoles(values)
+    }/**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     * @param values The roles to add.
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("plusAssignAllRoles")
+    @Suppress("NOTHING_TO_INLINE")
+    public inline operator fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.plusAssign(values: kotlin.collections.Iterable<com.echo.v1.UserRole>) {
+      addAll(values)
+    }/**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     * @param index The index to set the value at.
+     * @param value The roles to set.
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("setRoles")
+    public operator fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.set(index: kotlin.Int, value: com.echo.v1.UserRole) {
+      _builder.setRoles(index, value)
+    }/**
+     * `repeated .echo.v1.UserRole roles = 13 [json_name = "roles", (.buf.validate.field) = { ... }`
+     */
+    @kotlin.jvm.JvmSynthetic
+@kotlin.jvm.JvmName("clearRoles")
+    public fun com.google.protobuf.kotlin.DslList<com.echo.v1.UserRole, RolesProxy>.clear() {
+      _builder.clearRoles()
+    }}
 }
 @kotlin.jvm.JvmSynthetic
 public inline fun com.echo.v1.User.copy(block: `com.echo.v1`.UserKt.Dsl.() -> kotlin.Unit): com.echo.v1.User =

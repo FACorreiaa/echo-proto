@@ -23,6 +23,104 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UserStatus int32
+
+const (
+	UserStatus_USER_STATUS_UNSPECIFIED UserStatus = 0
+	UserStatus_USER_STATUS_ACTIVE      UserStatus = 1
+	UserStatus_USER_STATUS_DISABLED    UserStatus = 2
+)
+
+// Enum value maps for UserStatus.
+var (
+	UserStatus_name = map[int32]string{
+		0: "USER_STATUS_UNSPECIFIED",
+		1: "USER_STATUS_ACTIVE",
+		2: "USER_STATUS_DISABLED",
+	}
+	UserStatus_value = map[string]int32{
+		"USER_STATUS_UNSPECIFIED": 0,
+		"USER_STATUS_ACTIVE":      1,
+		"USER_STATUS_DISABLED":    2,
+	}
+)
+
+func (x UserStatus) Enum() *UserStatus {
+	p := new(UserStatus)
+	*p = x
+	return p
+}
+
+func (x UserStatus) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserStatus) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_users_proto_enumTypes[0].Descriptor()
+}
+
+func (UserStatus) Type() protoreflect.EnumType {
+	return &file_echo_v1_users_proto_enumTypes[0]
+}
+
+func (x UserStatus) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserStatus.Descriptor instead.
+func (UserStatus) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_users_proto_rawDescGZIP(), []int{0}
+}
+
+type UserRole int32
+
+const (
+	UserRole_USER_ROLE_UNSPECIFIED UserRole = 0
+	UserRole_USER_ROLE_USER        UserRole = 1
+	UserRole_USER_ROLE_ADMIN       UserRole = 2
+)
+
+// Enum value maps for UserRole.
+var (
+	UserRole_name = map[int32]string{
+		0: "USER_ROLE_UNSPECIFIED",
+		1: "USER_ROLE_USER",
+		2: "USER_ROLE_ADMIN",
+	}
+	UserRole_value = map[string]int32{
+		"USER_ROLE_UNSPECIFIED": 0,
+		"USER_ROLE_USER":        1,
+		"USER_ROLE_ADMIN":       2,
+	}
+)
+
+func (x UserRole) Enum() *UserRole {
+	p := new(UserRole)
+	*p = x
+	return p
+}
+
+func (x UserRole) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (UserRole) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_users_proto_enumTypes[1].Descriptor()
+}
+
+func (UserRole) Type() protoreflect.EnumType {
+	return &file_echo_v1_users_proto_enumTypes[1]
+}
+
+func (x UserRole) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use UserRole.Descriptor instead.
+func (UserRole) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_users_proto_rawDescGZIP(), []int{1}
+}
+
 type User struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -31,6 +129,8 @@ type User struct {
 	DisplayName   string                 `protobuf:"bytes,4,opt,name=display_name,json=displayName,proto3" json:"display_name,omitempty"`
 	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,10,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,11,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	Status        UserStatus             `protobuf:"varint,12,opt,name=status,proto3,enum=echo.v1.UserStatus" json:"status,omitempty"`
+	Roles         []UserRole             `protobuf:"varint,13,rep,packed,name=roles,proto3,enum=echo.v1.UserRole" json:"roles,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -103,6 +203,20 @@ func (x *User) GetCreatedAt() *timestamppb.Timestamp {
 func (x *User) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *User) GetStatus() UserStatus {
+	if x != nil {
+		return x.Status
+	}
+	return UserStatus_USER_STATUS_UNSPECIFIED
+}
+
+func (x *User) GetRoles() []UserRole {
+	if x != nil {
+		return x.Roles
 	}
 	return nil
 }
@@ -287,7 +401,7 @@ var File_echo_v1_users_proto protoreflect.FileDescriptor
 
 const file_echo_v1_users_proto_rawDesc = "" +
 	"\n" +
-	"\x13echo/v1/users.proto\x12\aecho.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x9b\x02\n" +
+	"\x13echo/v1/users.proto\x12\aecho.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\x85\x03\n" +
 	"\x04User\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12\"\n" +
 	"\x05email\x18\x02 \x01(\tB\f\xbaH\tr\a\x10\x03\x18\xfe\x01`\x01R\x05email\x12#\n" +
@@ -297,7 +411,9 @@ const file_echo_v1_users_proto_rawDesc = "" +
 	"created_at\x18\n" +
 	" \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\"3\n" +
+	"updated_at\x18\v \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\x125\n" +
+	"\x06status\x18\f \x01(\x0e2\x13.echo.v1.UserStatusB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06status\x121\n" +
+	"\x05roles\x18\r \x03(\x0e2\x11.echo.v1.UserRoleB\b\xbaH\x05\x92\x01\x02\x10\x10R\x05roles\"3\n" +
 	"\x0eGetUserRequest\x12!\n" +
 	"\auser_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\"<\n" +
 	"\x0fGetUserResponse\x12)\n" +
@@ -305,7 +421,16 @@ const file_echo_v1_users_proto_rawDesc = "" +
 	"\x11UpdateUserRequest\x12*\n" +
 	"\fdisplay_name\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x18xR\vdisplayName\"?\n" +
 	"\x12UpdateUserResponse\x12)\n" +
-	"\x04user\x18\x01 \x01(\v2\r.echo.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user2\x92\x01\n" +
+	"\x04user\x18\x01 \x01(\v2\r.echo.v1.UserB\x06\xbaH\x03\xc8\x01\x01R\x04user*[\n" +
+	"\n" +
+	"UserStatus\x12\x1b\n" +
+	"\x17USER_STATUS_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12USER_STATUS_ACTIVE\x10\x01\x12\x18\n" +
+	"\x14USER_STATUS_DISABLED\x10\x02*N\n" +
+	"\bUserRole\x12\x19\n" +
+	"\x15USER_ROLE_UNSPECIFIED\x10\x00\x12\x12\n" +
+	"\x0eUSER_ROLE_USER\x10\x01\x12\x13\n" +
+	"\x0fUSER_ROLE_ADMIN\x10\x022\x92\x01\n" +
 	"\vUserService\x12<\n" +
 	"\aGetUser\x12\x17.echo.v1.GetUserRequest\x1a\x18.echo.v1.GetUserResponse\x12E\n" +
 	"\n" +
@@ -325,29 +450,34 @@ func file_echo_v1_users_proto_rawDescGZIP() []byte {
 	return file_echo_v1_users_proto_rawDescData
 }
 
+var file_echo_v1_users_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_echo_v1_users_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_echo_v1_users_proto_goTypes = []any{
-	(*User)(nil),                  // 0: echo.v1.User
-	(*GetUserRequest)(nil),        // 1: echo.v1.GetUserRequest
-	(*GetUserResponse)(nil),       // 2: echo.v1.GetUserResponse
-	(*UpdateUserRequest)(nil),     // 3: echo.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),    // 4: echo.v1.UpdateUserResponse
-	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
+	(UserStatus)(0),               // 0: echo.v1.UserStatus
+	(UserRole)(0),                 // 1: echo.v1.UserRole
+	(*User)(nil),                  // 2: echo.v1.User
+	(*GetUserRequest)(nil),        // 3: echo.v1.GetUserRequest
+	(*GetUserResponse)(nil),       // 4: echo.v1.GetUserResponse
+	(*UpdateUserRequest)(nil),     // 5: echo.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),    // 6: echo.v1.UpdateUserResponse
+	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
 var file_echo_v1_users_proto_depIdxs = []int32{
-	5, // 0: echo.v1.User.created_at:type_name -> google.protobuf.Timestamp
-	5, // 1: echo.v1.User.updated_at:type_name -> google.protobuf.Timestamp
-	0, // 2: echo.v1.GetUserResponse.user:type_name -> echo.v1.User
-	0, // 3: echo.v1.UpdateUserResponse.user:type_name -> echo.v1.User
-	1, // 4: echo.v1.UserService.GetUser:input_type -> echo.v1.GetUserRequest
-	3, // 5: echo.v1.UserService.UpdateUser:input_type -> echo.v1.UpdateUserRequest
-	2, // 6: echo.v1.UserService.GetUser:output_type -> echo.v1.GetUserResponse
-	4, // 7: echo.v1.UserService.UpdateUser:output_type -> echo.v1.UpdateUserResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	7, // 0: echo.v1.User.created_at:type_name -> google.protobuf.Timestamp
+	7, // 1: echo.v1.User.updated_at:type_name -> google.protobuf.Timestamp
+	0, // 2: echo.v1.User.status:type_name -> echo.v1.UserStatus
+	1, // 3: echo.v1.User.roles:type_name -> echo.v1.UserRole
+	2, // 4: echo.v1.GetUserResponse.user:type_name -> echo.v1.User
+	2, // 5: echo.v1.UpdateUserResponse.user:type_name -> echo.v1.User
+	3, // 6: echo.v1.UserService.GetUser:input_type -> echo.v1.GetUserRequest
+	5, // 7: echo.v1.UserService.UpdateUser:input_type -> echo.v1.UpdateUserRequest
+	4, // 8: echo.v1.UserService.GetUser:output_type -> echo.v1.GetUserResponse
+	6, // 9: echo.v1.UserService.UpdateUser:output_type -> echo.v1.UpdateUserResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_users_proto_init() }
@@ -360,13 +490,14 @@ func file_echo_v1_users_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_users_proto_rawDesc), len(file_echo_v1_users_proto_rawDesc)),
-			NumEnums:      0,
+			NumEnums:      2,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_echo_v1_users_proto_goTypes,
 		DependencyIndexes: file_echo_v1_users_proto_depIdxs,
+		EnumInfos:         file_echo_v1_users_proto_enumTypes,
 		MessageInfos:      file_echo_v1_users_proto_msgTypes,
 	}.Build()
 	File_echo_v1_users_proto = out.File

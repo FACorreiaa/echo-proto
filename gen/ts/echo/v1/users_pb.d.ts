@@ -2,7 +2,7 @@
 // @generated from file echo/v1/users.proto (package echo.v1, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 
@@ -44,6 +44,16 @@ export declare type User = Message<"echo.v1.User"> & {
    * @generated from field: google.protobuf.Timestamp updated_at = 11;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * @generated from field: echo.v1.UserStatus status = 12;
+   */
+  status: UserStatus;
+
+  /**
+   * @generated from field: repeated echo.v1.UserRole roles = 13;
+   */
+  roles: UserRole[];
 };
 
 /**
@@ -115,6 +125,56 @@ export declare type UpdateUserResponse = Message<"echo.v1.UpdateUserResponse"> &
  * Use `create(UpdateUserResponseSchema)` to create a new message.
  */
 export declare const UpdateUserResponseSchema: GenMessage<UpdateUserResponse>;
+
+/**
+ * @generated from enum echo.v1.UserStatus
+ */
+export enum UserStatus {
+  /**
+   * @generated from enum value: USER_STATUS_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: USER_STATUS_ACTIVE = 1;
+   */
+  ACTIVE = 1,
+
+  /**
+   * @generated from enum value: USER_STATUS_DISABLED = 2;
+   */
+  DISABLED = 2,
+}
+
+/**
+ * Describes the enum echo.v1.UserStatus.
+ */
+export declare const UserStatusSchema: GenEnum<UserStatus>;
+
+/**
+ * @generated from enum echo.v1.UserRole
+ */
+export enum UserRole {
+  /**
+   * @generated from enum value: USER_ROLE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: USER_ROLE_USER = 1;
+   */
+  USER = 1,
+
+  /**
+   * @generated from enum value: USER_ROLE_ADMIN = 2;
+   */
+  ADMIN = 2,
+}
+
+/**
+ * Describes the enum echo.v1.UserRole.
+ */
+export declare const UserRoleSchema: GenEnum<UserRole>;
 
 /**
  * @generated from service echo.v1.UserService
