@@ -6,42 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="33d42ea0-6a41-450f-b590-9f5a7e0ad814" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/buf.gen.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/buf.gen.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/admin.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/admin.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/auth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/auth.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/automation.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/automation.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/common.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/common.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/admin.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/admin.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/auth.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/auth.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/automation.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/automation.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/finance.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/finance.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/imports.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/imports.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/insights.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/insights.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/payments.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/payments.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/plaid.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/plaid.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/spreadsheet.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/spreadsheet.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/users.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/users.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/wealth.connect.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/echov1connect/wealth.connect.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/finance.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/finance.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/imports.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/imports.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/insights.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/insights.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/payments.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/payments.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/plaid.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/plaid.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/spreadsheet.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/spreadsheet.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/users.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/users.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/go/echo/v1/wealth.pb.go" beforeDir="false" afterPath="$PROJECT_DIR$/gen/go/echo/v1/wealth.pb.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/admin_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/admin_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/auth_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/auth_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/automation_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/automation_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/common_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/common_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/finance_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/finance_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/imports_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/imports_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/insights_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/insights_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/payments_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/payments_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/plaid_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/plaid_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/spreadsheet_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/spreadsheet_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/users_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/users_pb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/ts/echo/v1/wealth_pb.js" beforeDir="false" afterPath="$PROJECT_DIR$/gen/ts/echo/v1/wealth_pb.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
