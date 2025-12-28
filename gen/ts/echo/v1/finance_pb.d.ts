@@ -395,6 +395,20 @@ export declare type CsvMapping = Message<"echo.v1.CsvMapping"> & {
    * @generated from field: bool is_european_format = 6;
    */
   isEuropeanFormat: boolean;
+
+  /**
+   * Detected delimiter from AnalyzeCsvFile (e.g., ";", ",", "\t")
+   *
+   * @generated from field: string delimiter = 7;
+   */
+  delimiter: string;
+
+  /**
+   * Number of lines to skip before header row
+   *
+   * @generated from field: int32 skip_lines = 8;
+   */
+  skipLines: number;
 };
 
 /**

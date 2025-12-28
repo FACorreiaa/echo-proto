@@ -1121,8 +1121,12 @@ type CsvMapping struct {
 	CreditColumn      string                 `protobuf:"bytes,5,opt,name=credit_column,json=creditColumn,proto3" json:"credit_column,omitempty"`
 	// True for European number format (comma as decimal: 1.234,56)
 	IsEuropeanFormat bool `protobuf:"varint,6,opt,name=is_european_format,json=isEuropeanFormat,proto3" json:"is_european_format,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+	// Detected delimiter from AnalyzeCsvFile (e.g., ";", ",", "\t")
+	Delimiter string `protobuf:"bytes,7,opt,name=delimiter,proto3" json:"delimiter,omitempty"`
+	// Number of lines to skip before header row
+	SkipLines     int32 `protobuf:"varint,8,opt,name=skip_lines,json=skipLines,proto3" json:"skip_lines,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *CsvMapping) Reset() {
@@ -1195,6 +1199,20 @@ func (x *CsvMapping) GetIsEuropeanFormat() bool {
 		return x.IsEuropeanFormat
 	}
 	return false
+}
+
+func (x *CsvMapping) GetDelimiter() string {
+	if x != nil {
+		return x.Delimiter
+	}
+	return ""
+}
+
+func (x *CsvMapping) GetSkipLines() int32 {
+	if x != nil {
+		return x.SkipLines
+	}
+	return 0
 }
 
 type ImportTransactionsCsvRequest struct {
@@ -2064,7 +2082,7 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\x1f \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAtB\r\n" +
 	"\v_account_idB\x0e\n" +
-	"\f_category_id\"\xf7\x01\n" +
+	"\f_category_id\"\xb4\x02\n" +
 	"\n" +
 	"CsvMapping\x12\x1f\n" +
 	"\vdate_column\x18\x01 \x01(\tR\n" +
@@ -2073,7 +2091,10 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\ramount_column\x18\x03 \x01(\tR\famountColumn\x12!\n" +
 	"\fdebit_column\x18\x04 \x01(\tR\vdebitColumn\x12#\n" +
 	"\rcredit_column\x18\x05 \x01(\tR\fcreditColumn\x12,\n" +
-	"\x12is_european_format\x18\x06 \x01(\bR\x10isEuropeanFormat\"\xa5\x02\n" +
+	"\x12is_european_format\x18\x06 \x01(\bR\x10isEuropeanFormat\x12\x1c\n" +
+	"\tdelimiter\x18\a \x01(\tR\tdelimiter\x12\x1d\n" +
+	"\n" +
+	"skip_lines\x18\b \x01(\x05R\tskipLines\"\xa5\x02\n" +
 	"\x1cImportTransactionsCsvRequest\x12,\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01H\x00R\taccountId\x88\x01\x01\x12)\n" +
