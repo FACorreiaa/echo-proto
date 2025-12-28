@@ -134,6 +134,10 @@ message CsvMapping {
   string credit_column = 5;
   // True for European number format (comma as decimal: 1.234,56)
   bool is_european_format = 6;
+  // Detected delimiter from AnalyzeCsvFile (e.g., ";", ",", "\t")
+  string delimiter = 7;
+  // Number of lines to skip before header row
+  int32 skip_lines = 8;
 }
 
 message ImportTransactionsCsvRequest {
