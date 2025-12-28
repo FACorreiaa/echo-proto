@@ -472,6 +472,20 @@ export declare type ImportTransactionsCsvResponse = Message<"echo.v1.ImportTrans
    * @generated from field: int32 imported_count = 1;
    */
   importedCount: number;
+
+  /**
+   * Number of duplicates that were skipped
+   *
+   * @generated from field: int32 duplicate_count = 2;
+   */
+  duplicateCount: number;
+
+  /**
+   * ID of the import job (for staging view filtering)
+   *
+   * @generated from field: string import_job_id = 3;
+   */
+  importJobId: string;
 };
 
 /**
@@ -503,6 +517,13 @@ export declare type ListTransactionsRequest = Message<"echo.v1.ListTransactionsR
    * @generated from field: optional string category_id = 4;
    */
   categoryId?: string;
+
+  /**
+   * Filter by import batch (for staging view)
+   *
+   * @generated from field: optional string import_job_id = 5;
+   */
+  importJobId?: string;
 };
 
 /**
@@ -531,6 +552,38 @@ export declare type ListTransactionsResponse = Message<"echo.v1.ListTransactions
  * Use `create(ListTransactionsResponseSchema)` to create a new message.
  */
 export declare const ListTransactionsResponseSchema: GenMessage<ListTransactionsResponse>;
+
+/**
+ * @generated from message echo.v1.DeleteImportBatchRequest
+ */
+export declare type DeleteImportBatchRequest = Message<"echo.v1.DeleteImportBatchRequest"> & {
+  /**
+   * @generated from field: string import_job_id = 1;
+   */
+  importJobId: string;
+};
+
+/**
+ * Describes the message echo.v1.DeleteImportBatchRequest.
+ * Use `create(DeleteImportBatchRequestSchema)` to create a new message.
+ */
+export declare const DeleteImportBatchRequestSchema: GenMessage<DeleteImportBatchRequest>;
+
+/**
+ * @generated from message echo.v1.DeleteImportBatchResponse
+ */
+export declare type DeleteImportBatchResponse = Message<"echo.v1.DeleteImportBatchResponse"> & {
+  /**
+   * @generated from field: int32 deleted_count = 1;
+   */
+  deletedCount: number;
+};
+
+/**
+ * Describes the message echo.v1.DeleteImportBatchResponse.
+ * Use `create(DeleteImportBatchResponseSchema)` to create a new message.
+ */
+export declare const DeleteImportBatchResponseSchema: GenMessage<DeleteImportBatchResponse>;
 
 /**
  * @generated from message echo.v1.Goal
@@ -1038,6 +1091,14 @@ export declare const FinanceService: GenService<{
     methodKind: "unary";
     input: typeof ListTransactionsRequestSchema;
     output: typeof ListTransactionsResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.DeleteImportBatch
+   */
+  deleteImportBatch: {
+    methodKind: "unary";
+    input: typeof DeleteImportBatchRequestSchema;
+    output: typeof DeleteImportBatchResponseSchema;
   },
   /**
    * @generated from rpc echo.v1.FinanceService.CreateGoal

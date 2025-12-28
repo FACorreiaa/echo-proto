@@ -51,6 +51,9 @@ const (
 	// FinanceServiceListTransactionsProcedure is the fully-qualified name of the FinanceService's
 	// ListTransactions RPC.
 	FinanceServiceListTransactionsProcedure = "/echo.v1.FinanceService/ListTransactions"
+	// FinanceServiceDeleteImportBatchProcedure is the fully-qualified name of the FinanceService's
+	// DeleteImportBatch RPC.
+	FinanceServiceDeleteImportBatchProcedure = "/echo.v1.FinanceService/DeleteImportBatch"
 	// FinanceServiceCreateGoalProcedure is the fully-qualified name of the FinanceService's CreateGoal
 	// RPC.
 	FinanceServiceCreateGoalProcedure = "/echo.v1.FinanceService/CreateGoal"
@@ -70,6 +73,7 @@ type FinanceServiceClient interface {
 	ListCategories(context.Context, *connect.Request[v1.ListCategoriesRequest]) (*connect.Response[v1.ListCategoriesResponse], error)
 	ImportTransactionsCsv(context.Context, *connect.Request[v1.ImportTransactionsCsvRequest]) (*connect.Response[v1.ImportTransactionsCsvResponse], error)
 	ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error)
+	DeleteImportBatch(context.Context, *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error)
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
@@ -122,6 +126,12 @@ func NewFinanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(financeServiceMethods.ByName("ListTransactions")),
 			connect.WithClientOptions(opts...),
 		),
+		deleteImportBatch: connect.NewClient[v1.DeleteImportBatchRequest, v1.DeleteImportBatchResponse](
+			httpClient,
+			baseURL+FinanceServiceDeleteImportBatchProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("DeleteImportBatch")),
+			connect.WithClientOptions(opts...),
+		),
 		createGoal: connect.NewClient[v1.CreateGoalRequest, v1.CreateGoalResponse](
 			httpClient,
 			baseURL+FinanceServiceCreateGoalProcedure,
@@ -151,6 +161,7 @@ type financeServiceClient struct {
 	listCategories             *connect.Client[v1.ListCategoriesRequest, v1.ListCategoriesResponse]
 	importTransactionsCsv      *connect.Client[v1.ImportTransactionsCsvRequest, v1.ImportTransactionsCsvResponse]
 	listTransactions           *connect.Client[v1.ListTransactionsRequest, v1.ListTransactionsResponse]
+	deleteImportBatch          *connect.Client[v1.DeleteImportBatchRequest, v1.DeleteImportBatchResponse]
 	createGoal                 *connect.Client[v1.CreateGoalRequest, v1.CreateGoalResponse]
 	listGoals                  *connect.Client[v1.ListGoalsRequest, v1.ListGoalsResponse]
 	listRecurringSubscriptions *connect.Client[v1.ListRecurringSubscriptionsRequest, v1.ListRecurringSubscriptionsResponse]
@@ -186,6 +197,11 @@ func (c *financeServiceClient) ListTransactions(ctx context.Context, req *connec
 	return c.listTransactions.CallUnary(ctx, req)
 }
 
+// DeleteImportBatch calls echo.v1.FinanceService.DeleteImportBatch.
+func (c *financeServiceClient) DeleteImportBatch(ctx context.Context, req *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error) {
+	return c.deleteImportBatch.CallUnary(ctx, req)
+}
+
 // CreateGoal calls echo.v1.FinanceService.CreateGoal.
 func (c *financeServiceClient) CreateGoal(ctx context.Context, req *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error) {
 	return c.createGoal.CallUnary(ctx, req)
@@ -209,6 +225,7 @@ type FinanceServiceHandler interface {
 	ListCategories(context.Context, *connect.Request[v1.ListCategoriesRequest]) (*connect.Response[v1.ListCategoriesResponse], error)
 	ImportTransactionsCsv(context.Context, *connect.Request[v1.ImportTransactionsCsvRequest]) (*connect.Response[v1.ImportTransactionsCsvResponse], error)
 	ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error)
+	DeleteImportBatch(context.Context, *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error)
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
@@ -257,6 +274,12 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 		connect.WithSchema(financeServiceMethods.ByName("ListTransactions")),
 		connect.WithHandlerOptions(opts...),
 	)
+	financeServiceDeleteImportBatchHandler := connect.NewUnaryHandler(
+		FinanceServiceDeleteImportBatchProcedure,
+		svc.DeleteImportBatch,
+		connect.WithSchema(financeServiceMethods.ByName("DeleteImportBatch")),
+		connect.WithHandlerOptions(opts...),
+	)
 	financeServiceCreateGoalHandler := connect.NewUnaryHandler(
 		FinanceServiceCreateGoalProcedure,
 		svc.CreateGoal,
@@ -289,6 +312,8 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 			financeServiceImportTransactionsCsvHandler.ServeHTTP(w, r)
 		case FinanceServiceListTransactionsProcedure:
 			financeServiceListTransactionsHandler.ServeHTTP(w, r)
+		case FinanceServiceDeleteImportBatchProcedure:
+			financeServiceDeleteImportBatchHandler.ServeHTTP(w, r)
 		case FinanceServiceCreateGoalProcedure:
 			financeServiceCreateGoalHandler.ServeHTTP(w, r)
 		case FinanceServiceListGoalsProcedure:
@@ -326,6 +351,10 @@ func (UnimplementedFinanceServiceHandler) ImportTransactionsCsv(context.Context,
 
 func (UnimplementedFinanceServiceHandler) ListTransactions(context.Context, *connect.Request[v1.ListTransactionsRequest]) (*connect.Response[v1.ListTransactionsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ListTransactions is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) DeleteImportBatch(context.Context, *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.DeleteImportBatch is not implemented"))
 }
 
 func (UnimplementedFinanceServiceHandler) CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error) {

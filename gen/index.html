@@ -474,6 +474,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.DeleteImportBatchRequest"><span class="badge">M</span>DeleteImportBatchRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.DeleteImportBatchResponse"><span class="badge">M</span>DeleteImportBatchResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.Goal"><span class="badge">M</span>Goal</a>
                 </li>
               
@@ -3147,6 +3155,54 @@
 
         
       
+        <h3 id="echo.v1.DeleteImportBatchRequest">DeleteImportBatchRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>import_job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.DeleteImportBatchResponse">DeleteImportBatchResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>deleted_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.Goal">Goal</h3>
         <p></p>
 
@@ -3317,6 +3373,20 @@
                   <td><p> </p></td>
                 </tr>
               
+                <tr>
+                  <td>duplicate_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Number of duplicates that were skipped </p></td>
+                </tr>
+              
+                <tr>
+                  <td>import_job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>ID of the import job (for staging view filtering) </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -3484,6 +3554,13 @@
                   <td><a href="#string">string</a></td>
                   <td>optional</td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>import_job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Filter by import batch (for staging view) </p></td>
                 </tr>
               
             </tbody>
@@ -4038,6 +4115,13 @@
                 <td>ListTransactions</td>
                 <td><a href="#echo.v1.ListTransactionsRequest">ListTransactionsRequest</a></td>
                 <td><a href="#echo.v1.ListTransactionsResponse">ListTransactionsResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>DeleteImportBatch</td>
+                <td><a href="#echo.v1.DeleteImportBatchRequest">DeleteImportBatchRequest</a></td>
+                <td><a href="#echo.v1.DeleteImportBatchResponse">DeleteImportBatchResponse</a></td>
                 <td><p></p></td>
               </tr>
             

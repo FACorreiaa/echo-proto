@@ -16,6 +16,7 @@ service FinanceService {
 
   rpc ImportTransactionsCsv(ImportTransactionsCsvRequest) returns (ImportTransactionsCsvResponse);
   rpc ListTransactions(ListTransactionsRequest) returns (ListTransactionsResponse);
+  rpc DeleteImportBatch(DeleteImportBatchRequest) returns (DeleteImportBatchResponse);
 
   rpc CreateGoal(CreateGoalRequest) returns (CreateGoalResponse);
   rpc ListGoals(ListGoalsRequest) returns (ListGoalsResponse);
@@ -157,6 +158,10 @@ message ImportTransactionsCsvRequest {
 
 message ImportTransactionsCsvResponse {
   int32 imported_count = 1 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  // Number of duplicates that were skipped
+  int32 duplicate_count = 2 [(buf.validate.field).int32 = { gte: 0 lte: 2000000 }];
+  // ID of the import job (for staging view filtering)
+  string import_job_id = 3 [(buf.validate.field).string = { uuid: true }];
 }
 
 message ListTransactionsRequest {
@@ -164,11 +169,21 @@ message ListTransactionsRequest {
   TimeRange time_range = 2;
   optional string account_id = 3 [(buf.validate.field).string = { uuid: true }];
   optional string category_id = 4 [(buf.validate.field).string = { uuid: true }];
+  // Filter by import batch (for staging view)
+  optional string import_job_id = 5 [(buf.validate.field).string = { uuid: true }];
 }
 
 message ListTransactionsResponse {
   repeated Transaction transactions = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
   PageResponse page = 2 [(buf.validate.field).required = true];
+}
+
+message DeleteImportBatchRequest {
+  string import_job_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message DeleteImportBatchResponse {
+  int32 deleted_count = 1 [(buf.validate.field).int32 = { gte: 0 }];
 }
 
 enum GoalType {
