@@ -63,6 +63,12 @@ const (
 	// FinanceServiceListRecurringSubscriptionsProcedure is the fully-qualified name of the
 	// FinanceService's ListRecurringSubscriptions RPC.
 	FinanceServiceListRecurringSubscriptionsProcedure = "/echo.v1.FinanceService/ListRecurringSubscriptions"
+	// FinanceServiceCreateCategoryRuleProcedure is the fully-qualified name of the FinanceService's
+	// CreateCategoryRule RPC.
+	FinanceServiceCreateCategoryRuleProcedure = "/echo.v1.FinanceService/CreateCategoryRule"
+	// FinanceServiceListCategoryRulesProcedure is the fully-qualified name of the FinanceService's
+	// ListCategoryRules RPC.
+	FinanceServiceListCategoryRulesProcedure = "/echo.v1.FinanceService/ListCategoryRules"
 )
 
 // FinanceServiceClient is a client for the echo.v1.FinanceService service.
@@ -77,6 +83,9 @@ type FinanceServiceClient interface {
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
+	// Categorization rules for "Remember this" learning
+	CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error)
+	ListCategoryRules(context.Context, *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error)
 }
 
 // NewFinanceServiceClient constructs a client for the echo.v1.FinanceService service. By default,
@@ -150,6 +159,18 @@ func NewFinanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(financeServiceMethods.ByName("ListRecurringSubscriptions")),
 			connect.WithClientOptions(opts...),
 		),
+		createCategoryRule: connect.NewClient[v1.CreateCategoryRuleRequest, v1.CreateCategoryRuleResponse](
+			httpClient,
+			baseURL+FinanceServiceCreateCategoryRuleProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("CreateCategoryRule")),
+			connect.WithClientOptions(opts...),
+		),
+		listCategoryRules: connect.NewClient[v1.ListCategoryRulesRequest, v1.ListCategoryRulesResponse](
+			httpClient,
+			baseURL+FinanceServiceListCategoryRulesProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("ListCategoryRules")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -165,6 +186,8 @@ type financeServiceClient struct {
 	createGoal                 *connect.Client[v1.CreateGoalRequest, v1.CreateGoalResponse]
 	listGoals                  *connect.Client[v1.ListGoalsRequest, v1.ListGoalsResponse]
 	listRecurringSubscriptions *connect.Client[v1.ListRecurringSubscriptionsRequest, v1.ListRecurringSubscriptionsResponse]
+	createCategoryRule         *connect.Client[v1.CreateCategoryRuleRequest, v1.CreateCategoryRuleResponse]
+	listCategoryRules          *connect.Client[v1.ListCategoryRulesRequest, v1.ListCategoryRulesResponse]
 }
 
 // CreateAccount calls echo.v1.FinanceService.CreateAccount.
@@ -217,6 +240,16 @@ func (c *financeServiceClient) ListRecurringSubscriptions(ctx context.Context, r
 	return c.listRecurringSubscriptions.CallUnary(ctx, req)
 }
 
+// CreateCategoryRule calls echo.v1.FinanceService.CreateCategoryRule.
+func (c *financeServiceClient) CreateCategoryRule(ctx context.Context, req *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error) {
+	return c.createCategoryRule.CallUnary(ctx, req)
+}
+
+// ListCategoryRules calls echo.v1.FinanceService.ListCategoryRules.
+func (c *financeServiceClient) ListCategoryRules(ctx context.Context, req *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error) {
+	return c.listCategoryRules.CallUnary(ctx, req)
+}
+
 // FinanceServiceHandler is an implementation of the echo.v1.FinanceService service.
 type FinanceServiceHandler interface {
 	CreateAccount(context.Context, *connect.Request[v1.CreateAccountRequest]) (*connect.Response[v1.CreateAccountResponse], error)
@@ -229,6 +262,9 @@ type FinanceServiceHandler interface {
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
+	// Categorization rules for "Remember this" learning
+	CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error)
+	ListCategoryRules(context.Context, *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error)
 }
 
 // NewFinanceServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -298,6 +334,18 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 		connect.WithSchema(financeServiceMethods.ByName("ListRecurringSubscriptions")),
 		connect.WithHandlerOptions(opts...),
 	)
+	financeServiceCreateCategoryRuleHandler := connect.NewUnaryHandler(
+		FinanceServiceCreateCategoryRuleProcedure,
+		svc.CreateCategoryRule,
+		connect.WithSchema(financeServiceMethods.ByName("CreateCategoryRule")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceListCategoryRulesHandler := connect.NewUnaryHandler(
+		FinanceServiceListCategoryRulesProcedure,
+		svc.ListCategoryRules,
+		connect.WithSchema(financeServiceMethods.ByName("ListCategoryRules")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.FinanceService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case FinanceServiceCreateAccountProcedure:
@@ -320,6 +368,10 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 			financeServiceListGoalsHandler.ServeHTTP(w, r)
 		case FinanceServiceListRecurringSubscriptionsProcedure:
 			financeServiceListRecurringSubscriptionsHandler.ServeHTTP(w, r)
+		case FinanceServiceCreateCategoryRuleProcedure:
+			financeServiceCreateCategoryRuleHandler.ServeHTTP(w, r)
+		case FinanceServiceListCategoryRulesProcedure:
+			financeServiceListCategoryRulesHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -367,4 +419,12 @@ func (UnimplementedFinanceServiceHandler) ListGoals(context.Context, *connect.Re
 
 func (UnimplementedFinanceServiceHandler) ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ListRecurringSubscriptions is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.CreateCategoryRule is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) ListCategoryRules(context.Context, *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ListCategoryRules is not implemented"))
 }

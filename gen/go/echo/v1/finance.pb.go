@@ -2126,6 +2126,323 @@ func (x *ListRecurringSubscriptionsResponse) GetSubscriptions() []*RecurringSubs
 	return nil
 }
 
+// Category Rules for "Remember this" learning flow
+type CategoryRule struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserId        string                 `protobuf:"bytes,2,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	MatchPattern  string                 `protobuf:"bytes,3,opt,name=match_pattern,json=matchPattern,proto3" json:"match_pattern,omitempty"`
+	CleanName     string                 `protobuf:"bytes,4,opt,name=clean_name,json=cleanName,proto3" json:"clean_name,omitempty"`
+	CategoryId    *string                `protobuf:"bytes,5,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	IsRecurring   bool                   `protobuf:"varint,6,opt,name=is_recurring,json=isRecurring,proto3" json:"is_recurring,omitempty"`
+	Priority      int32                  `protobuf:"varint,7,opt,name=priority,proto3" json:"priority,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CategoryRule) Reset() {
+	*x = CategoryRule{}
+	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CategoryRule) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CategoryRule) ProtoMessage() {}
+
+func (x *CategoryRule) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CategoryRule.ProtoReflect.Descriptor instead.
+func (*CategoryRule) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *CategoryRule) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *CategoryRule) GetUserId() string {
+	if x != nil {
+		return x.UserId
+	}
+	return ""
+}
+
+func (x *CategoryRule) GetMatchPattern() string {
+	if x != nil {
+		return x.MatchPattern
+	}
+	return ""
+}
+
+func (x *CategoryRule) GetCleanName() string {
+	if x != nil {
+		return x.CleanName
+	}
+	return ""
+}
+
+func (x *CategoryRule) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *CategoryRule) GetIsRecurring() bool {
+	if x != nil {
+		return x.IsRecurring
+	}
+	return false
+}
+
+func (x *CategoryRule) GetPriority() int32 {
+	if x != nil {
+		return x.Priority
+	}
+	return 0
+}
+
+func (x *CategoryRule) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *CategoryRule) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+type CreateCategoryRuleRequest struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	MatchPattern    string                 `protobuf:"bytes,1,opt,name=match_pattern,json=matchPattern,proto3" json:"match_pattern,omitempty"`
+	CleanName       string                 `protobuf:"bytes,2,opt,name=clean_name,json=cleanName,proto3" json:"clean_name,omitempty"`
+	CategoryId      *string                `protobuf:"bytes,3,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	IsRecurring     bool                   `protobuf:"varint,4,opt,name=is_recurring,json=isRecurring,proto3" json:"is_recurring,omitempty"`
+	ApplyToExisting bool                   `protobuf:"varint,5,opt,name=apply_to_existing,json=applyToExisting,proto3" json:"apply_to_existing,omitempty"` // Apply to existing matching transactions
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *CreateCategoryRuleRequest) Reset() {
+	*x = CreateCategoryRuleRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCategoryRuleRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCategoryRuleRequest) ProtoMessage() {}
+
+func (x *CreateCategoryRuleRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCategoryRuleRequest.ProtoReflect.Descriptor instead.
+func (*CreateCategoryRuleRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *CreateCategoryRuleRequest) GetMatchPattern() string {
+	if x != nil {
+		return x.MatchPattern
+	}
+	return ""
+}
+
+func (x *CreateCategoryRuleRequest) GetCleanName() string {
+	if x != nil {
+		return x.CleanName
+	}
+	return ""
+}
+
+func (x *CreateCategoryRuleRequest) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *CreateCategoryRuleRequest) GetIsRecurring() bool {
+	if x != nil {
+		return x.IsRecurring
+	}
+	return false
+}
+
+func (x *CreateCategoryRuleRequest) GetApplyToExisting() bool {
+	if x != nil {
+		return x.ApplyToExisting
+	}
+	return false
+}
+
+type CreateCategoryRuleResponse struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Rule                *CategoryRule          `protobuf:"bytes,1,opt,name=rule,proto3" json:"rule,omitempty"`
+	TransactionsUpdated int64                  `protobuf:"varint,2,opt,name=transactions_updated,json=transactionsUpdated,proto3" json:"transactions_updated,omitempty"` // Number of existing transactions updated
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *CreateCategoryRuleResponse) Reset() {
+	*x = CreateCategoryRuleResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateCategoryRuleResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateCategoryRuleResponse) ProtoMessage() {}
+
+func (x *CreateCategoryRuleResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateCategoryRuleResponse.ProtoReflect.Descriptor instead.
+func (*CreateCategoryRuleResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *CreateCategoryRuleResponse) GetRule() *CategoryRule {
+	if x != nil {
+		return x.Rule
+	}
+	return nil
+}
+
+func (x *CreateCategoryRuleResponse) GetTransactionsUpdated() int64 {
+	if x != nil {
+		return x.TransactionsUpdated
+	}
+	return 0
+}
+
+type ListCategoryRulesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCategoryRulesRequest) Reset() {
+	*x = ListCategoryRulesRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCategoryRulesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCategoryRulesRequest) ProtoMessage() {}
+
+func (x *ListCategoryRulesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCategoryRulesRequest.ProtoReflect.Descriptor instead.
+func (*ListCategoryRulesRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{29}
+}
+
+type ListCategoryRulesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Rules         []*CategoryRule        `protobuf:"bytes,1,rep,name=rules,proto3" json:"rules,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListCategoryRulesResponse) Reset() {
+	*x = ListCategoryRulesResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListCategoryRulesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListCategoryRulesResponse) ProtoMessage() {}
+
+func (x *ListCategoryRulesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListCategoryRulesResponse.ProtoReflect.Descriptor instead.
+func (*ListCategoryRulesResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *ListCategoryRulesResponse) GetRules() []*CategoryRule {
+	if x != nil {
+		return x.Rules
+	}
+	return nil
+}
+
 var File_echo_v1_finance_proto protoreflect.FileDescriptor
 
 const file_echo_v1_finance_proto_rawDesc = "" +
@@ -2309,7 +2626,39 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"updated_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\"#\n" +
 	"!ListRecurringSubscriptionsRequest\"u\n" +
 	"\"ListRecurringSubscriptionsResponse\x12O\n" +
-	"\rsubscriptions\x18\x01 \x03(\v2\x1e.echo.v1.RecurringSubscriptionB\t\xbaH\x06\x92\x01\x03\x10\x88'R\rsubscriptions*\xe1\x01\n" +
+	"\rsubscriptions\x18\x01 \x03(\v2\x1e.echo.v1.RecurringSubscriptionB\t\xbaH\x06\x92\x01\x03\x10\x88'R\rsubscriptions\"\x9a\x03\n" +
+	"\fCategoryRule\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
+	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12/\n" +
+	"\rmatch_pattern\x18\x03 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\fmatchPattern\x12'\n" +
+	"\n" +
+	"clean_name\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\tcleanName\x12.\n" +
+	"\vcategory_id\x18\x05 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01H\x00R\n" +
+	"categoryId\x88\x01\x01\x12!\n" +
+	"\fis_recurring\x18\x06 \x01(\bR\visRecurring\x12\x1a\n" +
+	"\bpriority\x18\a \x01(\x05R\bpriority\x129\n" +
+	"\n" +
+	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\x0e\n" +
+	"\f_category_id\"\x84\x02\n" +
+	"\x19CreateCategoryRuleRequest\x12/\n" +
+	"\rmatch_pattern\x18\x01 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\fmatchPattern\x12'\n" +
+	"\n" +
+	"clean_name\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\tcleanName\x12.\n" +
+	"\vcategory_id\x18\x03 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01H\x00R\n" +
+	"categoryId\x88\x01\x01\x12!\n" +
+	"\fis_recurring\x18\x04 \x01(\bR\visRecurring\x12*\n" +
+	"\x11apply_to_existing\x18\x05 \x01(\bR\x0fapplyToExistingB\x0e\n" +
+	"\f_category_id\"z\n" +
+	"\x1aCreateCategoryRuleResponse\x12)\n" +
+	"\x04rule\x18\x01 \x01(\v2\x15.echo.v1.CategoryRuleR\x04rule\x121\n" +
+	"\x14transactions_updated\x18\x02 \x01(\x03R\x13transactionsUpdated\"\x1a\n" +
+	"\x18ListCategoryRulesRequest\"S\n" +
+	"\x19ListCategoryRulesResponse\x126\n" +
+	"\x05rules\x18\x01 \x03(\v2\x15.echo.v1.CategoryRuleB\t\xbaH\x06\x92\x01\x03\x10\xe8\aR\x05rules*\xe1\x01\n" +
 	"\vAccountType\x12\x1c\n" +
 	"\x18ACCOUNT_TYPE_UNSPECIFIED\x10\x00\x12\x15\n" +
 	"\x11ACCOUNT_TYPE_CASH\x10\x01\x12\x19\n" +
@@ -2347,7 +2696,7 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x19RECURRING_CADENCE_MONTHLY\x10\x02\x12\x1f\n" +
 	"\x1bRECURRING_CADENCE_QUARTERLY\x10\x03\x12\x1c\n" +
 	"\x18RECURRING_CADENCE_ANNUAL\x10\x04\x12\x1d\n" +
-	"\x19RECURRING_CADENCE_UNKNOWN\x10\x052\xf2\x06\n" +
+	"\x19RECURRING_CADENCE_UNKNOWN\x10\x052\xad\b\n" +
 	"\x0eFinanceService\x12N\n" +
 	"\rCreateAccount\x12\x1d.echo.v1.CreateAccountRequest\x1a\x1e.echo.v1.CreateAccountResponse\x12K\n" +
 	"\fListAccounts\x12\x1c.echo.v1.ListAccountsRequest\x1a\x1d.echo.v1.ListAccountsResponse\x12Q\n" +
@@ -2359,7 +2708,9 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\n" +
 	"CreateGoal\x12\x1a.echo.v1.CreateGoalRequest\x1a\x1b.echo.v1.CreateGoalResponse\x12B\n" +
 	"\tListGoals\x12\x19.echo.v1.ListGoalsRequest\x1a\x1a.echo.v1.ListGoalsResponse\x12u\n" +
-	"\x1aListRecurringSubscriptions\x12*.echo.v1.ListRecurringSubscriptionsRequest\x1a+.echo.v1.ListRecurringSubscriptionsResponseB\xa3\x01\n" +
+	"\x1aListRecurringSubscriptions\x12*.echo.v1.ListRecurringSubscriptionsRequest\x1a+.echo.v1.ListRecurringSubscriptionsResponse\x12]\n" +
+	"\x12CreateCategoryRule\x12\".echo.v1.CreateCategoryRuleRequest\x1a#.echo.v1.CreateCategoryRuleResponse\x12Z\n" +
+	"\x11ListCategoryRules\x12!.echo.v1.ListCategoryRulesRequest\x1a\".echo.v1.ListCategoryRulesResponseB\xa3\x01\n" +
 	"\vcom.echo.v1B\fFinanceProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -2375,7 +2726,7 @@ func file_echo_v1_finance_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_finance_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_echo_v1_finance_proto_msgTypes = make([]protoimpl.MessageInfo, 26)
+var file_echo_v1_finance_proto_msgTypes = make([]protoimpl.MessageInfo, 31)
 var file_echo_v1_finance_proto_goTypes = []any{
 	(AccountType)(0),                           // 0: echo.v1.AccountType
 	(TransactionSource)(0),                     // 1: echo.v1.TransactionSource
@@ -2409,80 +2760,93 @@ var file_echo_v1_finance_proto_goTypes = []any{
 	(*RecurringSubscription)(nil),              // 29: echo.v1.RecurringSubscription
 	(*ListRecurringSubscriptionsRequest)(nil),  // 30: echo.v1.ListRecurringSubscriptionsRequest
 	(*ListRecurringSubscriptionsResponse)(nil), // 31: echo.v1.ListRecurringSubscriptionsResponse
-	(*timestamppb.Timestamp)(nil),              // 32: google.protobuf.Timestamp
-	(*Money)(nil),                              // 33: echo.v1.Money
-	(*PageRequest)(nil),                        // 34: echo.v1.PageRequest
-	(*TimeRange)(nil),                          // 35: echo.v1.TimeRange
-	(*PageResponse)(nil),                       // 36: echo.v1.PageResponse
+	(*CategoryRule)(nil),                       // 32: echo.v1.CategoryRule
+	(*CreateCategoryRuleRequest)(nil),          // 33: echo.v1.CreateCategoryRuleRequest
+	(*CreateCategoryRuleResponse)(nil),         // 34: echo.v1.CreateCategoryRuleResponse
+	(*ListCategoryRulesRequest)(nil),           // 35: echo.v1.ListCategoryRulesRequest
+	(*ListCategoryRulesResponse)(nil),          // 36: echo.v1.ListCategoryRulesResponse
+	(*timestamppb.Timestamp)(nil),              // 37: google.protobuf.Timestamp
+	(*Money)(nil),                              // 38: echo.v1.Money
+	(*PageRequest)(nil),                        // 39: echo.v1.PageRequest
+	(*TimeRange)(nil),                          // 40: echo.v1.TimeRange
+	(*PageResponse)(nil),                       // 41: echo.v1.PageResponse
 }
 var file_echo_v1_finance_proto_depIdxs = []int32{
 	0,  // 0: echo.v1.Account.type:type_name -> echo.v1.AccountType
-	32, // 1: echo.v1.Account.created_at:type_name -> google.protobuf.Timestamp
-	32, // 2: echo.v1.Account.updated_at:type_name -> google.protobuf.Timestamp
+	37, // 1: echo.v1.Account.created_at:type_name -> google.protobuf.Timestamp
+	37, // 2: echo.v1.Account.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 3: echo.v1.CreateAccountRequest.type:type_name -> echo.v1.AccountType
 	6,  // 4: echo.v1.CreateAccountResponse.account:type_name -> echo.v1.Account
 	6,  // 5: echo.v1.ListAccountsResponse.accounts:type_name -> echo.v1.Account
-	32, // 6: echo.v1.Category.created_at:type_name -> google.protobuf.Timestamp
-	32, // 7: echo.v1.Category.updated_at:type_name -> google.protobuf.Timestamp
+	37, // 6: echo.v1.Category.created_at:type_name -> google.protobuf.Timestamp
+	37, // 7: echo.v1.Category.updated_at:type_name -> google.protobuf.Timestamp
 	11, // 8: echo.v1.CreateCategoryResponse.category:type_name -> echo.v1.Category
 	11, // 9: echo.v1.ListCategoriesResponse.categories:type_name -> echo.v1.Category
-	32, // 10: echo.v1.Transaction.posted_at:type_name -> google.protobuf.Timestamp
-	33, // 11: echo.v1.Transaction.amount:type_name -> echo.v1.Money
+	37, // 10: echo.v1.Transaction.posted_at:type_name -> google.protobuf.Timestamp
+	38, // 11: echo.v1.Transaction.amount:type_name -> echo.v1.Money
 	1,  // 12: echo.v1.Transaction.source:type_name -> echo.v1.TransactionSource
-	32, // 13: echo.v1.Transaction.created_at:type_name -> google.protobuf.Timestamp
-	32, // 14: echo.v1.Transaction.updated_at:type_name -> google.protobuf.Timestamp
+	37, // 13: echo.v1.Transaction.created_at:type_name -> google.protobuf.Timestamp
+	37, // 14: echo.v1.Transaction.updated_at:type_name -> google.protobuf.Timestamp
 	17, // 15: echo.v1.ImportTransactionsCsvRequest.mapping:type_name -> echo.v1.CsvMapping
-	34, // 16: echo.v1.ListTransactionsRequest.page:type_name -> echo.v1.PageRequest
-	35, // 17: echo.v1.ListTransactionsRequest.time_range:type_name -> echo.v1.TimeRange
+	39, // 16: echo.v1.ListTransactionsRequest.page:type_name -> echo.v1.PageRequest
+	40, // 17: echo.v1.ListTransactionsRequest.time_range:type_name -> echo.v1.TimeRange
 	16, // 18: echo.v1.ListTransactionsResponse.transactions:type_name -> echo.v1.Transaction
-	36, // 19: echo.v1.ListTransactionsResponse.page:type_name -> echo.v1.PageResponse
+	41, // 19: echo.v1.ListTransactionsResponse.page:type_name -> echo.v1.PageResponse
 	2,  // 20: echo.v1.Goal.type:type_name -> echo.v1.GoalType
 	3,  // 21: echo.v1.Goal.status:type_name -> echo.v1.GoalStatus
-	33, // 22: echo.v1.Goal.target:type_name -> echo.v1.Money
-	32, // 23: echo.v1.Goal.start_at:type_name -> google.protobuf.Timestamp
-	32, // 24: echo.v1.Goal.end_at:type_name -> google.protobuf.Timestamp
-	32, // 25: echo.v1.Goal.created_at:type_name -> google.protobuf.Timestamp
-	32, // 26: echo.v1.Goal.updated_at:type_name -> google.protobuf.Timestamp
+	38, // 22: echo.v1.Goal.target:type_name -> echo.v1.Money
+	37, // 23: echo.v1.Goal.start_at:type_name -> google.protobuf.Timestamp
+	37, // 24: echo.v1.Goal.end_at:type_name -> google.protobuf.Timestamp
+	37, // 25: echo.v1.Goal.created_at:type_name -> google.protobuf.Timestamp
+	37, // 26: echo.v1.Goal.updated_at:type_name -> google.protobuf.Timestamp
 	2,  // 27: echo.v1.CreateGoalRequest.type:type_name -> echo.v1.GoalType
-	33, // 28: echo.v1.CreateGoalRequest.target:type_name -> echo.v1.Money
-	32, // 29: echo.v1.CreateGoalRequest.start_at:type_name -> google.protobuf.Timestamp
-	32, // 30: echo.v1.CreateGoalRequest.end_at:type_name -> google.protobuf.Timestamp
+	38, // 28: echo.v1.CreateGoalRequest.target:type_name -> echo.v1.Money
+	37, // 29: echo.v1.CreateGoalRequest.start_at:type_name -> google.protobuf.Timestamp
+	37, // 30: echo.v1.CreateGoalRequest.end_at:type_name -> google.protobuf.Timestamp
 	24, // 31: echo.v1.CreateGoalResponse.goal:type_name -> echo.v1.Goal
 	24, // 32: echo.v1.ListGoalsResponse.goals:type_name -> echo.v1.Goal
-	33, // 33: echo.v1.RecurringSubscription.amount:type_name -> echo.v1.Money
+	38, // 33: echo.v1.RecurringSubscription.amount:type_name -> echo.v1.Money
 	5,  // 34: echo.v1.RecurringSubscription.cadence:type_name -> echo.v1.RecurringCadence
 	4,  // 35: echo.v1.RecurringSubscription.status:type_name -> echo.v1.RecurringStatus
-	32, // 36: echo.v1.RecurringSubscription.first_seen_at:type_name -> google.protobuf.Timestamp
-	32, // 37: echo.v1.RecurringSubscription.last_seen_at:type_name -> google.protobuf.Timestamp
-	32, // 38: echo.v1.RecurringSubscription.next_expected_at:type_name -> google.protobuf.Timestamp
-	32, // 39: echo.v1.RecurringSubscription.created_at:type_name -> google.protobuf.Timestamp
-	32, // 40: echo.v1.RecurringSubscription.updated_at:type_name -> google.protobuf.Timestamp
+	37, // 36: echo.v1.RecurringSubscription.first_seen_at:type_name -> google.protobuf.Timestamp
+	37, // 37: echo.v1.RecurringSubscription.last_seen_at:type_name -> google.protobuf.Timestamp
+	37, // 38: echo.v1.RecurringSubscription.next_expected_at:type_name -> google.protobuf.Timestamp
+	37, // 39: echo.v1.RecurringSubscription.created_at:type_name -> google.protobuf.Timestamp
+	37, // 40: echo.v1.RecurringSubscription.updated_at:type_name -> google.protobuf.Timestamp
 	29, // 41: echo.v1.ListRecurringSubscriptionsResponse.subscriptions:type_name -> echo.v1.RecurringSubscription
-	7,  // 42: echo.v1.FinanceService.CreateAccount:input_type -> echo.v1.CreateAccountRequest
-	9,  // 43: echo.v1.FinanceService.ListAccounts:input_type -> echo.v1.ListAccountsRequest
-	12, // 44: echo.v1.FinanceService.CreateCategory:input_type -> echo.v1.CreateCategoryRequest
-	14, // 45: echo.v1.FinanceService.ListCategories:input_type -> echo.v1.ListCategoriesRequest
-	18, // 46: echo.v1.FinanceService.ImportTransactionsCsv:input_type -> echo.v1.ImportTransactionsCsvRequest
-	20, // 47: echo.v1.FinanceService.ListTransactions:input_type -> echo.v1.ListTransactionsRequest
-	22, // 48: echo.v1.FinanceService.DeleteImportBatch:input_type -> echo.v1.DeleteImportBatchRequest
-	25, // 49: echo.v1.FinanceService.CreateGoal:input_type -> echo.v1.CreateGoalRequest
-	27, // 50: echo.v1.FinanceService.ListGoals:input_type -> echo.v1.ListGoalsRequest
-	30, // 51: echo.v1.FinanceService.ListRecurringSubscriptions:input_type -> echo.v1.ListRecurringSubscriptionsRequest
-	8,  // 52: echo.v1.FinanceService.CreateAccount:output_type -> echo.v1.CreateAccountResponse
-	10, // 53: echo.v1.FinanceService.ListAccounts:output_type -> echo.v1.ListAccountsResponse
-	13, // 54: echo.v1.FinanceService.CreateCategory:output_type -> echo.v1.CreateCategoryResponse
-	15, // 55: echo.v1.FinanceService.ListCategories:output_type -> echo.v1.ListCategoriesResponse
-	19, // 56: echo.v1.FinanceService.ImportTransactionsCsv:output_type -> echo.v1.ImportTransactionsCsvResponse
-	21, // 57: echo.v1.FinanceService.ListTransactions:output_type -> echo.v1.ListTransactionsResponse
-	23, // 58: echo.v1.FinanceService.DeleteImportBatch:output_type -> echo.v1.DeleteImportBatchResponse
-	26, // 59: echo.v1.FinanceService.CreateGoal:output_type -> echo.v1.CreateGoalResponse
-	28, // 60: echo.v1.FinanceService.ListGoals:output_type -> echo.v1.ListGoalsResponse
-	31, // 61: echo.v1.FinanceService.ListRecurringSubscriptions:output_type -> echo.v1.ListRecurringSubscriptionsResponse
-	52, // [52:62] is the sub-list for method output_type
-	42, // [42:52] is the sub-list for method input_type
-	42, // [42:42] is the sub-list for extension type_name
-	42, // [42:42] is the sub-list for extension extendee
-	0,  // [0:42] is the sub-list for field type_name
+	37, // 42: echo.v1.CategoryRule.created_at:type_name -> google.protobuf.Timestamp
+	37, // 43: echo.v1.CategoryRule.updated_at:type_name -> google.protobuf.Timestamp
+	32, // 44: echo.v1.CreateCategoryRuleResponse.rule:type_name -> echo.v1.CategoryRule
+	32, // 45: echo.v1.ListCategoryRulesResponse.rules:type_name -> echo.v1.CategoryRule
+	7,  // 46: echo.v1.FinanceService.CreateAccount:input_type -> echo.v1.CreateAccountRequest
+	9,  // 47: echo.v1.FinanceService.ListAccounts:input_type -> echo.v1.ListAccountsRequest
+	12, // 48: echo.v1.FinanceService.CreateCategory:input_type -> echo.v1.CreateCategoryRequest
+	14, // 49: echo.v1.FinanceService.ListCategories:input_type -> echo.v1.ListCategoriesRequest
+	18, // 50: echo.v1.FinanceService.ImportTransactionsCsv:input_type -> echo.v1.ImportTransactionsCsvRequest
+	20, // 51: echo.v1.FinanceService.ListTransactions:input_type -> echo.v1.ListTransactionsRequest
+	22, // 52: echo.v1.FinanceService.DeleteImportBatch:input_type -> echo.v1.DeleteImportBatchRequest
+	25, // 53: echo.v1.FinanceService.CreateGoal:input_type -> echo.v1.CreateGoalRequest
+	27, // 54: echo.v1.FinanceService.ListGoals:input_type -> echo.v1.ListGoalsRequest
+	30, // 55: echo.v1.FinanceService.ListRecurringSubscriptions:input_type -> echo.v1.ListRecurringSubscriptionsRequest
+	33, // 56: echo.v1.FinanceService.CreateCategoryRule:input_type -> echo.v1.CreateCategoryRuleRequest
+	35, // 57: echo.v1.FinanceService.ListCategoryRules:input_type -> echo.v1.ListCategoryRulesRequest
+	8,  // 58: echo.v1.FinanceService.CreateAccount:output_type -> echo.v1.CreateAccountResponse
+	10, // 59: echo.v1.FinanceService.ListAccounts:output_type -> echo.v1.ListAccountsResponse
+	13, // 60: echo.v1.FinanceService.CreateCategory:output_type -> echo.v1.CreateCategoryResponse
+	15, // 61: echo.v1.FinanceService.ListCategories:output_type -> echo.v1.ListCategoriesResponse
+	19, // 62: echo.v1.FinanceService.ImportTransactionsCsv:output_type -> echo.v1.ImportTransactionsCsvResponse
+	21, // 63: echo.v1.FinanceService.ListTransactions:output_type -> echo.v1.ListTransactionsResponse
+	23, // 64: echo.v1.FinanceService.DeleteImportBatch:output_type -> echo.v1.DeleteImportBatchResponse
+	26, // 65: echo.v1.FinanceService.CreateGoal:output_type -> echo.v1.CreateGoalResponse
+	28, // 66: echo.v1.FinanceService.ListGoals:output_type -> echo.v1.ListGoalsResponse
+	31, // 67: echo.v1.FinanceService.ListRecurringSubscriptions:output_type -> echo.v1.ListRecurringSubscriptionsResponse
+	34, // 68: echo.v1.FinanceService.CreateCategoryRule:output_type -> echo.v1.CreateCategoryRuleResponse
+	36, // 69: echo.v1.FinanceService.ListCategoryRules:output_type -> echo.v1.ListCategoryRulesResponse
+	58, // [58:70] is the sub-list for method output_type
+	46, // [46:58] is the sub-list for method input_type
+	46, // [46:46] is the sub-list for extension type_name
+	46, // [46:46] is the sub-list for extension extendee
+	0,  // [0:46] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_finance_proto_init() }
@@ -2498,13 +2862,15 @@ func file_echo_v1_finance_proto_init() {
 	file_echo_v1_finance_proto_msgTypes[10].OneofWrappers = []any{}
 	file_echo_v1_finance_proto_msgTypes[12].OneofWrappers = []any{}
 	file_echo_v1_finance_proto_msgTypes[14].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[26].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[27].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_finance_proto_rawDesc), len(file_echo_v1_finance_proto_rawDesc)),
 			NumEnums:      6,
-			NumMessages:   26,
+			NumMessages:   31,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

@@ -22,6 +22,10 @@ service FinanceService {
   rpc ListGoals(ListGoalsRequest) returns (ListGoalsResponse);
 
   rpc ListRecurringSubscriptions(ListRecurringSubscriptionsRequest) returns (ListRecurringSubscriptionsResponse);
+
+  // Categorization rules for "Remember this" learning
+  rpc CreateCategoryRule(CreateCategoryRuleRequest) returns (CreateCategoryRuleResponse);
+  rpc ListCategoryRules(ListCategoryRulesRequest) returns (ListCategoryRulesResponse);
 }
 
 enum AccountType {
@@ -276,4 +280,36 @@ message ListRecurringSubscriptionsRequest {}
 
 message ListRecurringSubscriptionsResponse {
   repeated RecurringSubscription subscriptions = 1 [(buf.validate.field).repeated = { max_items: 5000 }];
+}
+
+// Category Rules for "Remember this" learning flow
+message CategoryRule {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  string user_id = 2 [(buf.validate.field).string = { uuid: true }];
+  string match_pattern = 3 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string clean_name = 4 [(buf.validate.field).string = { max_len: 255 }];
+  optional string category_id = 5 [(buf.validate.field).string = { uuid: true }];
+  bool is_recurring = 6;
+  int32 priority = 7;
+  google.protobuf.Timestamp created_at = 20;
+  google.protobuf.Timestamp updated_at = 21;
+}
+
+message CreateCategoryRuleRequest {
+  string match_pattern = 1 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string clean_name = 2 [(buf.validate.field).string = { max_len: 255 }];
+  optional string category_id = 3 [(buf.validate.field).string = { uuid: true }];
+  bool is_recurring = 4;
+  bool apply_to_existing = 5; // Apply to existing matching transactions
+}
+
+message CreateCategoryRuleResponse {
+  CategoryRule rule = 1;
+  int64 transactions_updated = 2; // Number of existing transactions updated
+}
+
+message ListCategoryRulesRequest {}
+
+message ListCategoryRulesResponse {
+  repeated CategoryRule rules = 1 [(buf.validate.field).repeated = { max_items: 1000 }];
 }

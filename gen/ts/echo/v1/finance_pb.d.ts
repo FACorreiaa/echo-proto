@@ -838,6 +838,153 @@ export declare type ListRecurringSubscriptionsResponse = Message<"echo.v1.ListRe
 export declare const ListRecurringSubscriptionsResponseSchema: GenMessage<ListRecurringSubscriptionsResponse>;
 
 /**
+ * Category Rules for "Remember this" learning flow
+ *
+ * @generated from message echo.v1.CategoryRule
+ */
+export declare type CategoryRule = Message<"echo.v1.CategoryRule"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string user_id = 2;
+   */
+  userId: string;
+
+  /**
+   * @generated from field: string match_pattern = 3;
+   */
+  matchPattern: string;
+
+  /**
+   * @generated from field: string clean_name = 4;
+   */
+  cleanName: string;
+
+  /**
+   * @generated from field: optional string category_id = 5;
+   */
+  categoryId?: string;
+
+  /**
+   * @generated from field: bool is_recurring = 6;
+   */
+  isRecurring: boolean;
+
+  /**
+   * @generated from field: int32 priority = 7;
+   */
+  priority: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 20;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 21;
+   */
+  updatedAt?: Timestamp;
+};
+
+/**
+ * Describes the message echo.v1.CategoryRule.
+ * Use `create(CategoryRuleSchema)` to create a new message.
+ */
+export declare const CategoryRuleSchema: GenMessage<CategoryRule>;
+
+/**
+ * @generated from message echo.v1.CreateCategoryRuleRequest
+ */
+export declare type CreateCategoryRuleRequest = Message<"echo.v1.CreateCategoryRuleRequest"> & {
+  /**
+   * @generated from field: string match_pattern = 1;
+   */
+  matchPattern: string;
+
+  /**
+   * @generated from field: string clean_name = 2;
+   */
+  cleanName: string;
+
+  /**
+   * @generated from field: optional string category_id = 3;
+   */
+  categoryId?: string;
+
+  /**
+   * @generated from field: bool is_recurring = 4;
+   */
+  isRecurring: boolean;
+
+  /**
+   * Apply to existing matching transactions
+   *
+   * @generated from field: bool apply_to_existing = 5;
+   */
+  applyToExisting: boolean;
+};
+
+/**
+ * Describes the message echo.v1.CreateCategoryRuleRequest.
+ * Use `create(CreateCategoryRuleRequestSchema)` to create a new message.
+ */
+export declare const CreateCategoryRuleRequestSchema: GenMessage<CreateCategoryRuleRequest>;
+
+/**
+ * @generated from message echo.v1.CreateCategoryRuleResponse
+ */
+export declare type CreateCategoryRuleResponse = Message<"echo.v1.CreateCategoryRuleResponse"> & {
+  /**
+   * @generated from field: echo.v1.CategoryRule rule = 1;
+   */
+  rule?: CategoryRule;
+
+  /**
+   * Number of existing transactions updated
+   *
+   * @generated from field: int64 transactions_updated = 2;
+   */
+  transactionsUpdated: bigint;
+};
+
+/**
+ * Describes the message echo.v1.CreateCategoryRuleResponse.
+ * Use `create(CreateCategoryRuleResponseSchema)` to create a new message.
+ */
+export declare const CreateCategoryRuleResponseSchema: GenMessage<CreateCategoryRuleResponse>;
+
+/**
+ * @generated from message echo.v1.ListCategoryRulesRequest
+ */
+export declare type ListCategoryRulesRequest = Message<"echo.v1.ListCategoryRulesRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.ListCategoryRulesRequest.
+ * Use `create(ListCategoryRulesRequestSchema)` to create a new message.
+ */
+export declare const ListCategoryRulesRequestSchema: GenMessage<ListCategoryRulesRequest>;
+
+/**
+ * @generated from message echo.v1.ListCategoryRulesResponse
+ */
+export declare type ListCategoryRulesResponse = Message<"echo.v1.ListCategoryRulesResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.CategoryRule rules = 1;
+   */
+  rules: CategoryRule[];
+};
+
+/**
+ * Describes the message echo.v1.ListCategoryRulesResponse.
+ * Use `create(ListCategoryRulesResponseSchema)` to create a new message.
+ */
+export declare const ListCategoryRulesResponseSchema: GenMessage<ListCategoryRulesResponse>;
+
+/**
  * @generated from enum echo.v1.AccountType
  */
 export enum AccountType {
@@ -1135,6 +1282,24 @@ export declare const FinanceService: GenService<{
     methodKind: "unary";
     input: typeof ListRecurringSubscriptionsRequestSchema;
     output: typeof ListRecurringSubscriptionsResponseSchema;
+  },
+  /**
+   * Categorization rules for "Remember this" learning
+   *
+   * @generated from rpc echo.v1.FinanceService.CreateCategoryRule
+   */
+  createCategoryRule: {
+    methodKind: "unary";
+    input: typeof CreateCategoryRuleRequestSchema;
+    output: typeof CreateCategoryRuleResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.ListCategoryRules
+   */
+  listCategoryRules: {
+    methodKind: "unary";
+    input: typeof ListCategoryRulesRequestSchema;
+    output: typeof ListCategoryRulesResponseSchema;
   },
 }>;
 

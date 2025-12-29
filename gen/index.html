@@ -446,6 +446,10 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.CategoryRule"><span class="badge">M</span>CategoryRule</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.CreateAccountRequest"><span class="badge">M</span>CreateAccountRequest</a>
                 </li>
               
@@ -459,6 +463,14 @@
               
                 <li>
                   <a href="#echo.v1.CreateCategoryResponse"><span class="badge">M</span>CreateCategoryResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.CreateCategoryRuleRequest"><span class="badge">M</span>CreateCategoryRuleRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.CreateCategoryRuleResponse"><span class="badge">M</span>CreateCategoryRuleResponse</a>
                 </li>
               
                 <li>
@@ -507,6 +519,14 @@
               
                 <li>
                   <a href="#echo.v1.ListCategoriesResponse"><span class="badge">M</span>ListCategoriesResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListCategoryRulesRequest"><span class="badge">M</span>ListCategoryRulesRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListCategoryRulesResponse"><span class="badge">M</span>ListCategoryRulesResponse</a>
                 </li>
               
                 <li>
@@ -2861,6 +2881,86 @@
 
         
       
+        <h3 id="echo.v1.CategoryRule">CategoryRule</h3>
+        <p>Category Rules for "Remember this" learning flow</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>user_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>match_pattern</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>clean_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_recurring</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>priority</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>updated_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.CreateAccountRequest">CreateAccountRequest</h3>
         <p></p>
 
@@ -2997,6 +3097,89 @@
                   <td><a href="#echo.v1.Category">Category</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.CreateCategoryRuleRequest">CreateCategoryRuleRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>match_pattern</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>clean_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_recurring</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>apply_to_existing</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Apply to existing matching transactions </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.CreateCategoryRuleResponse">CreateCategoryRuleResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rule</td>
+                  <td><a href="#echo.v1.CategoryRule">CategoryRule</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>transactions_updated</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Number of existing transactions updated </p></td>
                 </tr>
               
             </tbody>
@@ -3452,6 +3635,37 @@
                 <tr>
                   <td>categories</td>
                   <td><a href="#echo.v1.Category">Category</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListCategoryRulesRequest">ListCategoryRulesRequest</h3>
+        <p></p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.ListCategoryRulesResponse">ListCategoryRulesResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>rules</td>
+                  <td><a href="#echo.v1.CategoryRule">CategoryRule</a></td>
                   <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
@@ -4157,6 +4371,20 @@
                 <td>ListRecurringSubscriptions</td>
                 <td><a href="#echo.v1.ListRecurringSubscriptionsRequest">ListRecurringSubscriptionsRequest</a></td>
                 <td><a href="#echo.v1.ListRecurringSubscriptionsResponse">ListRecurringSubscriptionsResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateCategoryRule</td>
+                <td><a href="#echo.v1.CreateCategoryRuleRequest">CreateCategoryRuleRequest</a></td>
+                <td><a href="#echo.v1.CreateCategoryRuleResponse">CreateCategoryRuleResponse</a></td>
+                <td><p>Categorization rules for &#34;Remember this&#34; learning</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListCategoryRules</td>
+                <td><a href="#echo.v1.ListCategoryRulesRequest">ListCategoryRulesRequest</a></td>
+                <td><a href="#echo.v1.ListCategoryRulesResponse">ListCategoryRulesResponse</a></td>
                 <td><p></p></td>
               </tr>
             
