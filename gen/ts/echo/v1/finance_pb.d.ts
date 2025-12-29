@@ -344,6 +344,11 @@ export declare type Transaction = Message<"echo.v1.Transaction"> & {
   notes: string;
 
   /**
+   * @generated from field: string institution_name = 24;
+   */
+  institutionName: string;
+
+  /**
    * @generated from field: google.protobuf.Timestamp created_at = 30;
    */
   createdAt?: Timestamp;
@@ -456,6 +461,13 @@ export declare type ImportTransactionsCsvRequest = Message<"echo.v1.ImportTransa
    * @generated from field: int32 header_rows = 6;
    */
   headerRows: number;
+
+  /**
+   * Name of the bank/institution this import comes from (e.g., "Revolut", "CGD")
+   *
+   * @generated from field: string institution_name = 7;
+   */
+  institutionName: string;
 };
 
 /**

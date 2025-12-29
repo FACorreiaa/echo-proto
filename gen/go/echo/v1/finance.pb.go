@@ -978,6 +978,7 @@ type Transaction struct {
 	Source              TransactionSource      `protobuf:"varint,21,opt,name=source,proto3,enum=echo.v1.TransactionSource" json:"source,omitempty"`
 	ExternalId          string                 `protobuf:"bytes,22,opt,name=external_id,json=externalId,proto3" json:"external_id,omitempty"`
 	Notes               string                 `protobuf:"bytes,23,opt,name=notes,proto3" json:"notes,omitempty"`
+	InstitutionName     string                 `protobuf:"bytes,24,opt,name=institution_name,json=institutionName,proto3" json:"institution_name,omitempty"`
 	CreatedAt           *timestamppb.Timestamp `protobuf:"bytes,30,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt           *timestamppb.Timestamp `protobuf:"bytes,31,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	unknownFields       protoimpl.UnknownFields
@@ -1094,6 +1095,13 @@ func (x *Transaction) GetExternalId() string {
 func (x *Transaction) GetNotes() string {
 	if x != nil {
 		return x.Notes
+	}
+	return ""
+}
+
+func (x *Transaction) GetInstitutionName() string {
+	if x != nil {
+		return x.InstitutionName
 	}
 	return ""
 }
@@ -1222,12 +1230,14 @@ type ImportTransactionsCsvRequest struct {
 	// Raw CSV content. For large files, prefer a pre-signed upload in a future version.
 	CsvBytes []byte `protobuf:"bytes,2,opt,name=csv_bytes,json=csvBytes,proto3" json:"csv_bytes,omitempty"`
 	// Optional: a client hint, like "MM/DD/YYYY".
-	DateFormat    string      `protobuf:"bytes,3,opt,name=date_format,json=dateFormat,proto3" json:"date_format,omitempty"`
-	Timezone      string      `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`
-	Mapping       *CsvMapping `protobuf:"bytes,5,opt,name=mapping,proto3" json:"mapping,omitempty"`
-	HeaderRows    int32       `protobuf:"varint,6,opt,name=header_rows,json=headerRows,proto3" json:"header_rows,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	DateFormat string      `protobuf:"bytes,3,opt,name=date_format,json=dateFormat,proto3" json:"date_format,omitempty"`
+	Timezone   string      `protobuf:"bytes,4,opt,name=timezone,proto3" json:"timezone,omitempty"`
+	Mapping    *CsvMapping `protobuf:"bytes,5,opt,name=mapping,proto3" json:"mapping,omitempty"`
+	HeaderRows int32       `protobuf:"varint,6,opt,name=header_rows,json=headerRows,proto3" json:"header_rows,omitempty"`
+	// Name of the bank/institution this import comes from (e.g., "Revolut", "CGD")
+	InstitutionName string `protobuf:"bytes,7,opt,name=institution_name,json=institutionName,proto3" json:"institution_name,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ImportTransactionsCsvRequest) Reset() {
@@ -1300,6 +1310,13 @@ func (x *ImportTransactionsCsvRequest) GetHeaderRows() int32 {
 		return x.HeaderRows
 	}
 	return 0
+}
+
+func (x *ImportTransactionsCsvRequest) GetInstitutionName() string {
+	if x != nil {
+		return x.InstitutionName
+	}
+	return ""
 }
 
 type ImportTransactionsCsvResponse struct {
@@ -2173,7 +2190,7 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x16ListCategoriesResponse\x12<\n" +
 	"\n" +
 	"categories\x18\x01 \x03(\v2\x11.echo.v1.CategoryB\t\xbaH\x06\x92\x01\x03\x10\x88'R\n" +
-	"categories\"\xe1\x05\n" +
+	"categories\"\x96\x06\n" +
 	"\vTransaction\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12,\n" +
@@ -2191,7 +2208,8 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x06source\x18\x15 \x01(\x0e2\x1a.echo.v1.TransactionSourceB\b\xbaH\x05\x82\x01\x02\x10\x01R\x06source\x12)\n" +
 	"\vexternal_id\x18\x16 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\n" +
 	"externalId\x12\x1e\n" +
-	"\x05notes\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x10R\x05notes\x12A\n" +
+	"\x05notes\x18\x17 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x10R\x05notes\x123\n" +
+	"\x10institution_name\x18\x18 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x01R\x0finstitutionName\x12A\n" +
 	"\n" +
 	"created_at\x18\x1e \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
@@ -2209,7 +2227,7 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x12is_european_format\x18\x06 \x01(\bR\x10isEuropeanFormat\x12\x1c\n" +
 	"\tdelimiter\x18\a \x01(\tR\tdelimiter\x12\x1d\n" +
 	"\n" +
-	"skip_lines\x18\b \x01(\x05R\tskipLines\"\xa5\x02\n" +
+	"skip_lines\x18\b \x01(\x05R\tskipLines\"\xda\x02\n" +
 	"\x1cImportTransactionsCsvRequest\x12,\n" +
 	"\n" +
 	"account_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01H\x00R\taccountId\x88\x01\x01\x12)\n" +
@@ -2219,7 +2237,8 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\btimezone\x18\x04 \x01(\tB\a\xbaH\x04r\x02\x18@R\btimezone\x12-\n" +
 	"\amapping\x18\x05 \x01(\v2\x13.echo.v1.CsvMappingR\amapping\x12\x1f\n" +
 	"\vheader_rows\x18\x06 \x01(\x05R\n" +
-	"headerRowsB\r\n" +
+	"headerRows\x123\n" +
+	"\x10institution_name\x18\a \x01(\tB\b\xbaH\x05r\x03\x18\x80\x01R\x0finstitutionNameB\r\n" +
 	"\v_account_id\"\xb7\x01\n" +
 	"\x1dImportTransactionsCsvResponse\x122\n" +
 	"\x0eimported_count\x18\x01 \x01(\x05B\v\xbaH\b\x1a\x06\x18\x80\x89z(\x00R\rimportedCount\x124\n" +
