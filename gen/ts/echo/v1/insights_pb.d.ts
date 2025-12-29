@@ -269,6 +269,271 @@ export declare type GetWrappedResponse = Message<"echo.v1.GetWrappedResponse"> &
 export declare const GetWrappedResponseSchema: GenMessage<GetWrappedResponse>;
 
 /**
+ * Spending Pulse messages
+ *
+ * @generated from message echo.v1.GetSpendingPulseRequest
+ */
+export declare type GetSpendingPulseRequest = Message<"echo.v1.GetSpendingPulseRequest"> & {
+  /**
+   * Default: now
+   *
+   * @generated from field: optional google.protobuf.Timestamp as_of = 1;
+   */
+  asOf?: Timestamp;
+};
+
+/**
+ * Describes the message echo.v1.GetSpendingPulseRequest.
+ * Use `create(GetSpendingPulseRequestSchema)` to create a new message.
+ */
+export declare const GetSpendingPulseRequestSchema: GenMessage<GetSpendingPulseRequest>;
+
+/**
+ * @generated from message echo.v1.SpendingPulse
+ */
+export declare type SpendingPulse = Message<"echo.v1.SpendingPulse"> & {
+  /**
+   * @generated from field: echo.v1.Money current_month_spend = 1;
+   */
+  currentMonthSpend?: Money;
+
+  /**
+   * @generated from field: echo.v1.Money last_month_spend = 2;
+   */
+  lastMonthSpend?: Money;
+
+  /**
+   * current - last
+   *
+   * @generated from field: echo.v1.Money spend_delta = 3;
+   */
+  spendDelta?: Money;
+
+  /**
+   * 100 = on track, >100 = ahead
+   *
+   * @generated from field: double pace_percent = 4;
+   */
+  pacePercent: number;
+
+  /**
+   * @generated from field: bool is_over_pace = 5;
+   */
+  isOverPace: boolean;
+
+  /**
+   * "Spending ahead", "Under budget", etc.
+   *
+   * @generated from field: string pace_message = 6;
+   */
+  paceMessage: string;
+
+  /**
+   * @generated from field: int32 day_of_month = 10;
+   */
+  dayOfMonth: number;
+
+  /**
+   * @generated from field: int32 transaction_count = 11;
+   */
+  transactionCount: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp as_of_date = 12;
+   */
+  asOfDate?: Timestamp;
+
+  /**
+   * @generated from field: repeated echo.v1.TopCategorySpend top_categories = 20;
+   */
+  topCategories: TopCategorySpend[];
+
+  /**
+   * @generated from field: repeated echo.v1.SurpriseExpense surprise_expenses = 21;
+   */
+  surpriseExpenses: SurpriseExpense[];
+};
+
+/**
+ * Describes the message echo.v1.SpendingPulse.
+ * Use `create(SpendingPulseSchema)` to create a new message.
+ */
+export declare const SpendingPulseSchema: GenMessage<SpendingPulse>;
+
+/**
+ * @generated from message echo.v1.TopCategorySpend
+ */
+export declare type TopCategorySpend = Message<"echo.v1.TopCategorySpend"> & {
+  /**
+   * @generated from field: optional string category_id = 1;
+   */
+  categoryId?: string;
+
+  /**
+   * @generated from field: string category_name = 2;
+   */
+  categoryName: string;
+
+  /**
+   * @generated from field: echo.v1.Money amount = 3;
+   */
+  amount?: Money;
+
+  /**
+   * @generated from field: int32 transaction_count = 4;
+   */
+  transactionCount: number;
+};
+
+/**
+ * Describes the message echo.v1.TopCategorySpend.
+ * Use `create(TopCategorySpendSchema)` to create a new message.
+ */
+export declare const TopCategorySpendSchema: GenMessage<TopCategorySpend>;
+
+/**
+ * @generated from message echo.v1.SurpriseExpense
+ */
+export declare type SurpriseExpense = Message<"echo.v1.SurpriseExpense"> & {
+  /**
+   * @generated from field: string transaction_id = 1;
+   */
+  transactionId: string;
+
+  /**
+   * @generated from field: string description = 2;
+   */
+  description: string;
+
+  /**
+   * @generated from field: string merchant_name = 3;
+   */
+  merchantName: string;
+
+  /**
+   * @generated from field: echo.v1.Money amount = 4;
+   */
+  amount?: Money;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp posted_at = 5;
+   */
+  postedAt?: Timestamp;
+
+  /**
+   * @generated from field: optional string category_name = 6;
+   */
+  categoryName?: string;
+};
+
+/**
+ * Describes the message echo.v1.SurpriseExpense.
+ * Use `create(SurpriseExpenseSchema)` to create a new message.
+ */
+export declare const SurpriseExpenseSchema: GenMessage<SurpriseExpense>;
+
+/**
+ * @generated from message echo.v1.GetSpendingPulseResponse
+ */
+export declare type GetSpendingPulseResponse = Message<"echo.v1.GetSpendingPulseResponse"> & {
+  /**
+   * @generated from field: echo.v1.SpendingPulse pulse = 1;
+   */
+  pulse?: SpendingPulse;
+
+  /**
+   * True if pace notification should fire
+   *
+   * @generated from field: bool should_notify = 2;
+   */
+  shouldNotify: boolean;
+};
+
+/**
+ * Describes the message echo.v1.GetSpendingPulseResponse.
+ * Use `create(GetSpendingPulseResponseSchema)` to create a new message.
+ */
+export declare const GetSpendingPulseResponseSchema: GenMessage<GetSpendingPulseResponse>;
+
+/**
+ * Dashboard Blocks (Bento Grid)
+ *
+ * @generated from message echo.v1.GetDashboardBlocksRequest
+ */
+export declare type GetDashboardBlocksRequest = Message<"echo.v1.GetDashboardBlocksRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.GetDashboardBlocksRequest.
+ * Use `create(GetDashboardBlocksRequestSchema)` to create a new message.
+ */
+export declare const GetDashboardBlocksRequestSchema: GenMessage<GetDashboardBlocksRequest>;
+
+/**
+ * @generated from message echo.v1.DashboardBlock
+ */
+export declare type DashboardBlock = Message<"echo.v1.DashboardBlock"> & {
+  /**
+   * "status", "hook", "cta"
+   *
+   * @generated from field: string type = 1;
+   */
+  type: string;
+
+  /**
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * @generated from field: string subtitle = 3;
+   */
+  subtitle: string;
+
+  /**
+   * @generated from field: string value = 4;
+   */
+  value: string;
+
+  /**
+   * @generated from field: string icon = 5;
+   */
+  icon: string;
+
+  /**
+   * @generated from field: string color = 6;
+   */
+  color: string;
+
+  /**
+   * @generated from field: optional string action = 7;
+   */
+  action?: string;
+};
+
+/**
+ * Describes the message echo.v1.DashboardBlock.
+ * Use `create(DashboardBlockSchema)` to create a new message.
+ */
+export declare const DashboardBlockSchema: GenMessage<DashboardBlock>;
+
+/**
+ * @generated from message echo.v1.GetDashboardBlocksResponse
+ */
+export declare type GetDashboardBlocksResponse = Message<"echo.v1.GetDashboardBlocksResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.DashboardBlock blocks = 1;
+   */
+  blocks: DashboardBlock[];
+};
+
+/**
+ * Describes the message echo.v1.GetDashboardBlocksResponse.
+ * Use `create(GetDashboardBlocksResponseSchema)` to create a new message.
+ */
+export declare const GetDashboardBlocksResponseSchema: GenMessage<GetDashboardBlocksResponse>;
+
+/**
  * @generated from enum echo.v1.WrappedPeriod
  */
 export enum WrappedPeriod {
@@ -312,6 +577,24 @@ export declare const InsightsService: GenService<{
     methodKind: "unary";
     input: typeof GetWrappedRequestSchema;
     output: typeof GetWrappedResponseSchema;
+  },
+  /**
+   * Spending Pulse - "What changed?" comparative insights
+   *
+   * @generated from rpc echo.v1.InsightsService.GetSpendingPulse
+   */
+  getSpendingPulse: {
+    methodKind: "unary";
+    input: typeof GetSpendingPulseRequestSchema;
+    output: typeof GetSpendingPulseResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.InsightsService.GetDashboardBlocks
+   */
+  getDashboardBlocks: {
+    methodKind: "unary";
+    input: typeof GetDashboardBlocksRequestSchema;
+    output: typeof GetDashboardBlocksResponseSchema;
   },
 }>;
 

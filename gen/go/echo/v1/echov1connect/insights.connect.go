@@ -39,12 +39,21 @@ const (
 	// InsightsServiceGetWrappedProcedure is the fully-qualified name of the InsightsService's
 	// GetWrapped RPC.
 	InsightsServiceGetWrappedProcedure = "/echo.v1.InsightsService/GetWrapped"
+	// InsightsServiceGetSpendingPulseProcedure is the fully-qualified name of the InsightsService's
+	// GetSpendingPulse RPC.
+	InsightsServiceGetSpendingPulseProcedure = "/echo.v1.InsightsService/GetSpendingPulse"
+	// InsightsServiceGetDashboardBlocksProcedure is the fully-qualified name of the InsightsService's
+	// GetDashboardBlocks RPC.
+	InsightsServiceGetDashboardBlocksProcedure = "/echo.v1.InsightsService/GetDashboardBlocks"
 )
 
 // InsightsServiceClient is a client for the echo.v1.InsightsService service.
 type InsightsServiceClient interface {
 	GetMonthlyInsights(context.Context, *connect.Request[v1.GetMonthlyInsightsRequest]) (*connect.Response[v1.GetMonthlyInsightsResponse], error)
 	GetWrapped(context.Context, *connect.Request[v1.GetWrappedRequest]) (*connect.Response[v1.GetWrappedResponse], error)
+	// Spending Pulse - "What changed?" comparative insights
+	GetSpendingPulse(context.Context, *connect.Request[v1.GetSpendingPulseRequest]) (*connect.Response[v1.GetSpendingPulseResponse], error)
+	GetDashboardBlocks(context.Context, *connect.Request[v1.GetDashboardBlocksRequest]) (*connect.Response[v1.GetDashboardBlocksResponse], error)
 }
 
 // NewInsightsServiceClient constructs a client for the echo.v1.InsightsService service. By default,
@@ -70,6 +79,18 @@ func NewInsightsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(insightsServiceMethods.ByName("GetWrapped")),
 			connect.WithClientOptions(opts...),
 		),
+		getSpendingPulse: connect.NewClient[v1.GetSpendingPulseRequest, v1.GetSpendingPulseResponse](
+			httpClient,
+			baseURL+InsightsServiceGetSpendingPulseProcedure,
+			connect.WithSchema(insightsServiceMethods.ByName("GetSpendingPulse")),
+			connect.WithClientOptions(opts...),
+		),
+		getDashboardBlocks: connect.NewClient[v1.GetDashboardBlocksRequest, v1.GetDashboardBlocksResponse](
+			httpClient,
+			baseURL+InsightsServiceGetDashboardBlocksProcedure,
+			connect.WithSchema(insightsServiceMethods.ByName("GetDashboardBlocks")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -77,6 +98,8 @@ func NewInsightsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 type insightsServiceClient struct {
 	getMonthlyInsights *connect.Client[v1.GetMonthlyInsightsRequest, v1.GetMonthlyInsightsResponse]
 	getWrapped         *connect.Client[v1.GetWrappedRequest, v1.GetWrappedResponse]
+	getSpendingPulse   *connect.Client[v1.GetSpendingPulseRequest, v1.GetSpendingPulseResponse]
+	getDashboardBlocks *connect.Client[v1.GetDashboardBlocksRequest, v1.GetDashboardBlocksResponse]
 }
 
 // GetMonthlyInsights calls echo.v1.InsightsService.GetMonthlyInsights.
@@ -89,10 +112,23 @@ func (c *insightsServiceClient) GetWrapped(ctx context.Context, req *connect.Req
 	return c.getWrapped.CallUnary(ctx, req)
 }
 
+// GetSpendingPulse calls echo.v1.InsightsService.GetSpendingPulse.
+func (c *insightsServiceClient) GetSpendingPulse(ctx context.Context, req *connect.Request[v1.GetSpendingPulseRequest]) (*connect.Response[v1.GetSpendingPulseResponse], error) {
+	return c.getSpendingPulse.CallUnary(ctx, req)
+}
+
+// GetDashboardBlocks calls echo.v1.InsightsService.GetDashboardBlocks.
+func (c *insightsServiceClient) GetDashboardBlocks(ctx context.Context, req *connect.Request[v1.GetDashboardBlocksRequest]) (*connect.Response[v1.GetDashboardBlocksResponse], error) {
+	return c.getDashboardBlocks.CallUnary(ctx, req)
+}
+
 // InsightsServiceHandler is an implementation of the echo.v1.InsightsService service.
 type InsightsServiceHandler interface {
 	GetMonthlyInsights(context.Context, *connect.Request[v1.GetMonthlyInsightsRequest]) (*connect.Response[v1.GetMonthlyInsightsResponse], error)
 	GetWrapped(context.Context, *connect.Request[v1.GetWrappedRequest]) (*connect.Response[v1.GetWrappedResponse], error)
+	// Spending Pulse - "What changed?" comparative insights
+	GetSpendingPulse(context.Context, *connect.Request[v1.GetSpendingPulseRequest]) (*connect.Response[v1.GetSpendingPulseResponse], error)
+	GetDashboardBlocks(context.Context, *connect.Request[v1.GetDashboardBlocksRequest]) (*connect.Response[v1.GetDashboardBlocksResponse], error)
 }
 
 // NewInsightsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -114,12 +150,28 @@ func NewInsightsServiceHandler(svc InsightsServiceHandler, opts ...connect.Handl
 		connect.WithSchema(insightsServiceMethods.ByName("GetWrapped")),
 		connect.WithHandlerOptions(opts...),
 	)
+	insightsServiceGetSpendingPulseHandler := connect.NewUnaryHandler(
+		InsightsServiceGetSpendingPulseProcedure,
+		svc.GetSpendingPulse,
+		connect.WithSchema(insightsServiceMethods.ByName("GetSpendingPulse")),
+		connect.WithHandlerOptions(opts...),
+	)
+	insightsServiceGetDashboardBlocksHandler := connect.NewUnaryHandler(
+		InsightsServiceGetDashboardBlocksProcedure,
+		svc.GetDashboardBlocks,
+		connect.WithSchema(insightsServiceMethods.ByName("GetDashboardBlocks")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.InsightsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case InsightsServiceGetMonthlyInsightsProcedure:
 			insightsServiceGetMonthlyInsightsHandler.ServeHTTP(w, r)
 		case InsightsServiceGetWrappedProcedure:
 			insightsServiceGetWrappedHandler.ServeHTTP(w, r)
+		case InsightsServiceGetSpendingPulseProcedure:
+			insightsServiceGetSpendingPulseHandler.ServeHTTP(w, r)
+		case InsightsServiceGetDashboardBlocksProcedure:
+			insightsServiceGetDashboardBlocksHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -135,4 +187,12 @@ func (UnimplementedInsightsServiceHandler) GetMonthlyInsights(context.Context, *
 
 func (UnimplementedInsightsServiceHandler) GetWrapped(context.Context, *connect.Request[v1.GetWrappedRequest]) (*connect.Response[v1.GetWrappedResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetWrapped is not implemented"))
+}
+
+func (UnimplementedInsightsServiceHandler) GetSpendingPulse(context.Context, *connect.Request[v1.GetSpendingPulseRequest]) (*connect.Response[v1.GetSpendingPulseResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetSpendingPulse is not implemented"))
+}
+
+func (UnimplementedInsightsServiceHandler) GetDashboardBlocks(context.Context, *connect.Request[v1.GetDashboardBlocksRequest]) (*connect.Response[v1.GetDashboardBlocksResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetDashboardBlocks is not implemented"))
 }

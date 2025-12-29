@@ -10,6 +10,10 @@ import "echo/v1/common.proto";
 service InsightsService {
   rpc GetMonthlyInsights(GetMonthlyInsightsRequest) returns (GetMonthlyInsightsResponse);
   rpc GetWrapped(GetWrappedRequest) returns (GetWrappedResponse);
+
+  // Spending Pulse - "What changed?" comparative insights
+  rpc GetSpendingPulse(GetSpendingPulseRequest) returns (GetSpendingPulseResponse);
+  rpc GetDashboardBlocks(GetDashboardBlocksRequest) returns (GetDashboardBlocksResponse);
 }
 
 message CategorySpend {
@@ -83,3 +87,63 @@ message GetWrappedRequest {
 message GetWrappedResponse {
   WrappedSummary wrapped = 1 [(buf.validate.field).required = true];
 }
+
+// Spending Pulse messages
+message GetSpendingPulseRequest {
+  optional google.protobuf.Timestamp as_of = 1; // Default: now
+}
+
+message SpendingPulse {
+  Money current_month_spend = 1;
+  Money last_month_spend = 2;
+  Money spend_delta = 3; // current - last
+  double pace_percent = 4; // 100 = on track, >100 = ahead
+  bool is_over_pace = 5;
+  string pace_message = 6; // "Spending ahead", "Under budget", etc.
+
+  int32 day_of_month = 10;
+  int32 transaction_count = 11;
+  google.protobuf.Timestamp as_of_date = 12;
+
+  repeated TopCategorySpend top_categories = 20;
+  repeated SurpriseExpense surprise_expenses = 21;
+}
+
+message TopCategorySpend {
+  optional string category_id = 1 [(buf.validate.field).string = { uuid: true }];
+  string category_name = 2;
+  Money amount = 3;
+  int32 transaction_count = 4;
+}
+
+message SurpriseExpense {
+  string transaction_id = 1 [(buf.validate.field).string = { uuid: true }];
+  string description = 2;
+  string merchant_name = 3;
+  Money amount = 4;
+  google.protobuf.Timestamp posted_at = 5;
+  optional string category_name = 6;
+}
+
+message GetSpendingPulseResponse {
+  SpendingPulse pulse = 1;
+  bool should_notify = 2; // True if pace notification should fire
+}
+
+// Dashboard Blocks (Bento Grid)
+message GetDashboardBlocksRequest {}
+
+message DashboardBlock {
+  string type = 1; // "status", "hook", "cta"
+  string title = 2;
+  string subtitle = 3;
+  string value = 4;
+  string icon = 5;
+  string color = 6;
+  optional string action = 7;
+}
+
+message GetDashboardBlocksResponse {
+  repeated DashboardBlock blocks = 1 [(buf.validate.field).repeated = { max_items: 10 }];
+}
+

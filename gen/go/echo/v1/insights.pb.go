@@ -645,6 +645,552 @@ func (x *GetWrappedResponse) GetWrapped() *WrappedSummary {
 	return nil
 }
 
+// Spending Pulse messages
+type GetSpendingPulseRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	AsOf          *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=as_of,json=asOf,proto3,oneof" json:"as_of,omitempty"` // Default: now
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSpendingPulseRequest) Reset() {
+	*x = GetSpendingPulseRequest{}
+	mi := &file_echo_v1_insights_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSpendingPulseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSpendingPulseRequest) ProtoMessage() {}
+
+func (x *GetSpendingPulseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSpendingPulseRequest.ProtoReflect.Descriptor instead.
+func (*GetSpendingPulseRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *GetSpendingPulseRequest) GetAsOf() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AsOf
+	}
+	return nil
+}
+
+type SpendingPulse struct {
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	CurrentMonthSpend *Money                 `protobuf:"bytes,1,opt,name=current_month_spend,json=currentMonthSpend,proto3" json:"current_month_spend,omitempty"`
+	LastMonthSpend    *Money                 `protobuf:"bytes,2,opt,name=last_month_spend,json=lastMonthSpend,proto3" json:"last_month_spend,omitempty"`
+	SpendDelta        *Money                 `protobuf:"bytes,3,opt,name=spend_delta,json=spendDelta,proto3" json:"spend_delta,omitempty"`      // current - last
+	PacePercent       float64                `protobuf:"fixed64,4,opt,name=pace_percent,json=pacePercent,proto3" json:"pace_percent,omitempty"` // 100 = on track, >100 = ahead
+	IsOverPace        bool                   `protobuf:"varint,5,opt,name=is_over_pace,json=isOverPace,proto3" json:"is_over_pace,omitempty"`
+	PaceMessage       string                 `protobuf:"bytes,6,opt,name=pace_message,json=paceMessage,proto3" json:"pace_message,omitempty"` // "Spending ahead", "Under budget", etc.
+	DayOfMonth        int32                  `protobuf:"varint,10,opt,name=day_of_month,json=dayOfMonth,proto3" json:"day_of_month,omitempty"`
+	TransactionCount  int32                  `protobuf:"varint,11,opt,name=transaction_count,json=transactionCount,proto3" json:"transaction_count,omitempty"`
+	AsOfDate          *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=as_of_date,json=asOfDate,proto3" json:"as_of_date,omitempty"`
+	TopCategories     []*TopCategorySpend    `protobuf:"bytes,20,rep,name=top_categories,json=topCategories,proto3" json:"top_categories,omitempty"`
+	SurpriseExpenses  []*SurpriseExpense     `protobuf:"bytes,21,rep,name=surprise_expenses,json=surpriseExpenses,proto3" json:"surprise_expenses,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *SpendingPulse) Reset() {
+	*x = SpendingPulse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SpendingPulse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SpendingPulse) ProtoMessage() {}
+
+func (x *SpendingPulse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SpendingPulse.ProtoReflect.Descriptor instead.
+func (*SpendingPulse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *SpendingPulse) GetCurrentMonthSpend() *Money {
+	if x != nil {
+		return x.CurrentMonthSpend
+	}
+	return nil
+}
+
+func (x *SpendingPulse) GetLastMonthSpend() *Money {
+	if x != nil {
+		return x.LastMonthSpend
+	}
+	return nil
+}
+
+func (x *SpendingPulse) GetSpendDelta() *Money {
+	if x != nil {
+		return x.SpendDelta
+	}
+	return nil
+}
+
+func (x *SpendingPulse) GetPacePercent() float64 {
+	if x != nil {
+		return x.PacePercent
+	}
+	return 0
+}
+
+func (x *SpendingPulse) GetIsOverPace() bool {
+	if x != nil {
+		return x.IsOverPace
+	}
+	return false
+}
+
+func (x *SpendingPulse) GetPaceMessage() string {
+	if x != nil {
+		return x.PaceMessage
+	}
+	return ""
+}
+
+func (x *SpendingPulse) GetDayOfMonth() int32 {
+	if x != nil {
+		return x.DayOfMonth
+	}
+	return 0
+}
+
+func (x *SpendingPulse) GetTransactionCount() int32 {
+	if x != nil {
+		return x.TransactionCount
+	}
+	return 0
+}
+
+func (x *SpendingPulse) GetAsOfDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.AsOfDate
+	}
+	return nil
+}
+
+func (x *SpendingPulse) GetTopCategories() []*TopCategorySpend {
+	if x != nil {
+		return x.TopCategories
+	}
+	return nil
+}
+
+func (x *SpendingPulse) GetSurpriseExpenses() []*SurpriseExpense {
+	if x != nil {
+		return x.SurpriseExpenses
+	}
+	return nil
+}
+
+type TopCategorySpend struct {
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	CategoryId       *string                `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	CategoryName     string                 `protobuf:"bytes,2,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	Amount           *Money                 `protobuf:"bytes,3,opt,name=amount,proto3" json:"amount,omitempty"`
+	TransactionCount int32                  `protobuf:"varint,4,opt,name=transaction_count,json=transactionCount,proto3" json:"transaction_count,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *TopCategorySpend) Reset() {
+	*x = TopCategorySpend{}
+	mi := &file_echo_v1_insights_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TopCategorySpend) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TopCategorySpend) ProtoMessage() {}
+
+func (x *TopCategorySpend) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TopCategorySpend.ProtoReflect.Descriptor instead.
+func (*TopCategorySpend) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *TopCategorySpend) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *TopCategorySpend) GetCategoryName() string {
+	if x != nil {
+		return x.CategoryName
+	}
+	return ""
+}
+
+func (x *TopCategorySpend) GetAmount() *Money {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+func (x *TopCategorySpend) GetTransactionCount() int32 {
+	if x != nil {
+		return x.TransactionCount
+	}
+	return 0
+}
+
+type SurpriseExpense struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TransactionId string                 `protobuf:"bytes,1,opt,name=transaction_id,json=transactionId,proto3" json:"transaction_id,omitempty"`
+	Description   string                 `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+	MerchantName  string                 `protobuf:"bytes,3,opt,name=merchant_name,json=merchantName,proto3" json:"merchant_name,omitempty"`
+	Amount        *Money                 `protobuf:"bytes,4,opt,name=amount,proto3" json:"amount,omitempty"`
+	PostedAt      *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=posted_at,json=postedAt,proto3" json:"posted_at,omitempty"`
+	CategoryName  *string                `protobuf:"bytes,6,opt,name=category_name,json=categoryName,proto3,oneof" json:"category_name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SurpriseExpense) Reset() {
+	*x = SurpriseExpense{}
+	mi := &file_echo_v1_insights_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SurpriseExpense) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SurpriseExpense) ProtoMessage() {}
+
+func (x *SurpriseExpense) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SurpriseExpense.ProtoReflect.Descriptor instead.
+func (*SurpriseExpense) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *SurpriseExpense) GetTransactionId() string {
+	if x != nil {
+		return x.TransactionId
+	}
+	return ""
+}
+
+func (x *SurpriseExpense) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *SurpriseExpense) GetMerchantName() string {
+	if x != nil {
+		return x.MerchantName
+	}
+	return ""
+}
+
+func (x *SurpriseExpense) GetAmount() *Money {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+func (x *SurpriseExpense) GetPostedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.PostedAt
+	}
+	return nil
+}
+
+func (x *SurpriseExpense) GetCategoryName() string {
+	if x != nil && x.CategoryName != nil {
+		return *x.CategoryName
+	}
+	return ""
+}
+
+type GetSpendingPulseResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Pulse         *SpendingPulse         `protobuf:"bytes,1,opt,name=pulse,proto3" json:"pulse,omitempty"`
+	ShouldNotify  bool                   `protobuf:"varint,2,opt,name=should_notify,json=shouldNotify,proto3" json:"should_notify,omitempty"` // True if pace notification should fire
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSpendingPulseResponse) Reset() {
+	*x = GetSpendingPulseResponse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSpendingPulseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSpendingPulseResponse) ProtoMessage() {}
+
+func (x *GetSpendingPulseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSpendingPulseResponse.ProtoReflect.Descriptor instead.
+func (*GetSpendingPulseResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *GetSpendingPulseResponse) GetPulse() *SpendingPulse {
+	if x != nil {
+		return x.Pulse
+	}
+	return nil
+}
+
+func (x *GetSpendingPulseResponse) GetShouldNotify() bool {
+	if x != nil {
+		return x.ShouldNotify
+	}
+	return false
+}
+
+// Dashboard Blocks (Bento Grid)
+type GetDashboardBlocksRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDashboardBlocksRequest) Reset() {
+	*x = GetDashboardBlocksRequest{}
+	mi := &file_echo_v1_insights_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDashboardBlocksRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDashboardBlocksRequest) ProtoMessage() {}
+
+func (x *GetDashboardBlocksRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDashboardBlocksRequest.ProtoReflect.Descriptor instead.
+func (*GetDashboardBlocksRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{14}
+}
+
+type DashboardBlock struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          string                 `protobuf:"bytes,1,opt,name=type,proto3" json:"type,omitempty"` // "status", "hook", "cta"
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`
+	Subtitle      string                 `protobuf:"bytes,3,opt,name=subtitle,proto3" json:"subtitle,omitempty"`
+	Value         string                 `protobuf:"bytes,4,opt,name=value,proto3" json:"value,omitempty"`
+	Icon          string                 `protobuf:"bytes,5,opt,name=icon,proto3" json:"icon,omitempty"`
+	Color         string                 `protobuf:"bytes,6,opt,name=color,proto3" json:"color,omitempty"`
+	Action        *string                `protobuf:"bytes,7,opt,name=action,proto3,oneof" json:"action,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DashboardBlock) Reset() {
+	*x = DashboardBlock{}
+	mi := &file_echo_v1_insights_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DashboardBlock) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DashboardBlock) ProtoMessage() {}
+
+func (x *DashboardBlock) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DashboardBlock.ProtoReflect.Descriptor instead.
+func (*DashboardBlock) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DashboardBlock) GetType() string {
+	if x != nil {
+		return x.Type
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetSubtitle() string {
+	if x != nil {
+		return x.Subtitle
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetValue() string {
+	if x != nil {
+		return x.Value
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetColor() string {
+	if x != nil {
+		return x.Color
+	}
+	return ""
+}
+
+func (x *DashboardBlock) GetAction() string {
+	if x != nil && x.Action != nil {
+		return *x.Action
+	}
+	return ""
+}
+
+type GetDashboardBlocksResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Blocks        []*DashboardBlock      `protobuf:"bytes,1,rep,name=blocks,proto3" json:"blocks,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDashboardBlocksResponse) Reset() {
+	*x = GetDashboardBlocksResponse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[16]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDashboardBlocksResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDashboardBlocksResponse) ProtoMessage() {}
+
+func (x *GetDashboardBlocksResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[16]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDashboardBlocksResponse.ProtoReflect.Descriptor instead.
+func (*GetDashboardBlocksResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{16}
+}
+
+func (x *GetDashboardBlocksResponse) GetBlocks() []*DashboardBlock {
+	if x != nil {
+		return x.Blocks
+	}
+	return nil
+}
+
 var File_echo_v1_insights_proto protoreflect.FileDescriptor
 
 const file_echo_v1_insights_proto_rawDesc = "" +
@@ -703,15 +1249,68 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\n" +
 	"period_end\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tperiodEnd\"O\n" +
 	"\x12GetWrappedResponse\x129\n" +
-	"\awrapped\x18\x01 \x01(\v2\x17.echo.v1.WrappedSummaryB\x06\xbaH\x03\xc8\x01\x01R\awrapped*b\n" +
+	"\awrapped\x18\x01 \x01(\v2\x17.echo.v1.WrappedSummaryB\x06\xbaH\x03\xc8\x01\x01R\awrapped\"Y\n" +
+	"\x17GetSpendingPulseRequest\x124\n" +
+	"\x05as_of\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x04asOf\x88\x01\x01B\b\n" +
+	"\x06_as_of\"\xb4\x04\n" +
+	"\rSpendingPulse\x12>\n" +
+	"\x13current_month_spend\x18\x01 \x01(\v2\x0e.echo.v1.MoneyR\x11currentMonthSpend\x128\n" +
+	"\x10last_month_spend\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\x0elastMonthSpend\x12/\n" +
+	"\vspend_delta\x18\x03 \x01(\v2\x0e.echo.v1.MoneyR\n" +
+	"spendDelta\x12!\n" +
+	"\fpace_percent\x18\x04 \x01(\x01R\vpacePercent\x12 \n" +
+	"\fis_over_pace\x18\x05 \x01(\bR\n" +
+	"isOverPace\x12!\n" +
+	"\fpace_message\x18\x06 \x01(\tR\vpaceMessage\x12 \n" +
+	"\fday_of_month\x18\n" +
+	" \x01(\x05R\n" +
+	"dayOfMonth\x12+\n" +
+	"\x11transaction_count\x18\v \x01(\x05R\x10transactionCount\x128\n" +
+	"\n" +
+	"as_of_date\x18\f \x01(\v2\x1a.google.protobuf.TimestampR\basOfDate\x12@\n" +
+	"\x0etop_categories\x18\x14 \x03(\v2\x19.echo.v1.TopCategorySpendR\rtopCategories\x12E\n" +
+	"\x11surprise_expenses\x18\x15 \x03(\v2\x18.echo.v1.SurpriseExpenseR\x10surpriseExpenses\"\xcc\x01\n" +
+	"\x10TopCategorySpend\x12.\n" +
+	"\vcategory_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01H\x00R\n" +
+	"categoryId\x88\x01\x01\x12#\n" +
+	"\rcategory_name\x18\x02 \x01(\tR\fcategoryName\x12&\n" +
+	"\x06amount\x18\x03 \x01(\v2\x0e.echo.v1.MoneyR\x06amount\x12+\n" +
+	"\x11transaction_count\x18\x04 \x01(\x05R\x10transactionCountB\x0e\n" +
+	"\f_category_id\"\xa6\x02\n" +
+	"\x0fSurpriseExpense\x12/\n" +
+	"\x0etransaction_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\rtransactionId\x12 \n" +
+	"\vdescription\x18\x02 \x01(\tR\vdescription\x12#\n" +
+	"\rmerchant_name\x18\x03 \x01(\tR\fmerchantName\x12&\n" +
+	"\x06amount\x18\x04 \x01(\v2\x0e.echo.v1.MoneyR\x06amount\x127\n" +
+	"\tposted_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\bpostedAt\x12(\n" +
+	"\rcategory_name\x18\x06 \x01(\tH\x00R\fcategoryName\x88\x01\x01B\x10\n" +
+	"\x0e_category_name\"m\n" +
+	"\x18GetSpendingPulseResponse\x12,\n" +
+	"\x05pulse\x18\x01 \x01(\v2\x16.echo.v1.SpendingPulseR\x05pulse\x12#\n" +
+	"\rshould_notify\x18\x02 \x01(\bR\fshouldNotify\"\x1b\n" +
+	"\x19GetDashboardBlocksRequest\"\xbe\x01\n" +
+	"\x0eDashboardBlock\x12\x12\n" +
+	"\x04type\x18\x01 \x01(\tR\x04type\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12\x1a\n" +
+	"\bsubtitle\x18\x03 \x01(\tR\bsubtitle\x12\x14\n" +
+	"\x05value\x18\x04 \x01(\tR\x05value\x12\x12\n" +
+	"\x04icon\x18\x05 \x01(\tR\x04icon\x12\x14\n" +
+	"\x05color\x18\x06 \x01(\tR\x05color\x12\x1b\n" +
+	"\x06action\x18\a \x01(\tH\x00R\x06action\x88\x01\x01B\t\n" +
+	"\a_action\"W\n" +
+	"\x1aGetDashboardBlocksResponse\x129\n" +
+	"\x06blocks\x18\x01 \x03(\v2\x17.echo.v1.DashboardBlockB\b\xbaH\x05\x92\x01\x02\x10\n" +
+	"R\x06blocks*b\n" +
 	"\rWrappedPeriod\x12\x1e\n" +
 	"\x1aWRAPPED_PERIOD_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14WRAPPED_PERIOD_MONTH\x10\x01\x12\x17\n" +
-	"\x13WRAPPED_PERIOD_YEAR\x10\x022\xb7\x01\n" +
+	"\x13WRAPPED_PERIOD_YEAR\x10\x022\xef\x02\n" +
 	"\x0fInsightsService\x12]\n" +
 	"\x12GetMonthlyInsights\x12\".echo.v1.GetMonthlyInsightsRequest\x1a#.echo.v1.GetMonthlyInsightsResponse\x12E\n" +
 	"\n" +
-	"GetWrapped\x12\x1a.echo.v1.GetWrappedRequest\x1a\x1b.echo.v1.GetWrappedResponseB\xa4\x01\n" +
+	"GetWrapped\x12\x1a.echo.v1.GetWrappedRequest\x1a\x1b.echo.v1.GetWrappedResponse\x12W\n" +
+	"\x10GetSpendingPulse\x12 .echo.v1.GetSpendingPulseRequest\x1a!.echo.v1.GetSpendingPulseResponse\x12]\n" +
+	"\x12GetDashboardBlocks\x12\".echo.v1.GetDashboardBlocksRequest\x1a#.echo.v1.GetDashboardBlocksResponseB\xa4\x01\n" +
 	"\vcom.echo.v1B\rInsightsProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -727,7 +1326,7 @@ func file_echo_v1_insights_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_echo_v1_insights_proto_goTypes = []any{
 	(WrappedPeriod)(0),                 // 0: echo.v1.WrappedPeriod
 	(*CategorySpend)(nil),              // 1: echo.v1.CategorySpend
@@ -739,39 +1338,63 @@ var file_echo_v1_insights_proto_goTypes = []any{
 	(*WrappedSummary)(nil),             // 7: echo.v1.WrappedSummary
 	(*GetWrappedRequest)(nil),          // 8: echo.v1.GetWrappedRequest
 	(*GetWrappedResponse)(nil),         // 9: echo.v1.GetWrappedResponse
-	(*Money)(nil),                      // 10: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),      // 11: google.protobuf.Timestamp
+	(*GetSpendingPulseRequest)(nil),    // 10: echo.v1.GetSpendingPulseRequest
+	(*SpendingPulse)(nil),              // 11: echo.v1.SpendingPulse
+	(*TopCategorySpend)(nil),           // 12: echo.v1.TopCategorySpend
+	(*SurpriseExpense)(nil),            // 13: echo.v1.SurpriseExpense
+	(*GetSpendingPulseResponse)(nil),   // 14: echo.v1.GetSpendingPulseResponse
+	(*GetDashboardBlocksRequest)(nil),  // 15: echo.v1.GetDashboardBlocksRequest
+	(*DashboardBlock)(nil),             // 16: echo.v1.DashboardBlock
+	(*GetDashboardBlocksResponse)(nil), // 17: echo.v1.GetDashboardBlocksResponse
+	(*Money)(nil),                      // 18: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),      // 19: google.protobuf.Timestamp
 }
 var file_echo_v1_insights_proto_depIdxs = []int32{
-	10, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
-	10, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
-	11, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
-	10, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
-	10, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
-	10, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
+	18, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
+	18, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
+	19, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
+	18, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
+	18, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
+	18, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
 	1,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
 	2,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
-	11, // 8: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
-	11, // 9: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
+	19, // 8: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
+	19, // 9: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
 	3,  // 10: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
 	0,  // 11: echo.v1.WrappedSummary.period:type_name -> echo.v1.WrappedPeriod
-	11, // 12: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
-	11, // 13: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
+	19, // 12: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
+	19, // 13: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
 	6,  // 14: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
-	11, // 15: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
+	19, // 15: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 16: echo.v1.GetWrappedRequest.period:type_name -> echo.v1.WrappedPeriod
-	11, // 17: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
-	11, // 18: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
+	19, // 17: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
+	19, // 18: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
 	7,  // 19: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
-	4,  // 20: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
-	8,  // 21: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
-	5,  // 22: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
-	9,  // 23: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
-	22, // [22:24] is the sub-list for method output_type
-	20, // [20:22] is the sub-list for method input_type
-	20, // [20:20] is the sub-list for extension type_name
-	20, // [20:20] is the sub-list for extension extendee
-	0,  // [0:20] is the sub-list for field type_name
+	19, // 20: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
+	18, // 21: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
+	18, // 22: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
+	18, // 23: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
+	19, // 24: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
+	12, // 25: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
+	13, // 26: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
+	18, // 27: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
+	18, // 28: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
+	19, // 29: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
+	11, // 30: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
+	16, // 31: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
+	4,  // 32: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
+	8,  // 33: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
+	10, // 34: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
+	15, // 35: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
+	5,  // 36: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
+	9,  // 37: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
+	14, // 38: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
+	17, // 39: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
+	36, // [36:40] is the sub-list for method output_type
+	32, // [32:36] is the sub-list for method input_type
+	32, // [32:32] is the sub-list for extension type_name
+	32, // [32:32] is the sub-list for extension extendee
+	0,  // [0:32] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_insights_proto_init() }
@@ -780,13 +1403,17 @@ func file_echo_v1_insights_proto_init() {
 		return
 	}
 	file_echo_v1_common_proto_init()
+	file_echo_v1_insights_proto_msgTypes[9].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[11].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[12].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[15].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_insights_proto_rawDesc), len(file_echo_v1_insights_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   9,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

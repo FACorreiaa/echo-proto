@@ -732,11 +732,31 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.DashboardBlock"><span class="badge">M</span>DashboardBlock</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetDashboardBlocksRequest"><span class="badge">M</span>GetDashboardBlocksRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetDashboardBlocksResponse"><span class="badge">M</span>GetDashboardBlocksResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.GetMonthlyInsightsRequest"><span class="badge">M</span>GetMonthlyInsightsRequest</a>
                 </li>
               
                 <li>
                   <a href="#echo.v1.GetMonthlyInsightsResponse"><span class="badge">M</span>GetMonthlyInsightsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetSpendingPulseRequest"><span class="badge">M</span>GetSpendingPulseRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetSpendingPulseResponse"><span class="badge">M</span>GetSpendingPulseResponse</a>
                 </li>
               
                 <li>
@@ -753,6 +773,18 @@
               
                 <li>
                   <a href="#echo.v1.MonthlyInsights"><span class="badge">M</span>MonthlyInsights</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SpendingPulse"><span class="badge">M</span>SpendingPulse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SurpriseExpense"><span class="badge">M</span>SurpriseExpense</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.TopCategorySpend"><span class="badge">M</span>TopCategorySpend</a>
                 </li>
               
                 <li>
@@ -5643,6 +5675,103 @@
 
         
       
+        <h3 id="echo.v1.DashboardBlock">DashboardBlock</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>&#34;status&#34;, &#34;hook&#34;, &#34;cta&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>title</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>subtitle</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>icon</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>color</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>action</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetDashboardBlocksRequest">GetDashboardBlocksRequest</h3>
+        <p>Dashboard Blocks (Bento Grid)</p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.GetDashboardBlocksResponse">GetDashboardBlocksResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>blocks</td>
+                  <td><a href="#echo.v1.DashboardBlock">DashboardBlock</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.GetMonthlyInsightsRequest">GetMonthlyInsightsRequest</h3>
         <p></p>
 
@@ -5682,6 +5811,61 @@
                   <td><a href="#echo.v1.MonthlyInsights">MonthlyInsights</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetSpendingPulseRequest">GetSpendingPulseRequest</h3>
+        <p>Spending Pulse messages</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>as_of</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p>Default: now </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetSpendingPulseResponse">GetSpendingPulseResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>pulse</td>
+                  <td><a href="#echo.v1.SpendingPulse">SpendingPulse</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>should_notify</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>True if pace notification should fire </p></td>
                 </tr>
               
             </tbody>
@@ -5871,6 +6055,204 @@
 
         
       
+        <h3 id="echo.v1.SpendingPulse">SpendingPulse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>current_month_spend</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_month_spend</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>spend_delta</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p>current - last </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pace_percent</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>100 = on track, &gt;100 = ahead </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_over_pace</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pace_message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>&#34;Spending ahead&#34;, &#34;Under budget&#34;, etc. </p></td>
+                </tr>
+              
+                <tr>
+                  <td>day_of_month</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>transaction_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>as_of_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>top_categories</td>
+                  <td><a href="#echo.v1.TopCategorySpend">TopCategorySpend</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>surprise_expenses</td>
+                  <td><a href="#echo.v1.SurpriseExpense">SurpriseExpense</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.SurpriseExpense">SurpriseExpense</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>transaction_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>description</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>merchant_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>posted_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.TopCategorySpend">TopCategorySpend</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>category_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>transaction_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.WrappedCard">WrappedCard</h3>
         <p></p>
 
@@ -6036,6 +6418,20 @@
                 <td>GetWrapped</td>
                 <td><a href="#echo.v1.GetWrappedRequest">GetWrappedRequest</a></td>
                 <td><a href="#echo.v1.GetWrappedResponse">GetWrappedResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GetSpendingPulse</td>
+                <td><a href="#echo.v1.GetSpendingPulseRequest">GetSpendingPulseRequest</a></td>
+                <td><a href="#echo.v1.GetSpendingPulseResponse">GetSpendingPulseResponse</a></td>
+                <td><p>Spending Pulse - &#34;What changed?&#34; comparative insights</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetDashboardBlocks</td>
+                <td><a href="#echo.v1.GetDashboardBlocksRequest">GetDashboardBlocksRequest</a></td>
+                <td><a href="#echo.v1.GetDashboardBlocksResponse">GetDashboardBlocksResponse</a></td>
                 <td><p></p></td>
               </tr>
             
