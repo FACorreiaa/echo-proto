@@ -36,6 +36,9 @@ service PlanService {
 
   // AnalyzeExcelForPlan analyzes an Excel file to determine structure
   rpc AnalyzeExcelForPlan(AnalyzeExcelForPlanRequest) returns (AnalyzeExcelForPlanResponse);
+
+  // ComputePlanActuals syncs actual spending from transactions to plan items
+  rpc ComputePlanActuals(ComputePlanActualsRequest) returns (ComputePlanActualsResponse);
 }
 
 // Plan source types
@@ -296,4 +299,34 @@ message ExcelSheetAnalysis {
   int32 formula_count = 4;
   repeated string detected_categories = 5;
   repeated string month_columns = 6;  // e.g., ["jan-26", "feb-26"]
+}
+
+// ComputePlanActuals request - calculates actual spending from transactions
+message ComputePlanActualsRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  
+  // Period for which to compute actuals
+  google.protobuf.Timestamp start_date = 2;
+  google.protobuf.Timestamp end_date = 3;
+  
+  // If true, update the plan items with the computed actuals
+  bool persist = 4;
+}
+
+message ComputePlanActualsResponse {
+  // The plan with updated actual values
+  UserPlan plan = 1;
+  
+  // Summary of computation
+  int32 items_updated = 2;
+  int32 transactions_matched = 3;
+  
+  // Any items without matching transactions
+  repeated UnmatchedItem unmatched_items = 4;
+}
+
+message UnmatchedItem {
+  string item_id = 1;
+  string item_name = 2;
+  string reason = 3; // e.g., "no_category_mapping", "no_transactions"
 }

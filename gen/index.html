@@ -1060,6 +1060,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.ComputePlanActualsRequest"><span class="badge">M</span>ComputePlanActualsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ComputePlanActualsResponse"><span class="badge">M</span>ComputePlanActualsResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.CreateCategoryGroupInput"><span class="badge">M</span>CreateCategoryGroupInput</a>
                 </li>
               
@@ -1177,6 +1185,10 @@
               
                 <li>
                   <a href="#echo.v1.SetActivePlanResponse"><span class="badge">M</span>SetActivePlanResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UnmatchedItem"><span class="badge">M</span>UnmatchedItem</a>
                 </li>
               
                 <li>
@@ -8844,6 +8856,96 @@
 
         
       
+        <h3 id="echo.v1.ComputePlanActualsRequest">ComputePlanActualsRequest</h3>
+        <p>ComputePlanActuals request - calculates actual spending from transactions</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>start_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>Period for which to compute actuals </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>persist</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>If true, update the plan items with the computed actuals </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ComputePlanActualsResponse">ComputePlanActualsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan</td>
+                  <td><a href="#echo.v1.UserPlan">UserPlan</a></td>
+                  <td></td>
+                  <td><p>The plan with updated actual values </p></td>
+                </tr>
+              
+                <tr>
+                  <td>items_updated</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Summary of computation </p></td>
+                </tr>
+              
+                <tr>
+                  <td>transactions_matched</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>unmatched_items</td>
+                  <td><a href="#echo.v1.UnmatchedItem">UnmatchedItem</a></td>
+                  <td>repeated</td>
+                  <td><p>Any items without matching transactions </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.CreateCategoryGroupInput">CreateCategoryGroupInput</h3>
         <p></p>
 
@@ -10002,6 +10104,44 @@
 
         
       
+        <h3 id="echo.v1.UnmatchedItem">UnmatchedItem</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>item_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>reason</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>e.g., &#34;no_category_mapping&#34;, &#34;no_transactions&#34; </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.UpdateItemInput">UpdateItemInput</h3>
         <p></p>
 
@@ -10444,6 +10584,13 @@
                 <td><a href="#echo.v1.AnalyzeExcelForPlanRequest">AnalyzeExcelForPlanRequest</a></td>
                 <td><a href="#echo.v1.AnalyzeExcelForPlanResponse">AnalyzeExcelForPlanResponse</a></td>
                 <td><p>AnalyzeExcelForPlan analyzes an Excel file to determine structure</p></td>
+              </tr>
+            
+              <tr>
+                <td>ComputePlanActuals</td>
+                <td><a href="#echo.v1.ComputePlanActualsRequest">ComputePlanActualsRequest</a></td>
+                <td><a href="#echo.v1.ComputePlanActualsResponse">ComputePlanActualsResponse</a></td>
+                <td><p>ComputePlanActuals syncs actual spending from transactions to plan items</p></td>
               </tr>
             
           </tbody>

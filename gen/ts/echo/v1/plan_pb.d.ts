@@ -905,6 +905,108 @@ export declare type ExcelSheetAnalysis = Message<"echo.v1.ExcelSheetAnalysis"> &
 export declare const ExcelSheetAnalysisSchema: GenMessage<ExcelSheetAnalysis>;
 
 /**
+ * ComputePlanActuals request - calculates actual spending from transactions
+ *
+ * @generated from message echo.v1.ComputePlanActualsRequest
+ */
+export declare type ComputePlanActualsRequest = Message<"echo.v1.ComputePlanActualsRequest"> & {
+  /**
+   * @generated from field: string plan_id = 1;
+   */
+  planId: string;
+
+  /**
+   * Period for which to compute actuals
+   *
+   * @generated from field: google.protobuf.Timestamp start_date = 2;
+   */
+  startDate?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp end_date = 3;
+   */
+  endDate?: Timestamp;
+
+  /**
+   * If true, update the plan items with the computed actuals
+   *
+   * @generated from field: bool persist = 4;
+   */
+  persist: boolean;
+};
+
+/**
+ * Describes the message echo.v1.ComputePlanActualsRequest.
+ * Use `create(ComputePlanActualsRequestSchema)` to create a new message.
+ */
+export declare const ComputePlanActualsRequestSchema: GenMessage<ComputePlanActualsRequest>;
+
+/**
+ * @generated from message echo.v1.ComputePlanActualsResponse
+ */
+export declare type ComputePlanActualsResponse = Message<"echo.v1.ComputePlanActualsResponse"> & {
+  /**
+   * The plan with updated actual values
+   *
+   * @generated from field: echo.v1.UserPlan plan = 1;
+   */
+  plan?: UserPlan;
+
+  /**
+   * Summary of computation
+   *
+   * @generated from field: int32 items_updated = 2;
+   */
+  itemsUpdated: number;
+
+  /**
+   * @generated from field: int32 transactions_matched = 3;
+   */
+  transactionsMatched: number;
+
+  /**
+   * Any items without matching transactions
+   *
+   * @generated from field: repeated echo.v1.UnmatchedItem unmatched_items = 4;
+   */
+  unmatchedItems: UnmatchedItem[];
+};
+
+/**
+ * Describes the message echo.v1.ComputePlanActualsResponse.
+ * Use `create(ComputePlanActualsResponseSchema)` to create a new message.
+ */
+export declare const ComputePlanActualsResponseSchema: GenMessage<ComputePlanActualsResponse>;
+
+/**
+ * @generated from message echo.v1.UnmatchedItem
+ */
+export declare type UnmatchedItem = Message<"echo.v1.UnmatchedItem"> & {
+  /**
+   * @generated from field: string item_id = 1;
+   */
+  itemId: string;
+
+  /**
+   * @generated from field: string item_name = 2;
+   */
+  itemName: string;
+
+  /**
+   * e.g., "no_category_mapping", "no_transactions"
+   *
+   * @generated from field: string reason = 3;
+   */
+  reason: string;
+};
+
+/**
+ * Describes the message echo.v1.UnmatchedItem.
+ * Use `create(UnmatchedItemSchema)` to create a new message.
+ */
+export declare const UnmatchedItemSchema: GenMessage<UnmatchedItem>;
+
+/**
  * Plan source types
  *
  * @generated from enum echo.v1.PlanSourceType
@@ -1137,6 +1239,16 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof AnalyzeExcelForPlanRequestSchema;
     output: typeof AnalyzeExcelForPlanResponseSchema;
+  },
+  /**
+   * ComputePlanActuals syncs actual spending from transactions to plan items
+   *
+   * @generated from rpc echo.v1.PlanService.ComputePlanActuals
+   */
+  computePlanActuals: {
+    methodKind: "unary";
+    input: typeof ComputePlanActualsRequestSchema;
+    output: typeof ComputePlanActualsResponseSchema;
   },
 }>;
 

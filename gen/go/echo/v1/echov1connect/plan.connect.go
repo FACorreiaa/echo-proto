@@ -55,6 +55,9 @@ const (
 	// PlanServiceAnalyzeExcelForPlanProcedure is the fully-qualified name of the PlanService's
 	// AnalyzeExcelForPlan RPC.
 	PlanServiceAnalyzeExcelForPlanProcedure = "/echo.v1.PlanService/AnalyzeExcelForPlan"
+	// PlanServiceComputePlanActualsProcedure is the fully-qualified name of the PlanService's
+	// ComputePlanActuals RPC.
+	PlanServiceComputePlanActualsProcedure = "/echo.v1.PlanService/ComputePlanActuals"
 )
 
 // PlanServiceClient is a client for the echo.v1.PlanService service.
@@ -77,6 +80,8 @@ type PlanServiceClient interface {
 	ImportPlanFromExcel(context.Context, *connect.Request[v1.ImportPlanFromExcelRequest]) (*connect.Response[v1.ImportPlanFromExcelResponse], error)
 	// AnalyzeExcelForPlan analyzes an Excel file to determine structure
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
+	// ComputePlanActuals syncs actual spending from transactions to plan items
+	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
 }
 
 // NewPlanServiceClient constructs a client for the echo.v1.PlanService service. By default, it uses
@@ -144,6 +149,12 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelForPlan")),
 			connect.WithClientOptions(opts...),
 		),
+		computePlanActuals: connect.NewClient[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse](
+			httpClient,
+			baseURL+PlanServiceComputePlanActualsProcedure,
+			connect.WithSchema(planServiceMethods.ByName("ComputePlanActuals")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -158,6 +169,7 @@ type planServiceClient struct {
 	duplicatePlan       *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
 	importPlanFromExcel *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
 	analyzeExcelForPlan *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
+	computePlanActuals  *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
 }
 
 // CreatePlan calls echo.v1.PlanService.CreatePlan.
@@ -205,6 +217,11 @@ func (c *planServiceClient) AnalyzeExcelForPlan(ctx context.Context, req *connec
 	return c.analyzeExcelForPlan.CallUnary(ctx, req)
 }
 
+// ComputePlanActuals calls echo.v1.PlanService.ComputePlanActuals.
+func (c *planServiceClient) ComputePlanActuals(ctx context.Context, req *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error) {
+	return c.computePlanActuals.CallUnary(ctx, req)
+}
+
 // PlanServiceHandler is an implementation of the echo.v1.PlanService service.
 type PlanServiceHandler interface {
 	// CreatePlan creates a new financial plan
@@ -225,6 +242,8 @@ type PlanServiceHandler interface {
 	ImportPlanFromExcel(context.Context, *connect.Request[v1.ImportPlanFromExcelRequest]) (*connect.Response[v1.ImportPlanFromExcelResponse], error)
 	// AnalyzeExcelForPlan analyzes an Excel file to determine structure
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
+	// ComputePlanActuals syncs actual spending from transactions to plan items
+	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
 }
 
 // NewPlanServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -288,6 +307,12 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelForPlan")),
 		connect.WithHandlerOptions(opts...),
 	)
+	planServiceComputePlanActualsHandler := connect.NewUnaryHandler(
+		PlanServiceComputePlanActualsProcedure,
+		svc.ComputePlanActuals,
+		connect.WithSchema(planServiceMethods.ByName("ComputePlanActuals")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.PlanService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PlanServiceCreatePlanProcedure:
@@ -308,6 +333,8 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceImportPlanFromExcelHandler.ServeHTTP(w, r)
 		case PlanServiceAnalyzeExcelForPlanProcedure:
 			planServiceAnalyzeExcelForPlanHandler.ServeHTTP(w, r)
+		case PlanServiceComputePlanActualsProcedure:
+			planServiceComputePlanActualsHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -351,4 +378,8 @@ func (UnimplementedPlanServiceHandler) ImportPlanFromExcel(context.Context, *con
 
 func (UnimplementedPlanServiceHandler) AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.AnalyzeExcelForPlan is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.ComputePlanActuals is not implemented"))
 }
