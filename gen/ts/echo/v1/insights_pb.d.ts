@@ -6,6 +6,7 @@ import type { GenEnum, GenFile, GenMessage, GenService } from "@bufbuild/protobu
 import type { Message } from "@bufbuild/protobuf";
 import type { Money } from "./common_pb";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
+import type { TransactionSource } from "./finance_pb";
 
 /**
  * Describes the file echo/v1/insights.proto.
@@ -698,6 +699,298 @@ export declare type DismissAlertResponse = Message<"echo.v1.DismissAlertResponse
 export declare const DismissAlertResponseSchema: GenMessage<DismissAlertResponse>;
 
 /**
+ * Get insights about a specific import job
+ *
+ * @generated from message echo.v1.GetImportInsightsRequest
+ */
+export declare type GetImportInsightsRequest = Message<"echo.v1.GetImportInsightsRequest"> & {
+  /**
+   * @generated from field: string import_job_id = 1;
+   */
+  importJobId: string;
+};
+
+/**
+ * Describes the message echo.v1.GetImportInsightsRequest.
+ * Use `create(GetImportInsightsRequestSchema)` to create a new message.
+ */
+export declare const GetImportInsightsRequestSchema: GenMessage<GetImportInsightsRequest>;
+
+/**
+ * @generated from message echo.v1.GetImportInsightsResponse
+ */
+export declare type GetImportInsightsResponse = Message<"echo.v1.GetImportInsightsResponse"> & {
+  /**
+   * @generated from field: echo.v1.ImportInsights insights = 1;
+   */
+  insights?: ImportInsights;
+};
+
+/**
+ * Describes the message echo.v1.GetImportInsightsResponse.
+ * Use `create(GetImportInsightsResponseSchema)` to create a new message.
+ */
+export declare const GetImportInsightsResponseSchema: GenMessage<GetImportInsightsResponse>;
+
+/**
+ * Quality metrics and issues for an import job
+ *
+ * @generated from message echo.v1.ImportInsights
+ */
+export declare type ImportInsights = Message<"echo.v1.ImportInsights"> & {
+  /**
+   * @generated from field: string import_job_id = 1;
+   */
+  importJobId: string;
+
+  /**
+   * @generated from field: string institution_name = 2;
+   */
+  institutionName: string;
+
+  /**
+   * Row counts
+   *
+   * @generated from field: int32 total_rows = 3;
+   */
+  totalRows: number;
+
+  /**
+   * @generated from field: int32 rows_imported = 4;
+   */
+  rowsImported: number;
+
+  /**
+   * @generated from field: int32 rows_failed = 5;
+   */
+  rowsFailed: number;
+
+  /**
+   * @generated from field: int32 duplicates_skipped = 6;
+   */
+  duplicatesSkipped: number;
+
+  /**
+   * Quality metrics (0.0 - 1.0)
+   *
+   * @generated from field: double categorization_rate = 10;
+   */
+  categorizationRate: number;
+
+  /**
+   * @generated from field: double date_quality_score = 11;
+   */
+  dateQualityScore: number;
+
+  /**
+   * @generated from field: double amount_quality_score = 12;
+   */
+  amountQualityScore: number;
+
+  /**
+   * Date range of imported data
+   *
+   * @generated from field: google.protobuf.Timestamp earliest_date = 15;
+   */
+  earliestDate?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp latest_date = 16;
+   */
+  latestDate?: Timestamp;
+
+  /**
+   * Money totals
+   *
+   * @generated from field: echo.v1.Money total_income = 20;
+   */
+  totalIncome?: Money;
+
+  /**
+   * @generated from field: echo.v1.Money total_expenses = 21;
+   */
+  totalExpenses?: Money;
+
+  /**
+   * Detected issues
+   *
+   * @generated from field: repeated echo.v1.ImportIssue issues = 25;
+   */
+  issues: ImportIssue[];
+};
+
+/**
+ * Describes the message echo.v1.ImportInsights.
+ * Use `create(ImportInsightsSchema)` to create a new message.
+ */
+export declare const ImportInsightsSchema: GenMessage<ImportInsights>;
+
+/**
+ * Issue detected during import
+ *
+ * @generated from message echo.v1.ImportIssue
+ */
+export declare type ImportIssue = Message<"echo.v1.ImportIssue"> & {
+  /**
+   * @generated from field: echo.v1.ImportIssueType type = 1;
+   */
+  type: ImportIssueType;
+
+  /**
+   * @generated from field: int32 affected_rows = 2;
+   */
+  affectedRows: number;
+
+  /**
+   * @generated from field: string sample_value = 3;
+   */
+  sampleValue: string;
+
+  /**
+   * @generated from field: string suggestion = 4;
+   */
+  suggestion: string;
+};
+
+/**
+ * Describes the message echo.v1.ImportIssue.
+ * Use `create(ImportIssueSchema)` to create a new message.
+ */
+export declare const ImportIssueSchema: GenMessage<ImportIssue>;
+
+/**
+ * Get health metrics for all connected data sources
+ *
+ * @generated from message echo.v1.GetDataSourceHealthRequest
+ */
+export declare type GetDataSourceHealthRequest = Message<"echo.v1.GetDataSourceHealthRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.GetDataSourceHealthRequest.
+ * Use `create(GetDataSourceHealthRequestSchema)` to create a new message.
+ */
+export declare const GetDataSourceHealthRequestSchema: GenMessage<GetDataSourceHealthRequest>;
+
+/**
+ * @generated from message echo.v1.GetDataSourceHealthResponse
+ */
+export declare type GetDataSourceHealthResponse = Message<"echo.v1.GetDataSourceHealthResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.DataSourceHealth sources = 1;
+   */
+  sources: DataSourceHealth[];
+
+  /**
+   * @generated from field: int32 total_transaction_count = 2;
+   */
+  totalTransactionCount: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp oldest_transaction = 3;
+   */
+  oldestTransaction?: Timestamp;
+};
+
+/**
+ * Describes the message echo.v1.GetDataSourceHealthResponse.
+ * Use `create(GetDataSourceHealthResponseSchema)` to create a new message.
+ */
+export declare const GetDataSourceHealthResponseSchema: GenMessage<GetDataSourceHealthResponse>;
+
+/**
+ * Health metrics for a single data source
+ *
+ * @generated from message echo.v1.DataSourceHealth
+ */
+export declare type DataSourceHealth = Message<"echo.v1.DataSourceHealth"> & {
+  /**
+   * @generated from field: string institution_name = 1;
+   */
+  institutionName: string;
+
+  /**
+   * @generated from field: echo.v1.TransactionSource source_type = 2;
+   */
+  sourceType: TransactionSource;
+
+  /**
+   * Transaction metrics
+   *
+   * @generated from field: int32 transaction_count = 3;
+   */
+  transactionCount: number;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp first_transaction = 4;
+   */
+  firstTransaction?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp last_transaction = 5;
+   */
+  lastTransaction?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp last_import = 6;
+   */
+  lastImport?: Timestamp;
+
+  /**
+   * Quality metrics
+   *
+   * @generated from field: double categorization_rate = 10;
+   */
+  categorizationRate: number;
+
+  /**
+   * @generated from field: int32 uncategorized_count = 11;
+   */
+  uncategorizedCount: number;
+
+  /**
+   * Coverage gaps (date ranges with no data)
+   *
+   * @generated from field: repeated echo.v1.DateGap gaps = 15;
+   */
+  gaps: DateGap[];
+};
+
+/**
+ * Describes the message echo.v1.DataSourceHealth.
+ * Use `create(DataSourceHealthSchema)` to create a new message.
+ */
+export declare const DataSourceHealthSchema: GenMessage<DataSourceHealth>;
+
+/**
+ * A gap in transaction data coverage
+ *
+ * @generated from message echo.v1.DateGap
+ */
+export declare type DateGap = Message<"echo.v1.DateGap"> & {
+  /**
+   * @generated from field: google.protobuf.Timestamp start = 1;
+   */
+  start?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp end = 2;
+   */
+  end?: Timestamp;
+
+  /**
+   * @generated from field: int32 gap_days = 3;
+   */
+  gapDays: number;
+};
+
+/**
+ * Describes the message echo.v1.DateGap.
+ * Use `create(DateGapSchema)` to create a new message.
+ */
+export declare const DateGapSchema: GenMessage<DateGap>;
+
+/**
  * @generated from enum echo.v1.WrappedPeriod
  */
 export enum WrappedPeriod {
@@ -792,6 +1085,53 @@ export enum AlertType {
 export declare const AlertTypeSchema: GenEnum<AlertType>;
 
 /**
+ * Types of import issues
+ *
+ * @generated from enum echo.v1.ImportIssueType
+ */
+export enum ImportIssueType {
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE = 1;
+   */
+  UNPARSEABLE_DATE = 1,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_INVALID_AMOUNT = 2;
+   */
+  INVALID_AMOUNT = 2,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION = 3;
+   */
+  MISSING_DESCRIPTION = 3,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_DUPLICATE_ROWS = 4;
+   */
+  DUPLICATE_ROWS = 4,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_UNCATEGORIZED = 5;
+   */
+  UNCATEGORIZED = 5,
+
+  /**
+   * @generated from enum value: IMPORT_ISSUE_TYPE_FUTURE_DATE = 6;
+   */
+  FUTURE_DATE = 6,
+}
+
+/**
+ * Describes the enum echo.v1.ImportIssueType.
+ */
+export declare const ImportIssueTypeSchema: GenEnum<ImportIssueType>;
+
+/**
  * @generated from service echo.v1.InsightsService
  */
 export declare const InsightsService: GenService<{
@@ -854,6 +1194,24 @@ export declare const InsightsService: GenService<{
     methodKind: "unary";
     input: typeof DismissAlertRequestSchema;
     output: typeof DismissAlertResponseSchema;
+  },
+  /**
+   * Import quality insights - bridge between Import and Insights services
+   *
+   * @generated from rpc echo.v1.InsightsService.GetImportInsights
+   */
+  getImportInsights: {
+    methodKind: "unary";
+    input: typeof GetImportInsightsRequestSchema;
+    output: typeof GetImportInsightsResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.InsightsService.GetDataSourceHealth
+   */
+  getDataSourceHealth: {
+    methodKind: "unary";
+    input: typeof GetDataSourceHealthRequestSchema;
+    output: typeof GetDataSourceHealthResponseSchema;
   },
 }>;
 

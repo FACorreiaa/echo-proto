@@ -54,6 +54,12 @@ const (
 	// InsightsServiceDismissAlertProcedure is the fully-qualified name of the InsightsService's
 	// DismissAlert RPC.
 	InsightsServiceDismissAlertProcedure = "/echo.v1.InsightsService/DismissAlert"
+	// InsightsServiceGetImportInsightsProcedure is the fully-qualified name of the InsightsService's
+	// GetImportInsights RPC.
+	InsightsServiceGetImportInsightsProcedure = "/echo.v1.InsightsService/GetImportInsights"
+	// InsightsServiceGetDataSourceHealthProcedure is the fully-qualified name of the InsightsService's
+	// GetDataSourceHealth RPC.
+	InsightsServiceGetDataSourceHealthProcedure = "/echo.v1.InsightsService/GetDataSourceHealth"
 )
 
 // InsightsServiceClient is a client for the echo.v1.InsightsService service.
@@ -67,6 +73,9 @@ type InsightsServiceClient interface {
 	ListAlerts(context.Context, *connect.Request[v1.ListAlertsRequest]) (*connect.Response[v1.ListAlertsResponse], error)
 	MarkAlertRead(context.Context, *connect.Request[v1.MarkAlertReadRequest]) (*connect.Response[v1.MarkAlertReadResponse], error)
 	DismissAlert(context.Context, *connect.Request[v1.DismissAlertRequest]) (*connect.Response[v1.DismissAlertResponse], error)
+	// Import quality insights - bridge between Import and Insights services
+	GetImportInsights(context.Context, *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error)
+	GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error)
 }
 
 // NewInsightsServiceClient constructs a client for the echo.v1.InsightsService service. By default,
@@ -122,18 +131,32 @@ func NewInsightsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(insightsServiceMethods.ByName("DismissAlert")),
 			connect.WithClientOptions(opts...),
 		),
+		getImportInsights: connect.NewClient[v1.GetImportInsightsRequest, v1.GetImportInsightsResponse](
+			httpClient,
+			baseURL+InsightsServiceGetImportInsightsProcedure,
+			connect.WithSchema(insightsServiceMethods.ByName("GetImportInsights")),
+			connect.WithClientOptions(opts...),
+		),
+		getDataSourceHealth: connect.NewClient[v1.GetDataSourceHealthRequest, v1.GetDataSourceHealthResponse](
+			httpClient,
+			baseURL+InsightsServiceGetDataSourceHealthProcedure,
+			connect.WithSchema(insightsServiceMethods.ByName("GetDataSourceHealth")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // insightsServiceClient implements InsightsServiceClient.
 type insightsServiceClient struct {
-	getMonthlyInsights *connect.Client[v1.GetMonthlyInsightsRequest, v1.GetMonthlyInsightsResponse]
-	getWrapped         *connect.Client[v1.GetWrappedRequest, v1.GetWrappedResponse]
-	getSpendingPulse   *connect.Client[v1.GetSpendingPulseRequest, v1.GetSpendingPulseResponse]
-	getDashboardBlocks *connect.Client[v1.GetDashboardBlocksRequest, v1.GetDashboardBlocksResponse]
-	listAlerts         *connect.Client[v1.ListAlertsRequest, v1.ListAlertsResponse]
-	markAlertRead      *connect.Client[v1.MarkAlertReadRequest, v1.MarkAlertReadResponse]
-	dismissAlert       *connect.Client[v1.DismissAlertRequest, v1.DismissAlertResponse]
+	getMonthlyInsights  *connect.Client[v1.GetMonthlyInsightsRequest, v1.GetMonthlyInsightsResponse]
+	getWrapped          *connect.Client[v1.GetWrappedRequest, v1.GetWrappedResponse]
+	getSpendingPulse    *connect.Client[v1.GetSpendingPulseRequest, v1.GetSpendingPulseResponse]
+	getDashboardBlocks  *connect.Client[v1.GetDashboardBlocksRequest, v1.GetDashboardBlocksResponse]
+	listAlerts          *connect.Client[v1.ListAlertsRequest, v1.ListAlertsResponse]
+	markAlertRead       *connect.Client[v1.MarkAlertReadRequest, v1.MarkAlertReadResponse]
+	dismissAlert        *connect.Client[v1.DismissAlertRequest, v1.DismissAlertResponse]
+	getImportInsights   *connect.Client[v1.GetImportInsightsRequest, v1.GetImportInsightsResponse]
+	getDataSourceHealth *connect.Client[v1.GetDataSourceHealthRequest, v1.GetDataSourceHealthResponse]
 }
 
 // GetMonthlyInsights calls echo.v1.InsightsService.GetMonthlyInsights.
@@ -171,6 +194,16 @@ func (c *insightsServiceClient) DismissAlert(ctx context.Context, req *connect.R
 	return c.dismissAlert.CallUnary(ctx, req)
 }
 
+// GetImportInsights calls echo.v1.InsightsService.GetImportInsights.
+func (c *insightsServiceClient) GetImportInsights(ctx context.Context, req *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error) {
+	return c.getImportInsights.CallUnary(ctx, req)
+}
+
+// GetDataSourceHealth calls echo.v1.InsightsService.GetDataSourceHealth.
+func (c *insightsServiceClient) GetDataSourceHealth(ctx context.Context, req *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error) {
+	return c.getDataSourceHealth.CallUnary(ctx, req)
+}
+
 // InsightsServiceHandler is an implementation of the echo.v1.InsightsService service.
 type InsightsServiceHandler interface {
 	GetMonthlyInsights(context.Context, *connect.Request[v1.GetMonthlyInsightsRequest]) (*connect.Response[v1.GetMonthlyInsightsResponse], error)
@@ -182,6 +215,9 @@ type InsightsServiceHandler interface {
 	ListAlerts(context.Context, *connect.Request[v1.ListAlertsRequest]) (*connect.Response[v1.ListAlertsResponse], error)
 	MarkAlertRead(context.Context, *connect.Request[v1.MarkAlertReadRequest]) (*connect.Response[v1.MarkAlertReadResponse], error)
 	DismissAlert(context.Context, *connect.Request[v1.DismissAlertRequest]) (*connect.Response[v1.DismissAlertResponse], error)
+	// Import quality insights - bridge between Import and Insights services
+	GetImportInsights(context.Context, *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error)
+	GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error)
 }
 
 // NewInsightsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -233,6 +269,18 @@ func NewInsightsServiceHandler(svc InsightsServiceHandler, opts ...connect.Handl
 		connect.WithSchema(insightsServiceMethods.ByName("DismissAlert")),
 		connect.WithHandlerOptions(opts...),
 	)
+	insightsServiceGetImportInsightsHandler := connect.NewUnaryHandler(
+		InsightsServiceGetImportInsightsProcedure,
+		svc.GetImportInsights,
+		connect.WithSchema(insightsServiceMethods.ByName("GetImportInsights")),
+		connect.WithHandlerOptions(opts...),
+	)
+	insightsServiceGetDataSourceHealthHandler := connect.NewUnaryHandler(
+		InsightsServiceGetDataSourceHealthProcedure,
+		svc.GetDataSourceHealth,
+		connect.WithSchema(insightsServiceMethods.ByName("GetDataSourceHealth")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.InsightsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case InsightsServiceGetMonthlyInsightsProcedure:
@@ -249,6 +297,10 @@ func NewInsightsServiceHandler(svc InsightsServiceHandler, opts ...connect.Handl
 			insightsServiceMarkAlertReadHandler.ServeHTTP(w, r)
 		case InsightsServiceDismissAlertProcedure:
 			insightsServiceDismissAlertHandler.ServeHTTP(w, r)
+		case InsightsServiceGetImportInsightsProcedure:
+			insightsServiceGetImportInsightsHandler.ServeHTTP(w, r)
+		case InsightsServiceGetDataSourceHealthProcedure:
+			insightsServiceGetDataSourceHealthHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -284,4 +336,12 @@ func (UnimplementedInsightsServiceHandler) MarkAlertRead(context.Context, *conne
 
 func (UnimplementedInsightsServiceHandler) DismissAlert(context.Context, *connect.Request[v1.DismissAlertRequest]) (*connect.Response[v1.DismissAlertResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.DismissAlert is not implemented"))
+}
+
+func (UnimplementedInsightsServiceHandler) GetImportInsights(context.Context, *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetImportInsights is not implemented"))
+}
+
+func (UnimplementedInsightsServiceHandler) GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetDataSourceHealth is not implemented"))
 }

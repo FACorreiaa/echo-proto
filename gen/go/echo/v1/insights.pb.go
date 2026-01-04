@@ -181,6 +181,68 @@ func (AlertType) EnumDescriptor() ([]byte, []int) {
 	return file_echo_v1_insights_proto_rawDescGZIP(), []int{2}
 }
 
+// Types of import issues
+type ImportIssueType int32
+
+const (
+	ImportIssueType_IMPORT_ISSUE_TYPE_UNSPECIFIED         ImportIssueType = 0
+	ImportIssueType_IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE    ImportIssueType = 1
+	ImportIssueType_IMPORT_ISSUE_TYPE_INVALID_AMOUNT      ImportIssueType = 2
+	ImportIssueType_IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION ImportIssueType = 3
+	ImportIssueType_IMPORT_ISSUE_TYPE_DUPLICATE_ROWS      ImportIssueType = 4
+	ImportIssueType_IMPORT_ISSUE_TYPE_UNCATEGORIZED       ImportIssueType = 5
+	ImportIssueType_IMPORT_ISSUE_TYPE_FUTURE_DATE         ImportIssueType = 6
+)
+
+// Enum value maps for ImportIssueType.
+var (
+	ImportIssueType_name = map[int32]string{
+		0: "IMPORT_ISSUE_TYPE_UNSPECIFIED",
+		1: "IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE",
+		2: "IMPORT_ISSUE_TYPE_INVALID_AMOUNT",
+		3: "IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION",
+		4: "IMPORT_ISSUE_TYPE_DUPLICATE_ROWS",
+		5: "IMPORT_ISSUE_TYPE_UNCATEGORIZED",
+		6: "IMPORT_ISSUE_TYPE_FUTURE_DATE",
+	}
+	ImportIssueType_value = map[string]int32{
+		"IMPORT_ISSUE_TYPE_UNSPECIFIED":         0,
+		"IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE":    1,
+		"IMPORT_ISSUE_TYPE_INVALID_AMOUNT":      2,
+		"IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION": 3,
+		"IMPORT_ISSUE_TYPE_DUPLICATE_ROWS":      4,
+		"IMPORT_ISSUE_TYPE_UNCATEGORIZED":       5,
+		"IMPORT_ISSUE_TYPE_FUTURE_DATE":         6,
+	}
+)
+
+func (x ImportIssueType) Enum() *ImportIssueType {
+	p := new(ImportIssueType)
+	*p = x
+	return p
+}
+
+func (x ImportIssueType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ImportIssueType) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_insights_proto_enumTypes[3].Descriptor()
+}
+
+func (ImportIssueType) Type() protoreflect.EnumType {
+	return &file_echo_v1_insights_proto_enumTypes[3]
+}
+
+func (x ImportIssueType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ImportIssueType.Descriptor instead.
+func (ImportIssueType) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{3}
+}
+
 type CategorySpend struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	CategoryId    string                 `protobuf:"bytes,1,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
@@ -1676,11 +1738,593 @@ func (*DismissAlertResponse) Descriptor() ([]byte, []int) {
 	return file_echo_v1_insights_proto_rawDescGZIP(), []int{23}
 }
 
+// Get insights about a specific import job
+type GetImportInsightsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ImportJobId   string                 `protobuf:"bytes,1,opt,name=import_job_id,json=importJobId,proto3" json:"import_job_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetImportInsightsRequest) Reset() {
+	*x = GetImportInsightsRequest{}
+	mi := &file_echo_v1_insights_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetImportInsightsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetImportInsightsRequest) ProtoMessage() {}
+
+func (x *GetImportInsightsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetImportInsightsRequest.ProtoReflect.Descriptor instead.
+func (*GetImportInsightsRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetImportInsightsRequest) GetImportJobId() string {
+	if x != nil {
+		return x.ImportJobId
+	}
+	return ""
+}
+
+type GetImportInsightsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Insights      *ImportInsights        `protobuf:"bytes,1,opt,name=insights,proto3" json:"insights,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetImportInsightsResponse) Reset() {
+	*x = GetImportInsightsResponse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetImportInsightsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetImportInsightsResponse) ProtoMessage() {}
+
+func (x *GetImportInsightsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetImportInsightsResponse.ProtoReflect.Descriptor instead.
+func (*GetImportInsightsResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *GetImportInsightsResponse) GetInsights() *ImportInsights {
+	if x != nil {
+		return x.Insights
+	}
+	return nil
+}
+
+// Quality metrics and issues for an import job
+type ImportInsights struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	ImportJobId     string                 `protobuf:"bytes,1,opt,name=import_job_id,json=importJobId,proto3" json:"import_job_id,omitempty"`
+	InstitutionName string                 `protobuf:"bytes,2,opt,name=institution_name,json=institutionName,proto3" json:"institution_name,omitempty"`
+	// Row counts
+	TotalRows         int32 `protobuf:"varint,3,opt,name=total_rows,json=totalRows,proto3" json:"total_rows,omitempty"`
+	RowsImported      int32 `protobuf:"varint,4,opt,name=rows_imported,json=rowsImported,proto3" json:"rows_imported,omitempty"`
+	RowsFailed        int32 `protobuf:"varint,5,opt,name=rows_failed,json=rowsFailed,proto3" json:"rows_failed,omitempty"`
+	DuplicatesSkipped int32 `protobuf:"varint,6,opt,name=duplicates_skipped,json=duplicatesSkipped,proto3" json:"duplicates_skipped,omitempty"`
+	// Quality metrics (0.0 - 1.0)
+	CategorizationRate float64 `protobuf:"fixed64,10,opt,name=categorization_rate,json=categorizationRate,proto3" json:"categorization_rate,omitempty"`
+	DateQualityScore   float64 `protobuf:"fixed64,11,opt,name=date_quality_score,json=dateQualityScore,proto3" json:"date_quality_score,omitempty"`
+	AmountQualityScore float64 `protobuf:"fixed64,12,opt,name=amount_quality_score,json=amountQualityScore,proto3" json:"amount_quality_score,omitempty"`
+	// Date range of imported data
+	EarliestDate *timestamppb.Timestamp `protobuf:"bytes,15,opt,name=earliest_date,json=earliestDate,proto3" json:"earliest_date,omitempty"`
+	LatestDate   *timestamppb.Timestamp `protobuf:"bytes,16,opt,name=latest_date,json=latestDate,proto3" json:"latest_date,omitempty"`
+	// Money totals
+	TotalIncome   *Money `protobuf:"bytes,20,opt,name=total_income,json=totalIncome,proto3" json:"total_income,omitempty"`
+	TotalExpenses *Money `protobuf:"bytes,21,opt,name=total_expenses,json=totalExpenses,proto3" json:"total_expenses,omitempty"`
+	// Detected issues
+	Issues        []*ImportIssue `protobuf:"bytes,25,rep,name=issues,proto3" json:"issues,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportInsights) Reset() {
+	*x = ImportInsights{}
+	mi := &file_echo_v1_insights_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportInsights) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportInsights) ProtoMessage() {}
+
+func (x *ImportInsights) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportInsights.ProtoReflect.Descriptor instead.
+func (*ImportInsights) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *ImportInsights) GetImportJobId() string {
+	if x != nil {
+		return x.ImportJobId
+	}
+	return ""
+}
+
+func (x *ImportInsights) GetInstitutionName() string {
+	if x != nil {
+		return x.InstitutionName
+	}
+	return ""
+}
+
+func (x *ImportInsights) GetTotalRows() int32 {
+	if x != nil {
+		return x.TotalRows
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetRowsImported() int32 {
+	if x != nil {
+		return x.RowsImported
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetRowsFailed() int32 {
+	if x != nil {
+		return x.RowsFailed
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetDuplicatesSkipped() int32 {
+	if x != nil {
+		return x.DuplicatesSkipped
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetCategorizationRate() float64 {
+	if x != nil {
+		return x.CategorizationRate
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetDateQualityScore() float64 {
+	if x != nil {
+		return x.DateQualityScore
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetAmountQualityScore() float64 {
+	if x != nil {
+		return x.AmountQualityScore
+	}
+	return 0
+}
+
+func (x *ImportInsights) GetEarliestDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EarliestDate
+	}
+	return nil
+}
+
+func (x *ImportInsights) GetLatestDate() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LatestDate
+	}
+	return nil
+}
+
+func (x *ImportInsights) GetTotalIncome() *Money {
+	if x != nil {
+		return x.TotalIncome
+	}
+	return nil
+}
+
+func (x *ImportInsights) GetTotalExpenses() *Money {
+	if x != nil {
+		return x.TotalExpenses
+	}
+	return nil
+}
+
+func (x *ImportInsights) GetIssues() []*ImportIssue {
+	if x != nil {
+		return x.Issues
+	}
+	return nil
+}
+
+// Issue detected during import
+type ImportIssue struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          ImportIssueType        `protobuf:"varint,1,opt,name=type,proto3,enum=echo.v1.ImportIssueType" json:"type,omitempty"`
+	AffectedRows  int32                  `protobuf:"varint,2,opt,name=affected_rows,json=affectedRows,proto3" json:"affected_rows,omitempty"`
+	SampleValue   string                 `protobuf:"bytes,3,opt,name=sample_value,json=sampleValue,proto3" json:"sample_value,omitempty"`
+	Suggestion    string                 `protobuf:"bytes,4,opt,name=suggestion,proto3" json:"suggestion,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ImportIssue) Reset() {
+	*x = ImportIssue{}
+	mi := &file_echo_v1_insights_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ImportIssue) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ImportIssue) ProtoMessage() {}
+
+func (x *ImportIssue) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ImportIssue.ProtoReflect.Descriptor instead.
+func (*ImportIssue) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *ImportIssue) GetType() ImportIssueType {
+	if x != nil {
+		return x.Type
+	}
+	return ImportIssueType_IMPORT_ISSUE_TYPE_UNSPECIFIED
+}
+
+func (x *ImportIssue) GetAffectedRows() int32 {
+	if x != nil {
+		return x.AffectedRows
+	}
+	return 0
+}
+
+func (x *ImportIssue) GetSampleValue() string {
+	if x != nil {
+		return x.SampleValue
+	}
+	return ""
+}
+
+func (x *ImportIssue) GetSuggestion() string {
+	if x != nil {
+		return x.Suggestion
+	}
+	return ""
+}
+
+// Get health metrics for all connected data sources
+type GetDataSourceHealthRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDataSourceHealthRequest) Reset() {
+	*x = GetDataSourceHealthRequest{}
+	mi := &file_echo_v1_insights_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDataSourceHealthRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDataSourceHealthRequest) ProtoMessage() {}
+
+func (x *GetDataSourceHealthRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDataSourceHealthRequest.ProtoReflect.Descriptor instead.
+func (*GetDataSourceHealthRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{28}
+}
+
+type GetDataSourceHealthResponse struct {
+	state                 protoimpl.MessageState `protogen:"open.v1"`
+	Sources               []*DataSourceHealth    `protobuf:"bytes,1,rep,name=sources,proto3" json:"sources,omitempty"`
+	TotalTransactionCount int32                  `protobuf:"varint,2,opt,name=total_transaction_count,json=totalTransactionCount,proto3" json:"total_transaction_count,omitempty"`
+	OldestTransaction     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=oldest_transaction,json=oldestTransaction,proto3" json:"oldest_transaction,omitempty"`
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *GetDataSourceHealthResponse) Reset() {
+	*x = GetDataSourceHealthResponse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDataSourceHealthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDataSourceHealthResponse) ProtoMessage() {}
+
+func (x *GetDataSourceHealthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDataSourceHealthResponse.ProtoReflect.Descriptor instead.
+func (*GetDataSourceHealthResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetDataSourceHealthResponse) GetSources() []*DataSourceHealth {
+	if x != nil {
+		return x.Sources
+	}
+	return nil
+}
+
+func (x *GetDataSourceHealthResponse) GetTotalTransactionCount() int32 {
+	if x != nil {
+		return x.TotalTransactionCount
+	}
+	return 0
+}
+
+func (x *GetDataSourceHealthResponse) GetOldestTransaction() *timestamppb.Timestamp {
+	if x != nil {
+		return x.OldestTransaction
+	}
+	return nil
+}
+
+// Health metrics for a single data source
+type DataSourceHealth struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	InstitutionName string                 `protobuf:"bytes,1,opt,name=institution_name,json=institutionName,proto3" json:"institution_name,omitempty"`
+	SourceType      TransactionSource      `protobuf:"varint,2,opt,name=source_type,json=sourceType,proto3,enum=echo.v1.TransactionSource" json:"source_type,omitempty"`
+	// Transaction metrics
+	TransactionCount int32                  `protobuf:"varint,3,opt,name=transaction_count,json=transactionCount,proto3" json:"transaction_count,omitempty"`
+	FirstTransaction *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=first_transaction,json=firstTransaction,proto3" json:"first_transaction,omitempty"`
+	LastTransaction  *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=last_transaction,json=lastTransaction,proto3" json:"last_transaction,omitempty"`
+	LastImport       *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=last_import,json=lastImport,proto3" json:"last_import,omitempty"`
+	// Quality metrics
+	CategorizationRate float64 `protobuf:"fixed64,10,opt,name=categorization_rate,json=categorizationRate,proto3" json:"categorization_rate,omitempty"`
+	UncategorizedCount int32   `protobuf:"varint,11,opt,name=uncategorized_count,json=uncategorizedCount,proto3" json:"uncategorized_count,omitempty"`
+	// Coverage gaps (date ranges with no data)
+	Gaps          []*DateGap `protobuf:"bytes,15,rep,name=gaps,proto3" json:"gaps,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DataSourceHealth) Reset() {
+	*x = DataSourceHealth{}
+	mi := &file_echo_v1_insights_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DataSourceHealth) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DataSourceHealth) ProtoMessage() {}
+
+func (x *DataSourceHealth) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DataSourceHealth.ProtoReflect.Descriptor instead.
+func (*DataSourceHealth) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *DataSourceHealth) GetInstitutionName() string {
+	if x != nil {
+		return x.InstitutionName
+	}
+	return ""
+}
+
+func (x *DataSourceHealth) GetSourceType() TransactionSource {
+	if x != nil {
+		return x.SourceType
+	}
+	return TransactionSource_TRANSACTION_SOURCE_UNSPECIFIED
+}
+
+func (x *DataSourceHealth) GetTransactionCount() int32 {
+	if x != nil {
+		return x.TransactionCount
+	}
+	return 0
+}
+
+func (x *DataSourceHealth) GetFirstTransaction() *timestamppb.Timestamp {
+	if x != nil {
+		return x.FirstTransaction
+	}
+	return nil
+}
+
+func (x *DataSourceHealth) GetLastTransaction() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastTransaction
+	}
+	return nil
+}
+
+func (x *DataSourceHealth) GetLastImport() *timestamppb.Timestamp {
+	if x != nil {
+		return x.LastImport
+	}
+	return nil
+}
+
+func (x *DataSourceHealth) GetCategorizationRate() float64 {
+	if x != nil {
+		return x.CategorizationRate
+	}
+	return 0
+}
+
+func (x *DataSourceHealth) GetUncategorizedCount() int32 {
+	if x != nil {
+		return x.UncategorizedCount
+	}
+	return 0
+}
+
+func (x *DataSourceHealth) GetGaps() []*DateGap {
+	if x != nil {
+		return x.Gaps
+	}
+	return nil
+}
+
+// A gap in transaction data coverage
+type DateGap struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Start         *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
+	End           *timestamppb.Timestamp `protobuf:"bytes,2,opt,name=end,proto3" json:"end,omitempty"`
+	GapDays       int32                  `protobuf:"varint,3,opt,name=gap_days,json=gapDays,proto3" json:"gap_days,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DateGap) Reset() {
+	*x = DateGap{}
+	mi := &file_echo_v1_insights_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DateGap) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DateGap) ProtoMessage() {}
+
+func (x *DateGap) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DateGap.ProtoReflect.Descriptor instead.
+func (*DateGap) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *DateGap) GetStart() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Start
+	}
+	return nil
+}
+
+func (x *DateGap) GetEnd() *timestamppb.Timestamp {
+	if x != nil {
+		return x.End
+	}
+	return nil
+}
+
+func (x *DateGap) GetGapDays() int32 {
+	if x != nil {
+		return x.GapDays
+	}
+	return 0
+}
+
 var File_echo_v1_insights_proto protoreflect.FileDescriptor
 
 const file_echo_v1_insights_proto_rawDesc = "" +
 	"\n" +
-	"\x16echo/v1/insights.proto\x12\aecho.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14echo/v1/common.proto\"h\n" +
+	"\x16echo/v1/insights.proto\x12\aecho.v1\x1a\x1bbuf/validate/validate.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14echo/v1/common.proto\x1a\x15echo/v1/finance.proto\"h\n" +
 	"\rCategorySpend\x12)\n" +
 	"\vcategory_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\n" +
 	"categoryId\x12,\n" +
@@ -1812,7 +2456,59 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\x15MarkAlertReadResponse\":\n" +
 	"\x13DismissAlertRequest\x12#\n" +
 	"\balert_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\aalertId\"\x16\n" +
-	"\x14DismissAlertResponse*b\n" +
+	"\x14DismissAlertResponse\"H\n" +
+	"\x18GetImportInsightsRequest\x12,\n" +
+	"\rimport_job_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\vimportJobId\"P\n" +
+	"\x19GetImportInsightsResponse\x123\n" +
+	"\binsights\x18\x01 \x01(\v2\x17.echo.v1.ImportInsightsR\binsights\"\xdc\x05\n" +
+	"\x0eImportInsights\x12,\n" +
+	"\rimport_job_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\vimportJobId\x123\n" +
+	"\x10institution_name\x18\x02 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x01R\x0finstitutionName\x12&\n" +
+	"\n" +
+	"total_rows\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\ttotalRows\x12,\n" +
+	"\rrows_imported\x18\x04 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\frowsImported\x12(\n" +
+	"\vrows_failed\x18\x05 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\n" +
+	"rowsFailed\x126\n" +
+	"\x12duplicates_skipped\x18\x06 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x11duplicatesSkipped\x12/\n" +
+	"\x13categorization_rate\x18\n" +
+	" \x01(\x01R\x12categorizationRate\x12,\n" +
+	"\x12date_quality_score\x18\v \x01(\x01R\x10dateQualityScore\x120\n" +
+	"\x14amount_quality_score\x18\f \x01(\x01R\x12amountQualityScore\x12?\n" +
+	"\rearliest_date\x18\x0f \x01(\v2\x1a.google.protobuf.TimestampR\fearliestDate\x12;\n" +
+	"\vlatest_date\x18\x10 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"latestDate\x121\n" +
+	"\ftotal_income\x18\x14 \x01(\v2\x0e.echo.v1.MoneyR\vtotalIncome\x125\n" +
+	"\x0etotal_expenses\x18\x15 \x01(\v2\x0e.echo.v1.MoneyR\rtotalExpenses\x126\n" +
+	"\x06issues\x18\x19 \x03(\v2\x14.echo.v1.ImportIssueB\b\xbaH\x05\x92\x01\x02\x102R\x06issues\"\xca\x01\n" +
+	"\vImportIssue\x126\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x18.echo.v1.ImportIssueTypeB\b\xbaH\x05\x82\x01\x02\x10\x01R\x04type\x12,\n" +
+	"\raffected_rows\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\faffectedRows\x12+\n" +
+	"\fsample_value\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01R\vsampleValue\x12(\n" +
+	"\n" +
+	"suggestion\x18\x04 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x04R\n" +
+	"suggestion\"\x1c\n" +
+	"\x1aGetDataSourceHealthRequest\"\xe8\x01\n" +
+	"\x1bGetDataSourceHealthResponse\x12=\n" +
+	"\asources\x18\x01 \x03(\v2\x19.echo.v1.DataSourceHealthB\b\xbaH\x05\x92\x01\x02\x10dR\asources\x12?\n" +
+	"\x17total_transaction_count\x18\x02 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x15totalTransactionCount\x12I\n" +
+	"\x12oldest_transaction\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\x11oldestTransaction\"\xac\x04\n" +
+	"\x10DataSourceHealth\x123\n" +
+	"\x10institution_name\x18\x01 \x01(\tB\b\xbaH\x05r\x03\x18\x80\x01R\x0finstitutionName\x12E\n" +
+	"\vsource_type\x18\x02 \x01(\x0e2\x1a.echo.v1.TransactionSourceB\b\xbaH\x05\x82\x01\x02\x10\x01R\n" +
+	"sourceType\x124\n" +
+	"\x11transaction_count\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x10transactionCount\x12G\n" +
+	"\x11first_transaction\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\x10firstTransaction\x12E\n" +
+	"\x10last_transaction\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\x0flastTransaction\x12;\n" +
+	"\vlast_import\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"lastImport\x12/\n" +
+	"\x13categorization_rate\x18\n" +
+	" \x01(\x01R\x12categorizationRate\x128\n" +
+	"\x13uncategorized_count\x18\v \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\x12uncategorizedCount\x12.\n" +
+	"\x04gaps\x18\x0f \x03(\v2\x10.echo.v1.DateGapB\b\xbaH\x05\x92\x01\x02\x102R\x04gaps\"\x9d\x01\n" +
+	"\aDateGap\x128\n" +
+	"\x05start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x05start\x124\n" +
+	"\x03end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x03end\x12\"\n" +
+	"\bgap_days\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\agapDays*b\n" +
 	"\rWrappedPeriod\x12\x1e\n" +
 	"\x1aWRAPPED_PERIOD_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14WRAPPED_PERIOD_MONTH\x10\x01\x12\x17\n" +
@@ -1827,7 +2523,15 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\x17ALERT_TYPE_PACE_WARNING\x10\x01\x12\x1f\n" +
 	"\x1bALERT_TYPE_SURPRISE_EXPENSE\x10\x02\x12\x1c\n" +
 	"\x18ALERT_TYPE_GOAL_PROGRESS\x10\x03\x12\x1f\n" +
-	"\x1bALERT_TYPE_SUBSCRIPTION_DUE\x10\x042\xd3\x04\n" +
+	"\x1bALERT_TYPE_SUBSCRIPTION_DUE\x10\x04*\x9b\x02\n" +
+	"\x0fImportIssueType\x12!\n" +
+	"\x1dIMPORT_ISSUE_TYPE_UNSPECIFIED\x10\x00\x12&\n" +
+	"\"IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE\x10\x01\x12$\n" +
+	" IMPORT_ISSUE_TYPE_INVALID_AMOUNT\x10\x02\x12)\n" +
+	"%IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION\x10\x03\x12$\n" +
+	" IMPORT_ISSUE_TYPE_DUPLICATE_ROWS\x10\x04\x12#\n" +
+	"\x1fIMPORT_ISSUE_TYPE_UNCATEGORIZED\x10\x05\x12!\n" +
+	"\x1dIMPORT_ISSUE_TYPE_FUTURE_DATE\x10\x062\x91\x06\n" +
 	"\x0fInsightsService\x12]\n" +
 	"\x12GetMonthlyInsights\x12\".echo.v1.GetMonthlyInsightsRequest\x1a#.echo.v1.GetMonthlyInsightsResponse\x12E\n" +
 	"\n" +
@@ -1837,7 +2541,9 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\n" +
 	"ListAlerts\x12\x1a.echo.v1.ListAlertsRequest\x1a\x1b.echo.v1.ListAlertsResponse\x12N\n" +
 	"\rMarkAlertRead\x12\x1d.echo.v1.MarkAlertReadRequest\x1a\x1e.echo.v1.MarkAlertReadResponse\x12K\n" +
-	"\fDismissAlert\x12\x1c.echo.v1.DismissAlertRequest\x1a\x1d.echo.v1.DismissAlertResponseB\xa4\x01\n" +
+	"\fDismissAlert\x12\x1c.echo.v1.DismissAlertRequest\x1a\x1d.echo.v1.DismissAlertResponse\x12Z\n" +
+	"\x11GetImportInsights\x12!.echo.v1.GetImportInsightsRequest\x1a\".echo.v1.GetImportInsightsResponse\x12`\n" +
+	"\x13GetDataSourceHealth\x12#.echo.v1.GetDataSourceHealthRequest\x1a$.echo.v1.GetDataSourceHealthResponseB\xa4\x01\n" +
 	"\vcom.echo.v1B\rInsightsProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -1852,96 +2558,126 @@ func file_echo_v1_insights_proto_rawDescGZIP() []byte {
 	return file_echo_v1_insights_proto_rawDescData
 }
 
-var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
+var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
 var file_echo_v1_insights_proto_goTypes = []any{
-	(WrappedPeriod)(0),                 // 0: echo.v1.WrappedPeriod
-	(AlertSeverity)(0),                 // 1: echo.v1.AlertSeverity
-	(AlertType)(0),                     // 2: echo.v1.AlertType
-	(*CategorySpend)(nil),              // 3: echo.v1.CategorySpend
-	(*MerchantSpend)(nil),              // 4: echo.v1.MerchantSpend
-	(*MonthlyInsights)(nil),            // 5: echo.v1.MonthlyInsights
-	(*GetMonthlyInsightsRequest)(nil),  // 6: echo.v1.GetMonthlyInsightsRequest
-	(*GetMonthlyInsightsResponse)(nil), // 7: echo.v1.GetMonthlyInsightsResponse
-	(*WrappedCard)(nil),                // 8: echo.v1.WrappedCard
-	(*WrappedSummary)(nil),             // 9: echo.v1.WrappedSummary
-	(*GetWrappedRequest)(nil),          // 10: echo.v1.GetWrappedRequest
-	(*GetWrappedResponse)(nil),         // 11: echo.v1.GetWrappedResponse
-	(*GetSpendingPulseRequest)(nil),    // 12: echo.v1.GetSpendingPulseRequest
-	(*SpendingPulse)(nil),              // 13: echo.v1.SpendingPulse
-	(*TopCategorySpend)(nil),           // 14: echo.v1.TopCategorySpend
-	(*SurpriseExpense)(nil),            // 15: echo.v1.SurpriseExpense
-	(*GetSpendingPulseResponse)(nil),   // 16: echo.v1.GetSpendingPulseResponse
-	(*GetDashboardBlocksRequest)(nil),  // 17: echo.v1.GetDashboardBlocksRequest
-	(*DashboardBlock)(nil),             // 18: echo.v1.DashboardBlock
-	(*GetDashboardBlocksResponse)(nil), // 19: echo.v1.GetDashboardBlocksResponse
-	(*Alert)(nil),                      // 20: echo.v1.Alert
-	(*ListAlertsRequest)(nil),          // 21: echo.v1.ListAlertsRequest
-	(*ListAlertsResponse)(nil),         // 22: echo.v1.ListAlertsResponse
-	(*MarkAlertReadRequest)(nil),       // 23: echo.v1.MarkAlertReadRequest
-	(*MarkAlertReadResponse)(nil),      // 24: echo.v1.MarkAlertReadResponse
-	(*DismissAlertRequest)(nil),        // 25: echo.v1.DismissAlertRequest
-	(*DismissAlertResponse)(nil),       // 26: echo.v1.DismissAlertResponse
-	(*Money)(nil),                      // 27: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),      // 28: google.protobuf.Timestamp
+	(WrappedPeriod)(0),                  // 0: echo.v1.WrappedPeriod
+	(AlertSeverity)(0),                  // 1: echo.v1.AlertSeverity
+	(AlertType)(0),                      // 2: echo.v1.AlertType
+	(ImportIssueType)(0),                // 3: echo.v1.ImportIssueType
+	(*CategorySpend)(nil),               // 4: echo.v1.CategorySpend
+	(*MerchantSpend)(nil),               // 5: echo.v1.MerchantSpend
+	(*MonthlyInsights)(nil),             // 6: echo.v1.MonthlyInsights
+	(*GetMonthlyInsightsRequest)(nil),   // 7: echo.v1.GetMonthlyInsightsRequest
+	(*GetMonthlyInsightsResponse)(nil),  // 8: echo.v1.GetMonthlyInsightsResponse
+	(*WrappedCard)(nil),                 // 9: echo.v1.WrappedCard
+	(*WrappedSummary)(nil),              // 10: echo.v1.WrappedSummary
+	(*GetWrappedRequest)(nil),           // 11: echo.v1.GetWrappedRequest
+	(*GetWrappedResponse)(nil),          // 12: echo.v1.GetWrappedResponse
+	(*GetSpendingPulseRequest)(nil),     // 13: echo.v1.GetSpendingPulseRequest
+	(*SpendingPulse)(nil),               // 14: echo.v1.SpendingPulse
+	(*TopCategorySpend)(nil),            // 15: echo.v1.TopCategorySpend
+	(*SurpriseExpense)(nil),             // 16: echo.v1.SurpriseExpense
+	(*GetSpendingPulseResponse)(nil),    // 17: echo.v1.GetSpendingPulseResponse
+	(*GetDashboardBlocksRequest)(nil),   // 18: echo.v1.GetDashboardBlocksRequest
+	(*DashboardBlock)(nil),              // 19: echo.v1.DashboardBlock
+	(*GetDashboardBlocksResponse)(nil),  // 20: echo.v1.GetDashboardBlocksResponse
+	(*Alert)(nil),                       // 21: echo.v1.Alert
+	(*ListAlertsRequest)(nil),           // 22: echo.v1.ListAlertsRequest
+	(*ListAlertsResponse)(nil),          // 23: echo.v1.ListAlertsResponse
+	(*MarkAlertReadRequest)(nil),        // 24: echo.v1.MarkAlertReadRequest
+	(*MarkAlertReadResponse)(nil),       // 25: echo.v1.MarkAlertReadResponse
+	(*DismissAlertRequest)(nil),         // 26: echo.v1.DismissAlertRequest
+	(*DismissAlertResponse)(nil),        // 27: echo.v1.DismissAlertResponse
+	(*GetImportInsightsRequest)(nil),    // 28: echo.v1.GetImportInsightsRequest
+	(*GetImportInsightsResponse)(nil),   // 29: echo.v1.GetImportInsightsResponse
+	(*ImportInsights)(nil),              // 30: echo.v1.ImportInsights
+	(*ImportIssue)(nil),                 // 31: echo.v1.ImportIssue
+	(*GetDataSourceHealthRequest)(nil),  // 32: echo.v1.GetDataSourceHealthRequest
+	(*GetDataSourceHealthResponse)(nil), // 33: echo.v1.GetDataSourceHealthResponse
+	(*DataSourceHealth)(nil),            // 34: echo.v1.DataSourceHealth
+	(*DateGap)(nil),                     // 35: echo.v1.DateGap
+	(*Money)(nil),                       // 36: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),       // 37: google.protobuf.Timestamp
+	(TransactionSource)(0),              // 38: echo.v1.TransactionSource
 }
 var file_echo_v1_insights_proto_depIdxs = []int32{
-	27, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
-	27, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
-	28, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
-	27, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
-	27, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
-	27, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
-	3,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
-	4,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
-	28, // 8: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
-	28, // 9: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
-	5,  // 10: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
+	36, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
+	36, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
+	37, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
+	36, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
+	36, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
+	36, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
+	4,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
+	5,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
+	37, // 8: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
+	37, // 9: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
+	6,  // 10: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
 	0,  // 11: echo.v1.WrappedSummary.period:type_name -> echo.v1.WrappedPeriod
-	28, // 12: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
-	28, // 13: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
-	8,  // 14: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
-	28, // 15: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
+	37, // 12: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
+	37, // 13: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
+	9,  // 14: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
+	37, // 15: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 16: echo.v1.GetWrappedRequest.period:type_name -> echo.v1.WrappedPeriod
-	28, // 17: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
-	28, // 18: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
-	9,  // 19: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
-	28, // 20: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
-	27, // 21: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
-	27, // 22: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
-	27, // 23: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
-	28, // 24: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
-	14, // 25: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
-	15, // 26: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
-	27, // 27: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
-	27, // 28: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
-	28, // 29: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
-	13, // 30: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
-	18, // 31: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
+	37, // 17: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
+	37, // 18: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
+	10, // 19: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
+	37, // 20: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
+	36, // 21: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
+	36, // 22: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
+	36, // 23: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
+	37, // 24: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
+	15, // 25: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
+	16, // 26: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
+	36, // 27: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
+	36, // 28: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
+	37, // 29: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
+	14, // 30: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
+	19, // 31: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
 	2,  // 32: echo.v1.Alert.alert_type:type_name -> echo.v1.AlertType
 	1,  // 33: echo.v1.Alert.severity:type_name -> echo.v1.AlertSeverity
-	28, // 34: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
-	28, // 35: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
-	20, // 36: echo.v1.ListAlertsResponse.alerts:type_name -> echo.v1.Alert
-	6,  // 37: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
-	10, // 38: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
-	12, // 39: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
-	17, // 40: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
-	21, // 41: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
-	23, // 42: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
-	25, // 43: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
-	7,  // 44: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
-	11, // 45: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
-	16, // 46: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
-	19, // 47: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
-	22, // 48: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
-	24, // 49: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
-	26, // 50: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
-	44, // [44:51] is the sub-list for method output_type
-	37, // [37:44] is the sub-list for method input_type
-	37, // [37:37] is the sub-list for extension type_name
-	37, // [37:37] is the sub-list for extension extendee
-	0,  // [0:37] is the sub-list for field type_name
+	37, // 34: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
+	37, // 35: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
+	21, // 36: echo.v1.ListAlertsResponse.alerts:type_name -> echo.v1.Alert
+	30, // 37: echo.v1.GetImportInsightsResponse.insights:type_name -> echo.v1.ImportInsights
+	37, // 38: echo.v1.ImportInsights.earliest_date:type_name -> google.protobuf.Timestamp
+	37, // 39: echo.v1.ImportInsights.latest_date:type_name -> google.protobuf.Timestamp
+	36, // 40: echo.v1.ImportInsights.total_income:type_name -> echo.v1.Money
+	36, // 41: echo.v1.ImportInsights.total_expenses:type_name -> echo.v1.Money
+	31, // 42: echo.v1.ImportInsights.issues:type_name -> echo.v1.ImportIssue
+	3,  // 43: echo.v1.ImportIssue.type:type_name -> echo.v1.ImportIssueType
+	34, // 44: echo.v1.GetDataSourceHealthResponse.sources:type_name -> echo.v1.DataSourceHealth
+	37, // 45: echo.v1.GetDataSourceHealthResponse.oldest_transaction:type_name -> google.protobuf.Timestamp
+	38, // 46: echo.v1.DataSourceHealth.source_type:type_name -> echo.v1.TransactionSource
+	37, // 47: echo.v1.DataSourceHealth.first_transaction:type_name -> google.protobuf.Timestamp
+	37, // 48: echo.v1.DataSourceHealth.last_transaction:type_name -> google.protobuf.Timestamp
+	37, // 49: echo.v1.DataSourceHealth.last_import:type_name -> google.protobuf.Timestamp
+	35, // 50: echo.v1.DataSourceHealth.gaps:type_name -> echo.v1.DateGap
+	37, // 51: echo.v1.DateGap.start:type_name -> google.protobuf.Timestamp
+	37, // 52: echo.v1.DateGap.end:type_name -> google.protobuf.Timestamp
+	7,  // 53: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
+	11, // 54: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
+	13, // 55: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
+	18, // 56: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
+	22, // 57: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
+	24, // 58: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
+	26, // 59: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
+	28, // 60: echo.v1.InsightsService.GetImportInsights:input_type -> echo.v1.GetImportInsightsRequest
+	32, // 61: echo.v1.InsightsService.GetDataSourceHealth:input_type -> echo.v1.GetDataSourceHealthRequest
+	8,  // 62: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
+	12, // 63: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
+	17, // 64: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
+	20, // 65: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
+	23, // 66: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
+	25, // 67: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
+	27, // 68: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
+	29, // 69: echo.v1.InsightsService.GetImportInsights:output_type -> echo.v1.GetImportInsightsResponse
+	33, // 70: echo.v1.InsightsService.GetDataSourceHealth:output_type -> echo.v1.GetDataSourceHealthResponse
+	62, // [62:71] is the sub-list for method output_type
+	53, // [53:62] is the sub-list for method input_type
+	53, // [53:53] is the sub-list for extension type_name
+	53, // [53:53] is the sub-list for extension extendee
+	0,  // [0:53] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_insights_proto_init() }
@@ -1950,6 +2686,7 @@ func file_echo_v1_insights_proto_init() {
 		return
 	}
 	file_echo_v1_common_proto_init()
+	file_echo_v1_finance_proto_init()
 	file_echo_v1_insights_proto_msgTypes[9].OneofWrappers = []any{}
 	file_echo_v1_insights_proto_msgTypes[11].OneofWrappers = []any{}
 	file_echo_v1_insights_proto_msgTypes[12].OneofWrappers = []any{}
@@ -1959,8 +2696,8 @@ func file_echo_v1_insights_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_insights_proto_rawDesc), len(file_echo_v1_insights_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   24,
+			NumEnums:      4,
+			NumMessages:   32,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

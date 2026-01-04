@@ -787,6 +787,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.DataSourceHealth"><span class="badge">M</span>DataSourceHealth</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.DateGap"><span class="badge">M</span>DateGap</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.DismissAlertRequest"><span class="badge">M</span>DismissAlertRequest</a>
                 </li>
               
@@ -800,6 +808,22 @@
               
                 <li>
                   <a href="#echo.v1.GetDashboardBlocksResponse"><span class="badge">M</span>GetDashboardBlocksResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetDataSourceHealthRequest"><span class="badge">M</span>GetDataSourceHealthRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetDataSourceHealthResponse"><span class="badge">M</span>GetDataSourceHealthResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetImportInsightsRequest"><span class="badge">M</span>GetImportInsightsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetImportInsightsResponse"><span class="badge">M</span>GetImportInsightsResponse</a>
                 </li>
               
                 <li>
@@ -824,6 +848,14 @@
               
                 <li>
                   <a href="#echo.v1.GetWrappedResponse"><span class="badge">M</span>GetWrappedResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ImportInsights"><span class="badge">M</span>ImportInsights</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ImportIssue"><span class="badge">M</span>ImportIssue</a>
                 </li>
               
                 <li>
@@ -877,6 +909,10 @@
               
                 <li>
                   <a href="#echo.v1.AlertType"><span class="badge">E</span>AlertType</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ImportIssueType"><span class="badge">E</span>ImportIssueType</a>
                 </li>
               
                 <li>
@@ -6259,6 +6295,124 @@
 
         
       
+        <h3 id="echo.v1.DataSourceHealth">DataSourceHealth</h3>
+        <p>Health metrics for a single data source</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>institution_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>source_type</td>
+                  <td><a href="#echo.v1.TransactionSource">TransactionSource</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>transaction_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Transaction metrics </p></td>
+                </tr>
+              
+                <tr>
+                  <td>first_transaction</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_transaction</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>last_import</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>categorization_rate</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>Quality metrics </p></td>
+                </tr>
+              
+                <tr>
+                  <td>uncategorized_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>gaps</td>
+                  <td><a href="#echo.v1.DateGap">DateGap</a></td>
+                  <td>repeated</td>
+                  <td><p>Coverage gaps (date ranges with no data) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.DateGap">DateGap</h3>
+        <p>A gap in transaction data coverage</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>start</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>end</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>gap_days</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.DismissAlertRequest">DismissAlertRequest</h3>
         <p>Dismiss alert</p>
 
@@ -6311,6 +6465,99 @@
                   <td>blocks</td>
                   <td><a href="#echo.v1.DashboardBlock">DashboardBlock</a></td>
                   <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetDataSourceHealthRequest">GetDataSourceHealthRequest</h3>
+        <p>Get health metrics for all connected data sources</p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.GetDataSourceHealthResponse">GetDataSourceHealthResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>sources</td>
+                  <td><a href="#echo.v1.DataSourceHealth">DataSourceHealth</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_transaction_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>oldest_transaction</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetImportInsightsRequest">GetImportInsightsRequest</h3>
+        <p>Get insights about a specific import job</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>import_job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetImportInsightsResponse">GetImportInsightsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>insights</td>
+                  <td><a href="#echo.v1.ImportInsights">ImportInsights</a></td>
+                  <td></td>
                   <td><p> </p></td>
                 </tr>
               
@@ -6475,6 +6722,166 @@
                 <tr>
                   <td>wrapped</td>
                   <td><a href="#echo.v1.WrappedSummary">WrappedSummary</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ImportInsights">ImportInsights</h3>
+        <p>Quality metrics and issues for an import job</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>import_job_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>institution_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_rows</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Row counts </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rows_imported</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>rows_failed</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>duplicates_skipped</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>categorization_rate</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>Quality metrics (0.0 - 1.0) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>date_quality_score</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>amount_quality_score</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>earliest_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p>Date range of imported data </p></td>
+                </tr>
+              
+                <tr>
+                  <td>latest_date</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_income</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p>Money totals </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_expenses</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>issues</td>
+                  <td><a href="#echo.v1.ImportIssue">ImportIssue</a></td>
+                  <td>repeated</td>
+                  <td><p>Detected issues </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ImportIssue">ImportIssue</h3>
+        <p>Issue detected during import</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#echo.v1.ImportIssueType">ImportIssueType</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>affected_rows</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sample_value</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>suggestion</td>
+                  <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -7077,6 +7484,59 @@
           </tbody>
         </table>
       
+        <h3 id="echo.v1.ImportIssueType">ImportIssueType</h3>
+        <p>Types of import issues</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_UNPARSEABLE_DATE</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_INVALID_AMOUNT</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_DUPLICATE_ROWS</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_UNCATEGORIZED</td>
+                <td>5</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ISSUE_TYPE_FUTURE_DATE</td>
+                <td>6</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="echo.v1.WrappedPeriod">WrappedPeriod</h3>
         <p></p>
         <table class="enum-table">
@@ -7164,6 +7624,20 @@
                 <td>DismissAlert</td>
                 <td><a href="#echo.v1.DismissAlertRequest">DismissAlertRequest</a></td>
                 <td><a href="#echo.v1.DismissAlertResponse">DismissAlertResponse</a></td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GetImportInsights</td>
+                <td><a href="#echo.v1.GetImportInsightsRequest">GetImportInsightsRequest</a></td>
+                <td><a href="#echo.v1.GetImportInsightsResponse">GetImportInsightsResponse</a></td>
+                <td><p>Import quality insights - bridge between Import and Insights services</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetDataSourceHealth</td>
+                <td><a href="#echo.v1.GetDataSourceHealthRequest">GetDataSourceHealthRequest</a></td>
+                <td><a href="#echo.v1.GetDataSourceHealthResponse">GetDataSourceHealthResponse</a></td>
                 <td><p></p></td>
               </tr>
             
