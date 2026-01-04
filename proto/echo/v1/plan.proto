@@ -1,0 +1,299 @@
+syntax = "proto3";
+
+package echo.v1;
+
+import "buf/validate/validate.proto";
+import "echo/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "buf.build/gen/go/echo-tracker/echo/protocolbuffers/go/echo/v1;echov1";
+
+// PlanService manages user financial plans
+service PlanService {
+  // CreatePlan creates a new financial plan
+  rpc CreatePlan(CreatePlanRequest) returns (CreatePlanResponse);
+
+  // GetPlan retrieves a plan by ID
+  rpc GetPlan(GetPlanRequest) returns (GetPlanResponse);
+
+  // ListPlans lists all plans for the current user
+  rpc ListPlans(ListPlansRequest) returns (ListPlansResponse);
+
+  // UpdatePlan updates an existing plan
+  rpc UpdatePlan(UpdatePlanRequest) returns (UpdatePlanResponse);
+
+  // DeletePlan soft-deletes a plan
+  rpc DeletePlan(DeletePlanRequest) returns (DeletePlanResponse);
+
+  // SetActivePlan marks a plan as the active/live plan
+  rpc SetActivePlan(SetActivePlanRequest) returns (SetActivePlanResponse);
+
+  // DuplicatePlan creates a copy of an existing plan
+  rpc DuplicatePlan(DuplicatePlanRequest) returns (DuplicatePlanResponse);
+
+  // ImportPlanFromExcel imports a plan from an uploaded Excel file
+  rpc ImportPlanFromExcel(ImportPlanFromExcelRequest) returns (ImportPlanFromExcelResponse);
+
+  // AnalyzeExcelForPlan analyzes an Excel file to determine structure
+  rpc AnalyzeExcelForPlan(AnalyzeExcelForPlanRequest) returns (AnalyzeExcelForPlanResponse);
+}
+
+// Plan source types
+enum PlanSourceType {
+  PLAN_SOURCE_TYPE_UNSPECIFIED = 0;
+  PLAN_SOURCE_TYPE_MANUAL = 1;
+  PLAN_SOURCE_TYPE_EXCEL = 2;
+  PLAN_SOURCE_TYPE_TEMPLATE = 3;
+}
+
+// Plan status
+enum PlanStatus {
+  PLAN_STATUS_UNSPECIFIED = 0;
+  PLAN_STATUS_DRAFT = 1;
+  PLAN_STATUS_ACTIVE = 2;
+  PLAN_STATUS_ARCHIVED = 3;
+}
+
+// Widget types for plan items
+enum WidgetType {
+  WIDGET_TYPE_UNSPECIFIED = 0;
+  WIDGET_TYPE_INPUT = 1;
+  WIDGET_TYPE_SLIDER = 2;
+  WIDGET_TYPE_TOGGLE = 3;
+  WIDGET_TYPE_READONLY = 4;
+}
+
+// Field types for plan items
+enum FieldType {
+  FIELD_TYPE_UNSPECIFIED = 0;
+  FIELD_TYPE_CURRENCY = 1;
+  FIELD_TYPE_PERCENTAGE = 2;
+  FIELD_TYPE_NUMBER = 3;
+  FIELD_TYPE_TEXT = 4;
+}
+
+// UserPlan represents a user's financial plan
+message UserPlan {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  PlanStatus status = 4;
+  PlanSourceType source_type = 5;
+
+  // Excel source metadata
+  string source_file_id = 6;
+  string excel_sheet_name = 7;
+
+  // Summary amounts
+  Money total_income = 8;
+  Money total_expenses = 9;
+  Money surplus = 10;
+
+  // Plan structure
+  repeated PlanCategoryGroup category_groups = 11;
+
+  // Configuration
+  PlanConfig config = 12;
+
+  google.protobuf.Timestamp created_at = 13;
+  google.protobuf.Timestamp updated_at = 14;
+}
+
+// PlanCategoryGroup represents a high-level grouping (e.g., Fundamentals, Fun, Future)
+message PlanCategoryGroup {
+  string id = 1;
+  string name = 2;
+  string color = 3;  // Hex color
+  double target_percent = 4;  // Target allocation percentage
+  repeated PlanCategory categories = 5;
+  
+  // i18n labels
+  map<string, string> labels = 6;
+}
+
+// PlanCategory represents a spending/income category within a plan
+message PlanCategory {
+  string id = 1;
+  string name = 2;
+  string icon = 3;
+  string color = 4;
+  int32 sort_order = 5;
+  repeated PlanItem items = 6;
+
+  // Aggregated totals
+  Money budgeted_total = 7;
+  Money actual_total = 8;
+
+  // i18n labels
+  map<string, string> labels = 9;
+}
+
+// PlanItem represents a single budget line item
+message PlanItem {
+  string id = 1;
+  string name = 2;
+  
+  // Amounts (in minor units)
+  Money budgeted = 3;
+  Money actual = 4;
+  
+  // Excel mapping
+  string excel_cell = 5;
+  string formula = 6;
+  
+  // UI configuration
+  WidgetType widget_type = 7;
+  FieldType field_type = 8;
+  int32 sort_order = 9;
+
+  // Value constraints
+  int64 min_value = 10;
+  int64 max_value = 11;
+
+  // i18n labels
+  map<string, string> labels = 12;
+}
+
+// PlanConfig holds plan-level configuration
+message PlanConfig {
+  string chart_type = 1;  // horizontal_bar, pie, etc.
+  bool show_percentages = 2;
+  string currency_code = 3;
+  
+  // Formula mappings for computed fields
+  map<string, string> formula_mappings = 4;
+}
+
+// ============================================================================
+// Request/Response Messages
+// ============================================================================
+
+message CreatePlanRequest {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  string description = 2;
+  string currency_code = 3;
+  repeated CreateCategoryGroupInput category_groups = 4;
+}
+
+message CreateCategoryGroupInput {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  string color = 2;
+  double target_percent = 3;
+  repeated CreateCategoryInput categories = 4;
+  map<string, string> labels = 5;
+}
+
+message CreateCategoryInput {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  string icon = 2;
+  repeated CreateItemInput items = 3;
+  map<string, string> labels = 4;
+}
+
+message CreateItemInput {
+  string name = 1 [(buf.validate.field).string.min_len = 1];
+  int64 budgeted_minor = 2;
+  WidgetType widget_type = 3;
+  FieldType field_type = 4;
+  map<string, string> labels = 5;
+}
+
+message CreatePlanResponse {
+  UserPlan plan = 1;
+}
+
+message GetPlanRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message GetPlanResponse {
+  UserPlan plan = 1;
+}
+
+message ListPlansRequest {
+  PlanStatus status_filter = 1;
+  int32 limit = 2;
+  int32 offset = 3;
+}
+
+message ListPlansResponse {
+  repeated UserPlan plans = 1;
+  int32 total_count = 2;
+}
+
+message UpdatePlanRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  optional string name = 2;
+  optional string description = 3;
+  repeated UpdateItemInput items = 4;
+}
+
+message UpdateItemInput {
+  string item_id = 1 [(buf.validate.field).string.uuid = true];
+  int64 budgeted_minor = 2;
+}
+
+message UpdatePlanResponse {
+  UserPlan plan = 1;
+}
+
+message DeletePlanRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message DeletePlanResponse {}
+
+message SetActivePlanRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message SetActivePlanResponse {
+  UserPlan plan = 1;
+}
+
+message DuplicatePlanRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  string new_name = 2 [(buf.validate.field).string.min_len = 1];
+}
+
+message DuplicatePlanResponse {
+  UserPlan plan = 1;
+}
+
+message ImportPlanFromExcelRequest {
+  string file_id = 1 [(buf.validate.field).string.uuid = true];
+  string sheet_name = 2;
+  ExcelMappingConfig mapping = 3;
+}
+
+message ExcelMappingConfig {
+  string category_column = 1;  // e.g., "A"
+  string value_column = 2;     // e.g., "B"
+  int32 header_row = 3;        // Row number where headers start
+  bool has_percentage_column = 4;
+  string percentage_column = 5;
+}
+
+message ImportPlanFromExcelResponse {
+  UserPlan plan = 1;
+  int32 categories_imported = 2;
+  int32 items_imported = 3;
+}
+
+message AnalyzeExcelForPlanRequest {
+  string file_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message AnalyzeExcelForPlanResponse {
+  repeated ExcelSheetAnalysis sheets = 1;
+  string suggested_sheet = 2;
+}
+
+message ExcelSheetAnalysis {
+  string name = 1;
+  bool is_living_plan = 2;  // Has formulas
+  int32 row_count = 3;
+  int32 formula_count = 4;
+  repeated string detected_categories = 5;
+  repeated string month_columns = 6;  // e.g., ["jan-26", "feb-26"]
+}
