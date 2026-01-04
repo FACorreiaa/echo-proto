@@ -42,6 +42,9 @@ const (
 	// ImportServiceListUserFilesProcedure is the fully-qualified name of the ImportService's
 	// ListUserFiles RPC.
 	ImportServiceListUserFilesProcedure = "/echo.v1.ImportService/ListUserFiles"
+	// ImportServiceAnalyzeFileProcedure is the fully-qualified name of the ImportService's AnalyzeFile
+	// RPC.
+	ImportServiceAnalyzeFileProcedure = "/echo.v1.ImportService/AnalyzeFile"
 	// ImportServiceAnalyzeCsvFileProcedure is the fully-qualified name of the ImportService's
 	// AnalyzeCsvFile RPC.
 	ImportServiceAnalyzeCsvFileProcedure = "/echo.v1.ImportService/AnalyzeCsvFile"
@@ -68,6 +71,8 @@ type ImportServiceClient interface {
 	UploadUserFile(context.Context, *connect.Request[v1.UploadUserFileRequest]) (*connect.Response[v1.UploadUserFileResponse], error)
 	GetUserFile(context.Context, *connect.Request[v1.GetUserFileRequest]) (*connect.Response[v1.GetUserFileResponse], error)
 	ListUserFiles(context.Context, *connect.Request[v1.ListUserFilesRequest]) (*connect.Response[v1.ListUserFilesResponse], error)
+	// Analyzes any file (CSV/TSV/XLSX) and returns routing hint + configuration.
+	AnalyzeFile(context.Context, *connect.Request[v1.AnalyzeFileRequest]) (*connect.Response[v1.AnalyzeFileResponse], error)
 	// Analyzes a CSV file and returns detected configuration for mapping UI.
 	AnalyzeCsvFile(context.Context, *connect.Request[v1.AnalyzeCsvFileRequest]) (*connect.Response[v1.AnalyzeCsvFileResponse], error)
 	// Creates an import job that parses a file into canonical records (transactions, documents).
@@ -106,6 +111,12 @@ func NewImportServiceClient(httpClient connect.HTTPClient, baseURL string, opts 
 			httpClient,
 			baseURL+ImportServiceListUserFilesProcedure,
 			connect.WithSchema(importServiceMethods.ByName("ListUserFiles")),
+			connect.WithClientOptions(opts...),
+		),
+		analyzeFile: connect.NewClient[v1.AnalyzeFileRequest, v1.AnalyzeFileResponse](
+			httpClient,
+			baseURL+ImportServiceAnalyzeFileProcedure,
+			connect.WithSchema(importServiceMethods.ByName("AnalyzeFile")),
 			connect.WithClientOptions(opts...),
 		),
 		analyzeCsvFile: connect.NewClient[v1.AnalyzeCsvFileRequest, v1.AnalyzeCsvFileResponse](
@@ -152,6 +163,7 @@ type importServiceClient struct {
 	uploadUserFile  *connect.Client[v1.UploadUserFileRequest, v1.UploadUserFileResponse]
 	getUserFile     *connect.Client[v1.GetUserFileRequest, v1.GetUserFileResponse]
 	listUserFiles   *connect.Client[v1.ListUserFilesRequest, v1.ListUserFilesResponse]
+	analyzeFile     *connect.Client[v1.AnalyzeFileRequest, v1.AnalyzeFileResponse]
 	analyzeCsvFile  *connect.Client[v1.AnalyzeCsvFileRequest, v1.AnalyzeCsvFileResponse]
 	createImportJob *connect.Client[v1.CreateImportJobRequest, v1.CreateImportJobResponse]
 	getImportJob    *connect.Client[v1.GetImportJobRequest, v1.GetImportJobResponse]
@@ -173,6 +185,11 @@ func (c *importServiceClient) GetUserFile(ctx context.Context, req *connect.Requ
 // ListUserFiles calls echo.v1.ImportService.ListUserFiles.
 func (c *importServiceClient) ListUserFiles(ctx context.Context, req *connect.Request[v1.ListUserFilesRequest]) (*connect.Response[v1.ListUserFilesResponse], error) {
 	return c.listUserFiles.CallUnary(ctx, req)
+}
+
+// AnalyzeFile calls echo.v1.ImportService.AnalyzeFile.
+func (c *importServiceClient) AnalyzeFile(ctx context.Context, req *connect.Request[v1.AnalyzeFileRequest]) (*connect.Response[v1.AnalyzeFileResponse], error) {
+	return c.analyzeFile.CallUnary(ctx, req)
 }
 
 // AnalyzeCsvFile calls echo.v1.ImportService.AnalyzeCsvFile.
@@ -211,6 +228,8 @@ type ImportServiceHandler interface {
 	UploadUserFile(context.Context, *connect.Request[v1.UploadUserFileRequest]) (*connect.Response[v1.UploadUserFileResponse], error)
 	GetUserFile(context.Context, *connect.Request[v1.GetUserFileRequest]) (*connect.Response[v1.GetUserFileResponse], error)
 	ListUserFiles(context.Context, *connect.Request[v1.ListUserFilesRequest]) (*connect.Response[v1.ListUserFilesResponse], error)
+	// Analyzes any file (CSV/TSV/XLSX) and returns routing hint + configuration.
+	AnalyzeFile(context.Context, *connect.Request[v1.AnalyzeFileRequest]) (*connect.Response[v1.AnalyzeFileResponse], error)
 	// Analyzes a CSV file and returns detected configuration for mapping UI.
 	AnalyzeCsvFile(context.Context, *connect.Request[v1.AnalyzeCsvFileRequest]) (*connect.Response[v1.AnalyzeCsvFileResponse], error)
 	// Creates an import job that parses a file into canonical records (transactions, documents).
@@ -245,6 +264,12 @@ func NewImportServiceHandler(svc ImportServiceHandler, opts ...connect.HandlerOp
 		ImportServiceListUserFilesProcedure,
 		svc.ListUserFiles,
 		connect.WithSchema(importServiceMethods.ByName("ListUserFiles")),
+		connect.WithHandlerOptions(opts...),
+	)
+	importServiceAnalyzeFileHandler := connect.NewUnaryHandler(
+		ImportServiceAnalyzeFileProcedure,
+		svc.AnalyzeFile,
+		connect.WithSchema(importServiceMethods.ByName("AnalyzeFile")),
 		connect.WithHandlerOptions(opts...),
 	)
 	importServiceAnalyzeCsvFileHandler := connect.NewUnaryHandler(
@@ -291,6 +316,8 @@ func NewImportServiceHandler(svc ImportServiceHandler, opts ...connect.HandlerOp
 			importServiceGetUserFileHandler.ServeHTTP(w, r)
 		case ImportServiceListUserFilesProcedure:
 			importServiceListUserFilesHandler.ServeHTTP(w, r)
+		case ImportServiceAnalyzeFileProcedure:
+			importServiceAnalyzeFileHandler.ServeHTTP(w, r)
 		case ImportServiceAnalyzeCsvFileProcedure:
 			importServiceAnalyzeCsvFileHandler.ServeHTTP(w, r)
 		case ImportServiceCreateImportJobProcedure:
@@ -322,6 +349,10 @@ func (UnimplementedImportServiceHandler) GetUserFile(context.Context, *connect.R
 
 func (UnimplementedImportServiceHandler) ListUserFiles(context.Context, *connect.Request[v1.ListUserFilesRequest]) (*connect.Response[v1.ListUserFilesResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.ImportService.ListUserFiles is not implemented"))
+}
+
+func (UnimplementedImportServiceHandler) AnalyzeFile(context.Context, *connect.Request[v1.AnalyzeFileRequest]) (*connect.Response[v1.AnalyzeFileResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.ImportService.AnalyzeFile is not implemented"))
 }
 
 func (UnimplementedImportServiceHandler) AnalyzeCsvFile(context.Context, *connect.Request[v1.AnalyzeCsvFileRequest]) (*connect.Response[v1.AnalyzeCsvFileResponse], error) {

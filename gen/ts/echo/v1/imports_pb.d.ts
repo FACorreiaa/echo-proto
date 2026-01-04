@@ -719,6 +719,191 @@ export declare type CsvRegionalDialect = Message<"echo.v1.CsvRegionalDialect"> &
 export declare const CsvRegionalDialectSchema: GenMessage<CsvRegionalDialect>;
 
 /**
+ * @generated from message echo.v1.AnalyzeFileRequest
+ */
+export declare type AnalyzeFileRequest = Message<"echo.v1.AnalyzeFileRequest"> & {
+  /**
+   * @generated from field: bytes file_bytes = 1;
+   */
+  fileBytes: Uint8Array;
+
+  /**
+   * @generated from field: string file_name = 2;
+   */
+  fileName: string;
+
+  /**
+   * @generated from field: string mime_type = 3;
+   */
+  mimeType: string;
+};
+
+/**
+ * Describes the message echo.v1.AnalyzeFileRequest.
+ * Use `create(AnalyzeFileRequestSchema)` to create a new message.
+ */
+export declare const AnalyzeFileRequestSchema: GenMessage<AnalyzeFileRequest>;
+
+/**
+ * @generated from message echo.v1.AnalyzeFileResponse
+ */
+export declare type AnalyzeFileResponse = Message<"echo.v1.AnalyzeFileResponse"> & {
+  /**
+   * Routing hint tells the client which workflow to show
+   *
+   * @generated from field: echo.v1.ImportRoutingHint routing_hint = 1;
+   */
+  routingHint: ImportRoutingHint;
+
+  /**
+   * File type detected
+   *
+   * @generated from field: echo.v1.UserFileType file_type = 2;
+   */
+  fileType: UserFileType;
+
+  /**
+   * For transaction files (CSV/TSV or XLSX data dump)
+   *
+   * @generated from field: echo.v1.AnalyzeCsvFileResponse csv_analysis = 10;
+   */
+  csvAnalysis?: AnalyzeCsvFileResponse;
+
+  /**
+   * For planning files (XLSX with formulas)
+   *
+   * @generated from field: echo.v1.ExcelPlanAnalysis plan_analysis = 11;
+   */
+  planAnalysis?: ExcelPlanAnalysis;
+
+  /**
+   * Error message if analysis failed
+   *
+   * @generated from field: string error_message = 20;
+   */
+  errorMessage: string;
+};
+
+/**
+ * Describes the message echo.v1.AnalyzeFileResponse.
+ * Use `create(AnalyzeFileResponseSchema)` to create a new message.
+ */
+export declare const AnalyzeFileResponseSchema: GenMessage<AnalyzeFileResponse>;
+
+/**
+ * @generated from message echo.v1.ExcelPlanAnalysis
+ */
+export declare type ExcelPlanAnalysis = Message<"echo.v1.ExcelPlanAnalysis"> & {
+  /**
+   * @generated from field: repeated echo.v1.ExcelSheetInfo sheets = 1;
+   */
+  sheets: ExcelSheetInfo[];
+
+  /**
+   * @generated from field: string suggested_sheet = 2;
+   */
+  suggestedSheet: string;
+
+  /**
+   * @generated from field: repeated string detected_categories = 3;
+   */
+  detectedCategories: string[];
+
+  /**
+   * @generated from field: int32 formula_count = 4;
+   */
+  formulaCount: number;
+
+  /**
+   * @generated from field: bool is_living_plan = 5;
+   */
+  isLivingPlan: boolean;
+};
+
+/**
+ * Describes the message echo.v1.ExcelPlanAnalysis.
+ * Use `create(ExcelPlanAnalysisSchema)` to create a new message.
+ */
+export declare const ExcelPlanAnalysisSchema: GenMessage<ExcelPlanAnalysis>;
+
+/**
+ * @generated from message echo.v1.ExcelSheetInfo
+ */
+export declare type ExcelSheetInfo = Message<"echo.v1.ExcelSheetInfo"> & {
+  /**
+   * @generated from field: string name = 1;
+   */
+  name: string;
+
+  /**
+   * @generated from field: int32 row_count = 2;
+   */
+  rowCount: number;
+
+  /**
+   * @generated from field: int32 column_count = 3;
+   */
+  columnCount: number;
+
+  /**
+   * @generated from field: int32 formula_count = 4;
+   */
+  formulaCount: number;
+
+  /**
+   * @generated from field: bool is_living_plan = 5;
+   */
+  isLivingPlan: boolean;
+
+  /**
+   * @generated from field: repeated string detected_categories = 6;
+   */
+  detectedCategories: string[];
+
+  /**
+   * @generated from field: repeated string month_columns = 7;
+   */
+  monthColumns: string[];
+};
+
+/**
+ * Describes the message echo.v1.ExcelSheetInfo.
+ * Use `create(ExcelSheetInfoSchema)` to create a new message.
+ */
+export declare const ExcelSheetInfoSchema: GenMessage<ExcelSheetInfo>;
+
+/**
+ * Routing hint for smart import navigation
+ *
+ * @generated from enum echo.v1.ImportRoutingHint
+ */
+export enum ImportRoutingHint {
+  /**
+   * @generated from enum value: IMPORT_ROUTING_HINT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * CSV/TSV or Excel with transaction rows
+   *
+   * @generated from enum value: IMPORT_ROUTING_HINT_TRANSACTIONS = 1;
+   */
+  TRANSACTIONS = 1,
+
+  /**
+   * Excel with formulas/budget structure
+   *
+   * @generated from enum value: IMPORT_ROUTING_HINT_PLANNING = 2;
+   */
+  PLANNING = 2,
+}
+
+/**
+ * Describes the enum echo.v1.ImportRoutingHint.
+ */
+export declare const ImportRoutingHintSchema: GenEnum<ImportRoutingHint>;
+
+/**
  * @generated from enum echo.v1.UserFileType
  */
 export enum UserFileType {
@@ -847,6 +1032,16 @@ export declare const ImportService: GenService<{
     methodKind: "unary";
     input: typeof ListUserFilesRequestSchema;
     output: typeof ListUserFilesResponseSchema;
+  },
+  /**
+   * Analyzes any file (CSV/TSV/XLSX) and returns routing hint + configuration.
+   *
+   * @generated from rpc echo.v1.ImportService.AnalyzeFile
+   */
+  analyzeFile: {
+    methodKind: "unary";
+    input: typeof AnalyzeFileRequestSchema;
+    output: typeof AnalyzeFileResponseSchema;
   },
   /**
    * Analyzes a CSV file and returns detected configuration for mapping UI.

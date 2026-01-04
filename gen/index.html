@@ -656,6 +656,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.AnalyzeFileRequest"><span class="badge">M</span>AnalyzeFileRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AnalyzeFileResponse"><span class="badge">M</span>AnalyzeFileResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.CreateImportJobRequest"><span class="badge">M</span>CreateImportJobRequest</a>
                 </li>
               
@@ -677,6 +685,14 @@
               
                 <li>
                   <a href="#echo.v1.Document"><span class="badge">M</span>Document</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ExcelPlanAnalysis"><span class="badge">M</span>ExcelPlanAnalysis</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ExcelSheetInfo"><span class="badge">M</span>ExcelSheetInfo</a>
                 </li>
               
                 <li>
@@ -750,6 +766,10 @@
               
                 <li>
                   <a href="#echo.v1.ImportKind"><span class="badge">E</span>ImportKind</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ImportRoutingHint"><span class="badge">E</span>ImportRoutingHint</a>
                 </li>
               
                 <li>
@@ -5190,6 +5210,96 @@
 
         
       
+        <h3 id="echo.v1.AnalyzeFileRequest">AnalyzeFileRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file_bytes</td>
+                  <td><a href="#bytes">bytes</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>mime_type</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AnalyzeFileResponse">AnalyzeFileResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>routing_hint</td>
+                  <td><a href="#echo.v1.ImportRoutingHint">ImportRoutingHint</a></td>
+                  <td></td>
+                  <td><p>Routing hint tells the client which workflow to show </p></td>
+                </tr>
+              
+                <tr>
+                  <td>file_type</td>
+                  <td><a href="#echo.v1.UserFileType">UserFileType</a></td>
+                  <td></td>
+                  <td><p>File type detected </p></td>
+                </tr>
+              
+                <tr>
+                  <td>csv_analysis</td>
+                  <td><a href="#echo.v1.AnalyzeCsvFileResponse">AnalyzeCsvFileResponse</a></td>
+                  <td></td>
+                  <td><p>For transaction files (CSV/TSV or XLSX data dump) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>plan_analysis</td>
+                  <td><a href="#echo.v1.ExcelPlanAnalysis">ExcelPlanAnalysis</a></td>
+                  <td></td>
+                  <td><p>For planning files (XLSX with formulas) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>error_message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Error message if analysis failed </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.CreateImportJobRequest">CreateImportJobRequest</h3>
         <p></p>
 
@@ -5464,6 +5574,124 @@
                   <td>updated_at</td>
                   <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
                   <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ExcelPlanAnalysis">ExcelPlanAnalysis</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>sheets</td>
+                  <td><a href="#echo.v1.ExcelSheetInfo">ExcelSheetInfo</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>suggested_sheet</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>detected_categories</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>formula_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_living_plan</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ExcelSheetInfo">ExcelSheetInfo</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>row_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>column_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>formula_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_living_plan</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>detected_categories</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>month_columns</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -6123,6 +6351,35 @@
           </tbody>
         </table>
       
+        <h3 id="echo.v1.ImportRoutingHint">ImportRoutingHint</h3>
+        <p>Routing hint for smart import navigation</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>IMPORT_ROUTING_HINT_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ROUTING_HINT_TRANSACTIONS</td>
+                <td>1</td>
+                <td><p>CSV/TSV or Excel with transaction rows</p></td>
+              </tr>
+            
+              <tr>
+                <td>IMPORT_ROUTING_HINT_PLANNING</td>
+                <td>2</td>
+                <td><p>Excel with formulas/budget structure</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="echo.v1.ImportStatus">ImportStatus</h3>
         <p></p>
         <table class="enum-table">
@@ -6242,6 +6499,13 @@
                 <td><a href="#echo.v1.ListUserFilesRequest">ListUserFilesRequest</a></td>
                 <td><a href="#echo.v1.ListUserFilesResponse">ListUserFilesResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>AnalyzeFile</td>
+                <td><a href="#echo.v1.AnalyzeFileRequest">AnalyzeFileRequest</a></td>
+                <td><a href="#echo.v1.AnalyzeFileResponse">AnalyzeFileResponse</a></td>
+                <td><p>Analyzes any file (CSV/TSV/XLSX) and returns routing hint &#43; configuration.</p></td>
               </tr>
             
               <tr>

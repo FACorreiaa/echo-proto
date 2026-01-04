@@ -13,6 +13,9 @@ service ImportService {
   rpc GetUserFile(GetUserFileRequest) returns (GetUserFileResponse);
   rpc ListUserFiles(ListUserFilesRequest) returns (ListUserFilesResponse);
 
+  // Analyzes any file (CSV/TSV/XLSX) and returns routing hint + configuration.
+  rpc AnalyzeFile(AnalyzeFileRequest) returns (AnalyzeFileResponse);
+  
   // Analyzes a CSV file and returns detected configuration for mapping UI.
   rpc AnalyzeCsvFile(AnalyzeCsvFileRequest) returns (AnalyzeCsvFileResponse);
 
@@ -24,6 +27,13 @@ service ImportService {
   // Invoice/receipt documents (post‑MVP ingestion from PDF/images).
   rpc GetDocument(GetDocumentRequest) returns (GetDocumentResponse);
   rpc ListDocuments(ListDocumentsRequest) returns (ListDocumentsResponse);
+}
+
+// Routing hint for smart import navigation
+enum ImportRoutingHint {
+  IMPORT_ROUTING_HINT_UNSPECIFIED = 0;
+  IMPORT_ROUTING_HINT_TRANSACTIONS = 1; // CSV/TSV or Excel with transaction rows
+  IMPORT_ROUTING_HINT_PLANNING = 2;     // Excel with formulas/budget structure
 }
 
 enum UserFileType {
@@ -229,3 +239,49 @@ message CsvRegionalDialect {
   double confidence = 3;
   string currency_hint = 4;
 }
+
+// ============================================================================
+// Smart File Analysis (Unified Import Hub)
+// ============================================================================
+
+message AnalyzeFileRequest {
+  bytes file_bytes = 1 [(buf.validate.field).bytes = { min_len: 1 max_len: 20000000 }];
+  string file_name = 2 [(buf.validate.field).string = { min_len: 1 max_len: 255 }];
+  string mime_type = 3 [(buf.validate.field).string = { max_len: 127 }];
+}
+
+message AnalyzeFileResponse {
+  // Routing hint tells the client which workflow to show
+  ImportRoutingHint routing_hint = 1;
+  
+  // File type detected
+  UserFileType file_type = 2;
+  
+  // For transaction files (CSV/TSV or XLSX data dump)
+  AnalyzeCsvFileResponse csv_analysis = 10;
+  
+  // For planning files (XLSX with formulas)
+  ExcelPlanAnalysis plan_analysis = 11;
+  
+  // Error message if analysis failed
+  string error_message = 20;
+}
+
+message ExcelPlanAnalysis {
+  repeated ExcelSheetInfo sheets = 1;
+  string suggested_sheet = 2;
+  repeated string detected_categories = 3;
+  int32 formula_count = 4;
+  bool is_living_plan = 5;
+}
+
+message ExcelSheetInfo {
+  string name = 1;
+  int32 row_count = 2;
+  int32 column_count = 3;
+  int32 formula_count = 4;
+  bool is_living_plan = 5;
+  repeated string detected_categories = 6;
+  repeated string month_columns = 7;
+}
+

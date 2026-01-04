@@ -23,6 +23,56 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Routing hint for smart import navigation
+type ImportRoutingHint int32
+
+const (
+	ImportRoutingHint_IMPORT_ROUTING_HINT_UNSPECIFIED  ImportRoutingHint = 0
+	ImportRoutingHint_IMPORT_ROUTING_HINT_TRANSACTIONS ImportRoutingHint = 1 // CSV/TSV or Excel with transaction rows
+	ImportRoutingHint_IMPORT_ROUTING_HINT_PLANNING     ImportRoutingHint = 2 // Excel with formulas/budget structure
+)
+
+// Enum value maps for ImportRoutingHint.
+var (
+	ImportRoutingHint_name = map[int32]string{
+		0: "IMPORT_ROUTING_HINT_UNSPECIFIED",
+		1: "IMPORT_ROUTING_HINT_TRANSACTIONS",
+		2: "IMPORT_ROUTING_HINT_PLANNING",
+	}
+	ImportRoutingHint_value = map[string]int32{
+		"IMPORT_ROUTING_HINT_UNSPECIFIED":  0,
+		"IMPORT_ROUTING_HINT_TRANSACTIONS": 1,
+		"IMPORT_ROUTING_HINT_PLANNING":     2,
+	}
+)
+
+func (x ImportRoutingHint) Enum() *ImportRoutingHint {
+	p := new(ImportRoutingHint)
+	*p = x
+	return p
+}
+
+func (x ImportRoutingHint) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ImportRoutingHint) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_imports_proto_enumTypes[0].Descriptor()
+}
+
+func (ImportRoutingHint) Type() protoreflect.EnumType {
+	return &file_echo_v1_imports_proto_enumTypes[0]
+}
+
+func (x ImportRoutingHint) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ImportRoutingHint.Descriptor instead.
+func (ImportRoutingHint) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{0}
+}
+
 type UserFileType int32
 
 const (
@@ -62,11 +112,11 @@ func (x UserFileType) String() string {
 }
 
 func (UserFileType) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_imports_proto_enumTypes[0].Descriptor()
+	return file_echo_v1_imports_proto_enumTypes[1].Descriptor()
 }
 
 func (UserFileType) Type() protoreflect.EnumType {
-	return &file_echo_v1_imports_proto_enumTypes[0]
+	return &file_echo_v1_imports_proto_enumTypes[1]
 }
 
 func (x UserFileType) Number() protoreflect.EnumNumber {
@@ -75,7 +125,7 @@ func (x UserFileType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use UserFileType.Descriptor instead.
 func (UserFileType) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_imports_proto_rawDescGZIP(), []int{0}
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{1}
 }
 
 type ImportKind int32
@@ -111,11 +161,11 @@ func (x ImportKind) String() string {
 }
 
 func (ImportKind) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_imports_proto_enumTypes[1].Descriptor()
+	return file_echo_v1_imports_proto_enumTypes[2].Descriptor()
 }
 
 func (ImportKind) Type() protoreflect.EnumType {
-	return &file_echo_v1_imports_proto_enumTypes[1]
+	return &file_echo_v1_imports_proto_enumTypes[2]
 }
 
 func (x ImportKind) Number() protoreflect.EnumNumber {
@@ -124,7 +174,7 @@ func (x ImportKind) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ImportKind.Descriptor instead.
 func (ImportKind) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_imports_proto_rawDescGZIP(), []int{1}
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{2}
 }
 
 type ImportStatus int32
@@ -169,11 +219,11 @@ func (x ImportStatus) String() string {
 }
 
 func (ImportStatus) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_imports_proto_enumTypes[2].Descriptor()
+	return file_echo_v1_imports_proto_enumTypes[3].Descriptor()
 }
 
 func (ImportStatus) Type() protoreflect.EnumType {
-	return &file_echo_v1_imports_proto_enumTypes[2]
+	return &file_echo_v1_imports_proto_enumTypes[3]
 }
 
 func (x ImportStatus) Number() protoreflect.EnumNumber {
@@ -182,7 +232,7 @@ func (x ImportStatus) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ImportStatus.Descriptor instead.
 func (ImportStatus) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_imports_proto_rawDescGZIP(), []int{2}
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{3}
 }
 
 type UserFile struct {
@@ -1757,6 +1807,315 @@ func (x *CsvRegionalDialect) GetCurrencyHint() string {
 	return ""
 }
 
+type AnalyzeFileRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	FileBytes     []byte                 `protobuf:"bytes,1,opt,name=file_bytes,json=fileBytes,proto3" json:"file_bytes,omitempty"`
+	FileName      string                 `protobuf:"bytes,2,opt,name=file_name,json=fileName,proto3" json:"file_name,omitempty"`
+	MimeType      string                 `protobuf:"bytes,3,opt,name=mime_type,json=mimeType,proto3" json:"mime_type,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnalyzeFileRequest) Reset() {
+	*x = AnalyzeFileRequest{}
+	mi := &file_echo_v1_imports_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnalyzeFileRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnalyzeFileRequest) ProtoMessage() {}
+
+func (x *AnalyzeFileRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_imports_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnalyzeFileRequest.ProtoReflect.Descriptor instead.
+func (*AnalyzeFileRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *AnalyzeFileRequest) GetFileBytes() []byte {
+	if x != nil {
+		return x.FileBytes
+	}
+	return nil
+}
+
+func (x *AnalyzeFileRequest) GetFileName() string {
+	if x != nil {
+		return x.FileName
+	}
+	return ""
+}
+
+func (x *AnalyzeFileRequest) GetMimeType() string {
+	if x != nil {
+		return x.MimeType
+	}
+	return ""
+}
+
+type AnalyzeFileResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Routing hint tells the client which workflow to show
+	RoutingHint ImportRoutingHint `protobuf:"varint,1,opt,name=routing_hint,json=routingHint,proto3,enum=echo.v1.ImportRoutingHint" json:"routing_hint,omitempty"`
+	// File type detected
+	FileType UserFileType `protobuf:"varint,2,opt,name=file_type,json=fileType,proto3,enum=echo.v1.UserFileType" json:"file_type,omitempty"`
+	// For transaction files (CSV/TSV or XLSX data dump)
+	CsvAnalysis *AnalyzeCsvFileResponse `protobuf:"bytes,10,opt,name=csv_analysis,json=csvAnalysis,proto3" json:"csv_analysis,omitempty"`
+	// For planning files (XLSX with formulas)
+	PlanAnalysis *ExcelPlanAnalysis `protobuf:"bytes,11,opt,name=plan_analysis,json=planAnalysis,proto3" json:"plan_analysis,omitempty"`
+	// Error message if analysis failed
+	ErrorMessage  string `protobuf:"bytes,20,opt,name=error_message,json=errorMessage,proto3" json:"error_message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AnalyzeFileResponse) Reset() {
+	*x = AnalyzeFileResponse{}
+	mi := &file_echo_v1_imports_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AnalyzeFileResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AnalyzeFileResponse) ProtoMessage() {}
+
+func (x *AnalyzeFileResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_imports_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AnalyzeFileResponse.ProtoReflect.Descriptor instead.
+func (*AnalyzeFileResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *AnalyzeFileResponse) GetRoutingHint() ImportRoutingHint {
+	if x != nil {
+		return x.RoutingHint
+	}
+	return ImportRoutingHint_IMPORT_ROUTING_HINT_UNSPECIFIED
+}
+
+func (x *AnalyzeFileResponse) GetFileType() UserFileType {
+	if x != nil {
+		return x.FileType
+	}
+	return UserFileType_USER_FILE_TYPE_UNSPECIFIED
+}
+
+func (x *AnalyzeFileResponse) GetCsvAnalysis() *AnalyzeCsvFileResponse {
+	if x != nil {
+		return x.CsvAnalysis
+	}
+	return nil
+}
+
+func (x *AnalyzeFileResponse) GetPlanAnalysis() *ExcelPlanAnalysis {
+	if x != nil {
+		return x.PlanAnalysis
+	}
+	return nil
+}
+
+func (x *AnalyzeFileResponse) GetErrorMessage() string {
+	if x != nil {
+		return x.ErrorMessage
+	}
+	return ""
+}
+
+type ExcelPlanAnalysis struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Sheets             []*ExcelSheetInfo      `protobuf:"bytes,1,rep,name=sheets,proto3" json:"sheets,omitempty"`
+	SuggestedSheet     string                 `protobuf:"bytes,2,opt,name=suggested_sheet,json=suggestedSheet,proto3" json:"suggested_sheet,omitempty"`
+	DetectedCategories []string               `protobuf:"bytes,3,rep,name=detected_categories,json=detectedCategories,proto3" json:"detected_categories,omitempty"`
+	FormulaCount       int32                  `protobuf:"varint,4,opt,name=formula_count,json=formulaCount,proto3" json:"formula_count,omitempty"`
+	IsLivingPlan       bool                   `protobuf:"varint,5,opt,name=is_living_plan,json=isLivingPlan,proto3" json:"is_living_plan,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ExcelPlanAnalysis) Reset() {
+	*x = ExcelPlanAnalysis{}
+	mi := &file_echo_v1_imports_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExcelPlanAnalysis) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExcelPlanAnalysis) ProtoMessage() {}
+
+func (x *ExcelPlanAnalysis) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_imports_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExcelPlanAnalysis.ProtoReflect.Descriptor instead.
+func (*ExcelPlanAnalysis) Descriptor() ([]byte, []int) {
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *ExcelPlanAnalysis) GetSheets() []*ExcelSheetInfo {
+	if x != nil {
+		return x.Sheets
+	}
+	return nil
+}
+
+func (x *ExcelPlanAnalysis) GetSuggestedSheet() string {
+	if x != nil {
+		return x.SuggestedSheet
+	}
+	return ""
+}
+
+func (x *ExcelPlanAnalysis) GetDetectedCategories() []string {
+	if x != nil {
+		return x.DetectedCategories
+	}
+	return nil
+}
+
+func (x *ExcelPlanAnalysis) GetFormulaCount() int32 {
+	if x != nil {
+		return x.FormulaCount
+	}
+	return 0
+}
+
+func (x *ExcelPlanAnalysis) GetIsLivingPlan() bool {
+	if x != nil {
+		return x.IsLivingPlan
+	}
+	return false
+}
+
+type ExcelSheetInfo struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	RowCount           int32                  `protobuf:"varint,2,opt,name=row_count,json=rowCount,proto3" json:"row_count,omitempty"`
+	ColumnCount        int32                  `protobuf:"varint,3,opt,name=column_count,json=columnCount,proto3" json:"column_count,omitempty"`
+	FormulaCount       int32                  `protobuf:"varint,4,opt,name=formula_count,json=formulaCount,proto3" json:"formula_count,omitempty"`
+	IsLivingPlan       bool                   `protobuf:"varint,5,opt,name=is_living_plan,json=isLivingPlan,proto3" json:"is_living_plan,omitempty"`
+	DetectedCategories []string               `protobuf:"bytes,6,rep,name=detected_categories,json=detectedCategories,proto3" json:"detected_categories,omitempty"`
+	MonthColumns       []string               `protobuf:"bytes,7,rep,name=month_columns,json=monthColumns,proto3" json:"month_columns,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *ExcelSheetInfo) Reset() {
+	*x = ExcelSheetInfo{}
+	mi := &file_echo_v1_imports_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ExcelSheetInfo) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ExcelSheetInfo) ProtoMessage() {}
+
+func (x *ExcelSheetInfo) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_imports_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ExcelSheetInfo.ProtoReflect.Descriptor instead.
+func (*ExcelSheetInfo) Descriptor() ([]byte, []int) {
+	return file_echo_v1_imports_proto_rawDescGZIP(), []int{28}
+}
+
+func (x *ExcelSheetInfo) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ExcelSheetInfo) GetRowCount() int32 {
+	if x != nil {
+		return x.RowCount
+	}
+	return 0
+}
+
+func (x *ExcelSheetInfo) GetColumnCount() int32 {
+	if x != nil {
+		return x.ColumnCount
+	}
+	return 0
+}
+
+func (x *ExcelSheetInfo) GetFormulaCount() int32 {
+	if x != nil {
+		return x.FormulaCount
+	}
+	return 0
+}
+
+func (x *ExcelSheetInfo) GetIsLivingPlan() bool {
+	if x != nil {
+		return x.IsLivingPlan
+	}
+	return false
+}
+
+func (x *ExcelSheetInfo) GetDetectedCategories() []string {
+	if x != nil {
+		return x.DetectedCategories
+	}
+	return nil
+}
+
+func (x *ExcelSheetInfo) GetMonthColumns() []string {
+	if x != nil {
+		return x.MonthColumns
+	}
+	return nil
+}
+
 var File_echo_v1_imports_proto protoreflect.FileDescriptor
 
 const file_echo_v1_imports_proto_rawDesc = "" +
@@ -1899,7 +2258,38 @@ const file_echo_v1_imports_proto_rawDesc = "" +
 	"\n" +
 	"confidence\x18\x03 \x01(\x01R\n" +
 	"confidence\x12#\n" +
-	"\rcurrency_hint\x18\x04 \x01(\tR\fcurrencyHint*\x91\x01\n" +
+	"\rcurrency_hint\x18\x04 \x01(\tR\fcurrencyHint\"\x90\x01\n" +
+	"\x12AnalyzeFileRequest\x12+\n" +
+	"\n" +
+	"file_bytes\x18\x01 \x01(\fB\f\xbaH\tz\a\x10\x01\x18\x80\xda\xc4\tR\tfileBytes\x12'\n" +
+	"\tfile_name\x18\x02 \x01(\tB\n" +
+	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\bfileName\x12$\n" +
+	"\tmime_type\x18\x03 \x01(\tB\a\xbaH\x04r\x02\x18\x7fR\bmimeType\"\xb2\x02\n" +
+	"\x13AnalyzeFileResponse\x12=\n" +
+	"\frouting_hint\x18\x01 \x01(\x0e2\x1a.echo.v1.ImportRoutingHintR\vroutingHint\x122\n" +
+	"\tfile_type\x18\x02 \x01(\x0e2\x15.echo.v1.UserFileTypeR\bfileType\x12B\n" +
+	"\fcsv_analysis\x18\n" +
+	" \x01(\v2\x1f.echo.v1.AnalyzeCsvFileResponseR\vcsvAnalysis\x12?\n" +
+	"\rplan_analysis\x18\v \x01(\v2\x1a.echo.v1.ExcelPlanAnalysisR\fplanAnalysis\x12#\n" +
+	"\rerror_message\x18\x14 \x01(\tR\ferrorMessage\"\xe9\x01\n" +
+	"\x11ExcelPlanAnalysis\x12/\n" +
+	"\x06sheets\x18\x01 \x03(\v2\x17.echo.v1.ExcelSheetInfoR\x06sheets\x12'\n" +
+	"\x0fsuggested_sheet\x18\x02 \x01(\tR\x0esuggestedSheet\x12/\n" +
+	"\x13detected_categories\x18\x03 \x03(\tR\x12detectedCategories\x12#\n" +
+	"\rformula_count\x18\x04 \x01(\x05R\fformulaCount\x12$\n" +
+	"\x0eis_living_plan\x18\x05 \x01(\bR\fisLivingPlan\"\x85\x02\n" +
+	"\x0eExcelSheetInfo\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
+	"\trow_count\x18\x02 \x01(\x05R\browCount\x12!\n" +
+	"\fcolumn_count\x18\x03 \x01(\x05R\vcolumnCount\x12#\n" +
+	"\rformula_count\x18\x04 \x01(\x05R\fformulaCount\x12$\n" +
+	"\x0eis_living_plan\x18\x05 \x01(\bR\fisLivingPlan\x12/\n" +
+	"\x13detected_categories\x18\x06 \x03(\tR\x12detectedCategories\x12#\n" +
+	"\rmonth_columns\x18\a \x03(\tR\fmonthColumns*\x80\x01\n" +
+	"\x11ImportRoutingHint\x12#\n" +
+	"\x1fIMPORT_ROUTING_HINT_UNSPECIFIED\x10\x00\x12$\n" +
+	" IMPORT_ROUTING_HINT_TRANSACTIONS\x10\x01\x12 \n" +
+	"\x1cIMPORT_ROUTING_HINT_PLANNING\x10\x02*\x91\x01\n" +
 	"\fUserFileType\x12\x1e\n" +
 	"\x1aUSER_FILE_TYPE_UNSPECIFIED\x10\x00\x12\x16\n" +
 	"\x12USER_FILE_TYPE_CSV\x10\x01\x12\x17\n" +
@@ -1917,11 +2307,12 @@ const file_echo_v1_imports_proto_rawDesc = "" +
 	"\x15IMPORT_STATUS_RUNNING\x10\x02\x12\x1b\n" +
 	"\x17IMPORT_STATUS_SUCCEEDED\x10\x03\x12\x18\n" +
 	"\x14IMPORT_STATUS_FAILED\x10\x04\x12\x1a\n" +
-	"\x16IMPORT_STATUS_CANCELED\x10\x052\xdf\x05\n" +
+	"\x16IMPORT_STATUS_CANCELED\x10\x052\xa9\x06\n" +
 	"\rImportService\x12Q\n" +
 	"\x0eUploadUserFile\x12\x1e.echo.v1.UploadUserFileRequest\x1a\x1f.echo.v1.UploadUserFileResponse\x12H\n" +
 	"\vGetUserFile\x12\x1b.echo.v1.GetUserFileRequest\x1a\x1c.echo.v1.GetUserFileResponse\x12N\n" +
-	"\rListUserFiles\x12\x1d.echo.v1.ListUserFilesRequest\x1a\x1e.echo.v1.ListUserFilesResponse\x12Q\n" +
+	"\rListUserFiles\x12\x1d.echo.v1.ListUserFilesRequest\x1a\x1e.echo.v1.ListUserFilesResponse\x12H\n" +
+	"\vAnalyzeFile\x12\x1b.echo.v1.AnalyzeFileRequest\x1a\x1c.echo.v1.AnalyzeFileResponse\x12Q\n" +
 	"\x0eAnalyzeCsvFile\x12\x1e.echo.v1.AnalyzeCsvFileRequest\x1a\x1f.echo.v1.AnalyzeCsvFileResponse\x12T\n" +
 	"\x0fCreateImportJob\x12\x1f.echo.v1.CreateImportJobRequest\x1a .echo.v1.CreateImportJobResponse\x12K\n" +
 	"\fGetImportJob\x12\x1c.echo.v1.GetImportJobRequest\x1a\x1d.echo.v1.GetImportJobResponse\x12Q\n" +
@@ -1942,100 +2333,112 @@ func file_echo_v1_imports_proto_rawDescGZIP() []byte {
 	return file_echo_v1_imports_proto_rawDescData
 }
 
-var file_echo_v1_imports_proto_enumTypes = make([]protoimpl.EnumInfo, 3)
-var file_echo_v1_imports_proto_msgTypes = make([]protoimpl.MessageInfo, 25)
+var file_echo_v1_imports_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
+var file_echo_v1_imports_proto_msgTypes = make([]protoimpl.MessageInfo, 29)
 var file_echo_v1_imports_proto_goTypes = []any{
-	(UserFileType)(0),               // 0: echo.v1.UserFileType
-	(ImportKind)(0),                 // 1: echo.v1.ImportKind
-	(ImportStatus)(0),               // 2: echo.v1.ImportStatus
-	(*UserFile)(nil),                // 3: echo.v1.UserFile
-	(*UploadUserFileRequest)(nil),   // 4: echo.v1.UploadUserFileRequest
-	(*UploadUserFileResponse)(nil),  // 5: echo.v1.UploadUserFileResponse
-	(*GetUserFileRequest)(nil),      // 6: echo.v1.GetUserFileRequest
-	(*GetUserFileResponse)(nil),     // 7: echo.v1.GetUserFileResponse
-	(*ListUserFilesRequest)(nil),    // 8: echo.v1.ListUserFilesRequest
-	(*ListUserFilesResponse)(nil),   // 9: echo.v1.ListUserFilesResponse
-	(*ImportStats)(nil),             // 10: echo.v1.ImportStats
-	(*ImportJob)(nil),               // 11: echo.v1.ImportJob
-	(*CreateImportJobRequest)(nil),  // 12: echo.v1.CreateImportJobRequest
-	(*CreateImportJobResponse)(nil), // 13: echo.v1.CreateImportJobResponse
-	(*GetImportJobRequest)(nil),     // 14: echo.v1.GetImportJobRequest
-	(*GetImportJobResponse)(nil),    // 15: echo.v1.GetImportJobResponse
-	(*ListImportJobsRequest)(nil),   // 16: echo.v1.ListImportJobsRequest
-	(*ListImportJobsResponse)(nil),  // 17: echo.v1.ListImportJobsResponse
-	(*Document)(nil),                // 18: echo.v1.Document
-	(*GetDocumentRequest)(nil),      // 19: echo.v1.GetDocumentRequest
-	(*GetDocumentResponse)(nil),     // 20: echo.v1.GetDocumentResponse
-	(*ListDocumentsRequest)(nil),    // 21: echo.v1.ListDocumentsRequest
-	(*ListDocumentsResponse)(nil),   // 22: echo.v1.ListDocumentsResponse
-	(*AnalyzeCsvFileRequest)(nil),   // 23: echo.v1.AnalyzeCsvFileRequest
-	(*AnalyzeCsvFileResponse)(nil),  // 24: echo.v1.AnalyzeCsvFileResponse
-	(*CsvSampleRow)(nil),            // 25: echo.v1.CsvSampleRow
-	(*CsvColumnSuggestions)(nil),    // 26: echo.v1.CsvColumnSuggestions
-	(*CsvRegionalDialect)(nil),      // 27: echo.v1.CsvRegionalDialect
-	(*timestamppb.Timestamp)(nil),   // 28: google.protobuf.Timestamp
-	(*PageRequest)(nil),             // 29: echo.v1.PageRequest
-	(*PageResponse)(nil),            // 30: echo.v1.PageResponse
-	(*Money)(nil),                   // 31: echo.v1.Money
+	(ImportRoutingHint)(0),          // 0: echo.v1.ImportRoutingHint
+	(UserFileType)(0),               // 1: echo.v1.UserFileType
+	(ImportKind)(0),                 // 2: echo.v1.ImportKind
+	(ImportStatus)(0),               // 3: echo.v1.ImportStatus
+	(*UserFile)(nil),                // 4: echo.v1.UserFile
+	(*UploadUserFileRequest)(nil),   // 5: echo.v1.UploadUserFileRequest
+	(*UploadUserFileResponse)(nil),  // 6: echo.v1.UploadUserFileResponse
+	(*GetUserFileRequest)(nil),      // 7: echo.v1.GetUserFileRequest
+	(*GetUserFileResponse)(nil),     // 8: echo.v1.GetUserFileResponse
+	(*ListUserFilesRequest)(nil),    // 9: echo.v1.ListUserFilesRequest
+	(*ListUserFilesResponse)(nil),   // 10: echo.v1.ListUserFilesResponse
+	(*ImportStats)(nil),             // 11: echo.v1.ImportStats
+	(*ImportJob)(nil),               // 12: echo.v1.ImportJob
+	(*CreateImportJobRequest)(nil),  // 13: echo.v1.CreateImportJobRequest
+	(*CreateImportJobResponse)(nil), // 14: echo.v1.CreateImportJobResponse
+	(*GetImportJobRequest)(nil),     // 15: echo.v1.GetImportJobRequest
+	(*GetImportJobResponse)(nil),    // 16: echo.v1.GetImportJobResponse
+	(*ListImportJobsRequest)(nil),   // 17: echo.v1.ListImportJobsRequest
+	(*ListImportJobsResponse)(nil),  // 18: echo.v1.ListImportJobsResponse
+	(*Document)(nil),                // 19: echo.v1.Document
+	(*GetDocumentRequest)(nil),      // 20: echo.v1.GetDocumentRequest
+	(*GetDocumentResponse)(nil),     // 21: echo.v1.GetDocumentResponse
+	(*ListDocumentsRequest)(nil),    // 22: echo.v1.ListDocumentsRequest
+	(*ListDocumentsResponse)(nil),   // 23: echo.v1.ListDocumentsResponse
+	(*AnalyzeCsvFileRequest)(nil),   // 24: echo.v1.AnalyzeCsvFileRequest
+	(*AnalyzeCsvFileResponse)(nil),  // 25: echo.v1.AnalyzeCsvFileResponse
+	(*CsvSampleRow)(nil),            // 26: echo.v1.CsvSampleRow
+	(*CsvColumnSuggestions)(nil),    // 27: echo.v1.CsvColumnSuggestions
+	(*CsvRegionalDialect)(nil),      // 28: echo.v1.CsvRegionalDialect
+	(*AnalyzeFileRequest)(nil),      // 29: echo.v1.AnalyzeFileRequest
+	(*AnalyzeFileResponse)(nil),     // 30: echo.v1.AnalyzeFileResponse
+	(*ExcelPlanAnalysis)(nil),       // 31: echo.v1.ExcelPlanAnalysis
+	(*ExcelSheetInfo)(nil),          // 32: echo.v1.ExcelSheetInfo
+	(*timestamppb.Timestamp)(nil),   // 33: google.protobuf.Timestamp
+	(*PageRequest)(nil),             // 34: echo.v1.PageRequest
+	(*PageResponse)(nil),            // 35: echo.v1.PageResponse
+	(*Money)(nil),                   // 36: echo.v1.Money
 }
 var file_echo_v1_imports_proto_depIdxs = []int32{
-	0,  // 0: echo.v1.UserFile.type:type_name -> echo.v1.UserFileType
-	28, // 1: echo.v1.UserFile.created_at:type_name -> google.protobuf.Timestamp
-	0,  // 2: echo.v1.UploadUserFileRequest.type:type_name -> echo.v1.UserFileType
-	3,  // 3: echo.v1.UploadUserFileResponse.file:type_name -> echo.v1.UserFile
-	3,  // 4: echo.v1.GetUserFileResponse.file:type_name -> echo.v1.UserFile
-	29, // 5: echo.v1.ListUserFilesRequest.page:type_name -> echo.v1.PageRequest
-	0,  // 6: echo.v1.ListUserFilesRequest.type:type_name -> echo.v1.UserFileType
-	3,  // 7: echo.v1.ListUserFilesResponse.files:type_name -> echo.v1.UserFile
-	30, // 8: echo.v1.ListUserFilesResponse.page:type_name -> echo.v1.PageResponse
-	1,  // 9: echo.v1.ImportJob.kind:type_name -> echo.v1.ImportKind
-	2,  // 10: echo.v1.ImportJob.status:type_name -> echo.v1.ImportStatus
-	10, // 11: echo.v1.ImportJob.stats:type_name -> echo.v1.ImportStats
-	28, // 12: echo.v1.ImportJob.requested_at:type_name -> google.protobuf.Timestamp
-	28, // 13: echo.v1.ImportJob.started_at:type_name -> google.protobuf.Timestamp
-	28, // 14: echo.v1.ImportJob.finished_at:type_name -> google.protobuf.Timestamp
-	1,  // 15: echo.v1.CreateImportJobRequest.kind:type_name -> echo.v1.ImportKind
-	11, // 16: echo.v1.CreateImportJobResponse.job:type_name -> echo.v1.ImportJob
-	11, // 17: echo.v1.GetImportJobResponse.job:type_name -> echo.v1.ImportJob
-	29, // 18: echo.v1.ListImportJobsRequest.page:type_name -> echo.v1.PageRequest
-	2,  // 19: echo.v1.ListImportJobsRequest.status:type_name -> echo.v1.ImportStatus
-	1,  // 20: echo.v1.ListImportJobsRequest.kind:type_name -> echo.v1.ImportKind
-	11, // 21: echo.v1.ListImportJobsResponse.jobs:type_name -> echo.v1.ImportJob
-	30, // 22: echo.v1.ListImportJobsResponse.page:type_name -> echo.v1.PageResponse
-	28, // 23: echo.v1.Document.issued_at:type_name -> google.protobuf.Timestamp
-	31, // 24: echo.v1.Document.total:type_name -> echo.v1.Money
-	28, // 25: echo.v1.Document.created_at:type_name -> google.protobuf.Timestamp
-	28, // 26: echo.v1.Document.updated_at:type_name -> google.protobuf.Timestamp
-	18, // 27: echo.v1.GetDocumentResponse.document:type_name -> echo.v1.Document
-	29, // 28: echo.v1.ListDocumentsRequest.page:type_name -> echo.v1.PageRequest
-	18, // 29: echo.v1.ListDocumentsResponse.documents:type_name -> echo.v1.Document
-	30, // 30: echo.v1.ListDocumentsResponse.page:type_name -> echo.v1.PageResponse
-	25, // 31: echo.v1.AnalyzeCsvFileResponse.sample_rows:type_name -> echo.v1.CsvSampleRow
-	26, // 32: echo.v1.AnalyzeCsvFileResponse.suggestions:type_name -> echo.v1.CsvColumnSuggestions
-	27, // 33: echo.v1.AnalyzeCsvFileResponse.probed_dialect:type_name -> echo.v1.CsvRegionalDialect
-	4,  // 34: echo.v1.ImportService.UploadUserFile:input_type -> echo.v1.UploadUserFileRequest
-	6,  // 35: echo.v1.ImportService.GetUserFile:input_type -> echo.v1.GetUserFileRequest
-	8,  // 36: echo.v1.ImportService.ListUserFiles:input_type -> echo.v1.ListUserFilesRequest
-	23, // 37: echo.v1.ImportService.AnalyzeCsvFile:input_type -> echo.v1.AnalyzeCsvFileRequest
-	12, // 38: echo.v1.ImportService.CreateImportJob:input_type -> echo.v1.CreateImportJobRequest
-	14, // 39: echo.v1.ImportService.GetImportJob:input_type -> echo.v1.GetImportJobRequest
-	16, // 40: echo.v1.ImportService.ListImportJobs:input_type -> echo.v1.ListImportJobsRequest
-	19, // 41: echo.v1.ImportService.GetDocument:input_type -> echo.v1.GetDocumentRequest
-	21, // 42: echo.v1.ImportService.ListDocuments:input_type -> echo.v1.ListDocumentsRequest
-	5,  // 43: echo.v1.ImportService.UploadUserFile:output_type -> echo.v1.UploadUserFileResponse
-	7,  // 44: echo.v1.ImportService.GetUserFile:output_type -> echo.v1.GetUserFileResponse
-	9,  // 45: echo.v1.ImportService.ListUserFiles:output_type -> echo.v1.ListUserFilesResponse
-	24, // 46: echo.v1.ImportService.AnalyzeCsvFile:output_type -> echo.v1.AnalyzeCsvFileResponse
-	13, // 47: echo.v1.ImportService.CreateImportJob:output_type -> echo.v1.CreateImportJobResponse
-	15, // 48: echo.v1.ImportService.GetImportJob:output_type -> echo.v1.GetImportJobResponse
-	17, // 49: echo.v1.ImportService.ListImportJobs:output_type -> echo.v1.ListImportJobsResponse
-	20, // 50: echo.v1.ImportService.GetDocument:output_type -> echo.v1.GetDocumentResponse
-	22, // 51: echo.v1.ImportService.ListDocuments:output_type -> echo.v1.ListDocumentsResponse
-	43, // [43:52] is the sub-list for method output_type
-	34, // [34:43] is the sub-list for method input_type
-	34, // [34:34] is the sub-list for extension type_name
-	34, // [34:34] is the sub-list for extension extendee
-	0,  // [0:34] is the sub-list for field type_name
+	1,  // 0: echo.v1.UserFile.type:type_name -> echo.v1.UserFileType
+	33, // 1: echo.v1.UserFile.created_at:type_name -> google.protobuf.Timestamp
+	1,  // 2: echo.v1.UploadUserFileRequest.type:type_name -> echo.v1.UserFileType
+	4,  // 3: echo.v1.UploadUserFileResponse.file:type_name -> echo.v1.UserFile
+	4,  // 4: echo.v1.GetUserFileResponse.file:type_name -> echo.v1.UserFile
+	34, // 5: echo.v1.ListUserFilesRequest.page:type_name -> echo.v1.PageRequest
+	1,  // 6: echo.v1.ListUserFilesRequest.type:type_name -> echo.v1.UserFileType
+	4,  // 7: echo.v1.ListUserFilesResponse.files:type_name -> echo.v1.UserFile
+	35, // 8: echo.v1.ListUserFilesResponse.page:type_name -> echo.v1.PageResponse
+	2,  // 9: echo.v1.ImportJob.kind:type_name -> echo.v1.ImportKind
+	3,  // 10: echo.v1.ImportJob.status:type_name -> echo.v1.ImportStatus
+	11, // 11: echo.v1.ImportJob.stats:type_name -> echo.v1.ImportStats
+	33, // 12: echo.v1.ImportJob.requested_at:type_name -> google.protobuf.Timestamp
+	33, // 13: echo.v1.ImportJob.started_at:type_name -> google.protobuf.Timestamp
+	33, // 14: echo.v1.ImportJob.finished_at:type_name -> google.protobuf.Timestamp
+	2,  // 15: echo.v1.CreateImportJobRequest.kind:type_name -> echo.v1.ImportKind
+	12, // 16: echo.v1.CreateImportJobResponse.job:type_name -> echo.v1.ImportJob
+	12, // 17: echo.v1.GetImportJobResponse.job:type_name -> echo.v1.ImportJob
+	34, // 18: echo.v1.ListImportJobsRequest.page:type_name -> echo.v1.PageRequest
+	3,  // 19: echo.v1.ListImportJobsRequest.status:type_name -> echo.v1.ImportStatus
+	2,  // 20: echo.v1.ListImportJobsRequest.kind:type_name -> echo.v1.ImportKind
+	12, // 21: echo.v1.ListImportJobsResponse.jobs:type_name -> echo.v1.ImportJob
+	35, // 22: echo.v1.ListImportJobsResponse.page:type_name -> echo.v1.PageResponse
+	33, // 23: echo.v1.Document.issued_at:type_name -> google.protobuf.Timestamp
+	36, // 24: echo.v1.Document.total:type_name -> echo.v1.Money
+	33, // 25: echo.v1.Document.created_at:type_name -> google.protobuf.Timestamp
+	33, // 26: echo.v1.Document.updated_at:type_name -> google.protobuf.Timestamp
+	19, // 27: echo.v1.GetDocumentResponse.document:type_name -> echo.v1.Document
+	34, // 28: echo.v1.ListDocumentsRequest.page:type_name -> echo.v1.PageRequest
+	19, // 29: echo.v1.ListDocumentsResponse.documents:type_name -> echo.v1.Document
+	35, // 30: echo.v1.ListDocumentsResponse.page:type_name -> echo.v1.PageResponse
+	26, // 31: echo.v1.AnalyzeCsvFileResponse.sample_rows:type_name -> echo.v1.CsvSampleRow
+	27, // 32: echo.v1.AnalyzeCsvFileResponse.suggestions:type_name -> echo.v1.CsvColumnSuggestions
+	28, // 33: echo.v1.AnalyzeCsvFileResponse.probed_dialect:type_name -> echo.v1.CsvRegionalDialect
+	0,  // 34: echo.v1.AnalyzeFileResponse.routing_hint:type_name -> echo.v1.ImportRoutingHint
+	1,  // 35: echo.v1.AnalyzeFileResponse.file_type:type_name -> echo.v1.UserFileType
+	25, // 36: echo.v1.AnalyzeFileResponse.csv_analysis:type_name -> echo.v1.AnalyzeCsvFileResponse
+	31, // 37: echo.v1.AnalyzeFileResponse.plan_analysis:type_name -> echo.v1.ExcelPlanAnalysis
+	32, // 38: echo.v1.ExcelPlanAnalysis.sheets:type_name -> echo.v1.ExcelSheetInfo
+	5,  // 39: echo.v1.ImportService.UploadUserFile:input_type -> echo.v1.UploadUserFileRequest
+	7,  // 40: echo.v1.ImportService.GetUserFile:input_type -> echo.v1.GetUserFileRequest
+	9,  // 41: echo.v1.ImportService.ListUserFiles:input_type -> echo.v1.ListUserFilesRequest
+	29, // 42: echo.v1.ImportService.AnalyzeFile:input_type -> echo.v1.AnalyzeFileRequest
+	24, // 43: echo.v1.ImportService.AnalyzeCsvFile:input_type -> echo.v1.AnalyzeCsvFileRequest
+	13, // 44: echo.v1.ImportService.CreateImportJob:input_type -> echo.v1.CreateImportJobRequest
+	15, // 45: echo.v1.ImportService.GetImportJob:input_type -> echo.v1.GetImportJobRequest
+	17, // 46: echo.v1.ImportService.ListImportJobs:input_type -> echo.v1.ListImportJobsRequest
+	20, // 47: echo.v1.ImportService.GetDocument:input_type -> echo.v1.GetDocumentRequest
+	22, // 48: echo.v1.ImportService.ListDocuments:input_type -> echo.v1.ListDocumentsRequest
+	6,  // 49: echo.v1.ImportService.UploadUserFile:output_type -> echo.v1.UploadUserFileResponse
+	8,  // 50: echo.v1.ImportService.GetUserFile:output_type -> echo.v1.GetUserFileResponse
+	10, // 51: echo.v1.ImportService.ListUserFiles:output_type -> echo.v1.ListUserFilesResponse
+	30, // 52: echo.v1.ImportService.AnalyzeFile:output_type -> echo.v1.AnalyzeFileResponse
+	25, // 53: echo.v1.ImportService.AnalyzeCsvFile:output_type -> echo.v1.AnalyzeCsvFileResponse
+	14, // 54: echo.v1.ImportService.CreateImportJob:output_type -> echo.v1.CreateImportJobResponse
+	16, // 55: echo.v1.ImportService.GetImportJob:output_type -> echo.v1.GetImportJobResponse
+	18, // 56: echo.v1.ImportService.ListImportJobs:output_type -> echo.v1.ListImportJobsResponse
+	21, // 57: echo.v1.ImportService.GetDocument:output_type -> echo.v1.GetDocumentResponse
+	23, // 58: echo.v1.ImportService.ListDocuments:output_type -> echo.v1.ListDocumentsResponse
+	49, // [49:59] is the sub-list for method output_type
+	39, // [39:49] is the sub-list for method input_type
+	39, // [39:39] is the sub-list for extension type_name
+	39, // [39:39] is the sub-list for extension extendee
+	0,  // [0:39] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_imports_proto_init() }
@@ -2052,8 +2455,8 @@ func file_echo_v1_imports_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_imports_proto_rawDesc), len(file_echo_v1_imports_proto_rawDesc)),
-			NumEnums:      3,
-			NumMessages:   25,
+			NumEnums:      4,
+			NumMessages:   29,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
