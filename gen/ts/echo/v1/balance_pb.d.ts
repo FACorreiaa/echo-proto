@@ -231,6 +231,88 @@ export declare type GetBalanceHistoryResponse = Message<"echo.v1.GetBalanceHisto
 export declare const GetBalanceHistoryResponseSchema: GenMessage<GetBalanceHistoryResponse>;
 
 /**
+ * Opening balance (user's starting point for net worth)
+ *
+ * @generated from message echo.v1.GetOpeningBalanceRequest
+ */
+export declare type GetOpeningBalanceRequest = Message<"echo.v1.GetOpeningBalanceRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.GetOpeningBalanceRequest.
+ * Use `create(GetOpeningBalanceRequestSchema)` to create a new message.
+ */
+export declare const GetOpeningBalanceRequestSchema: GenMessage<GetOpeningBalanceRequest>;
+
+/**
+ * @generated from message echo.v1.GetOpeningBalanceResponse
+ */
+export declare type GetOpeningBalanceResponse = Message<"echo.v1.GetOpeningBalanceResponse"> & {
+  /**
+   * The opening balance amount
+   *
+   * @generated from field: echo.v1.Money opening_balance = 1;
+   */
+  openingBalance?: Money;
+
+  /**
+   * Whether the user has set an opening balance
+   *
+   * @generated from field: bool is_set = 2;
+   */
+  isSet: boolean;
+};
+
+/**
+ * Describes the message echo.v1.GetOpeningBalanceResponse.
+ * Use `create(GetOpeningBalanceResponseSchema)` to create a new message.
+ */
+export declare const GetOpeningBalanceResponseSchema: GenMessage<GetOpeningBalanceResponse>;
+
+/**
+ * @generated from message echo.v1.SetOpeningBalanceRequest
+ */
+export declare type SetOpeningBalanceRequest = Message<"echo.v1.SetOpeningBalanceRequest"> & {
+  /**
+   * The amount in minor units (cents)
+   *
+   * @generated from field: int64 amount_minor = 1;
+   */
+  amountMinor: bigint;
+
+  /**
+   * Currency code (defaults to EUR if not provided)
+   *
+   * @generated from field: string currency_code = 2;
+   */
+  currencyCode: string;
+};
+
+/**
+ * Describes the message echo.v1.SetOpeningBalanceRequest.
+ * Use `create(SetOpeningBalanceRequestSchema)` to create a new message.
+ */
+export declare const SetOpeningBalanceRequestSchema: GenMessage<SetOpeningBalanceRequest>;
+
+/**
+ * @generated from message echo.v1.SetOpeningBalanceResponse
+ */
+export declare type SetOpeningBalanceResponse = Message<"echo.v1.SetOpeningBalanceResponse"> & {
+  /**
+   * The updated opening balance
+   *
+   * @generated from field: echo.v1.Money opening_balance = 1;
+   */
+  openingBalance?: Money;
+};
+
+/**
+ * Describes the message echo.v1.SetOpeningBalanceResponse.
+ * Use `create(SetOpeningBalanceResponseSchema)` to create a new message.
+ */
+export declare const SetOpeningBalanceResponseSchema: GenMessage<SetOpeningBalanceResponse>;
+
+/**
  * BalanceService computes user balances from transactions
  * Phase 1: CSV-only (computed from transaction sum)
  * Phase 2: Real banking APIs (direct balance + pending transactions)
@@ -257,6 +339,26 @@ export declare const BalanceService: GenService<{
     methodKind: "unary";
     input: typeof GetBalanceHistoryRequestSchema;
     output: typeof GetBalanceHistoryResponseSchema;
+  },
+  /**
+   * Get user's starting/opening balance
+   *
+   * @generated from rpc echo.v1.BalanceService.GetOpeningBalance
+   */
+  getOpeningBalance: {
+    methodKind: "unary";
+    input: typeof GetOpeningBalanceRequestSchema;
+    output: typeof GetOpeningBalanceResponseSchema;
+  },
+  /**
+   * Set or update user's starting/opening balance
+   *
+   * @generated from rpc echo.v1.BalanceService.SetOpeningBalance
+   */
+  setOpeningBalance: {
+    methodKind: "unary";
+    input: typeof SetOpeningBalanceRequestSchema;
+    output: typeof SetOpeningBalanceResponseSchema;
   },
 }>;
 

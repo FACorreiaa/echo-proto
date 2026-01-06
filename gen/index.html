@@ -720,6 +720,22 @@
                   <a href="#echo.v1.GetBalanceResponse"><span class="badge">M</span>GetBalanceResponse</a>
                 </li>
               
+                <li>
+                  <a href="#echo.v1.GetOpeningBalanceRequest"><span class="badge">M</span>GetOpeningBalanceRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetOpeningBalanceResponse"><span class="badge">M</span>GetOpeningBalanceResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SetOpeningBalanceRequest"><span class="badge">M</span>SetOpeningBalanceRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SetOpeningBalanceResponse"><span class="badge">M</span>SetOpeningBalanceResponse</a>
+                </li>
+              
               
               
               
@@ -6173,6 +6189,99 @@ Number of times seen </p></td>
 
         
       
+        <h3 id="echo.v1.GetOpeningBalanceRequest">GetOpeningBalanceRequest</h3>
+        <p>Opening balance (user's starting point for net worth)</p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.GetOpeningBalanceResponse">GetOpeningBalanceResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>opening_balance</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p>The opening balance amount </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_set</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>Whether the user has set an opening balance </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.SetOpeningBalanceRequest">SetOpeningBalanceRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>amount_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>The amount in minor units (cents) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>currency_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Currency code (defaults to EUR if not provided) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.SetOpeningBalanceResponse">SetOpeningBalanceResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>opening_balance</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p>The updated opening balance </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
 
       
 
@@ -6199,6 +6308,20 @@ Number of times seen </p></td>
                 <td><a href="#echo.v1.GetBalanceHistoryRequest">GetBalanceHistoryRequest</a></td>
                 <td><a href="#echo.v1.GetBalanceHistoryResponse">GetBalanceHistoryResponse</a></td>
                 <td><p>Get daily balance history for charts</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetOpeningBalance</td>
+                <td><a href="#echo.v1.GetOpeningBalanceRequest">GetOpeningBalanceRequest</a></td>
+                <td><a href="#echo.v1.GetOpeningBalanceResponse">GetOpeningBalanceResponse</a></td>
+                <td><p>Get user&#39;s starting/opening balance</p></td>
+              </tr>
+            
+              <tr>
+                <td>SetOpeningBalance</td>
+                <td><a href="#echo.v1.SetOpeningBalanceRequest">SetOpeningBalanceRequest</a></td>
+                <td><a href="#echo.v1.SetOpeningBalanceResponse">SetOpeningBalanceResponse</a></td>
+                <td><p>Set or update user&#39;s starting/opening balance</p></td>
               </tr>
             
           </tbody>

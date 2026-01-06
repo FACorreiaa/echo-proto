@@ -39,6 +39,12 @@ const (
 	// BalanceServiceGetBalanceHistoryProcedure is the fully-qualified name of the BalanceService's
 	// GetBalanceHistory RPC.
 	BalanceServiceGetBalanceHistoryProcedure = "/echo.v1.BalanceService/GetBalanceHistory"
+	// BalanceServiceGetOpeningBalanceProcedure is the fully-qualified name of the BalanceService's
+	// GetOpeningBalance RPC.
+	BalanceServiceGetOpeningBalanceProcedure = "/echo.v1.BalanceService/GetOpeningBalance"
+	// BalanceServiceSetOpeningBalanceProcedure is the fully-qualified name of the BalanceService's
+	// SetOpeningBalance RPC.
+	BalanceServiceSetOpeningBalanceProcedure = "/echo.v1.BalanceService/SetOpeningBalance"
 )
 
 // BalanceServiceClient is a client for the echo.v1.BalanceService service.
@@ -47,6 +53,10 @@ type BalanceServiceClient interface {
 	GetBalance(context.Context, *connect.Request[v1.GetBalanceRequest]) (*connect.Response[v1.GetBalanceResponse], error)
 	// Get daily balance history for charts
 	GetBalanceHistory(context.Context, *connect.Request[v1.GetBalanceHistoryRequest]) (*connect.Response[v1.GetBalanceHistoryResponse], error)
+	// Get user's starting/opening balance
+	GetOpeningBalance(context.Context, *connect.Request[v1.GetOpeningBalanceRequest]) (*connect.Response[v1.GetOpeningBalanceResponse], error)
+	// Set or update user's starting/opening balance
+	SetOpeningBalance(context.Context, *connect.Request[v1.SetOpeningBalanceRequest]) (*connect.Response[v1.SetOpeningBalanceResponse], error)
 }
 
 // NewBalanceServiceClient constructs a client for the echo.v1.BalanceService service. By default,
@@ -72,6 +82,18 @@ func NewBalanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(balanceServiceMethods.ByName("GetBalanceHistory")),
 			connect.WithClientOptions(opts...),
 		),
+		getOpeningBalance: connect.NewClient[v1.GetOpeningBalanceRequest, v1.GetOpeningBalanceResponse](
+			httpClient,
+			baseURL+BalanceServiceGetOpeningBalanceProcedure,
+			connect.WithSchema(balanceServiceMethods.ByName("GetOpeningBalance")),
+			connect.WithClientOptions(opts...),
+		),
+		setOpeningBalance: connect.NewClient[v1.SetOpeningBalanceRequest, v1.SetOpeningBalanceResponse](
+			httpClient,
+			baseURL+BalanceServiceSetOpeningBalanceProcedure,
+			connect.WithSchema(balanceServiceMethods.ByName("SetOpeningBalance")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -79,6 +101,8 @@ func NewBalanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 type balanceServiceClient struct {
 	getBalance        *connect.Client[v1.GetBalanceRequest, v1.GetBalanceResponse]
 	getBalanceHistory *connect.Client[v1.GetBalanceHistoryRequest, v1.GetBalanceHistoryResponse]
+	getOpeningBalance *connect.Client[v1.GetOpeningBalanceRequest, v1.GetOpeningBalanceResponse]
+	setOpeningBalance *connect.Client[v1.SetOpeningBalanceRequest, v1.SetOpeningBalanceResponse]
 }
 
 // GetBalance calls echo.v1.BalanceService.GetBalance.
@@ -91,12 +115,26 @@ func (c *balanceServiceClient) GetBalanceHistory(ctx context.Context, req *conne
 	return c.getBalanceHistory.CallUnary(ctx, req)
 }
 
+// GetOpeningBalance calls echo.v1.BalanceService.GetOpeningBalance.
+func (c *balanceServiceClient) GetOpeningBalance(ctx context.Context, req *connect.Request[v1.GetOpeningBalanceRequest]) (*connect.Response[v1.GetOpeningBalanceResponse], error) {
+	return c.getOpeningBalance.CallUnary(ctx, req)
+}
+
+// SetOpeningBalance calls echo.v1.BalanceService.SetOpeningBalance.
+func (c *balanceServiceClient) SetOpeningBalance(ctx context.Context, req *connect.Request[v1.SetOpeningBalanceRequest]) (*connect.Response[v1.SetOpeningBalanceResponse], error) {
+	return c.setOpeningBalance.CallUnary(ctx, req)
+}
+
 // BalanceServiceHandler is an implementation of the echo.v1.BalanceService service.
 type BalanceServiceHandler interface {
 	// Get current balance aggregated across all accounts
 	GetBalance(context.Context, *connect.Request[v1.GetBalanceRequest]) (*connect.Response[v1.GetBalanceResponse], error)
 	// Get daily balance history for charts
 	GetBalanceHistory(context.Context, *connect.Request[v1.GetBalanceHistoryRequest]) (*connect.Response[v1.GetBalanceHistoryResponse], error)
+	// Get user's starting/opening balance
+	GetOpeningBalance(context.Context, *connect.Request[v1.GetOpeningBalanceRequest]) (*connect.Response[v1.GetOpeningBalanceResponse], error)
+	// Set or update user's starting/opening balance
+	SetOpeningBalance(context.Context, *connect.Request[v1.SetOpeningBalanceRequest]) (*connect.Response[v1.SetOpeningBalanceResponse], error)
 }
 
 // NewBalanceServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -118,12 +156,28 @@ func NewBalanceServiceHandler(svc BalanceServiceHandler, opts ...connect.Handler
 		connect.WithSchema(balanceServiceMethods.ByName("GetBalanceHistory")),
 		connect.WithHandlerOptions(opts...),
 	)
+	balanceServiceGetOpeningBalanceHandler := connect.NewUnaryHandler(
+		BalanceServiceGetOpeningBalanceProcedure,
+		svc.GetOpeningBalance,
+		connect.WithSchema(balanceServiceMethods.ByName("GetOpeningBalance")),
+		connect.WithHandlerOptions(opts...),
+	)
+	balanceServiceSetOpeningBalanceHandler := connect.NewUnaryHandler(
+		BalanceServiceSetOpeningBalanceProcedure,
+		svc.SetOpeningBalance,
+		connect.WithSchema(balanceServiceMethods.ByName("SetOpeningBalance")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.BalanceService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case BalanceServiceGetBalanceProcedure:
 			balanceServiceGetBalanceHandler.ServeHTTP(w, r)
 		case BalanceServiceGetBalanceHistoryProcedure:
 			balanceServiceGetBalanceHistoryHandler.ServeHTTP(w, r)
+		case BalanceServiceGetOpeningBalanceProcedure:
+			balanceServiceGetOpeningBalanceHandler.ServeHTTP(w, r)
+		case BalanceServiceSetOpeningBalanceProcedure:
+			balanceServiceSetOpeningBalanceHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -139,4 +193,12 @@ func (UnimplementedBalanceServiceHandler) GetBalance(context.Context, *connect.R
 
 func (UnimplementedBalanceServiceHandler) GetBalanceHistory(context.Context, *connect.Request[v1.GetBalanceHistoryRequest]) (*connect.Response[v1.GetBalanceHistoryResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.BalanceService.GetBalanceHistory is not implemented"))
+}
+
+func (UnimplementedBalanceServiceHandler) GetOpeningBalance(context.Context, *connect.Request[v1.GetOpeningBalanceRequest]) (*connect.Response[v1.GetOpeningBalanceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.BalanceService.GetOpeningBalance is not implemented"))
+}
+
+func (UnimplementedBalanceServiceHandler) SetOpeningBalance(context.Context, *connect.Request[v1.SetOpeningBalanceRequest]) (*connect.Response[v1.SetOpeningBalanceResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.BalanceService.SetOpeningBalance is not implemented"))
 }

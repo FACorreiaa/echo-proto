@@ -19,6 +19,12 @@ service BalanceService {
   
   // Get daily balance history for charts
   rpc GetBalanceHistory(GetBalanceHistoryRequest) returns (GetBalanceHistoryResponse);
+  
+  // Get user's starting/opening balance
+  rpc GetOpeningBalance(GetOpeningBalanceRequest) returns (GetOpeningBalanceResponse);
+  
+  // Set or update user's starting/opening balance
+  rpc SetOpeningBalance(SetOpeningBalanceRequest) returns (SetOpeningBalanceResponse);
 }
 
 // Balance for a single account
@@ -89,3 +95,28 @@ message GetBalanceHistoryResponse {
   Money lowest_balance = 3;
   Money average_balance = 4;
 }
+
+// Opening balance (user's starting point for net worth)
+message GetOpeningBalanceRequest {}
+
+message GetOpeningBalanceResponse {
+  // The opening balance amount
+  Money opening_balance = 1;
+  
+  // Whether the user has set an opening balance
+  bool is_set = 2;
+}
+
+message SetOpeningBalanceRequest {
+  // The amount in minor units (cents)
+  int64 amount_minor = 1;
+  
+  // Currency code (defaults to EUR if not provided)
+  string currency_code = 2 [(buf.validate.field).string = { max_len: 3 }];
+}
+
+message SetOpeningBalanceResponse {
+  // The updated opening balance
+  Money opening_balance = 1;
+}
+

@@ -440,6 +440,196 @@ func (x *GetBalanceHistoryResponse) GetAverageBalance() *Money {
 	return nil
 }
 
+// Opening balance (user's starting point for net worth)
+type GetOpeningBalanceRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetOpeningBalanceRequest) Reset() {
+	*x = GetOpeningBalanceRequest{}
+	mi := &file_echo_v1_balance_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetOpeningBalanceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOpeningBalanceRequest) ProtoMessage() {}
+
+func (x *GetOpeningBalanceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_balance_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOpeningBalanceRequest.ProtoReflect.Descriptor instead.
+func (*GetOpeningBalanceRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_balance_proto_rawDescGZIP(), []int{6}
+}
+
+type GetOpeningBalanceResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The opening balance amount
+	OpeningBalance *Money `protobuf:"bytes,1,opt,name=opening_balance,json=openingBalance,proto3" json:"opening_balance,omitempty"`
+	// Whether the user has set an opening balance
+	IsSet         bool `protobuf:"varint,2,opt,name=is_set,json=isSet,proto3" json:"is_set,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetOpeningBalanceResponse) Reset() {
+	*x = GetOpeningBalanceResponse{}
+	mi := &file_echo_v1_balance_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetOpeningBalanceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetOpeningBalanceResponse) ProtoMessage() {}
+
+func (x *GetOpeningBalanceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_balance_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetOpeningBalanceResponse.ProtoReflect.Descriptor instead.
+func (*GetOpeningBalanceResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_balance_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *GetOpeningBalanceResponse) GetOpeningBalance() *Money {
+	if x != nil {
+		return x.OpeningBalance
+	}
+	return nil
+}
+
+func (x *GetOpeningBalanceResponse) GetIsSet() bool {
+	if x != nil {
+		return x.IsSet
+	}
+	return false
+}
+
+type SetOpeningBalanceRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The amount in minor units (cents)
+	AmountMinor int64 `protobuf:"varint,1,opt,name=amount_minor,json=amountMinor,proto3" json:"amount_minor,omitempty"`
+	// Currency code (defaults to EUR if not provided)
+	CurrencyCode  string `protobuf:"bytes,2,opt,name=currency_code,json=currencyCode,proto3" json:"currency_code,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SetOpeningBalanceRequest) Reset() {
+	*x = SetOpeningBalanceRequest{}
+	mi := &file_echo_v1_balance_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetOpeningBalanceRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetOpeningBalanceRequest) ProtoMessage() {}
+
+func (x *SetOpeningBalanceRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_balance_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetOpeningBalanceRequest.ProtoReflect.Descriptor instead.
+func (*SetOpeningBalanceRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_balance_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *SetOpeningBalanceRequest) GetAmountMinor() int64 {
+	if x != nil {
+		return x.AmountMinor
+	}
+	return 0
+}
+
+func (x *SetOpeningBalanceRequest) GetCurrencyCode() string {
+	if x != nil {
+		return x.CurrencyCode
+	}
+	return ""
+}
+
+type SetOpeningBalanceResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The updated opening balance
+	OpeningBalance *Money `protobuf:"bytes,1,opt,name=opening_balance,json=openingBalance,proto3" json:"opening_balance,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SetOpeningBalanceResponse) Reset() {
+	*x = SetOpeningBalanceResponse{}
+	mi := &file_echo_v1_balance_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SetOpeningBalanceResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SetOpeningBalanceResponse) ProtoMessage() {}
+
+func (x *SetOpeningBalanceResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_balance_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SetOpeningBalanceResponse.ProtoReflect.Descriptor instead.
+func (*SetOpeningBalanceResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_balance_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *SetOpeningBalanceResponse) GetOpeningBalance() *Money {
+	if x != nil {
+		return x.OpeningBalance
+	}
+	return nil
+}
+
 var File_echo_v1_balance_proto protoreflect.FileDescriptor
 
 const file_echo_v1_balance_proto_rawDesc = "" +
@@ -480,11 +670,22 @@ const file_echo_v1_balance_proto_rawDesc = "" +
 	"\ahistory\x18\x01 \x03(\v2\x15.echo.v1.DailyBalanceR\ahistory\x127\n" +
 	"\x0fhighest_balance\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\x0ehighestBalance\x125\n" +
 	"\x0elowest_balance\x18\x03 \x01(\v2\x0e.echo.v1.MoneyR\rlowestBalance\x127\n" +
-	"\x0faverage_balance\x18\x04 \x01(\v2\x0e.echo.v1.MoneyR\x0eaverageBalance2\xb3\x01\n" +
+	"\x0faverage_balance\x18\x04 \x01(\v2\x0e.echo.v1.MoneyR\x0eaverageBalance\"\x1a\n" +
+	"\x18GetOpeningBalanceRequest\"k\n" +
+	"\x19GetOpeningBalanceResponse\x127\n" +
+	"\x0fopening_balance\x18\x01 \x01(\v2\x0e.echo.v1.MoneyR\x0eopeningBalance\x12\x15\n" +
+	"\x06is_set\x18\x02 \x01(\bR\x05isSet\"k\n" +
+	"\x18SetOpeningBalanceRequest\x12!\n" +
+	"\famount_minor\x18\x01 \x01(\x03R\vamountMinor\x12,\n" +
+	"\rcurrency_code\x18\x02 \x01(\tB\a\xbaH\x04r\x02\x18\x03R\fcurrencyCode\"T\n" +
+	"\x19SetOpeningBalanceResponse\x127\n" +
+	"\x0fopening_balance\x18\x01 \x01(\v2\x0e.echo.v1.MoneyR\x0eopeningBalance2\xeb\x02\n" +
 	"\x0eBalanceService\x12E\n" +
 	"\n" +
 	"GetBalance\x12\x1a.echo.v1.GetBalanceRequest\x1a\x1b.echo.v1.GetBalanceResponse\x12Z\n" +
-	"\x11GetBalanceHistory\x12!.echo.v1.GetBalanceHistoryRequest\x1a\".echo.v1.GetBalanceHistoryResponseB\xa3\x01\n" +
+	"\x11GetBalanceHistory\x12!.echo.v1.GetBalanceHistoryRequest\x1a\".echo.v1.GetBalanceHistoryResponse\x12Z\n" +
+	"\x11GetOpeningBalance\x12!.echo.v1.GetOpeningBalanceRequest\x1a\".echo.v1.GetOpeningBalanceResponse\x12Z\n" +
+	"\x11SetOpeningBalance\x12!.echo.v1.SetOpeningBalanceRequest\x1a\".echo.v1.SetOpeningBalanceResponseB\xa3\x01\n" +
 	"\vcom.echo.v1B\fBalanceProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -499,7 +700,7 @@ func file_echo_v1_balance_proto_rawDescGZIP() []byte {
 	return file_echo_v1_balance_proto_rawDescData
 }
 
-var file_echo_v1_balance_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_echo_v1_balance_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_echo_v1_balance_proto_goTypes = []any{
 	(*AccountBalance)(nil),            // 0: echo.v1.AccountBalance
 	(*GetBalanceRequest)(nil),         // 1: echo.v1.GetBalanceRequest
@@ -507,37 +708,47 @@ var file_echo_v1_balance_proto_goTypes = []any{
 	(*GetBalanceHistoryRequest)(nil),  // 3: echo.v1.GetBalanceHistoryRequest
 	(*DailyBalance)(nil),              // 4: echo.v1.DailyBalance
 	(*GetBalanceHistoryResponse)(nil), // 5: echo.v1.GetBalanceHistoryResponse
-	(AccountType)(0),                  // 6: echo.v1.AccountType
-	(*Money)(nil),                     // 7: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),     // 8: google.protobuf.Timestamp
+	(*GetOpeningBalanceRequest)(nil),  // 6: echo.v1.GetOpeningBalanceRequest
+	(*GetOpeningBalanceResponse)(nil), // 7: echo.v1.GetOpeningBalanceResponse
+	(*SetOpeningBalanceRequest)(nil),  // 8: echo.v1.SetOpeningBalanceRequest
+	(*SetOpeningBalanceResponse)(nil), // 9: echo.v1.SetOpeningBalanceResponse
+	(AccountType)(0),                  // 10: echo.v1.AccountType
+	(*Money)(nil),                     // 11: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),     // 12: google.protobuf.Timestamp
 }
 var file_echo_v1_balance_proto_depIdxs = []int32{
-	6,  // 0: echo.v1.AccountBalance.account_type:type_name -> echo.v1.AccountType
-	7,  // 1: echo.v1.AccountBalance.cash_balance:type_name -> echo.v1.Money
-	7,  // 2: echo.v1.AccountBalance.investment_balance:type_name -> echo.v1.Money
-	7,  // 3: echo.v1.AccountBalance.change_24h:type_name -> echo.v1.Money
-	8,  // 4: echo.v1.AccountBalance.last_activity:type_name -> google.protobuf.Timestamp
-	7,  // 5: echo.v1.GetBalanceResponse.total_net_worth:type_name -> echo.v1.Money
-	7,  // 6: echo.v1.GetBalanceResponse.safe_to_spend:type_name -> echo.v1.Money
-	7,  // 7: echo.v1.GetBalanceResponse.total_investments:type_name -> echo.v1.Money
+	10, // 0: echo.v1.AccountBalance.account_type:type_name -> echo.v1.AccountType
+	11, // 1: echo.v1.AccountBalance.cash_balance:type_name -> echo.v1.Money
+	11, // 2: echo.v1.AccountBalance.investment_balance:type_name -> echo.v1.Money
+	11, // 3: echo.v1.AccountBalance.change_24h:type_name -> echo.v1.Money
+	12, // 4: echo.v1.AccountBalance.last_activity:type_name -> google.protobuf.Timestamp
+	11, // 5: echo.v1.GetBalanceResponse.total_net_worth:type_name -> echo.v1.Money
+	11, // 6: echo.v1.GetBalanceResponse.safe_to_spend:type_name -> echo.v1.Money
+	11, // 7: echo.v1.GetBalanceResponse.total_investments:type_name -> echo.v1.Money
 	0,  // 8: echo.v1.GetBalanceResponse.balances:type_name -> echo.v1.AccountBalance
-	7,  // 9: echo.v1.GetBalanceResponse.upcoming_bills:type_name -> echo.v1.Money
-	8,  // 10: echo.v1.DailyBalance.date:type_name -> google.protobuf.Timestamp
-	7,  // 11: echo.v1.DailyBalance.balance:type_name -> echo.v1.Money
-	7,  // 12: echo.v1.DailyBalance.change:type_name -> echo.v1.Money
+	11, // 9: echo.v1.GetBalanceResponse.upcoming_bills:type_name -> echo.v1.Money
+	12, // 10: echo.v1.DailyBalance.date:type_name -> google.protobuf.Timestamp
+	11, // 11: echo.v1.DailyBalance.balance:type_name -> echo.v1.Money
+	11, // 12: echo.v1.DailyBalance.change:type_name -> echo.v1.Money
 	4,  // 13: echo.v1.GetBalanceHistoryResponse.history:type_name -> echo.v1.DailyBalance
-	7,  // 14: echo.v1.GetBalanceHistoryResponse.highest_balance:type_name -> echo.v1.Money
-	7,  // 15: echo.v1.GetBalanceHistoryResponse.lowest_balance:type_name -> echo.v1.Money
-	7,  // 16: echo.v1.GetBalanceHistoryResponse.average_balance:type_name -> echo.v1.Money
-	1,  // 17: echo.v1.BalanceService.GetBalance:input_type -> echo.v1.GetBalanceRequest
-	3,  // 18: echo.v1.BalanceService.GetBalanceHistory:input_type -> echo.v1.GetBalanceHistoryRequest
-	2,  // 19: echo.v1.BalanceService.GetBalance:output_type -> echo.v1.GetBalanceResponse
-	5,  // 20: echo.v1.BalanceService.GetBalanceHistory:output_type -> echo.v1.GetBalanceHistoryResponse
-	19, // [19:21] is the sub-list for method output_type
-	17, // [17:19] is the sub-list for method input_type
-	17, // [17:17] is the sub-list for extension type_name
-	17, // [17:17] is the sub-list for extension extendee
-	0,  // [0:17] is the sub-list for field type_name
+	11, // 14: echo.v1.GetBalanceHistoryResponse.highest_balance:type_name -> echo.v1.Money
+	11, // 15: echo.v1.GetBalanceHistoryResponse.lowest_balance:type_name -> echo.v1.Money
+	11, // 16: echo.v1.GetBalanceHistoryResponse.average_balance:type_name -> echo.v1.Money
+	11, // 17: echo.v1.GetOpeningBalanceResponse.opening_balance:type_name -> echo.v1.Money
+	11, // 18: echo.v1.SetOpeningBalanceResponse.opening_balance:type_name -> echo.v1.Money
+	1,  // 19: echo.v1.BalanceService.GetBalance:input_type -> echo.v1.GetBalanceRequest
+	3,  // 20: echo.v1.BalanceService.GetBalanceHistory:input_type -> echo.v1.GetBalanceHistoryRequest
+	6,  // 21: echo.v1.BalanceService.GetOpeningBalance:input_type -> echo.v1.GetOpeningBalanceRequest
+	8,  // 22: echo.v1.BalanceService.SetOpeningBalance:input_type -> echo.v1.SetOpeningBalanceRequest
+	2,  // 23: echo.v1.BalanceService.GetBalance:output_type -> echo.v1.GetBalanceResponse
+	5,  // 24: echo.v1.BalanceService.GetBalanceHistory:output_type -> echo.v1.GetBalanceHistoryResponse
+	7,  // 25: echo.v1.BalanceService.GetOpeningBalance:output_type -> echo.v1.GetOpeningBalanceResponse
+	9,  // 26: echo.v1.BalanceService.SetOpeningBalance:output_type -> echo.v1.SetOpeningBalanceResponse
+	23, // [23:27] is the sub-list for method output_type
+	19, // [19:23] is the sub-list for method input_type
+	19, // [19:19] is the sub-list for extension type_name
+	19, // [19:19] is the sub-list for extension extendee
+	0,  // [0:19] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_balance_proto_init() }
@@ -555,7 +766,7 @@ func file_echo_v1_balance_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_balance_proto_rawDesc), len(file_echo_v1_balance_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
