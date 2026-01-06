@@ -60,12 +60,35 @@ const (
 	// FinanceServiceCreateGoalProcedure is the fully-qualified name of the FinanceService's CreateGoal
 	// RPC.
 	FinanceServiceCreateGoalProcedure = "/echo.v1.FinanceService/CreateGoal"
+	// FinanceServiceGetGoalProcedure is the fully-qualified name of the FinanceService's GetGoal RPC.
+	FinanceServiceGetGoalProcedure = "/echo.v1.FinanceService/GetGoal"
+	// FinanceServiceUpdateGoalProcedure is the fully-qualified name of the FinanceService's UpdateGoal
+	// RPC.
+	FinanceServiceUpdateGoalProcedure = "/echo.v1.FinanceService/UpdateGoal"
+	// FinanceServiceDeleteGoalProcedure is the fully-qualified name of the FinanceService's DeleteGoal
+	// RPC.
+	FinanceServiceDeleteGoalProcedure = "/echo.v1.FinanceService/DeleteGoal"
 	// FinanceServiceListGoalsProcedure is the fully-qualified name of the FinanceService's ListGoals
 	// RPC.
 	FinanceServiceListGoalsProcedure = "/echo.v1.FinanceService/ListGoals"
+	// FinanceServiceGetGoalProgressProcedure is the fully-qualified name of the FinanceService's
+	// GetGoalProgress RPC.
+	FinanceServiceGetGoalProgressProcedure = "/echo.v1.FinanceService/GetGoalProgress"
+	// FinanceServiceContributeToGoalProcedure is the fully-qualified name of the FinanceService's
+	// ContributeToGoal RPC.
+	FinanceServiceContributeToGoalProcedure = "/echo.v1.FinanceService/ContributeToGoal"
 	// FinanceServiceListRecurringSubscriptionsProcedure is the fully-qualified name of the
 	// FinanceService's ListRecurringSubscriptions RPC.
 	FinanceServiceListRecurringSubscriptionsProcedure = "/echo.v1.FinanceService/ListRecurringSubscriptions"
+	// FinanceServiceDetectRecurringSubscriptionsProcedure is the fully-qualified name of the
+	// FinanceService's DetectRecurringSubscriptions RPC.
+	FinanceServiceDetectRecurringSubscriptionsProcedure = "/echo.v1.FinanceService/DetectRecurringSubscriptions"
+	// FinanceServiceUpdateSubscriptionStatusProcedure is the fully-qualified name of the
+	// FinanceService's UpdateSubscriptionStatus RPC.
+	FinanceServiceUpdateSubscriptionStatusProcedure = "/echo.v1.FinanceService/UpdateSubscriptionStatus"
+	// FinanceServiceGetSubscriptionReviewChecklistProcedure is the fully-qualified name of the
+	// FinanceService's GetSubscriptionReviewChecklist RPC.
+	FinanceServiceGetSubscriptionReviewChecklistProcedure = "/echo.v1.FinanceService/GetSubscriptionReviewChecklist"
 	// FinanceServiceCreateCategoryRuleProcedure is the fully-qualified name of the FinanceService's
 	// CreateCategoryRule RPC.
 	FinanceServiceCreateCategoryRuleProcedure = "/echo.v1.FinanceService/CreateCategoryRule"
@@ -85,9 +108,19 @@ type FinanceServiceClient interface {
 	DeleteImportBatch(context.Context, *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error)
 	// Quick Capture: Create a transaction from natural language input
 	CreateManualTransaction(context.Context, *connect.Request[v1.CreateManualTransactionRequest]) (*connect.Response[v1.CreateManualTransactionResponse], error)
+	// Goals management
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
+	GetGoal(context.Context, *connect.Request[v1.GetGoalRequest]) (*connect.Response[v1.GetGoalResponse], error)
+	UpdateGoal(context.Context, *connect.Request[v1.UpdateGoalRequest]) (*connect.Response[v1.UpdateGoalResponse], error)
+	DeleteGoal(context.Context, *connect.Request[v1.DeleteGoalRequest]) (*connect.Response[v1.DeleteGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
+	GetGoalProgress(context.Context, *connect.Request[v1.GetGoalProgressRequest]) (*connect.Response[v1.GetGoalProgressResponse], error)
+	ContributeToGoal(context.Context, *connect.Request[v1.ContributeToGoalRequest]) (*connect.Response[v1.ContributeToGoalResponse], error)
+	// Recurring subscriptions management
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
+	DetectRecurringSubscriptions(context.Context, *connect.Request[v1.DetectRecurringSubscriptionsRequest]) (*connect.Response[v1.DetectRecurringSubscriptionsResponse], error)
+	UpdateSubscriptionStatus(context.Context, *connect.Request[v1.UpdateSubscriptionStatusRequest]) (*connect.Response[v1.UpdateSubscriptionStatusResponse], error)
+	GetSubscriptionReviewChecklist(context.Context, *connect.Request[v1.GetSubscriptionReviewChecklistRequest]) (*connect.Response[v1.GetSubscriptionReviewChecklistResponse], error)
 	// Categorization rules for "Remember this" learning
 	CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error)
 	ListCategoryRules(context.Context, *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error)
@@ -158,16 +191,64 @@ func NewFinanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 			connect.WithSchema(financeServiceMethods.ByName("CreateGoal")),
 			connect.WithClientOptions(opts...),
 		),
+		getGoal: connect.NewClient[v1.GetGoalRequest, v1.GetGoalResponse](
+			httpClient,
+			baseURL+FinanceServiceGetGoalProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("GetGoal")),
+			connect.WithClientOptions(opts...),
+		),
+		updateGoal: connect.NewClient[v1.UpdateGoalRequest, v1.UpdateGoalResponse](
+			httpClient,
+			baseURL+FinanceServiceUpdateGoalProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("UpdateGoal")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteGoal: connect.NewClient[v1.DeleteGoalRequest, v1.DeleteGoalResponse](
+			httpClient,
+			baseURL+FinanceServiceDeleteGoalProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("DeleteGoal")),
+			connect.WithClientOptions(opts...),
+		),
 		listGoals: connect.NewClient[v1.ListGoalsRequest, v1.ListGoalsResponse](
 			httpClient,
 			baseURL+FinanceServiceListGoalsProcedure,
 			connect.WithSchema(financeServiceMethods.ByName("ListGoals")),
 			connect.WithClientOptions(opts...),
 		),
+		getGoalProgress: connect.NewClient[v1.GetGoalProgressRequest, v1.GetGoalProgressResponse](
+			httpClient,
+			baseURL+FinanceServiceGetGoalProgressProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("GetGoalProgress")),
+			connect.WithClientOptions(opts...),
+		),
+		contributeToGoal: connect.NewClient[v1.ContributeToGoalRequest, v1.ContributeToGoalResponse](
+			httpClient,
+			baseURL+FinanceServiceContributeToGoalProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("ContributeToGoal")),
+			connect.WithClientOptions(opts...),
+		),
 		listRecurringSubscriptions: connect.NewClient[v1.ListRecurringSubscriptionsRequest, v1.ListRecurringSubscriptionsResponse](
 			httpClient,
 			baseURL+FinanceServiceListRecurringSubscriptionsProcedure,
 			connect.WithSchema(financeServiceMethods.ByName("ListRecurringSubscriptions")),
+			connect.WithClientOptions(opts...),
+		),
+		detectRecurringSubscriptions: connect.NewClient[v1.DetectRecurringSubscriptionsRequest, v1.DetectRecurringSubscriptionsResponse](
+			httpClient,
+			baseURL+FinanceServiceDetectRecurringSubscriptionsProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("DetectRecurringSubscriptions")),
+			connect.WithClientOptions(opts...),
+		),
+		updateSubscriptionStatus: connect.NewClient[v1.UpdateSubscriptionStatusRequest, v1.UpdateSubscriptionStatusResponse](
+			httpClient,
+			baseURL+FinanceServiceUpdateSubscriptionStatusProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("UpdateSubscriptionStatus")),
+			connect.WithClientOptions(opts...),
+		),
+		getSubscriptionReviewChecklist: connect.NewClient[v1.GetSubscriptionReviewChecklistRequest, v1.GetSubscriptionReviewChecklistResponse](
+			httpClient,
+			baseURL+FinanceServiceGetSubscriptionReviewChecklistProcedure,
+			connect.WithSchema(financeServiceMethods.ByName("GetSubscriptionReviewChecklist")),
 			connect.WithClientOptions(opts...),
 		),
 		createCategoryRule: connect.NewClient[v1.CreateCategoryRuleRequest, v1.CreateCategoryRuleResponse](
@@ -187,19 +268,27 @@ func NewFinanceServiceClient(httpClient connect.HTTPClient, baseURL string, opts
 
 // financeServiceClient implements FinanceServiceClient.
 type financeServiceClient struct {
-	createAccount              *connect.Client[v1.CreateAccountRequest, v1.CreateAccountResponse]
-	listAccounts               *connect.Client[v1.ListAccountsRequest, v1.ListAccountsResponse]
-	createCategory             *connect.Client[v1.CreateCategoryRequest, v1.CreateCategoryResponse]
-	listCategories             *connect.Client[v1.ListCategoriesRequest, v1.ListCategoriesResponse]
-	importTransactionsCsv      *connect.Client[v1.ImportTransactionsCsvRequest, v1.ImportTransactionsCsvResponse]
-	listTransactions           *connect.Client[v1.ListTransactionsRequest, v1.ListTransactionsResponse]
-	deleteImportBatch          *connect.Client[v1.DeleteImportBatchRequest, v1.DeleteImportBatchResponse]
-	createManualTransaction    *connect.Client[v1.CreateManualTransactionRequest, v1.CreateManualTransactionResponse]
-	createGoal                 *connect.Client[v1.CreateGoalRequest, v1.CreateGoalResponse]
-	listGoals                  *connect.Client[v1.ListGoalsRequest, v1.ListGoalsResponse]
-	listRecurringSubscriptions *connect.Client[v1.ListRecurringSubscriptionsRequest, v1.ListRecurringSubscriptionsResponse]
-	createCategoryRule         *connect.Client[v1.CreateCategoryRuleRequest, v1.CreateCategoryRuleResponse]
-	listCategoryRules          *connect.Client[v1.ListCategoryRulesRequest, v1.ListCategoryRulesResponse]
+	createAccount                  *connect.Client[v1.CreateAccountRequest, v1.CreateAccountResponse]
+	listAccounts                   *connect.Client[v1.ListAccountsRequest, v1.ListAccountsResponse]
+	createCategory                 *connect.Client[v1.CreateCategoryRequest, v1.CreateCategoryResponse]
+	listCategories                 *connect.Client[v1.ListCategoriesRequest, v1.ListCategoriesResponse]
+	importTransactionsCsv          *connect.Client[v1.ImportTransactionsCsvRequest, v1.ImportTransactionsCsvResponse]
+	listTransactions               *connect.Client[v1.ListTransactionsRequest, v1.ListTransactionsResponse]
+	deleteImportBatch              *connect.Client[v1.DeleteImportBatchRequest, v1.DeleteImportBatchResponse]
+	createManualTransaction        *connect.Client[v1.CreateManualTransactionRequest, v1.CreateManualTransactionResponse]
+	createGoal                     *connect.Client[v1.CreateGoalRequest, v1.CreateGoalResponse]
+	getGoal                        *connect.Client[v1.GetGoalRequest, v1.GetGoalResponse]
+	updateGoal                     *connect.Client[v1.UpdateGoalRequest, v1.UpdateGoalResponse]
+	deleteGoal                     *connect.Client[v1.DeleteGoalRequest, v1.DeleteGoalResponse]
+	listGoals                      *connect.Client[v1.ListGoalsRequest, v1.ListGoalsResponse]
+	getGoalProgress                *connect.Client[v1.GetGoalProgressRequest, v1.GetGoalProgressResponse]
+	contributeToGoal               *connect.Client[v1.ContributeToGoalRequest, v1.ContributeToGoalResponse]
+	listRecurringSubscriptions     *connect.Client[v1.ListRecurringSubscriptionsRequest, v1.ListRecurringSubscriptionsResponse]
+	detectRecurringSubscriptions   *connect.Client[v1.DetectRecurringSubscriptionsRequest, v1.DetectRecurringSubscriptionsResponse]
+	updateSubscriptionStatus       *connect.Client[v1.UpdateSubscriptionStatusRequest, v1.UpdateSubscriptionStatusResponse]
+	getSubscriptionReviewChecklist *connect.Client[v1.GetSubscriptionReviewChecklistRequest, v1.GetSubscriptionReviewChecklistResponse]
+	createCategoryRule             *connect.Client[v1.CreateCategoryRuleRequest, v1.CreateCategoryRuleResponse]
+	listCategoryRules              *connect.Client[v1.ListCategoryRulesRequest, v1.ListCategoryRulesResponse]
 }
 
 // CreateAccount calls echo.v1.FinanceService.CreateAccount.
@@ -247,14 +336,54 @@ func (c *financeServiceClient) CreateGoal(ctx context.Context, req *connect.Requ
 	return c.createGoal.CallUnary(ctx, req)
 }
 
+// GetGoal calls echo.v1.FinanceService.GetGoal.
+func (c *financeServiceClient) GetGoal(ctx context.Context, req *connect.Request[v1.GetGoalRequest]) (*connect.Response[v1.GetGoalResponse], error) {
+	return c.getGoal.CallUnary(ctx, req)
+}
+
+// UpdateGoal calls echo.v1.FinanceService.UpdateGoal.
+func (c *financeServiceClient) UpdateGoal(ctx context.Context, req *connect.Request[v1.UpdateGoalRequest]) (*connect.Response[v1.UpdateGoalResponse], error) {
+	return c.updateGoal.CallUnary(ctx, req)
+}
+
+// DeleteGoal calls echo.v1.FinanceService.DeleteGoal.
+func (c *financeServiceClient) DeleteGoal(ctx context.Context, req *connect.Request[v1.DeleteGoalRequest]) (*connect.Response[v1.DeleteGoalResponse], error) {
+	return c.deleteGoal.CallUnary(ctx, req)
+}
+
 // ListGoals calls echo.v1.FinanceService.ListGoals.
 func (c *financeServiceClient) ListGoals(ctx context.Context, req *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error) {
 	return c.listGoals.CallUnary(ctx, req)
 }
 
+// GetGoalProgress calls echo.v1.FinanceService.GetGoalProgress.
+func (c *financeServiceClient) GetGoalProgress(ctx context.Context, req *connect.Request[v1.GetGoalProgressRequest]) (*connect.Response[v1.GetGoalProgressResponse], error) {
+	return c.getGoalProgress.CallUnary(ctx, req)
+}
+
+// ContributeToGoal calls echo.v1.FinanceService.ContributeToGoal.
+func (c *financeServiceClient) ContributeToGoal(ctx context.Context, req *connect.Request[v1.ContributeToGoalRequest]) (*connect.Response[v1.ContributeToGoalResponse], error) {
+	return c.contributeToGoal.CallUnary(ctx, req)
+}
+
 // ListRecurringSubscriptions calls echo.v1.FinanceService.ListRecurringSubscriptions.
 func (c *financeServiceClient) ListRecurringSubscriptions(ctx context.Context, req *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error) {
 	return c.listRecurringSubscriptions.CallUnary(ctx, req)
+}
+
+// DetectRecurringSubscriptions calls echo.v1.FinanceService.DetectRecurringSubscriptions.
+func (c *financeServiceClient) DetectRecurringSubscriptions(ctx context.Context, req *connect.Request[v1.DetectRecurringSubscriptionsRequest]) (*connect.Response[v1.DetectRecurringSubscriptionsResponse], error) {
+	return c.detectRecurringSubscriptions.CallUnary(ctx, req)
+}
+
+// UpdateSubscriptionStatus calls echo.v1.FinanceService.UpdateSubscriptionStatus.
+func (c *financeServiceClient) UpdateSubscriptionStatus(ctx context.Context, req *connect.Request[v1.UpdateSubscriptionStatusRequest]) (*connect.Response[v1.UpdateSubscriptionStatusResponse], error) {
+	return c.updateSubscriptionStatus.CallUnary(ctx, req)
+}
+
+// GetSubscriptionReviewChecklist calls echo.v1.FinanceService.GetSubscriptionReviewChecklist.
+func (c *financeServiceClient) GetSubscriptionReviewChecklist(ctx context.Context, req *connect.Request[v1.GetSubscriptionReviewChecklistRequest]) (*connect.Response[v1.GetSubscriptionReviewChecklistResponse], error) {
+	return c.getSubscriptionReviewChecklist.CallUnary(ctx, req)
 }
 
 // CreateCategoryRule calls echo.v1.FinanceService.CreateCategoryRule.
@@ -278,9 +407,19 @@ type FinanceServiceHandler interface {
 	DeleteImportBatch(context.Context, *connect.Request[v1.DeleteImportBatchRequest]) (*connect.Response[v1.DeleteImportBatchResponse], error)
 	// Quick Capture: Create a transaction from natural language input
 	CreateManualTransaction(context.Context, *connect.Request[v1.CreateManualTransactionRequest]) (*connect.Response[v1.CreateManualTransactionResponse], error)
+	// Goals management
 	CreateGoal(context.Context, *connect.Request[v1.CreateGoalRequest]) (*connect.Response[v1.CreateGoalResponse], error)
+	GetGoal(context.Context, *connect.Request[v1.GetGoalRequest]) (*connect.Response[v1.GetGoalResponse], error)
+	UpdateGoal(context.Context, *connect.Request[v1.UpdateGoalRequest]) (*connect.Response[v1.UpdateGoalResponse], error)
+	DeleteGoal(context.Context, *connect.Request[v1.DeleteGoalRequest]) (*connect.Response[v1.DeleteGoalResponse], error)
 	ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error)
+	GetGoalProgress(context.Context, *connect.Request[v1.GetGoalProgressRequest]) (*connect.Response[v1.GetGoalProgressResponse], error)
+	ContributeToGoal(context.Context, *connect.Request[v1.ContributeToGoalRequest]) (*connect.Response[v1.ContributeToGoalResponse], error)
+	// Recurring subscriptions management
 	ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error)
+	DetectRecurringSubscriptions(context.Context, *connect.Request[v1.DetectRecurringSubscriptionsRequest]) (*connect.Response[v1.DetectRecurringSubscriptionsResponse], error)
+	UpdateSubscriptionStatus(context.Context, *connect.Request[v1.UpdateSubscriptionStatusRequest]) (*connect.Response[v1.UpdateSubscriptionStatusResponse], error)
+	GetSubscriptionReviewChecklist(context.Context, *connect.Request[v1.GetSubscriptionReviewChecklistRequest]) (*connect.Response[v1.GetSubscriptionReviewChecklistResponse], error)
 	// Categorization rules for "Remember this" learning
 	CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error)
 	ListCategoryRules(context.Context, *connect.Request[v1.ListCategoryRulesRequest]) (*connect.Response[v1.ListCategoryRulesResponse], error)
@@ -347,16 +486,64 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 		connect.WithSchema(financeServiceMethods.ByName("CreateGoal")),
 		connect.WithHandlerOptions(opts...),
 	)
+	financeServiceGetGoalHandler := connect.NewUnaryHandler(
+		FinanceServiceGetGoalProcedure,
+		svc.GetGoal,
+		connect.WithSchema(financeServiceMethods.ByName("GetGoal")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceUpdateGoalHandler := connect.NewUnaryHandler(
+		FinanceServiceUpdateGoalProcedure,
+		svc.UpdateGoal,
+		connect.WithSchema(financeServiceMethods.ByName("UpdateGoal")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceDeleteGoalHandler := connect.NewUnaryHandler(
+		FinanceServiceDeleteGoalProcedure,
+		svc.DeleteGoal,
+		connect.WithSchema(financeServiceMethods.ByName("DeleteGoal")),
+		connect.WithHandlerOptions(opts...),
+	)
 	financeServiceListGoalsHandler := connect.NewUnaryHandler(
 		FinanceServiceListGoalsProcedure,
 		svc.ListGoals,
 		connect.WithSchema(financeServiceMethods.ByName("ListGoals")),
 		connect.WithHandlerOptions(opts...),
 	)
+	financeServiceGetGoalProgressHandler := connect.NewUnaryHandler(
+		FinanceServiceGetGoalProgressProcedure,
+		svc.GetGoalProgress,
+		connect.WithSchema(financeServiceMethods.ByName("GetGoalProgress")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceContributeToGoalHandler := connect.NewUnaryHandler(
+		FinanceServiceContributeToGoalProcedure,
+		svc.ContributeToGoal,
+		connect.WithSchema(financeServiceMethods.ByName("ContributeToGoal")),
+		connect.WithHandlerOptions(opts...),
+	)
 	financeServiceListRecurringSubscriptionsHandler := connect.NewUnaryHandler(
 		FinanceServiceListRecurringSubscriptionsProcedure,
 		svc.ListRecurringSubscriptions,
 		connect.WithSchema(financeServiceMethods.ByName("ListRecurringSubscriptions")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceDetectRecurringSubscriptionsHandler := connect.NewUnaryHandler(
+		FinanceServiceDetectRecurringSubscriptionsProcedure,
+		svc.DetectRecurringSubscriptions,
+		connect.WithSchema(financeServiceMethods.ByName("DetectRecurringSubscriptions")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceUpdateSubscriptionStatusHandler := connect.NewUnaryHandler(
+		FinanceServiceUpdateSubscriptionStatusProcedure,
+		svc.UpdateSubscriptionStatus,
+		connect.WithSchema(financeServiceMethods.ByName("UpdateSubscriptionStatus")),
+		connect.WithHandlerOptions(opts...),
+	)
+	financeServiceGetSubscriptionReviewChecklistHandler := connect.NewUnaryHandler(
+		FinanceServiceGetSubscriptionReviewChecklistProcedure,
+		svc.GetSubscriptionReviewChecklist,
+		connect.WithSchema(financeServiceMethods.ByName("GetSubscriptionReviewChecklist")),
 		connect.WithHandlerOptions(opts...),
 	)
 	financeServiceCreateCategoryRuleHandler := connect.NewUnaryHandler(
@@ -391,10 +578,26 @@ func NewFinanceServiceHandler(svc FinanceServiceHandler, opts ...connect.Handler
 			financeServiceCreateManualTransactionHandler.ServeHTTP(w, r)
 		case FinanceServiceCreateGoalProcedure:
 			financeServiceCreateGoalHandler.ServeHTTP(w, r)
+		case FinanceServiceGetGoalProcedure:
+			financeServiceGetGoalHandler.ServeHTTP(w, r)
+		case FinanceServiceUpdateGoalProcedure:
+			financeServiceUpdateGoalHandler.ServeHTTP(w, r)
+		case FinanceServiceDeleteGoalProcedure:
+			financeServiceDeleteGoalHandler.ServeHTTP(w, r)
 		case FinanceServiceListGoalsProcedure:
 			financeServiceListGoalsHandler.ServeHTTP(w, r)
+		case FinanceServiceGetGoalProgressProcedure:
+			financeServiceGetGoalProgressHandler.ServeHTTP(w, r)
+		case FinanceServiceContributeToGoalProcedure:
+			financeServiceContributeToGoalHandler.ServeHTTP(w, r)
 		case FinanceServiceListRecurringSubscriptionsProcedure:
 			financeServiceListRecurringSubscriptionsHandler.ServeHTTP(w, r)
+		case FinanceServiceDetectRecurringSubscriptionsProcedure:
+			financeServiceDetectRecurringSubscriptionsHandler.ServeHTTP(w, r)
+		case FinanceServiceUpdateSubscriptionStatusProcedure:
+			financeServiceUpdateSubscriptionStatusHandler.ServeHTTP(w, r)
+		case FinanceServiceGetSubscriptionReviewChecklistProcedure:
+			financeServiceGetSubscriptionReviewChecklistHandler.ServeHTTP(w, r)
 		case FinanceServiceCreateCategoryRuleProcedure:
 			financeServiceCreateCategoryRuleHandler.ServeHTTP(w, r)
 		case FinanceServiceListCategoryRulesProcedure:
@@ -444,12 +647,44 @@ func (UnimplementedFinanceServiceHandler) CreateGoal(context.Context, *connect.R
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.CreateGoal is not implemented"))
 }
 
+func (UnimplementedFinanceServiceHandler) GetGoal(context.Context, *connect.Request[v1.GetGoalRequest]) (*connect.Response[v1.GetGoalResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.GetGoal is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) UpdateGoal(context.Context, *connect.Request[v1.UpdateGoalRequest]) (*connect.Response[v1.UpdateGoalResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.UpdateGoal is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) DeleteGoal(context.Context, *connect.Request[v1.DeleteGoalRequest]) (*connect.Response[v1.DeleteGoalResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.DeleteGoal is not implemented"))
+}
+
 func (UnimplementedFinanceServiceHandler) ListGoals(context.Context, *connect.Request[v1.ListGoalsRequest]) (*connect.Response[v1.ListGoalsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ListGoals is not implemented"))
 }
 
+func (UnimplementedFinanceServiceHandler) GetGoalProgress(context.Context, *connect.Request[v1.GetGoalProgressRequest]) (*connect.Response[v1.GetGoalProgressResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.GetGoalProgress is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) ContributeToGoal(context.Context, *connect.Request[v1.ContributeToGoalRequest]) (*connect.Response[v1.ContributeToGoalResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ContributeToGoal is not implemented"))
+}
+
 func (UnimplementedFinanceServiceHandler) ListRecurringSubscriptions(context.Context, *connect.Request[v1.ListRecurringSubscriptionsRequest]) (*connect.Response[v1.ListRecurringSubscriptionsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.ListRecurringSubscriptions is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) DetectRecurringSubscriptions(context.Context, *connect.Request[v1.DetectRecurringSubscriptionsRequest]) (*connect.Response[v1.DetectRecurringSubscriptionsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.DetectRecurringSubscriptions is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) UpdateSubscriptionStatus(context.Context, *connect.Request[v1.UpdateSubscriptionStatusRequest]) (*connect.Response[v1.UpdateSubscriptionStatusResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.UpdateSubscriptionStatus is not implemented"))
+}
+
+func (UnimplementedFinanceServiceHandler) GetSubscriptionReviewChecklist(context.Context, *connect.Request[v1.GetSubscriptionReviewChecklistRequest]) (*connect.Response[v1.GetSubscriptionReviewChecklistResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.FinanceService.GetSubscriptionReviewChecklist is not implemented"))
 }
 
 func (UnimplementedFinanceServiceHandler) CreateCategoryRule(context.Context, *connect.Request[v1.CreateCategoryRuleRequest]) (*connect.Response[v1.CreateCategoryRuleResponse], error) {

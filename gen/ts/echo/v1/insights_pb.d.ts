@@ -107,6 +107,36 @@ export declare type MonthlyInsights = Message<"echo.v1.MonthlyInsights"> & {
   highlights: string[];
 
   /**
+   * "3 things that changed this month" - key changes vs previous month
+   *
+   * @generated from field: repeated echo.v1.InsightChange changes = 21;
+   */
+  changes: InsightChange[];
+
+  /**
+   * "1 action to take this week" - most impactful recommendation
+   *
+   * @generated from field: echo.v1.ActionRecommendation recommended_action = 22;
+   */
+  recommendedAction?: ActionRecommendation;
+
+  /**
+   * Comparison with previous month
+   *
+   * Positive = spent more, negative = spent less
+   *
+   * @generated from field: echo.v1.Money spend_vs_last_month = 23;
+   */
+  spendVsLastMonth?: Money;
+
+  /**
+   * e.g., +15.5 or -8.2
+   *
+   * @generated from field: double spend_change_percent = 24;
+   */
+  spendChangePercent: number;
+
+  /**
    * @generated from field: google.protobuf.Timestamp created_at = 30;
    */
   createdAt?: Timestamp;
@@ -117,6 +147,139 @@ export declare type MonthlyInsights = Message<"echo.v1.MonthlyInsights"> & {
  * Use `create(MonthlyInsightsSchema)` to create a new message.
  */
 export declare const MonthlyInsightsSchema: GenMessage<MonthlyInsights>;
+
+/**
+ * A significant change detected this month
+ *
+ * @generated from message echo.v1.InsightChange
+ */
+export declare type InsightChange = Message<"echo.v1.InsightChange"> & {
+  /**
+   * @generated from field: echo.v1.InsightChangeType type = 1;
+   */
+  type: InsightChangeType;
+
+  /**
+   * "Dining out increased"
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * "You spent €120 more on restaurants than last month"
+   *
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * The delta amount
+   *
+   * @generated from field: echo.v1.Money amount_change = 4;
+   */
+  amountChange?: Money;
+
+  /**
+   * Percentage change
+   *
+   * @generated from field: double percent_change = 5;
+   */
+  percentChange: number;
+
+  /**
+   * @generated from field: optional string category_id = 6;
+   */
+  categoryId?: string;
+
+  /**
+   * @generated from field: optional string merchant_name = 7;
+   */
+  merchantName?: string;
+
+  /**
+   * Emoji or icon name
+   *
+   * @generated from field: string icon = 8;
+   */
+  icon: string;
+
+  /**
+   * positive, negative, neutral
+   *
+   * @generated from field: echo.v1.InsightChangeSentiment sentiment = 9;
+   */
+  sentiment: InsightChangeSentiment;
+};
+
+/**
+ * Describes the message echo.v1.InsightChange.
+ * Use `create(InsightChangeSchema)` to create a new message.
+ */
+export declare const InsightChangeSchema: GenMessage<InsightChange>;
+
+/**
+ * A recommended action for the user
+ *
+ * @generated from message echo.v1.ActionRecommendation
+ */
+export declare type ActionRecommendation = Message<"echo.v1.ActionRecommendation"> & {
+  /**
+   * @generated from field: echo.v1.ActionType type = 1;
+   */
+  type: ActionType;
+
+  /**
+   * "Review your subscriptions"
+   *
+   * @generated from field: string title = 2;
+   */
+  title: string;
+
+  /**
+   * "You have 3 subscriptions you haven't used in 30 days"
+   *
+   * @generated from field: string description = 3;
+   */
+  description: string;
+
+  /**
+   * "Review Now"
+   *
+   * @generated from field: string cta_text = 4;
+   */
+  ctaText: string;
+
+  /**
+   * Deep link or action identifier
+   *
+   * @generated from field: string cta_action = 5;
+   */
+  ctaAction: string;
+
+  /**
+   * Potential savings or impact
+   *
+   * @generated from field: echo.v1.Money potential_impact = 6;
+   */
+  potentialImpact?: Money;
+
+  /**
+   * @generated from field: echo.v1.ActionPriority priority = 7;
+   */
+  priority: ActionPriority;
+
+  /**
+   * @generated from field: string icon = 8;
+   */
+  icon: string;
+};
+
+/**
+ * Describes the message echo.v1.ActionRecommendation.
+ * Use `create(ActionRecommendationSchema)` to create a new message.
+ */
+export declare const ActionRecommendationSchema: GenMessage<ActionRecommendation>;
 
 /**
  * @generated from message echo.v1.GetMonthlyInsightsRequest
@@ -989,6 +1152,200 @@ export declare type DateGap = Message<"echo.v1.DateGap"> & {
  * Use `create(DateGapSchema)` to create a new message.
  */
 export declare const DateGapSchema: GenMessage<DateGap>;
+
+/**
+ * @generated from enum echo.v1.InsightChangeType
+ */
+export enum InsightChangeType {
+  /**
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Category spending went up
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE = 1;
+   */
+  CATEGORY_INCREASE = 1,
+
+  /**
+   * Category spending went down
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE = 2;
+   */
+  CATEGORY_DECREASE = 2,
+
+  /**
+   * Started spending at new merchant
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_NEW_MERCHANT = 3;
+   */
+  NEW_MERCHANT = 3,
+
+  /**
+   * Merchant spending increased
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE = 4;
+   */
+  MERCHANT_INCREASE = 4,
+
+  /**
+   * New recurring charge found
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED = 5;
+   */
+  SUBSCRIPTION_DETECTED = 5,
+
+  /**
+   * Goal milestone reached or behind
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_GOAL_PROGRESS = 6;
+   */
+  GOAL_PROGRESS = 6,
+
+  /**
+   * Income increased/decreased
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_INCOME_CHANGE = 7;
+   */
+  INCOME_CHANGE = 7,
+
+  /**
+   * Savings rate changed significantly
+   *
+   * @generated from enum value: INSIGHT_CHANGE_TYPE_SAVINGS_RATE = 8;
+   */
+  SAVINGS_RATE = 8,
+}
+
+/**
+ * Describes the enum echo.v1.InsightChangeType.
+ */
+export declare const InsightChangeTypeSchema: GenEnum<InsightChangeType>;
+
+/**
+ * @generated from enum echo.v1.InsightChangeSentiment
+ */
+export enum InsightChangeSentiment {
+  /**
+   * @generated from enum value: INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Good for finances (saved more, etc.)
+   *
+   * @generated from enum value: INSIGHT_CHANGE_SENTIMENT_POSITIVE = 1;
+   */
+  POSITIVE = 1,
+
+  /**
+   * Concerning (overspent, etc.)
+   *
+   * @generated from enum value: INSIGHT_CHANGE_SENTIMENT_NEGATIVE = 2;
+   */
+  NEGATIVE = 2,
+
+  /**
+   * Informational
+   *
+   * @generated from enum value: INSIGHT_CHANGE_SENTIMENT_NEUTRAL = 3;
+   */
+  NEUTRAL = 3,
+}
+
+/**
+ * Describes the enum echo.v1.InsightChangeSentiment.
+ */
+export declare const InsightChangeSentimentSchema: GenEnum<InsightChangeSentiment>;
+
+/**
+ * @generated from enum echo.v1.ActionType
+ */
+export enum ActionType {
+  /**
+   * @generated from enum value: ACTION_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Review/cancel unused subscriptions
+   *
+   * @generated from enum value: ACTION_TYPE_REVIEW_SUBSCRIPTIONS = 1;
+   */
+  REVIEW_SUBSCRIPTIONS = 1,
+
+  /**
+   * Cut back on specific category
+   *
+   * @generated from enum value: ACTION_TYPE_REDUCE_CATEGORY = 2;
+   */
+  REDUCE_CATEGORY = 2,
+
+  /**
+   * Add to savings goal
+   *
+   * @generated from enum value: ACTION_TYPE_CONTRIBUTE_TO_GOAL = 3;
+   */
+  CONTRIBUTE_TO_GOAL = 3,
+
+  /**
+   * Categorize uncategorized items
+   *
+   * @generated from enum value: ACTION_TYPE_CATEGORIZE_TRANSACTIONS = 4;
+   */
+  CATEGORIZE_TRANSACTIONS = 4,
+
+  /**
+   * Set budget for high-spend category
+   *
+   * @generated from enum value: ACTION_TYPE_SET_BUDGET = 5;
+   */
+  SET_BUDGET = 5,
+
+  /**
+   * Review unusually large expense
+   *
+   * @generated from enum value: ACTION_TYPE_REVIEW_LARGE_EXPENSE = 6;
+   */
+  REVIEW_LARGE_EXPENSE = 6,
+}
+
+/**
+ * Describes the enum echo.v1.ActionType.
+ */
+export declare const ActionTypeSchema: GenEnum<ActionType>;
+
+/**
+ * @generated from enum echo.v1.ActionPriority
+ */
+export enum ActionPriority {
+  /**
+   * @generated from enum value: ACTION_PRIORITY_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: ACTION_PRIORITY_LOW = 1;
+   */
+  LOW = 1,
+
+  /**
+   * @generated from enum value: ACTION_PRIORITY_MEDIUM = 2;
+   */
+  MEDIUM = 2,
+
+  /**
+   * @generated from enum value: ACTION_PRIORITY_HIGH = 3;
+   */
+  HIGH = 3,
+}
+
+/**
+ * Describes the enum echo.v1.ActionPriority.
+ */
+export declare const ActionPrioritySchema: GenEnum<ActionPriority>;
 
 /**
  * @generated from enum echo.v1.WrappedPeriod

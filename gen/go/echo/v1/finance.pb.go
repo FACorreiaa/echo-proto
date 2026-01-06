@@ -356,6 +356,64 @@ func (RecurringCadence) EnumDescriptor() ([]byte, []int) {
 	return file_echo_v1_finance_proto_rawDescGZIP(), []int{5}
 }
 
+type SubscriptionReviewReason int32
+
+const (
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED    SubscriptionReviewReason = 0
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_UNUSED         SubscriptionReviewReason = 1 // No related transactions recently
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE SubscriptionReviewReason = 2 // Amount increased from previous
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_DUPLICATE      SubscriptionReviewReason = 3 // Similar to another subscription
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_HIGH_COST      SubscriptionReviewReason = 4 // Above average for category
+	SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_NEW            SubscriptionReviewReason = 5 // Recently detected, confirm it's wanted
+)
+
+// Enum value maps for SubscriptionReviewReason.
+var (
+	SubscriptionReviewReason_name = map[int32]string{
+		0: "SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED",
+		1: "SUBSCRIPTION_REVIEW_REASON_UNUSED",
+		2: "SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE",
+		3: "SUBSCRIPTION_REVIEW_REASON_DUPLICATE",
+		4: "SUBSCRIPTION_REVIEW_REASON_HIGH_COST",
+		5: "SUBSCRIPTION_REVIEW_REASON_NEW",
+	}
+	SubscriptionReviewReason_value = map[string]int32{
+		"SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED":    0,
+		"SUBSCRIPTION_REVIEW_REASON_UNUSED":         1,
+		"SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE": 2,
+		"SUBSCRIPTION_REVIEW_REASON_DUPLICATE":      3,
+		"SUBSCRIPTION_REVIEW_REASON_HIGH_COST":      4,
+		"SUBSCRIPTION_REVIEW_REASON_NEW":            5,
+	}
+)
+
+func (x SubscriptionReviewReason) Enum() *SubscriptionReviewReason {
+	p := new(SubscriptionReviewReason)
+	*p = x
+	return p
+}
+
+func (x SubscriptionReviewReason) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (SubscriptionReviewReason) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_finance_proto_enumTypes[6].Descriptor()
+}
+
+func (SubscriptionReviewReason) Type() protoreflect.EnumType {
+	return &file_echo_v1_finance_proto_enumTypes[6]
+}
+
+func (x SubscriptionReviewReason) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use SubscriptionReviewReason.Descriptor instead.
+func (SubscriptionReviewReason) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{6}
+}
+
 type Account struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1611,6 +1669,13 @@ type Goal struct {
 	EndAt              *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=end_at,json=endAt,proto3" json:"end_at,omitempty"`
 	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,22,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt          *timestamppb.Timestamp `protobuf:"bytes,23,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	// Progress fields (computed)
+	ProgressPercent    float64 `protobuf:"fixed64,30,opt,name=progress_percent,json=progressPercent,proto3" json:"progress_percent,omitempty"` // 0-100, current/target
+	PacePercent        float64 `protobuf:"fixed64,31,opt,name=pace_percent,json=pacePercent,proto3" json:"pace_percent,omitempty"`             // 100 = on track, <100 = behind
+	IsBehindPace       bool    `protobuf:"varint,32,opt,name=is_behind_pace,json=isBehindPace,proto3" json:"is_behind_pace,omitempty"`
+	PaceMessage        string  `protobuf:"bytes,33,opt,name=pace_message,json=paceMessage,proto3" json:"pace_message,omitempty"` // "On track", "2 weeks behind", etc.
+	DaysRemaining      int32   `protobuf:"varint,34,opt,name=days_remaining,json=daysRemaining,proto3" json:"days_remaining,omitempty"`
+	AmountNeededPerDay *Money  `protobuf:"bytes,35,opt,name=amount_needed_per_day,json=amountNeededPerDay,proto3" json:"amount_needed_per_day,omitempty"` // To reach goal on time
 	unknownFields      protoimpl.UnknownFields
 	sizeCache          protoimpl.SizeCache
 }
@@ -1718,6 +1783,48 @@ func (x *Goal) GetCreatedAt() *timestamppb.Timestamp {
 func (x *Goal) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
+	}
+	return nil
+}
+
+func (x *Goal) GetProgressPercent() float64 {
+	if x != nil {
+		return x.ProgressPercent
+	}
+	return 0
+}
+
+func (x *Goal) GetPacePercent() float64 {
+	if x != nil {
+		return x.PacePercent
+	}
+	return 0
+}
+
+func (x *Goal) GetIsBehindPace() bool {
+	if x != nil {
+		return x.IsBehindPace
+	}
+	return false
+}
+
+func (x *Goal) GetPaceMessage() string {
+	if x != nil {
+		return x.PaceMessage
+	}
+	return ""
+}
+
+func (x *Goal) GetDaysRemaining() int32 {
+	if x != nil {
+		return x.DaysRemaining
+	}
+	return 0
+}
+
+func (x *Goal) GetAmountNeededPerDay() *Money {
+	if x != nil {
+		return x.AmountNeededPerDay
 	}
 	return nil
 }
@@ -1844,6 +1951,7 @@ func (x *CreateGoalResponse) GetGoal() *Goal {
 
 type ListGoalsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
+	StatusFilter  *GoalStatus            `protobuf:"varint,1,opt,name=status_filter,json=statusFilter,proto3,enum=echo.v1.GoalStatus,oneof" json:"status_filter,omitempty"` // Filter by status
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1876,6 +1984,13 @@ func (x *ListGoalsRequest) ProtoReflect() protoreflect.Message {
 // Deprecated: Use ListGoalsRequest.ProtoReflect.Descriptor instead.
 func (*ListGoalsRequest) Descriptor() ([]byte, []int) {
 	return file_echo_v1_finance_proto_rawDescGZIP(), []int{21}
+}
+
+func (x *ListGoalsRequest) GetStatusFilter() GoalStatus {
+	if x != nil && x.StatusFilter != nil {
+		return *x.StatusFilter
+	}
+	return GoalStatus_GOAL_STATUS_UNSPECIFIED
 }
 
 type ListGoalsResponse struct {
@@ -1922,6 +2037,705 @@ func (x *ListGoalsResponse) GetGoals() []*Goal {
 	return nil
 }
 
+type GetGoalRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GoalId        string                 `protobuf:"bytes,1,opt,name=goal_id,json=goalId,proto3" json:"goal_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGoalRequest) Reset() {
+	*x = GetGoalRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[23]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGoalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGoalRequest) ProtoMessage() {}
+
+func (x *GetGoalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[23]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGoalRequest.ProtoReflect.Descriptor instead.
+func (*GetGoalRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{23}
+}
+
+func (x *GetGoalRequest) GetGoalId() string {
+	if x != nil {
+		return x.GoalId
+	}
+	return ""
+}
+
+type GetGoalResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Goal          *Goal                  `protobuf:"bytes,1,opt,name=goal,proto3" json:"goal,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGoalResponse) Reset() {
+	*x = GetGoalResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[24]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGoalResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGoalResponse) ProtoMessage() {}
+
+func (x *GetGoalResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[24]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGoalResponse.ProtoReflect.Descriptor instead.
+func (*GetGoalResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{24}
+}
+
+func (x *GetGoalResponse) GetGoal() *Goal {
+	if x != nil {
+		return x.Goal
+	}
+	return nil
+}
+
+type UpdateGoalRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GoalId        string                 `protobuf:"bytes,1,opt,name=goal_id,json=goalId,proto3" json:"goal_id,omitempty"`
+	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	Target        *Money                 `protobuf:"bytes,3,opt,name=target,proto3,oneof" json:"target,omitempty"`
+	EndAt         *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=end_at,json=endAt,proto3,oneof" json:"end_at,omitempty"`
+	Status        *GoalStatus            `protobuf:"varint,5,opt,name=status,proto3,enum=echo.v1.GoalStatus,oneof" json:"status,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGoalRequest) Reset() {
+	*x = UpdateGoalRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[25]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGoalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGoalRequest) ProtoMessage() {}
+
+func (x *UpdateGoalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[25]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGoalRequest.ProtoReflect.Descriptor instead.
+func (*UpdateGoalRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{25}
+}
+
+func (x *UpdateGoalRequest) GetGoalId() string {
+	if x != nil {
+		return x.GoalId
+	}
+	return ""
+}
+
+func (x *UpdateGoalRequest) GetName() string {
+	if x != nil && x.Name != nil {
+		return *x.Name
+	}
+	return ""
+}
+
+func (x *UpdateGoalRequest) GetTarget() *Money {
+	if x != nil {
+		return x.Target
+	}
+	return nil
+}
+
+func (x *UpdateGoalRequest) GetEndAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.EndAt
+	}
+	return nil
+}
+
+func (x *UpdateGoalRequest) GetStatus() GoalStatus {
+	if x != nil && x.Status != nil {
+		return *x.Status
+	}
+	return GoalStatus_GOAL_STATUS_UNSPECIFIED
+}
+
+type UpdateGoalResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Goal          *Goal                  `protobuf:"bytes,1,opt,name=goal,proto3" json:"goal,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateGoalResponse) Reset() {
+	*x = UpdateGoalResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateGoalResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateGoalResponse) ProtoMessage() {}
+
+func (x *UpdateGoalResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateGoalResponse.ProtoReflect.Descriptor instead.
+func (*UpdateGoalResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{26}
+}
+
+func (x *UpdateGoalResponse) GetGoal() *Goal {
+	if x != nil {
+		return x.Goal
+	}
+	return nil
+}
+
+type DeleteGoalRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GoalId        string                 `protobuf:"bytes,1,opt,name=goal_id,json=goalId,proto3" json:"goal_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGoalRequest) Reset() {
+	*x = DeleteGoalRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGoalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGoalRequest) ProtoMessage() {}
+
+func (x *DeleteGoalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGoalRequest.ProtoReflect.Descriptor instead.
+func (*DeleteGoalRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{27}
+}
+
+func (x *DeleteGoalRequest) GetGoalId() string {
+	if x != nil {
+		return x.GoalId
+	}
+	return ""
+}
+
+type DeleteGoalResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteGoalResponse) Reset() {
+	*x = DeleteGoalResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteGoalResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteGoalResponse) ProtoMessage() {}
+
+func (x *DeleteGoalResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteGoalResponse.ProtoReflect.Descriptor instead.
+func (*DeleteGoalResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{28}
+}
+
+type GetGoalProgressRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GoalId        string                 `protobuf:"bytes,1,opt,name=goal_id,json=goalId,proto3" json:"goal_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetGoalProgressRequest) Reset() {
+	*x = GetGoalProgressRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGoalProgressRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGoalProgressRequest) ProtoMessage() {}
+
+func (x *GetGoalProgressRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGoalProgressRequest.ProtoReflect.Descriptor instead.
+func (*GetGoalProgressRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{29}
+}
+
+func (x *GetGoalProgressRequest) GetGoalId() string {
+	if x != nil {
+		return x.GoalId
+	}
+	return ""
+}
+
+type GetGoalProgressResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	Goal  *Goal                  `protobuf:"bytes,1,opt,name=goal,proto3" json:"goal,omitempty"`
+	// Detailed progress breakdown
+	Milestones          []*GoalMilestone    `protobuf:"bytes,2,rep,name=milestones,proto3" json:"milestones,omitempty"`                                              // Progress checkpoints
+	RecentContributions []*GoalContribution `protobuf:"bytes,3,rep,name=recent_contributions,json=recentContributions,proto3" json:"recent_contributions,omitempty"` // Recent deposits/progress
+	// Nudge information
+	NeedsAttention        bool   `protobuf:"varint,10,opt,name=needs_attention,json=needsAttention,proto3" json:"needs_attention,omitempty"`
+	NudgeMessage          string `protobuf:"bytes,11,opt,name=nudge_message,json=nudgeMessage,proto3" json:"nudge_message,omitempty"`                            // "Add €50 this week to stay on track"
+	SuggestedContribution *Money `protobuf:"bytes,12,opt,name=suggested_contribution,json=suggestedContribution,proto3" json:"suggested_contribution,omitempty"` // Recommended next contribution
+	unknownFields         protoimpl.UnknownFields
+	sizeCache             protoimpl.SizeCache
+}
+
+func (x *GetGoalProgressResponse) Reset() {
+	*x = GetGoalProgressResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetGoalProgressResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGoalProgressResponse) ProtoMessage() {}
+
+func (x *GetGoalProgressResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGoalProgressResponse.ProtoReflect.Descriptor instead.
+func (*GetGoalProgressResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{30}
+}
+
+func (x *GetGoalProgressResponse) GetGoal() *Goal {
+	if x != nil {
+		return x.Goal
+	}
+	return nil
+}
+
+func (x *GetGoalProgressResponse) GetMilestones() []*GoalMilestone {
+	if x != nil {
+		return x.Milestones
+	}
+	return nil
+}
+
+func (x *GetGoalProgressResponse) GetRecentContributions() []*GoalContribution {
+	if x != nil {
+		return x.RecentContributions
+	}
+	return nil
+}
+
+func (x *GetGoalProgressResponse) GetNeedsAttention() bool {
+	if x != nil {
+		return x.NeedsAttention
+	}
+	return false
+}
+
+func (x *GetGoalProgressResponse) GetNudgeMessage() string {
+	if x != nil {
+		return x.NudgeMessage
+	}
+	return ""
+}
+
+func (x *GetGoalProgressResponse) GetSuggestedContribution() *Money {
+	if x != nil {
+		return x.SuggestedContribution
+	}
+	return nil
+}
+
+type GoalMilestone struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Percent       int32                  `protobuf:"varint,1,opt,name=percent,proto3" json:"percent,omitempty"` // 25, 50, 75, 100
+	Reached       bool                   `protobuf:"varint,2,opt,name=reached,proto3" json:"reached,omitempty"`
+	ReachedAt     *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=reached_at,json=reachedAt,proto3" json:"reached_at,omitempty"`
+	ExpectedBy    *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=expected_by,json=expectedBy,proto3" json:"expected_by,omitempty"` // Based on timeline
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GoalMilestone) Reset() {
+	*x = GoalMilestone{}
+	mi := &file_echo_v1_finance_proto_msgTypes[31]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GoalMilestone) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GoalMilestone) ProtoMessage() {}
+
+func (x *GoalMilestone) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[31]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GoalMilestone.ProtoReflect.Descriptor instead.
+func (*GoalMilestone) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{31}
+}
+
+func (x *GoalMilestone) GetPercent() int32 {
+	if x != nil {
+		return x.Percent
+	}
+	return 0
+}
+
+func (x *GoalMilestone) GetReached() bool {
+	if x != nil {
+		return x.Reached
+	}
+	return false
+}
+
+func (x *GoalMilestone) GetReachedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ReachedAt
+	}
+	return nil
+}
+
+func (x *GoalMilestone) GetExpectedBy() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ExpectedBy
+	}
+	return nil
+}
+
+type GoalContribution struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Amount        *Money                 `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	ContributedAt *timestamppb.Timestamp `protobuf:"bytes,3,opt,name=contributed_at,json=contributedAt,proto3" json:"contributed_at,omitempty"`
+	Note          *string                `protobuf:"bytes,4,opt,name=note,proto3,oneof" json:"note,omitempty"`
+	TransactionId *string                `protobuf:"bytes,5,opt,name=transaction_id,json=transactionId,proto3,oneof" json:"transaction_id,omitempty"` // Link to transaction if from import
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GoalContribution) Reset() {
+	*x = GoalContribution{}
+	mi := &file_echo_v1_finance_proto_msgTypes[32]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GoalContribution) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GoalContribution) ProtoMessage() {}
+
+func (x *GoalContribution) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[32]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GoalContribution.ProtoReflect.Descriptor instead.
+func (*GoalContribution) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{32}
+}
+
+func (x *GoalContribution) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *GoalContribution) GetAmount() *Money {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+func (x *GoalContribution) GetContributedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.ContributedAt
+	}
+	return nil
+}
+
+func (x *GoalContribution) GetNote() string {
+	if x != nil && x.Note != nil {
+		return *x.Note
+	}
+	return ""
+}
+
+func (x *GoalContribution) GetTransactionId() string {
+	if x != nil && x.TransactionId != nil {
+		return *x.TransactionId
+	}
+	return ""
+}
+
+type ContributeToGoalRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	GoalId        string                 `protobuf:"bytes,1,opt,name=goal_id,json=goalId,proto3" json:"goal_id,omitempty"`
+	Amount        *Money                 `protobuf:"bytes,2,opt,name=amount,proto3" json:"amount,omitempty"`
+	Note          *string                `protobuf:"bytes,3,opt,name=note,proto3,oneof" json:"note,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ContributeToGoalRequest) Reset() {
+	*x = ContributeToGoalRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[33]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ContributeToGoalRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContributeToGoalRequest) ProtoMessage() {}
+
+func (x *ContributeToGoalRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[33]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContributeToGoalRequest.ProtoReflect.Descriptor instead.
+func (*ContributeToGoalRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{33}
+}
+
+func (x *ContributeToGoalRequest) GetGoalId() string {
+	if x != nil {
+		return x.GoalId
+	}
+	return ""
+}
+
+func (x *ContributeToGoalRequest) GetAmount() *Money {
+	if x != nil {
+		return x.Amount
+	}
+	return nil
+}
+
+func (x *ContributeToGoalRequest) GetNote() string {
+	if x != nil && x.Note != nil {
+		return *x.Note
+	}
+	return ""
+}
+
+type ContributeToGoalResponse struct {
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Goal         *Goal                  `protobuf:"bytes,1,opt,name=goal,proto3" json:"goal,omitempty"`
+	Contribution *GoalContribution      `protobuf:"bytes,2,opt,name=contribution,proto3" json:"contribution,omitempty"`
+	// Celebration feedback
+	MilestoneReached bool   `protobuf:"varint,3,opt,name=milestone_reached,json=milestoneReached,proto3" json:"milestone_reached,omitempty"`
+	MilestonePercent *int32 `protobuf:"varint,4,opt,name=milestone_percent,json=milestonePercent,proto3,oneof" json:"milestone_percent,omitempty"` // 25, 50, 75, 100
+	FeedbackMessage  string `protobuf:"bytes,5,opt,name=feedback_message,json=feedbackMessage,proto3" json:"feedback_message,omitempty"`           // "Great job! You're 50% there!"
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
+}
+
+func (x *ContributeToGoalResponse) Reset() {
+	*x = ContributeToGoalResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ContributeToGoalResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ContributeToGoalResponse) ProtoMessage() {}
+
+func (x *ContributeToGoalResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ContributeToGoalResponse.ProtoReflect.Descriptor instead.
+func (*ContributeToGoalResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *ContributeToGoalResponse) GetGoal() *Goal {
+	if x != nil {
+		return x.Goal
+	}
+	return nil
+}
+
+func (x *ContributeToGoalResponse) GetContribution() *GoalContribution {
+	if x != nil {
+		return x.Contribution
+	}
+	return nil
+}
+
+func (x *ContributeToGoalResponse) GetMilestoneReached() bool {
+	if x != nil {
+		return x.MilestoneReached
+	}
+	return false
+}
+
+func (x *ContributeToGoalResponse) GetMilestonePercent() int32 {
+	if x != nil && x.MilestonePercent != nil {
+		return *x.MilestonePercent
+	}
+	return 0
+}
+
+func (x *ContributeToGoalResponse) GetFeedbackMessage() string {
+	if x != nil {
+		return x.FeedbackMessage
+	}
+	return ""
+}
+
 type RecurringSubscription struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -1935,13 +2749,18 @@ type RecurringSubscription struct {
 	NextExpectedAt *timestamppb.Timestamp `protobuf:"bytes,12,opt,name=next_expected_at,json=nextExpectedAt,proto3" json:"next_expected_at,omitempty"`
 	CreatedAt      *timestamppb.Timestamp `protobuf:"bytes,20,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt      *timestamppb.Timestamp `protobuf:"bytes,21,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	// Additional computed fields
+	OccurrenceCount int32   `protobuf:"varint,30,opt,name=occurrence_count,json=occurrenceCount,proto3" json:"occurrence_count,omitempty"` // Number of times seen
+	TotalSpent      *Money  `protobuf:"bytes,31,opt,name=total_spent,json=totalSpent,proto3" json:"total_spent,omitempty"`                 // Total amount spent on this subscription
+	CategoryId      *string `protobuf:"bytes,32,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`           // Linked category if categorized
+	CategoryName    *string `protobuf:"bytes,33,opt,name=category_name,json=categoryName,proto3,oneof" json:"category_name,omitempty"`     // Category name for display
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *RecurringSubscription) Reset() {
 	*x = RecurringSubscription{}
-	mi := &file_echo_v1_finance_proto_msgTypes[23]
+	mi := &file_echo_v1_finance_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1953,7 +2772,7 @@ func (x *RecurringSubscription) String() string {
 func (*RecurringSubscription) ProtoMessage() {}
 
 func (x *RecurringSubscription) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[23]
+	mi := &file_echo_v1_finance_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1966,7 +2785,7 @@ func (x *RecurringSubscription) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RecurringSubscription.ProtoReflect.Descriptor instead.
 func (*RecurringSubscription) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{23}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *RecurringSubscription) GetId() string {
@@ -2046,15 +2865,45 @@ func (x *RecurringSubscription) GetUpdatedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+func (x *RecurringSubscription) GetOccurrenceCount() int32 {
+	if x != nil {
+		return x.OccurrenceCount
+	}
+	return 0
+}
+
+func (x *RecurringSubscription) GetTotalSpent() *Money {
+	if x != nil {
+		return x.TotalSpent
+	}
+	return nil
+}
+
+func (x *RecurringSubscription) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *RecurringSubscription) GetCategoryName() string {
+	if x != nil && x.CategoryName != nil {
+		return *x.CategoryName
+	}
+	return ""
+}
+
 type ListRecurringSubscriptionsRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	StatusFilter    *RecurringStatus       `protobuf:"varint,1,opt,name=status_filter,json=statusFilter,proto3,enum=echo.v1.RecurringStatus,oneof" json:"status_filter,omitempty"` // Filter by status
+	IncludeCanceled bool                   `protobuf:"varint,2,opt,name=include_canceled,json=includeCanceled,proto3" json:"include_canceled,omitempty"`                           // Include canceled subscriptions
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *ListRecurringSubscriptionsRequest) Reset() {
 	*x = ListRecurringSubscriptionsRequest{}
-	mi := &file_echo_v1_finance_proto_msgTypes[24]
+	mi := &file_echo_v1_finance_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2066,7 +2915,7 @@ func (x *ListRecurringSubscriptionsRequest) String() string {
 func (*ListRecurringSubscriptionsRequest) ProtoMessage() {}
 
 func (x *ListRecurringSubscriptionsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[24]
+	mi := &file_echo_v1_finance_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2079,19 +2928,35 @@ func (x *ListRecurringSubscriptionsRequest) ProtoReflect() protoreflect.Message 
 
 // Deprecated: Use ListRecurringSubscriptionsRequest.ProtoReflect.Descriptor instead.
 func (*ListRecurringSubscriptionsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{24}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *ListRecurringSubscriptionsRequest) GetStatusFilter() RecurringStatus {
+	if x != nil && x.StatusFilter != nil {
+		return *x.StatusFilter
+	}
+	return RecurringStatus_RECURRING_STATUS_UNSPECIFIED
+}
+
+func (x *ListRecurringSubscriptionsRequest) GetIncludeCanceled() bool {
+	if x != nil {
+		return x.IncludeCanceled
+	}
+	return false
 }
 
 type ListRecurringSubscriptionsResponse struct {
-	state         protoimpl.MessageState   `protogen:"open.v1"`
-	Subscriptions []*RecurringSubscription `protobuf:"bytes,1,rep,name=subscriptions,proto3" json:"subscriptions,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state            protoimpl.MessageState   `protogen:"open.v1"`
+	Subscriptions    []*RecurringSubscription `protobuf:"bytes,1,rep,name=subscriptions,proto3" json:"subscriptions,omitempty"`
+	TotalMonthlyCost *Money                   `protobuf:"bytes,2,opt,name=total_monthly_cost,json=totalMonthlyCost,proto3" json:"total_monthly_cost,omitempty"` // Sum of all active subscriptions normalized to monthly
+	ActiveCount      int32                    `protobuf:"varint,3,opt,name=active_count,json=activeCount,proto3" json:"active_count,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *ListRecurringSubscriptionsResponse) Reset() {
 	*x = ListRecurringSubscriptionsResponse{}
-	mi := &file_echo_v1_finance_proto_msgTypes[25]
+	mi := &file_echo_v1_finance_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2103,7 +2968,7 @@ func (x *ListRecurringSubscriptionsResponse) String() string {
 func (*ListRecurringSubscriptionsResponse) ProtoMessage() {}
 
 func (x *ListRecurringSubscriptionsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[25]
+	mi := &file_echo_v1_finance_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2116,7 +2981,7 @@ func (x *ListRecurringSubscriptionsResponse) ProtoReflect() protoreflect.Message
 
 // Deprecated: Use ListRecurringSubscriptionsResponse.ProtoReflect.Descriptor instead.
 func (*ListRecurringSubscriptionsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{25}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *ListRecurringSubscriptionsResponse) GetSubscriptions() []*RecurringSubscription {
@@ -2124,6 +2989,397 @@ func (x *ListRecurringSubscriptionsResponse) GetSubscriptions() []*RecurringSubs
 		return x.Subscriptions
 	}
 	return nil
+}
+
+func (x *ListRecurringSubscriptionsResponse) GetTotalMonthlyCost() *Money {
+	if x != nil {
+		return x.TotalMonthlyCost
+	}
+	return nil
+}
+
+func (x *ListRecurringSubscriptionsResponse) GetActiveCount() int32 {
+	if x != nil {
+		return x.ActiveCount
+	}
+	return 0
+}
+
+// Detect recurring patterns in transaction history
+type DetectRecurringSubscriptionsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Optional: limit detection to specific time range
+	Since *timestamppb.Timestamp `protobuf:"bytes,1,opt,name=since,proto3,oneof" json:"since,omitempty"`
+	// Minimum occurrences to consider recurring (default: 2)
+	MinOccurrences *int32 `protobuf:"varint,2,opt,name=min_occurrences,json=minOccurrences,proto3,oneof" json:"min_occurrences,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *DetectRecurringSubscriptionsRequest) Reset() {
+	*x = DetectRecurringSubscriptionsRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[38]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DetectRecurringSubscriptionsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DetectRecurringSubscriptionsRequest) ProtoMessage() {}
+
+func (x *DetectRecurringSubscriptionsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[38]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DetectRecurringSubscriptionsRequest.ProtoReflect.Descriptor instead.
+func (*DetectRecurringSubscriptionsRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{38}
+}
+
+func (x *DetectRecurringSubscriptionsRequest) GetSince() *timestamppb.Timestamp {
+	if x != nil {
+		return x.Since
+	}
+	return nil
+}
+
+func (x *DetectRecurringSubscriptionsRequest) GetMinOccurrences() int32 {
+	if x != nil && x.MinOccurrences != nil {
+		return *x.MinOccurrences
+	}
+	return 0
+}
+
+type DetectRecurringSubscriptionsResponse struct {
+	state         protoimpl.MessageState   `protogen:"open.v1"`
+	Detected      []*RecurringSubscription `protobuf:"bytes,1,rep,name=detected,proto3" json:"detected,omitempty"`                              // Newly detected subscriptions
+	NewCount      int32                    `protobuf:"varint,2,opt,name=new_count,json=newCount,proto3" json:"new_count,omitempty"`             // Number of new subscriptions detected
+	UpdatedCount  int32                    `protobuf:"varint,3,opt,name=updated_count,json=updatedCount,proto3" json:"updated_count,omitempty"` // Number of existing subscriptions updated
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DetectRecurringSubscriptionsResponse) Reset() {
+	*x = DetectRecurringSubscriptionsResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DetectRecurringSubscriptionsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DetectRecurringSubscriptionsResponse) ProtoMessage() {}
+
+func (x *DetectRecurringSubscriptionsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DetectRecurringSubscriptionsResponse.ProtoReflect.Descriptor instead.
+func (*DetectRecurringSubscriptionsResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *DetectRecurringSubscriptionsResponse) GetDetected() []*RecurringSubscription {
+	if x != nil {
+		return x.Detected
+	}
+	return nil
+}
+
+func (x *DetectRecurringSubscriptionsResponse) GetNewCount() int32 {
+	if x != nil {
+		return x.NewCount
+	}
+	return 0
+}
+
+func (x *DetectRecurringSubscriptionsResponse) GetUpdatedCount() int32 {
+	if x != nil {
+		return x.UpdatedCount
+	}
+	return 0
+}
+
+// Update subscription status (pause, cancel, reactivate)
+type UpdateSubscriptionStatusRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	SubscriptionId string                 `protobuf:"bytes,1,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	Status         RecurringStatus        `protobuf:"varint,2,opt,name=status,proto3,enum=echo.v1.RecurringStatus" json:"status,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdateSubscriptionStatusRequest) Reset() {
+	*x = UpdateSubscriptionStatusRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSubscriptionStatusRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSubscriptionStatusRequest) ProtoMessage() {}
+
+func (x *UpdateSubscriptionStatusRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSubscriptionStatusRequest.ProtoReflect.Descriptor instead.
+func (*UpdateSubscriptionStatusRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *UpdateSubscriptionStatusRequest) GetSubscriptionId() string {
+	if x != nil {
+		return x.SubscriptionId
+	}
+	return ""
+}
+
+func (x *UpdateSubscriptionStatusRequest) GetStatus() RecurringStatus {
+	if x != nil {
+		return x.Status
+	}
+	return RecurringStatus_RECURRING_STATUS_UNSPECIFIED
+}
+
+type UpdateSubscriptionStatusResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Subscription  *RecurringSubscription `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateSubscriptionStatusResponse) Reset() {
+	*x = UpdateSubscriptionStatusResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateSubscriptionStatusResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateSubscriptionStatusResponse) ProtoMessage() {}
+
+func (x *UpdateSubscriptionStatusResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateSubscriptionStatusResponse.ProtoReflect.Descriptor instead.
+func (*UpdateSubscriptionStatusResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *UpdateSubscriptionStatusResponse) GetSubscription() *RecurringSubscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
+// Review checklist for subscription management
+type GetSubscriptionReviewChecklistRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSubscriptionReviewChecklistRequest) Reset() {
+	*x = GetSubscriptionReviewChecklistRequest{}
+	mi := &file_echo_v1_finance_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSubscriptionReviewChecklistRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubscriptionReviewChecklistRequest) ProtoMessage() {}
+
+func (x *GetSubscriptionReviewChecklistRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubscriptionReviewChecklistRequest.ProtoReflect.Descriptor instead.
+func (*GetSubscriptionReviewChecklistRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{42}
+}
+
+type GetSubscriptionReviewChecklistResponse struct {
+	state                   protoimpl.MessageState    `protogen:"open.v1"`
+	Items                   []*SubscriptionReviewItem `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	PotentialMonthlySavings *Money                    `protobuf:"bytes,2,opt,name=potential_monthly_savings,json=potentialMonthlySavings,proto3" json:"potential_monthly_savings,omitempty"` // If all "review" items are canceled
+	Summary                 string                    `protobuf:"bytes,3,opt,name=summary,proto3" json:"summary,omitempty"`                                                                  // "You have 3 subscriptions to review"
+	unknownFields           protoimpl.UnknownFields
+	sizeCache               protoimpl.SizeCache
+}
+
+func (x *GetSubscriptionReviewChecklistResponse) Reset() {
+	*x = GetSubscriptionReviewChecklistResponse{}
+	mi := &file_echo_v1_finance_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSubscriptionReviewChecklistResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSubscriptionReviewChecklistResponse) ProtoMessage() {}
+
+func (x *GetSubscriptionReviewChecklistResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSubscriptionReviewChecklistResponse.ProtoReflect.Descriptor instead.
+func (*GetSubscriptionReviewChecklistResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *GetSubscriptionReviewChecklistResponse) GetItems() []*SubscriptionReviewItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *GetSubscriptionReviewChecklistResponse) GetPotentialMonthlySavings() *Money {
+	if x != nil {
+		return x.PotentialMonthlySavings
+	}
+	return nil
+}
+
+func (x *GetSubscriptionReviewChecklistResponse) GetSummary() string {
+	if x != nil {
+		return x.Summary
+	}
+	return ""
+}
+
+type SubscriptionReviewItem struct {
+	state             protoimpl.MessageState   `protogen:"open.v1"`
+	Subscription      *RecurringSubscription   `protobuf:"bytes,1,opt,name=subscription,proto3" json:"subscription,omitempty"`
+	Reason            SubscriptionReviewReason `protobuf:"varint,2,opt,name=reason,proto3,enum=echo.v1.SubscriptionReviewReason" json:"reason,omitempty"`
+	ReasonMessage     string                   `protobuf:"bytes,3,opt,name=reason_message,json=reasonMessage,proto3" json:"reason_message,omitempty"` // "Not used in 60+ days", "Price increased", etc.
+	RecommendedCancel bool                     `protobuf:"varint,4,opt,name=recommended_cancel,json=recommendedCancel,proto3" json:"recommended_cancel,omitempty"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
+}
+
+func (x *SubscriptionReviewItem) Reset() {
+	*x = SubscriptionReviewItem{}
+	mi := &file_echo_v1_finance_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubscriptionReviewItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubscriptionReviewItem) ProtoMessage() {}
+
+func (x *SubscriptionReviewItem) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_finance_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubscriptionReviewItem.ProtoReflect.Descriptor instead.
+func (*SubscriptionReviewItem) Descriptor() ([]byte, []int) {
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *SubscriptionReviewItem) GetSubscription() *RecurringSubscription {
+	if x != nil {
+		return x.Subscription
+	}
+	return nil
+}
+
+func (x *SubscriptionReviewItem) GetReason() SubscriptionReviewReason {
+	if x != nil {
+		return x.Reason
+	}
+	return SubscriptionReviewReason_SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED
+}
+
+func (x *SubscriptionReviewItem) GetReasonMessage() string {
+	if x != nil {
+		return x.ReasonMessage
+	}
+	return ""
+}
+
+func (x *SubscriptionReviewItem) GetRecommendedCancel() bool {
+	if x != nil {
+		return x.RecommendedCancel
+	}
+	return false
 }
 
 // Category Rules for "Remember this" learning flow
@@ -2144,7 +3400,7 @@ type CategoryRule struct {
 
 func (x *CategoryRule) Reset() {
 	*x = CategoryRule{}
-	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	mi := &file_echo_v1_finance_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2156,7 +3412,7 @@ func (x *CategoryRule) String() string {
 func (*CategoryRule) ProtoMessage() {}
 
 func (x *CategoryRule) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[26]
+	mi := &file_echo_v1_finance_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2169,7 +3425,7 @@ func (x *CategoryRule) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CategoryRule.ProtoReflect.Descriptor instead.
 func (*CategoryRule) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{26}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *CategoryRule) GetId() string {
@@ -2248,7 +3504,7 @@ type CreateCategoryRuleRequest struct {
 
 func (x *CreateCategoryRuleRequest) Reset() {
 	*x = CreateCategoryRuleRequest{}
-	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	mi := &file_echo_v1_finance_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2260,7 +3516,7 @@ func (x *CreateCategoryRuleRequest) String() string {
 func (*CreateCategoryRuleRequest) ProtoMessage() {}
 
 func (x *CreateCategoryRuleRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[27]
+	mi := &file_echo_v1_finance_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2273,7 +3529,7 @@ func (x *CreateCategoryRuleRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCategoryRuleRequest.ProtoReflect.Descriptor instead.
 func (*CreateCategoryRuleRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{27}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *CreateCategoryRuleRequest) GetMatchPattern() string {
@@ -2321,7 +3577,7 @@ type CreateCategoryRuleResponse struct {
 
 func (x *CreateCategoryRuleResponse) Reset() {
 	*x = CreateCategoryRuleResponse{}
-	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	mi := &file_echo_v1_finance_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2333,7 +3589,7 @@ func (x *CreateCategoryRuleResponse) String() string {
 func (*CreateCategoryRuleResponse) ProtoMessage() {}
 
 func (x *CreateCategoryRuleResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[28]
+	mi := &file_echo_v1_finance_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2346,7 +3602,7 @@ func (x *CreateCategoryRuleResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCategoryRuleResponse.ProtoReflect.Descriptor instead.
 func (*CreateCategoryRuleResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{28}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *CreateCategoryRuleResponse) GetRule() *CategoryRule {
@@ -2371,7 +3627,7 @@ type ListCategoryRulesRequest struct {
 
 func (x *ListCategoryRulesRequest) Reset() {
 	*x = ListCategoryRulesRequest{}
-	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	mi := &file_echo_v1_finance_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2383,7 +3639,7 @@ func (x *ListCategoryRulesRequest) String() string {
 func (*ListCategoryRulesRequest) ProtoMessage() {}
 
 func (x *ListCategoryRulesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[29]
+	mi := &file_echo_v1_finance_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2396,7 +3652,7 @@ func (x *ListCategoryRulesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCategoryRulesRequest.ProtoReflect.Descriptor instead.
 func (*ListCategoryRulesRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{29}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{48}
 }
 
 type ListCategoryRulesResponse struct {
@@ -2408,7 +3664,7 @@ type ListCategoryRulesResponse struct {
 
 func (x *ListCategoryRulesResponse) Reset() {
 	*x = ListCategoryRulesResponse{}
-	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	mi := &file_echo_v1_finance_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2420,7 +3676,7 @@ func (x *ListCategoryRulesResponse) String() string {
 func (*ListCategoryRulesResponse) ProtoMessage() {}
 
 func (x *ListCategoryRulesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[30]
+	mi := &file_echo_v1_finance_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2433,7 +3689,7 @@ func (x *ListCategoryRulesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListCategoryRulesResponse.ProtoReflect.Descriptor instead.
 func (*ListCategoryRulesResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{30}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *ListCategoryRulesResponse) GetRules() []*CategoryRule {
@@ -2460,7 +3716,7 @@ type CreateManualTransactionRequest struct {
 
 func (x *CreateManualTransactionRequest) Reset() {
 	*x = CreateManualTransactionRequest{}
-	mi := &file_echo_v1_finance_proto_msgTypes[31]
+	mi := &file_echo_v1_finance_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2472,7 +3728,7 @@ func (x *CreateManualTransactionRequest) String() string {
 func (*CreateManualTransactionRequest) ProtoMessage() {}
 
 func (x *CreateManualTransactionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[31]
+	mi := &file_echo_v1_finance_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2485,7 +3741,7 @@ func (x *CreateManualTransactionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateManualTransactionRequest.ProtoReflect.Descriptor instead.
 func (*CreateManualTransactionRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{31}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *CreateManualTransactionRequest) GetRawText() string {
@@ -2545,7 +3801,7 @@ type CreateManualTransactionResponse struct {
 
 func (x *CreateManualTransactionResponse) Reset() {
 	*x = CreateManualTransactionResponse{}
-	mi := &file_echo_v1_finance_proto_msgTypes[32]
+	mi := &file_echo_v1_finance_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2557,7 +3813,7 @@ func (x *CreateManualTransactionResponse) String() string {
 func (*CreateManualTransactionResponse) ProtoMessage() {}
 
 func (x *CreateManualTransactionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_finance_proto_msgTypes[32]
+	mi := &file_echo_v1_finance_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2570,7 +3826,7 @@ func (x *CreateManualTransactionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateManualTransactionResponse.ProtoReflect.Descriptor instead.
 func (*CreateManualTransactionResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_finance_proto_rawDescGZIP(), []int{32}
+	return file_echo_v1_finance_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *CreateManualTransactionResponse) GetTransaction() *Transaction {
@@ -2744,7 +4000,7 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x18DeleteImportBatchRequest\x12,\n" +
 	"\rimport_job_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\vimportJobId\"I\n" +
 	"\x19DeleteImportBatchResponse\x12,\n" +
-	"\rdeleted_count\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fdeletedCount\"\xc7\x04\n" +
+	"\rdeleted_count\x18\x01 \x01(\x05B\a\xbaH\x04\x1a\x02(\x00R\fdeletedCount\"\xc8\x06\n" +
 	"\x04Goal\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12\x1d\n" +
@@ -2759,7 +4015,13 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x16 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\"\x8f\x02\n" +
+	"updated_at\x18\x17 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\x12)\n" +
+	"\x10progress_percent\x18\x1e \x01(\x01R\x0fprogressPercent\x12!\n" +
+	"\fpace_percent\x18\x1f \x01(\x01R\vpacePercent\x12$\n" +
+	"\x0eis_behind_pace\x18  \x01(\bR\fisBehindPace\x12!\n" +
+	"\fpace_message\x18! \x01(\tR\vpaceMessage\x12%\n" +
+	"\x0edays_remaining\x18\" \x01(\x05R\rdaysRemaining\x12A\n" +
+	"\x15amount_needed_per_day\x18# \x01(\v2\x0e.echo.v1.MoneyR\x12amountNeededPerDay\"\x8f\x02\n" +
 	"\x11CreateGoalRequest\x12\x1d\n" +
 	"\x04name\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18xR\x04name\x121\n" +
 	"\x04type\x18\x02 \x01(\x0e2\x11.echo.v1.GoalTypeB\n" +
@@ -2768,10 +4030,70 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\bstart_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\astartAt\x129\n" +
 	"\x06end_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x05endAt\"?\n" +
 	"\x12CreateGoalResponse\x12)\n" +
-	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\"\x12\n" +
-	"\x10ListGoalsRequest\"C\n" +
+	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\"c\n" +
+	"\x10ListGoalsRequest\x12=\n" +
+	"\rstatus_filter\x18\x01 \x01(\x0e2\x13.echo.v1.GoalStatusH\x00R\fstatusFilter\x88\x01\x01B\x10\n" +
+	"\x0e_status_filter\"C\n" +
 	"\x11ListGoalsResponse\x12.\n" +
-	"\x05goals\x18\x01 \x03(\v2\r.echo.v1.GoalB\t\xbaH\x06\x92\x01\x03\x10\xd0\x0fR\x05goals\"\xfa\x04\n" +
+	"\x05goals\x18\x01 \x03(\v2\r.echo.v1.GoalB\t\xbaH\x06\x92\x01\x03\x10\xd0\x0fR\x05goals\"3\n" +
+	"\x0eGetGoalRequest\x12!\n" +
+	"\agoal_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06goalId\"<\n" +
+	"\x0fGetGoalResponse\x12)\n" +
+	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\"\x9b\x02\n" +
+	"\x11UpdateGoalRequest\x12!\n" +
+	"\agoal_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06goalId\x12\"\n" +
+	"\x04name\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18xH\x00R\x04name\x88\x01\x01\x12+\n" +
+	"\x06target\x18\x03 \x01(\v2\x0e.echo.v1.MoneyH\x01R\x06target\x88\x01\x01\x126\n" +
+	"\x06end_at\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampH\x02R\x05endAt\x88\x01\x01\x120\n" +
+	"\x06status\x18\x05 \x01(\x0e2\x13.echo.v1.GoalStatusH\x03R\x06status\x88\x01\x01B\a\n" +
+	"\x05_nameB\t\n" +
+	"\a_targetB\t\n" +
+	"\a_end_atB\t\n" +
+	"\a_status\"?\n" +
+	"\x12UpdateGoalResponse\x12)\n" +
+	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\"6\n" +
+	"\x11DeleteGoalRequest\x12!\n" +
+	"\agoal_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06goalId\"\x14\n" +
+	"\x12DeleteGoalResponse\";\n" +
+	"\x16GetGoalProgressRequest\x12!\n" +
+	"\agoal_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06goalId\"\xdf\x02\n" +
+	"\x17GetGoalProgressResponse\x12)\n" +
+	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\x126\n" +
+	"\n" +
+	"milestones\x18\x02 \x03(\v2\x16.echo.v1.GoalMilestoneR\n" +
+	"milestones\x12L\n" +
+	"\x14recent_contributions\x18\x03 \x03(\v2\x19.echo.v1.GoalContributionR\x13recentContributions\x12'\n" +
+	"\x0fneeds_attention\x18\n" +
+	" \x01(\bR\x0eneedsAttention\x12#\n" +
+	"\rnudge_message\x18\v \x01(\tR\fnudgeMessage\x12E\n" +
+	"\x16suggested_contribution\x18\f \x01(\v2\x0e.echo.v1.MoneyR\x15suggestedContribution\"\xbb\x01\n" +
+	"\rGoalMilestone\x12\x18\n" +
+	"\apercent\x18\x01 \x01(\x05R\apercent\x12\x18\n" +
+	"\areached\x18\x02 \x01(\bR\areached\x129\n" +
+	"\n" +
+	"reached_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\treachedAt\x12;\n" +
+	"\vexpected_by\x18\x04 \x01(\v2\x1a.google.protobuf.TimestampR\n" +
+	"expectedBy\"\xf8\x01\n" +
+	"\x10GoalContribution\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12&\n" +
+	"\x06amount\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\x06amount\x12A\n" +
+	"\x0econtributed_at\x18\x03 \x01(\v2\x1a.google.protobuf.TimestampR\rcontributedAt\x12\x17\n" +
+	"\x04note\x18\x04 \x01(\tH\x00R\x04note\x88\x01\x01\x12*\n" +
+	"\x0etransaction_id\x18\x05 \x01(\tH\x01R\rtransactionId\x88\x01\x01B\a\n" +
+	"\x05_noteB\x11\n" +
+	"\x0f_transaction_id\"\x98\x01\n" +
+	"\x17ContributeToGoalRequest\x12!\n" +
+	"\agoal_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06goalId\x12.\n" +
+	"\x06amount\x18\x02 \x01(\v2\x0e.echo.v1.MoneyB\x06\xbaH\x03\xc8\x01\x01R\x06amount\x12!\n" +
+	"\x04note\x18\x03 \x01(\tB\b\xbaH\x05r\x03\x18\xff\x01H\x00R\x04note\x88\x01\x01B\a\n" +
+	"\x05_note\"\xa4\x02\n" +
+	"\x18ContributeToGoalResponse\x12)\n" +
+	"\x04goal\x18\x01 \x01(\v2\r.echo.v1.GoalB\x06\xbaH\x03\xc8\x01\x01R\x04goal\x12=\n" +
+	"\fcontribution\x18\x02 \x01(\v2\x19.echo.v1.GoalContributionR\fcontribution\x12+\n" +
+	"\x11milestone_reached\x18\x03 \x01(\bR\x10milestoneReached\x120\n" +
+	"\x11milestone_percent\x18\x04 \x01(\x05H\x00R\x10milestonePercent\x88\x01\x01\x12)\n" +
+	"\x10feedback_message\x18\x05 \x01(\tR\x0ffeedbackMessageB\x14\n" +
+	"\x12_milestone_percent\"\xc8\x06\n" +
 	"\x15RecurringSubscription\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12/\n" +
@@ -2788,10 +4110,48 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\n" +
 	"created_at\x18\x14 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\x12A\n" +
 	"\n" +
-	"updated_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\"#\n" +
-	"!ListRecurringSubscriptionsRequest\"u\n" +
+	"updated_at\x18\x15 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tupdatedAt\x12)\n" +
+	"\x10occurrence_count\x18\x1e \x01(\x05R\x0foccurrenceCount\x12/\n" +
+	"\vtotal_spent\x18\x1f \x01(\v2\x0e.echo.v1.MoneyR\n" +
+	"totalSpent\x12$\n" +
+	"\vcategory_id\x18  \x01(\tH\x00R\n" +
+	"categoryId\x88\x01\x01\x12(\n" +
+	"\rcategory_name\x18! \x01(\tH\x01R\fcategoryName\x88\x01\x01B\x0e\n" +
+	"\f_category_idB\x10\n" +
+	"\x0e_category_name\"\xa4\x01\n" +
+	"!ListRecurringSubscriptionsRequest\x12B\n" +
+	"\rstatus_filter\x18\x01 \x01(\x0e2\x18.echo.v1.RecurringStatusH\x00R\fstatusFilter\x88\x01\x01\x12)\n" +
+	"\x10include_canceled\x18\x02 \x01(\bR\x0fincludeCanceledB\x10\n" +
+	"\x0e_status_filter\"\xd6\x01\n" +
 	"\"ListRecurringSubscriptionsResponse\x12O\n" +
-	"\rsubscriptions\x18\x01 \x03(\v2\x1e.echo.v1.RecurringSubscriptionB\t\xbaH\x06\x92\x01\x03\x10\x88'R\rsubscriptions\"\x9a\x03\n" +
+	"\rsubscriptions\x18\x01 \x03(\v2\x1e.echo.v1.RecurringSubscriptionB\t\xbaH\x06\x92\x01\x03\x10\x88'R\rsubscriptions\x12<\n" +
+	"\x12total_monthly_cost\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\x10totalMonthlyCost\x12!\n" +
+	"\factive_count\x18\x03 \x01(\x05R\vactiveCount\"\xa8\x01\n" +
+	"#DetectRecurringSubscriptionsRequest\x125\n" +
+	"\x05since\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampH\x00R\x05since\x88\x01\x01\x12,\n" +
+	"\x0fmin_occurrences\x18\x02 \x01(\x05H\x01R\x0eminOccurrences\x88\x01\x01B\b\n" +
+	"\x06_sinceB\x12\n" +
+	"\x10_min_occurrences\"\xa4\x01\n" +
+	"$DetectRecurringSubscriptionsResponse\x12:\n" +
+	"\bdetected\x18\x01 \x03(\v2\x1e.echo.v1.RecurringSubscriptionR\bdetected\x12\x1b\n" +
+	"\tnew_count\x18\x02 \x01(\x05R\bnewCount\x12#\n" +
+	"\rupdated_count\x18\x03 \x01(\x05R\fupdatedCount\"\x92\x01\n" +
+	"\x1fUpdateSubscriptionStatusRequest\x121\n" +
+	"\x0fsubscription_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x0esubscriptionId\x12<\n" +
+	"\x06status\x18\x02 \x01(\x0e2\x18.echo.v1.RecurringStatusB\n" +
+	"\xbaH\a\x82\x01\x04\x10\x01 \x00R\x06status\"f\n" +
+	" UpdateSubscriptionStatusResponse\x12B\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1e.echo.v1.RecurringSubscriptionR\fsubscription\"'\n" +
+	"%GetSubscriptionReviewChecklistRequest\"\xc5\x01\n" +
+	"&GetSubscriptionReviewChecklistResponse\x125\n" +
+	"\x05items\x18\x01 \x03(\v2\x1f.echo.v1.SubscriptionReviewItemR\x05items\x12J\n" +
+	"\x19potential_monthly_savings\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\x17potentialMonthlySavings\x12\x18\n" +
+	"\asummary\x18\x03 \x01(\tR\asummary\"\xed\x01\n" +
+	"\x16SubscriptionReviewItem\x12B\n" +
+	"\fsubscription\x18\x01 \x01(\v2\x1e.echo.v1.RecurringSubscriptionR\fsubscription\x129\n" +
+	"\x06reason\x18\x02 \x01(\x0e2!.echo.v1.SubscriptionReviewReasonR\x06reason\x12%\n" +
+	"\x0ereason_message\x18\x03 \x01(\tR\rreasonMessage\x12-\n" +
+	"\x12recommended_cancel\x18\x04 \x01(\bR\x11recommendedCancel\"\x9a\x03\n" +
 	"\fCategoryRule\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12/\n" +
@@ -2884,7 +4244,14 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x19RECURRING_CADENCE_MONTHLY\x10\x02\x12\x1f\n" +
 	"\x1bRECURRING_CADENCE_QUARTERLY\x10\x03\x12\x1c\n" +
 	"\x18RECURRING_CADENCE_ANNUAL\x10\x04\x12\x1d\n" +
-	"\x19RECURRING_CADENCE_UNKNOWN\x10\x052\x9b\t\n" +
+	"\x19RECURRING_CADENCE_UNKNOWN\x10\x05*\x94\x02\n" +
+	"\x18SubscriptionReviewReason\x12*\n" +
+	"&SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED\x10\x00\x12%\n" +
+	"!SUBSCRIPTION_REVIEW_REASON_UNUSED\x10\x01\x12-\n" +
+	")SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE\x10\x02\x12(\n" +
+	"$SUBSCRIPTION_REVIEW_REASON_DUPLICATE\x10\x03\x12(\n" +
+	"$SUBSCRIPTION_REVIEW_REASON_HIGH_COST\x10\x04\x12\"\n" +
+	"\x1eSUBSCRIPTION_REVIEW_REASON_NEW\x10\x052\x88\x0f\n" +
 	"\x0eFinanceService\x12N\n" +
 	"\rCreateAccount\x12\x1d.echo.v1.CreateAccountRequest\x1a\x1e.echo.v1.CreateAccountResponse\x12K\n" +
 	"\fListAccounts\x12\x1c.echo.v1.ListAccountsRequest\x1a\x1d.echo.v1.ListAccountsResponse\x12Q\n" +
@@ -2895,9 +4262,19 @@ const file_echo_v1_finance_proto_rawDesc = "" +
 	"\x11DeleteImportBatch\x12!.echo.v1.DeleteImportBatchRequest\x1a\".echo.v1.DeleteImportBatchResponse\x12l\n" +
 	"\x17CreateManualTransaction\x12'.echo.v1.CreateManualTransactionRequest\x1a(.echo.v1.CreateManualTransactionResponse\x12E\n" +
 	"\n" +
-	"CreateGoal\x12\x1a.echo.v1.CreateGoalRequest\x1a\x1b.echo.v1.CreateGoalResponse\x12B\n" +
-	"\tListGoals\x12\x19.echo.v1.ListGoalsRequest\x1a\x1a.echo.v1.ListGoalsResponse\x12u\n" +
-	"\x1aListRecurringSubscriptions\x12*.echo.v1.ListRecurringSubscriptionsRequest\x1a+.echo.v1.ListRecurringSubscriptionsResponse\x12]\n" +
+	"CreateGoal\x12\x1a.echo.v1.CreateGoalRequest\x1a\x1b.echo.v1.CreateGoalResponse\x12<\n" +
+	"\aGetGoal\x12\x17.echo.v1.GetGoalRequest\x1a\x18.echo.v1.GetGoalResponse\x12E\n" +
+	"\n" +
+	"UpdateGoal\x12\x1a.echo.v1.UpdateGoalRequest\x1a\x1b.echo.v1.UpdateGoalResponse\x12E\n" +
+	"\n" +
+	"DeleteGoal\x12\x1a.echo.v1.DeleteGoalRequest\x1a\x1b.echo.v1.DeleteGoalResponse\x12B\n" +
+	"\tListGoals\x12\x19.echo.v1.ListGoalsRequest\x1a\x1a.echo.v1.ListGoalsResponse\x12T\n" +
+	"\x0fGetGoalProgress\x12\x1f.echo.v1.GetGoalProgressRequest\x1a .echo.v1.GetGoalProgressResponse\x12W\n" +
+	"\x10ContributeToGoal\x12 .echo.v1.ContributeToGoalRequest\x1a!.echo.v1.ContributeToGoalResponse\x12u\n" +
+	"\x1aListRecurringSubscriptions\x12*.echo.v1.ListRecurringSubscriptionsRequest\x1a+.echo.v1.ListRecurringSubscriptionsResponse\x12{\n" +
+	"\x1cDetectRecurringSubscriptions\x12,.echo.v1.DetectRecurringSubscriptionsRequest\x1a-.echo.v1.DetectRecurringSubscriptionsResponse\x12o\n" +
+	"\x18UpdateSubscriptionStatus\x12(.echo.v1.UpdateSubscriptionStatusRequest\x1a).echo.v1.UpdateSubscriptionStatusResponse\x12\x81\x01\n" +
+	"\x1eGetSubscriptionReviewChecklist\x12..echo.v1.GetSubscriptionReviewChecklistRequest\x1a/.echo.v1.GetSubscriptionReviewChecklistResponse\x12]\n" +
 	"\x12CreateCategoryRule\x12\".echo.v1.CreateCategoryRuleRequest\x1a#.echo.v1.CreateCategoryRuleResponse\x12Z\n" +
 	"\x11ListCategoryRules\x12!.echo.v1.ListCategoryRulesRequest\x1a\".echo.v1.ListCategoryRulesResponseB\xa3\x01\n" +
 	"\vcom.echo.v1B\fFinanceProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
@@ -2914,134 +4291,199 @@ func file_echo_v1_finance_proto_rawDescGZIP() []byte {
 	return file_echo_v1_finance_proto_rawDescData
 }
 
-var file_echo_v1_finance_proto_enumTypes = make([]protoimpl.EnumInfo, 6)
-var file_echo_v1_finance_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
+var file_echo_v1_finance_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_echo_v1_finance_proto_msgTypes = make([]protoimpl.MessageInfo, 52)
 var file_echo_v1_finance_proto_goTypes = []any{
-	(AccountType)(0),                           // 0: echo.v1.AccountType
-	(TransactionSource)(0),                     // 1: echo.v1.TransactionSource
-	(GoalType)(0),                              // 2: echo.v1.GoalType
-	(GoalStatus)(0),                            // 3: echo.v1.GoalStatus
-	(RecurringStatus)(0),                       // 4: echo.v1.RecurringStatus
-	(RecurringCadence)(0),                      // 5: echo.v1.RecurringCadence
-	(*Account)(nil),                            // 6: echo.v1.Account
-	(*CreateAccountRequest)(nil),               // 7: echo.v1.CreateAccountRequest
-	(*CreateAccountResponse)(nil),              // 8: echo.v1.CreateAccountResponse
-	(*ListAccountsRequest)(nil),                // 9: echo.v1.ListAccountsRequest
-	(*ListAccountsResponse)(nil),               // 10: echo.v1.ListAccountsResponse
-	(*Category)(nil),                           // 11: echo.v1.Category
-	(*CreateCategoryRequest)(nil),              // 12: echo.v1.CreateCategoryRequest
-	(*CreateCategoryResponse)(nil),             // 13: echo.v1.CreateCategoryResponse
-	(*ListCategoriesRequest)(nil),              // 14: echo.v1.ListCategoriesRequest
-	(*ListCategoriesResponse)(nil),             // 15: echo.v1.ListCategoriesResponse
-	(*Transaction)(nil),                        // 16: echo.v1.Transaction
-	(*CsvMapping)(nil),                         // 17: echo.v1.CsvMapping
-	(*ImportTransactionsCsvRequest)(nil),       // 18: echo.v1.ImportTransactionsCsvRequest
-	(*ImportTransactionsCsvResponse)(nil),      // 19: echo.v1.ImportTransactionsCsvResponse
-	(*ListTransactionsRequest)(nil),            // 20: echo.v1.ListTransactionsRequest
-	(*ListTransactionsResponse)(nil),           // 21: echo.v1.ListTransactionsResponse
-	(*DeleteImportBatchRequest)(nil),           // 22: echo.v1.DeleteImportBatchRequest
-	(*DeleteImportBatchResponse)(nil),          // 23: echo.v1.DeleteImportBatchResponse
-	(*Goal)(nil),                               // 24: echo.v1.Goal
-	(*CreateGoalRequest)(nil),                  // 25: echo.v1.CreateGoalRequest
-	(*CreateGoalResponse)(nil),                 // 26: echo.v1.CreateGoalResponse
-	(*ListGoalsRequest)(nil),                   // 27: echo.v1.ListGoalsRequest
-	(*ListGoalsResponse)(nil),                  // 28: echo.v1.ListGoalsResponse
-	(*RecurringSubscription)(nil),              // 29: echo.v1.RecurringSubscription
-	(*ListRecurringSubscriptionsRequest)(nil),  // 30: echo.v1.ListRecurringSubscriptionsRequest
-	(*ListRecurringSubscriptionsResponse)(nil), // 31: echo.v1.ListRecurringSubscriptionsResponse
-	(*CategoryRule)(nil),                       // 32: echo.v1.CategoryRule
-	(*CreateCategoryRuleRequest)(nil),          // 33: echo.v1.CreateCategoryRuleRequest
-	(*CreateCategoryRuleResponse)(nil),         // 34: echo.v1.CreateCategoryRuleResponse
-	(*ListCategoryRulesRequest)(nil),           // 35: echo.v1.ListCategoryRulesRequest
-	(*ListCategoryRulesResponse)(nil),          // 36: echo.v1.ListCategoryRulesResponse
-	(*CreateManualTransactionRequest)(nil),     // 37: echo.v1.CreateManualTransactionRequest
-	(*CreateManualTransactionResponse)(nil),    // 38: echo.v1.CreateManualTransactionResponse
-	(*timestamppb.Timestamp)(nil),              // 39: google.protobuf.Timestamp
-	(*Money)(nil),                              // 40: echo.v1.Money
-	(*PageRequest)(nil),                        // 41: echo.v1.PageRequest
-	(*TimeRange)(nil),                          // 42: echo.v1.TimeRange
-	(*PageResponse)(nil),                       // 43: echo.v1.PageResponse
+	(AccountType)(0),                               // 0: echo.v1.AccountType
+	(TransactionSource)(0),                         // 1: echo.v1.TransactionSource
+	(GoalType)(0),                                  // 2: echo.v1.GoalType
+	(GoalStatus)(0),                                // 3: echo.v1.GoalStatus
+	(RecurringStatus)(0),                           // 4: echo.v1.RecurringStatus
+	(RecurringCadence)(0),                          // 5: echo.v1.RecurringCadence
+	(SubscriptionReviewReason)(0),                  // 6: echo.v1.SubscriptionReviewReason
+	(*Account)(nil),                                // 7: echo.v1.Account
+	(*CreateAccountRequest)(nil),                   // 8: echo.v1.CreateAccountRequest
+	(*CreateAccountResponse)(nil),                  // 9: echo.v1.CreateAccountResponse
+	(*ListAccountsRequest)(nil),                    // 10: echo.v1.ListAccountsRequest
+	(*ListAccountsResponse)(nil),                   // 11: echo.v1.ListAccountsResponse
+	(*Category)(nil),                               // 12: echo.v1.Category
+	(*CreateCategoryRequest)(nil),                  // 13: echo.v1.CreateCategoryRequest
+	(*CreateCategoryResponse)(nil),                 // 14: echo.v1.CreateCategoryResponse
+	(*ListCategoriesRequest)(nil),                  // 15: echo.v1.ListCategoriesRequest
+	(*ListCategoriesResponse)(nil),                 // 16: echo.v1.ListCategoriesResponse
+	(*Transaction)(nil),                            // 17: echo.v1.Transaction
+	(*CsvMapping)(nil),                             // 18: echo.v1.CsvMapping
+	(*ImportTransactionsCsvRequest)(nil),           // 19: echo.v1.ImportTransactionsCsvRequest
+	(*ImportTransactionsCsvResponse)(nil),          // 20: echo.v1.ImportTransactionsCsvResponse
+	(*ListTransactionsRequest)(nil),                // 21: echo.v1.ListTransactionsRequest
+	(*ListTransactionsResponse)(nil),               // 22: echo.v1.ListTransactionsResponse
+	(*DeleteImportBatchRequest)(nil),               // 23: echo.v1.DeleteImportBatchRequest
+	(*DeleteImportBatchResponse)(nil),              // 24: echo.v1.DeleteImportBatchResponse
+	(*Goal)(nil),                                   // 25: echo.v1.Goal
+	(*CreateGoalRequest)(nil),                      // 26: echo.v1.CreateGoalRequest
+	(*CreateGoalResponse)(nil),                     // 27: echo.v1.CreateGoalResponse
+	(*ListGoalsRequest)(nil),                       // 28: echo.v1.ListGoalsRequest
+	(*ListGoalsResponse)(nil),                      // 29: echo.v1.ListGoalsResponse
+	(*GetGoalRequest)(nil),                         // 30: echo.v1.GetGoalRequest
+	(*GetGoalResponse)(nil),                        // 31: echo.v1.GetGoalResponse
+	(*UpdateGoalRequest)(nil),                      // 32: echo.v1.UpdateGoalRequest
+	(*UpdateGoalResponse)(nil),                     // 33: echo.v1.UpdateGoalResponse
+	(*DeleteGoalRequest)(nil),                      // 34: echo.v1.DeleteGoalRequest
+	(*DeleteGoalResponse)(nil),                     // 35: echo.v1.DeleteGoalResponse
+	(*GetGoalProgressRequest)(nil),                 // 36: echo.v1.GetGoalProgressRequest
+	(*GetGoalProgressResponse)(nil),                // 37: echo.v1.GetGoalProgressResponse
+	(*GoalMilestone)(nil),                          // 38: echo.v1.GoalMilestone
+	(*GoalContribution)(nil),                       // 39: echo.v1.GoalContribution
+	(*ContributeToGoalRequest)(nil),                // 40: echo.v1.ContributeToGoalRequest
+	(*ContributeToGoalResponse)(nil),               // 41: echo.v1.ContributeToGoalResponse
+	(*RecurringSubscription)(nil),                  // 42: echo.v1.RecurringSubscription
+	(*ListRecurringSubscriptionsRequest)(nil),      // 43: echo.v1.ListRecurringSubscriptionsRequest
+	(*ListRecurringSubscriptionsResponse)(nil),     // 44: echo.v1.ListRecurringSubscriptionsResponse
+	(*DetectRecurringSubscriptionsRequest)(nil),    // 45: echo.v1.DetectRecurringSubscriptionsRequest
+	(*DetectRecurringSubscriptionsResponse)(nil),   // 46: echo.v1.DetectRecurringSubscriptionsResponse
+	(*UpdateSubscriptionStatusRequest)(nil),        // 47: echo.v1.UpdateSubscriptionStatusRequest
+	(*UpdateSubscriptionStatusResponse)(nil),       // 48: echo.v1.UpdateSubscriptionStatusResponse
+	(*GetSubscriptionReviewChecklistRequest)(nil),  // 49: echo.v1.GetSubscriptionReviewChecklistRequest
+	(*GetSubscriptionReviewChecklistResponse)(nil), // 50: echo.v1.GetSubscriptionReviewChecklistResponse
+	(*SubscriptionReviewItem)(nil),                 // 51: echo.v1.SubscriptionReviewItem
+	(*CategoryRule)(nil),                           // 52: echo.v1.CategoryRule
+	(*CreateCategoryRuleRequest)(nil),              // 53: echo.v1.CreateCategoryRuleRequest
+	(*CreateCategoryRuleResponse)(nil),             // 54: echo.v1.CreateCategoryRuleResponse
+	(*ListCategoryRulesRequest)(nil),               // 55: echo.v1.ListCategoryRulesRequest
+	(*ListCategoryRulesResponse)(nil),              // 56: echo.v1.ListCategoryRulesResponse
+	(*CreateManualTransactionRequest)(nil),         // 57: echo.v1.CreateManualTransactionRequest
+	(*CreateManualTransactionResponse)(nil),        // 58: echo.v1.CreateManualTransactionResponse
+	(*timestamppb.Timestamp)(nil),                  // 59: google.protobuf.Timestamp
+	(*Money)(nil),                                  // 60: echo.v1.Money
+	(*PageRequest)(nil),                            // 61: echo.v1.PageRequest
+	(*TimeRange)(nil),                              // 62: echo.v1.TimeRange
+	(*PageResponse)(nil),                           // 63: echo.v1.PageResponse
 }
 var file_echo_v1_finance_proto_depIdxs = []int32{
 	0,  // 0: echo.v1.Account.type:type_name -> echo.v1.AccountType
-	39, // 1: echo.v1.Account.created_at:type_name -> google.protobuf.Timestamp
-	39, // 2: echo.v1.Account.updated_at:type_name -> google.protobuf.Timestamp
+	59, // 1: echo.v1.Account.created_at:type_name -> google.protobuf.Timestamp
+	59, // 2: echo.v1.Account.updated_at:type_name -> google.protobuf.Timestamp
 	0,  // 3: echo.v1.CreateAccountRequest.type:type_name -> echo.v1.AccountType
-	6,  // 4: echo.v1.CreateAccountResponse.account:type_name -> echo.v1.Account
-	6,  // 5: echo.v1.ListAccountsResponse.accounts:type_name -> echo.v1.Account
-	39, // 6: echo.v1.Category.created_at:type_name -> google.protobuf.Timestamp
-	39, // 7: echo.v1.Category.updated_at:type_name -> google.protobuf.Timestamp
-	11, // 8: echo.v1.CreateCategoryResponse.category:type_name -> echo.v1.Category
-	11, // 9: echo.v1.ListCategoriesResponse.categories:type_name -> echo.v1.Category
-	39, // 10: echo.v1.Transaction.posted_at:type_name -> google.protobuf.Timestamp
-	40, // 11: echo.v1.Transaction.amount:type_name -> echo.v1.Money
+	7,  // 4: echo.v1.CreateAccountResponse.account:type_name -> echo.v1.Account
+	7,  // 5: echo.v1.ListAccountsResponse.accounts:type_name -> echo.v1.Account
+	59, // 6: echo.v1.Category.created_at:type_name -> google.protobuf.Timestamp
+	59, // 7: echo.v1.Category.updated_at:type_name -> google.protobuf.Timestamp
+	12, // 8: echo.v1.CreateCategoryResponse.category:type_name -> echo.v1.Category
+	12, // 9: echo.v1.ListCategoriesResponse.categories:type_name -> echo.v1.Category
+	59, // 10: echo.v1.Transaction.posted_at:type_name -> google.protobuf.Timestamp
+	60, // 11: echo.v1.Transaction.amount:type_name -> echo.v1.Money
 	1,  // 12: echo.v1.Transaction.source:type_name -> echo.v1.TransactionSource
-	39, // 13: echo.v1.Transaction.created_at:type_name -> google.protobuf.Timestamp
-	39, // 14: echo.v1.Transaction.updated_at:type_name -> google.protobuf.Timestamp
-	17, // 15: echo.v1.ImportTransactionsCsvRequest.mapping:type_name -> echo.v1.CsvMapping
-	41, // 16: echo.v1.ListTransactionsRequest.page:type_name -> echo.v1.PageRequest
-	42, // 17: echo.v1.ListTransactionsRequest.time_range:type_name -> echo.v1.TimeRange
-	16, // 18: echo.v1.ListTransactionsResponse.transactions:type_name -> echo.v1.Transaction
-	43, // 19: echo.v1.ListTransactionsResponse.page:type_name -> echo.v1.PageResponse
+	59, // 13: echo.v1.Transaction.created_at:type_name -> google.protobuf.Timestamp
+	59, // 14: echo.v1.Transaction.updated_at:type_name -> google.protobuf.Timestamp
+	18, // 15: echo.v1.ImportTransactionsCsvRequest.mapping:type_name -> echo.v1.CsvMapping
+	61, // 16: echo.v1.ListTransactionsRequest.page:type_name -> echo.v1.PageRequest
+	62, // 17: echo.v1.ListTransactionsRequest.time_range:type_name -> echo.v1.TimeRange
+	17, // 18: echo.v1.ListTransactionsResponse.transactions:type_name -> echo.v1.Transaction
+	63, // 19: echo.v1.ListTransactionsResponse.page:type_name -> echo.v1.PageResponse
 	2,  // 20: echo.v1.Goal.type:type_name -> echo.v1.GoalType
 	3,  // 21: echo.v1.Goal.status:type_name -> echo.v1.GoalStatus
-	40, // 22: echo.v1.Goal.target:type_name -> echo.v1.Money
-	39, // 23: echo.v1.Goal.start_at:type_name -> google.protobuf.Timestamp
-	39, // 24: echo.v1.Goal.end_at:type_name -> google.protobuf.Timestamp
-	39, // 25: echo.v1.Goal.created_at:type_name -> google.protobuf.Timestamp
-	39, // 26: echo.v1.Goal.updated_at:type_name -> google.protobuf.Timestamp
-	2,  // 27: echo.v1.CreateGoalRequest.type:type_name -> echo.v1.GoalType
-	40, // 28: echo.v1.CreateGoalRequest.target:type_name -> echo.v1.Money
-	39, // 29: echo.v1.CreateGoalRequest.start_at:type_name -> google.protobuf.Timestamp
-	39, // 30: echo.v1.CreateGoalRequest.end_at:type_name -> google.protobuf.Timestamp
-	24, // 31: echo.v1.CreateGoalResponse.goal:type_name -> echo.v1.Goal
-	24, // 32: echo.v1.ListGoalsResponse.goals:type_name -> echo.v1.Goal
-	40, // 33: echo.v1.RecurringSubscription.amount:type_name -> echo.v1.Money
-	5,  // 34: echo.v1.RecurringSubscription.cadence:type_name -> echo.v1.RecurringCadence
-	4,  // 35: echo.v1.RecurringSubscription.status:type_name -> echo.v1.RecurringStatus
-	39, // 36: echo.v1.RecurringSubscription.first_seen_at:type_name -> google.protobuf.Timestamp
-	39, // 37: echo.v1.RecurringSubscription.last_seen_at:type_name -> google.protobuf.Timestamp
-	39, // 38: echo.v1.RecurringSubscription.next_expected_at:type_name -> google.protobuf.Timestamp
-	39, // 39: echo.v1.RecurringSubscription.created_at:type_name -> google.protobuf.Timestamp
-	39, // 40: echo.v1.RecurringSubscription.updated_at:type_name -> google.protobuf.Timestamp
-	29, // 41: echo.v1.ListRecurringSubscriptionsResponse.subscriptions:type_name -> echo.v1.RecurringSubscription
-	39, // 42: echo.v1.CategoryRule.created_at:type_name -> google.protobuf.Timestamp
-	39, // 43: echo.v1.CategoryRule.updated_at:type_name -> google.protobuf.Timestamp
-	32, // 44: echo.v1.CreateCategoryRuleResponse.rule:type_name -> echo.v1.CategoryRule
-	32, // 45: echo.v1.ListCategoryRulesResponse.rules:type_name -> echo.v1.CategoryRule
-	39, // 46: echo.v1.CreateManualTransactionRequest.date:type_name -> google.protobuf.Timestamp
-	16, // 47: echo.v1.CreateManualTransactionResponse.transaction:type_name -> echo.v1.Transaction
-	7,  // 48: echo.v1.FinanceService.CreateAccount:input_type -> echo.v1.CreateAccountRequest
-	9,  // 49: echo.v1.FinanceService.ListAccounts:input_type -> echo.v1.ListAccountsRequest
-	12, // 50: echo.v1.FinanceService.CreateCategory:input_type -> echo.v1.CreateCategoryRequest
-	14, // 51: echo.v1.FinanceService.ListCategories:input_type -> echo.v1.ListCategoriesRequest
-	18, // 52: echo.v1.FinanceService.ImportTransactionsCsv:input_type -> echo.v1.ImportTransactionsCsvRequest
-	20, // 53: echo.v1.FinanceService.ListTransactions:input_type -> echo.v1.ListTransactionsRequest
-	22, // 54: echo.v1.FinanceService.DeleteImportBatch:input_type -> echo.v1.DeleteImportBatchRequest
-	37, // 55: echo.v1.FinanceService.CreateManualTransaction:input_type -> echo.v1.CreateManualTransactionRequest
-	25, // 56: echo.v1.FinanceService.CreateGoal:input_type -> echo.v1.CreateGoalRequest
-	27, // 57: echo.v1.FinanceService.ListGoals:input_type -> echo.v1.ListGoalsRequest
-	30, // 58: echo.v1.FinanceService.ListRecurringSubscriptions:input_type -> echo.v1.ListRecurringSubscriptionsRequest
-	33, // 59: echo.v1.FinanceService.CreateCategoryRule:input_type -> echo.v1.CreateCategoryRuleRequest
-	35, // 60: echo.v1.FinanceService.ListCategoryRules:input_type -> echo.v1.ListCategoryRulesRequest
-	8,  // 61: echo.v1.FinanceService.CreateAccount:output_type -> echo.v1.CreateAccountResponse
-	10, // 62: echo.v1.FinanceService.ListAccounts:output_type -> echo.v1.ListAccountsResponse
-	13, // 63: echo.v1.FinanceService.CreateCategory:output_type -> echo.v1.CreateCategoryResponse
-	15, // 64: echo.v1.FinanceService.ListCategories:output_type -> echo.v1.ListCategoriesResponse
-	19, // 65: echo.v1.FinanceService.ImportTransactionsCsv:output_type -> echo.v1.ImportTransactionsCsvResponse
-	21, // 66: echo.v1.FinanceService.ListTransactions:output_type -> echo.v1.ListTransactionsResponse
-	23, // 67: echo.v1.FinanceService.DeleteImportBatch:output_type -> echo.v1.DeleteImportBatchResponse
-	38, // 68: echo.v1.FinanceService.CreateManualTransaction:output_type -> echo.v1.CreateManualTransactionResponse
-	26, // 69: echo.v1.FinanceService.CreateGoal:output_type -> echo.v1.CreateGoalResponse
-	28, // 70: echo.v1.FinanceService.ListGoals:output_type -> echo.v1.ListGoalsResponse
-	31, // 71: echo.v1.FinanceService.ListRecurringSubscriptions:output_type -> echo.v1.ListRecurringSubscriptionsResponse
-	34, // 72: echo.v1.FinanceService.CreateCategoryRule:output_type -> echo.v1.CreateCategoryRuleResponse
-	36, // 73: echo.v1.FinanceService.ListCategoryRules:output_type -> echo.v1.ListCategoryRulesResponse
-	61, // [61:74] is the sub-list for method output_type
-	48, // [48:61] is the sub-list for method input_type
-	48, // [48:48] is the sub-list for extension type_name
-	48, // [48:48] is the sub-list for extension extendee
-	0,  // [0:48] is the sub-list for field type_name
+	60, // 22: echo.v1.Goal.target:type_name -> echo.v1.Money
+	59, // 23: echo.v1.Goal.start_at:type_name -> google.protobuf.Timestamp
+	59, // 24: echo.v1.Goal.end_at:type_name -> google.protobuf.Timestamp
+	59, // 25: echo.v1.Goal.created_at:type_name -> google.protobuf.Timestamp
+	59, // 26: echo.v1.Goal.updated_at:type_name -> google.protobuf.Timestamp
+	60, // 27: echo.v1.Goal.amount_needed_per_day:type_name -> echo.v1.Money
+	2,  // 28: echo.v1.CreateGoalRequest.type:type_name -> echo.v1.GoalType
+	60, // 29: echo.v1.CreateGoalRequest.target:type_name -> echo.v1.Money
+	59, // 30: echo.v1.CreateGoalRequest.start_at:type_name -> google.protobuf.Timestamp
+	59, // 31: echo.v1.CreateGoalRequest.end_at:type_name -> google.protobuf.Timestamp
+	25, // 32: echo.v1.CreateGoalResponse.goal:type_name -> echo.v1.Goal
+	3,  // 33: echo.v1.ListGoalsRequest.status_filter:type_name -> echo.v1.GoalStatus
+	25, // 34: echo.v1.ListGoalsResponse.goals:type_name -> echo.v1.Goal
+	25, // 35: echo.v1.GetGoalResponse.goal:type_name -> echo.v1.Goal
+	60, // 36: echo.v1.UpdateGoalRequest.target:type_name -> echo.v1.Money
+	59, // 37: echo.v1.UpdateGoalRequest.end_at:type_name -> google.protobuf.Timestamp
+	3,  // 38: echo.v1.UpdateGoalRequest.status:type_name -> echo.v1.GoalStatus
+	25, // 39: echo.v1.UpdateGoalResponse.goal:type_name -> echo.v1.Goal
+	25, // 40: echo.v1.GetGoalProgressResponse.goal:type_name -> echo.v1.Goal
+	38, // 41: echo.v1.GetGoalProgressResponse.milestones:type_name -> echo.v1.GoalMilestone
+	39, // 42: echo.v1.GetGoalProgressResponse.recent_contributions:type_name -> echo.v1.GoalContribution
+	60, // 43: echo.v1.GetGoalProgressResponse.suggested_contribution:type_name -> echo.v1.Money
+	59, // 44: echo.v1.GoalMilestone.reached_at:type_name -> google.protobuf.Timestamp
+	59, // 45: echo.v1.GoalMilestone.expected_by:type_name -> google.protobuf.Timestamp
+	60, // 46: echo.v1.GoalContribution.amount:type_name -> echo.v1.Money
+	59, // 47: echo.v1.GoalContribution.contributed_at:type_name -> google.protobuf.Timestamp
+	60, // 48: echo.v1.ContributeToGoalRequest.amount:type_name -> echo.v1.Money
+	25, // 49: echo.v1.ContributeToGoalResponse.goal:type_name -> echo.v1.Goal
+	39, // 50: echo.v1.ContributeToGoalResponse.contribution:type_name -> echo.v1.GoalContribution
+	60, // 51: echo.v1.RecurringSubscription.amount:type_name -> echo.v1.Money
+	5,  // 52: echo.v1.RecurringSubscription.cadence:type_name -> echo.v1.RecurringCadence
+	4,  // 53: echo.v1.RecurringSubscription.status:type_name -> echo.v1.RecurringStatus
+	59, // 54: echo.v1.RecurringSubscription.first_seen_at:type_name -> google.protobuf.Timestamp
+	59, // 55: echo.v1.RecurringSubscription.last_seen_at:type_name -> google.protobuf.Timestamp
+	59, // 56: echo.v1.RecurringSubscription.next_expected_at:type_name -> google.protobuf.Timestamp
+	59, // 57: echo.v1.RecurringSubscription.created_at:type_name -> google.protobuf.Timestamp
+	59, // 58: echo.v1.RecurringSubscription.updated_at:type_name -> google.protobuf.Timestamp
+	60, // 59: echo.v1.RecurringSubscription.total_spent:type_name -> echo.v1.Money
+	4,  // 60: echo.v1.ListRecurringSubscriptionsRequest.status_filter:type_name -> echo.v1.RecurringStatus
+	42, // 61: echo.v1.ListRecurringSubscriptionsResponse.subscriptions:type_name -> echo.v1.RecurringSubscription
+	60, // 62: echo.v1.ListRecurringSubscriptionsResponse.total_monthly_cost:type_name -> echo.v1.Money
+	59, // 63: echo.v1.DetectRecurringSubscriptionsRequest.since:type_name -> google.protobuf.Timestamp
+	42, // 64: echo.v1.DetectRecurringSubscriptionsResponse.detected:type_name -> echo.v1.RecurringSubscription
+	4,  // 65: echo.v1.UpdateSubscriptionStatusRequest.status:type_name -> echo.v1.RecurringStatus
+	42, // 66: echo.v1.UpdateSubscriptionStatusResponse.subscription:type_name -> echo.v1.RecurringSubscription
+	51, // 67: echo.v1.GetSubscriptionReviewChecklistResponse.items:type_name -> echo.v1.SubscriptionReviewItem
+	60, // 68: echo.v1.GetSubscriptionReviewChecklistResponse.potential_monthly_savings:type_name -> echo.v1.Money
+	42, // 69: echo.v1.SubscriptionReviewItem.subscription:type_name -> echo.v1.RecurringSubscription
+	6,  // 70: echo.v1.SubscriptionReviewItem.reason:type_name -> echo.v1.SubscriptionReviewReason
+	59, // 71: echo.v1.CategoryRule.created_at:type_name -> google.protobuf.Timestamp
+	59, // 72: echo.v1.CategoryRule.updated_at:type_name -> google.protobuf.Timestamp
+	52, // 73: echo.v1.CreateCategoryRuleResponse.rule:type_name -> echo.v1.CategoryRule
+	52, // 74: echo.v1.ListCategoryRulesResponse.rules:type_name -> echo.v1.CategoryRule
+	59, // 75: echo.v1.CreateManualTransactionRequest.date:type_name -> google.protobuf.Timestamp
+	17, // 76: echo.v1.CreateManualTransactionResponse.transaction:type_name -> echo.v1.Transaction
+	8,  // 77: echo.v1.FinanceService.CreateAccount:input_type -> echo.v1.CreateAccountRequest
+	10, // 78: echo.v1.FinanceService.ListAccounts:input_type -> echo.v1.ListAccountsRequest
+	13, // 79: echo.v1.FinanceService.CreateCategory:input_type -> echo.v1.CreateCategoryRequest
+	15, // 80: echo.v1.FinanceService.ListCategories:input_type -> echo.v1.ListCategoriesRequest
+	19, // 81: echo.v1.FinanceService.ImportTransactionsCsv:input_type -> echo.v1.ImportTransactionsCsvRequest
+	21, // 82: echo.v1.FinanceService.ListTransactions:input_type -> echo.v1.ListTransactionsRequest
+	23, // 83: echo.v1.FinanceService.DeleteImportBatch:input_type -> echo.v1.DeleteImportBatchRequest
+	57, // 84: echo.v1.FinanceService.CreateManualTransaction:input_type -> echo.v1.CreateManualTransactionRequest
+	26, // 85: echo.v1.FinanceService.CreateGoal:input_type -> echo.v1.CreateGoalRequest
+	30, // 86: echo.v1.FinanceService.GetGoal:input_type -> echo.v1.GetGoalRequest
+	32, // 87: echo.v1.FinanceService.UpdateGoal:input_type -> echo.v1.UpdateGoalRequest
+	34, // 88: echo.v1.FinanceService.DeleteGoal:input_type -> echo.v1.DeleteGoalRequest
+	28, // 89: echo.v1.FinanceService.ListGoals:input_type -> echo.v1.ListGoalsRequest
+	36, // 90: echo.v1.FinanceService.GetGoalProgress:input_type -> echo.v1.GetGoalProgressRequest
+	40, // 91: echo.v1.FinanceService.ContributeToGoal:input_type -> echo.v1.ContributeToGoalRequest
+	43, // 92: echo.v1.FinanceService.ListRecurringSubscriptions:input_type -> echo.v1.ListRecurringSubscriptionsRequest
+	45, // 93: echo.v1.FinanceService.DetectRecurringSubscriptions:input_type -> echo.v1.DetectRecurringSubscriptionsRequest
+	47, // 94: echo.v1.FinanceService.UpdateSubscriptionStatus:input_type -> echo.v1.UpdateSubscriptionStatusRequest
+	49, // 95: echo.v1.FinanceService.GetSubscriptionReviewChecklist:input_type -> echo.v1.GetSubscriptionReviewChecklistRequest
+	53, // 96: echo.v1.FinanceService.CreateCategoryRule:input_type -> echo.v1.CreateCategoryRuleRequest
+	55, // 97: echo.v1.FinanceService.ListCategoryRules:input_type -> echo.v1.ListCategoryRulesRequest
+	9,  // 98: echo.v1.FinanceService.CreateAccount:output_type -> echo.v1.CreateAccountResponse
+	11, // 99: echo.v1.FinanceService.ListAccounts:output_type -> echo.v1.ListAccountsResponse
+	14, // 100: echo.v1.FinanceService.CreateCategory:output_type -> echo.v1.CreateCategoryResponse
+	16, // 101: echo.v1.FinanceService.ListCategories:output_type -> echo.v1.ListCategoriesResponse
+	20, // 102: echo.v1.FinanceService.ImportTransactionsCsv:output_type -> echo.v1.ImportTransactionsCsvResponse
+	22, // 103: echo.v1.FinanceService.ListTransactions:output_type -> echo.v1.ListTransactionsResponse
+	24, // 104: echo.v1.FinanceService.DeleteImportBatch:output_type -> echo.v1.DeleteImportBatchResponse
+	58, // 105: echo.v1.FinanceService.CreateManualTransaction:output_type -> echo.v1.CreateManualTransactionResponse
+	27, // 106: echo.v1.FinanceService.CreateGoal:output_type -> echo.v1.CreateGoalResponse
+	31, // 107: echo.v1.FinanceService.GetGoal:output_type -> echo.v1.GetGoalResponse
+	33, // 108: echo.v1.FinanceService.UpdateGoal:output_type -> echo.v1.UpdateGoalResponse
+	35, // 109: echo.v1.FinanceService.DeleteGoal:output_type -> echo.v1.DeleteGoalResponse
+	29, // 110: echo.v1.FinanceService.ListGoals:output_type -> echo.v1.ListGoalsResponse
+	37, // 111: echo.v1.FinanceService.GetGoalProgress:output_type -> echo.v1.GetGoalProgressResponse
+	41, // 112: echo.v1.FinanceService.ContributeToGoal:output_type -> echo.v1.ContributeToGoalResponse
+	44, // 113: echo.v1.FinanceService.ListRecurringSubscriptions:output_type -> echo.v1.ListRecurringSubscriptionsResponse
+	46, // 114: echo.v1.FinanceService.DetectRecurringSubscriptions:output_type -> echo.v1.DetectRecurringSubscriptionsResponse
+	48, // 115: echo.v1.FinanceService.UpdateSubscriptionStatus:output_type -> echo.v1.UpdateSubscriptionStatusResponse
+	50, // 116: echo.v1.FinanceService.GetSubscriptionReviewChecklist:output_type -> echo.v1.GetSubscriptionReviewChecklistResponse
+	54, // 117: echo.v1.FinanceService.CreateCategoryRule:output_type -> echo.v1.CreateCategoryRuleResponse
+	56, // 118: echo.v1.FinanceService.ListCategoryRules:output_type -> echo.v1.ListCategoryRulesResponse
+	98, // [98:119] is the sub-list for method output_type
+	77, // [77:98] is the sub-list for method input_type
+	77, // [77:77] is the sub-list for extension type_name
+	77, // [77:77] is the sub-list for extension extendee
+	0,  // [0:77] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_finance_proto_init() }
@@ -3057,17 +4499,25 @@ func file_echo_v1_finance_proto_init() {
 	file_echo_v1_finance_proto_msgTypes[10].OneofWrappers = []any{}
 	file_echo_v1_finance_proto_msgTypes[12].OneofWrappers = []any{}
 	file_echo_v1_finance_proto_msgTypes[14].OneofWrappers = []any{}
-	file_echo_v1_finance_proto_msgTypes[26].OneofWrappers = []any{}
-	file_echo_v1_finance_proto_msgTypes[27].OneofWrappers = []any{}
-	file_echo_v1_finance_proto_msgTypes[31].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[21].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[25].OneofWrappers = []any{}
 	file_echo_v1_finance_proto_msgTypes[32].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[33].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[34].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[35].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[36].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[38].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[45].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[46].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[50].OneofWrappers = []any{}
+	file_echo_v1_finance_proto_msgTypes[51].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_finance_proto_rawDesc), len(file_echo_v1_finance_proto_rawDesc)),
-			NumEnums:      6,
-			NumMessages:   33,
+			NumEnums:      7,
+			NumMessages:   52,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

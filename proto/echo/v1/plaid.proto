@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package echo.v1;
 
+option go_package = "buf.build/gen/go/echo-tracker/echo/protocolbuffers/go/echo/v1;echov1";
+
 import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
 

@@ -655,6 +655,46 @@ export declare type Goal = Message<"echo.v1.Goal"> & {
    * @generated from field: google.protobuf.Timestamp updated_at = 23;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * Progress fields (computed)
+   *
+   * 0-100, current/target
+   *
+   * @generated from field: double progress_percent = 30;
+   */
+  progressPercent: number;
+
+  /**
+   * 100 = on track, <100 = behind
+   *
+   * @generated from field: double pace_percent = 31;
+   */
+  pacePercent: number;
+
+  /**
+   * @generated from field: bool is_behind_pace = 32;
+   */
+  isBehindPace: boolean;
+
+  /**
+   * "On track", "2 weeks behind", etc.
+   *
+   * @generated from field: string pace_message = 33;
+   */
+  paceMessage: string;
+
+  /**
+   * @generated from field: int32 days_remaining = 34;
+   */
+  daysRemaining: number;
+
+  /**
+   * To reach goal on time
+   *
+   * @generated from field: echo.v1.Money amount_needed_per_day = 35;
+   */
+  amountNeededPerDay?: Money;
 };
 
 /**
@@ -719,6 +759,12 @@ export declare const CreateGoalResponseSchema: GenMessage<CreateGoalResponse>;
  * @generated from message echo.v1.ListGoalsRequest
  */
 export declare type ListGoalsRequest = Message<"echo.v1.ListGoalsRequest"> & {
+  /**
+   * Filter by status
+   *
+   * @generated from field: optional echo.v1.GoalStatus status_filter = 1;
+   */
+  statusFilter?: GoalStatus;
 };
 
 /**
@@ -742,6 +788,328 @@ export declare type ListGoalsResponse = Message<"echo.v1.ListGoalsResponse"> & {
  * Use `create(ListGoalsResponseSchema)` to create a new message.
  */
 export declare const ListGoalsResponseSchema: GenMessage<ListGoalsResponse>;
+
+/**
+ * @generated from message echo.v1.GetGoalRequest
+ */
+export declare type GetGoalRequest = Message<"echo.v1.GetGoalRequest"> & {
+  /**
+   * @generated from field: string goal_id = 1;
+   */
+  goalId: string;
+};
+
+/**
+ * Describes the message echo.v1.GetGoalRequest.
+ * Use `create(GetGoalRequestSchema)` to create a new message.
+ */
+export declare const GetGoalRequestSchema: GenMessage<GetGoalRequest>;
+
+/**
+ * @generated from message echo.v1.GetGoalResponse
+ */
+export declare type GetGoalResponse = Message<"echo.v1.GetGoalResponse"> & {
+  /**
+   * @generated from field: echo.v1.Goal goal = 1;
+   */
+  goal?: Goal;
+};
+
+/**
+ * Describes the message echo.v1.GetGoalResponse.
+ * Use `create(GetGoalResponseSchema)` to create a new message.
+ */
+export declare const GetGoalResponseSchema: GenMessage<GetGoalResponse>;
+
+/**
+ * @generated from message echo.v1.UpdateGoalRequest
+ */
+export declare type UpdateGoalRequest = Message<"echo.v1.UpdateGoalRequest"> & {
+  /**
+   * @generated from field: string goal_id = 1;
+   */
+  goalId: string;
+
+  /**
+   * @generated from field: optional string name = 2;
+   */
+  name?: string;
+
+  /**
+   * @generated from field: optional echo.v1.Money target = 3;
+   */
+  target?: Money;
+
+  /**
+   * @generated from field: optional google.protobuf.Timestamp end_at = 4;
+   */
+  endAt?: Timestamp;
+
+  /**
+   * @generated from field: optional echo.v1.GoalStatus status = 5;
+   */
+  status?: GoalStatus;
+};
+
+/**
+ * Describes the message echo.v1.UpdateGoalRequest.
+ * Use `create(UpdateGoalRequestSchema)` to create a new message.
+ */
+export declare const UpdateGoalRequestSchema: GenMessage<UpdateGoalRequest>;
+
+/**
+ * @generated from message echo.v1.UpdateGoalResponse
+ */
+export declare type UpdateGoalResponse = Message<"echo.v1.UpdateGoalResponse"> & {
+  /**
+   * @generated from field: echo.v1.Goal goal = 1;
+   */
+  goal?: Goal;
+};
+
+/**
+ * Describes the message echo.v1.UpdateGoalResponse.
+ * Use `create(UpdateGoalResponseSchema)` to create a new message.
+ */
+export declare const UpdateGoalResponseSchema: GenMessage<UpdateGoalResponse>;
+
+/**
+ * @generated from message echo.v1.DeleteGoalRequest
+ */
+export declare type DeleteGoalRequest = Message<"echo.v1.DeleteGoalRequest"> & {
+  /**
+   * @generated from field: string goal_id = 1;
+   */
+  goalId: string;
+};
+
+/**
+ * Describes the message echo.v1.DeleteGoalRequest.
+ * Use `create(DeleteGoalRequestSchema)` to create a new message.
+ */
+export declare const DeleteGoalRequestSchema: GenMessage<DeleteGoalRequest>;
+
+/**
+ * @generated from message echo.v1.DeleteGoalResponse
+ */
+export declare type DeleteGoalResponse = Message<"echo.v1.DeleteGoalResponse"> & {
+};
+
+/**
+ * Describes the message echo.v1.DeleteGoalResponse.
+ * Use `create(DeleteGoalResponseSchema)` to create a new message.
+ */
+export declare const DeleteGoalResponseSchema: GenMessage<DeleteGoalResponse>;
+
+/**
+ * @generated from message echo.v1.GetGoalProgressRequest
+ */
+export declare type GetGoalProgressRequest = Message<"echo.v1.GetGoalProgressRequest"> & {
+  /**
+   * @generated from field: string goal_id = 1;
+   */
+  goalId: string;
+};
+
+/**
+ * Describes the message echo.v1.GetGoalProgressRequest.
+ * Use `create(GetGoalProgressRequestSchema)` to create a new message.
+ */
+export declare const GetGoalProgressRequestSchema: GenMessage<GetGoalProgressRequest>;
+
+/**
+ * @generated from message echo.v1.GetGoalProgressResponse
+ */
+export declare type GetGoalProgressResponse = Message<"echo.v1.GetGoalProgressResponse"> & {
+  /**
+   * @generated from field: echo.v1.Goal goal = 1;
+   */
+  goal?: Goal;
+
+  /**
+   * Detailed progress breakdown
+   *
+   * Progress checkpoints
+   *
+   * @generated from field: repeated echo.v1.GoalMilestone milestones = 2;
+   */
+  milestones: GoalMilestone[];
+
+  /**
+   * Recent deposits/progress
+   *
+   * @generated from field: repeated echo.v1.GoalContribution recent_contributions = 3;
+   */
+  recentContributions: GoalContribution[];
+
+  /**
+   * Nudge information
+   *
+   * @generated from field: bool needs_attention = 10;
+   */
+  needsAttention: boolean;
+
+  /**
+   * "Add €50 this week to stay on track"
+   *
+   * @generated from field: string nudge_message = 11;
+   */
+  nudgeMessage: string;
+
+  /**
+   * Recommended next contribution
+   *
+   * @generated from field: echo.v1.Money suggested_contribution = 12;
+   */
+  suggestedContribution?: Money;
+};
+
+/**
+ * Describes the message echo.v1.GetGoalProgressResponse.
+ * Use `create(GetGoalProgressResponseSchema)` to create a new message.
+ */
+export declare const GetGoalProgressResponseSchema: GenMessage<GetGoalProgressResponse>;
+
+/**
+ * @generated from message echo.v1.GoalMilestone
+ */
+export declare type GoalMilestone = Message<"echo.v1.GoalMilestone"> & {
+  /**
+   * 25, 50, 75, 100
+   *
+   * @generated from field: int32 percent = 1;
+   */
+  percent: number;
+
+  /**
+   * @generated from field: bool reached = 2;
+   */
+  reached: boolean;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp reached_at = 3;
+   */
+  reachedAt?: Timestamp;
+
+  /**
+   * Based on timeline
+   *
+   * @generated from field: google.protobuf.Timestamp expected_by = 4;
+   */
+  expectedBy?: Timestamp;
+};
+
+/**
+ * Describes the message echo.v1.GoalMilestone.
+ * Use `create(GoalMilestoneSchema)` to create a new message.
+ */
+export declare const GoalMilestoneSchema: GenMessage<GoalMilestone>;
+
+/**
+ * @generated from message echo.v1.GoalContribution
+ */
+export declare type GoalContribution = Message<"echo.v1.GoalContribution"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: echo.v1.Money amount = 2;
+   */
+  amount?: Money;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp contributed_at = 3;
+   */
+  contributedAt?: Timestamp;
+
+  /**
+   * @generated from field: optional string note = 4;
+   */
+  note?: string;
+
+  /**
+   * Link to transaction if from import
+   *
+   * @generated from field: optional string transaction_id = 5;
+   */
+  transactionId?: string;
+};
+
+/**
+ * Describes the message echo.v1.GoalContribution.
+ * Use `create(GoalContributionSchema)` to create a new message.
+ */
+export declare const GoalContributionSchema: GenMessage<GoalContribution>;
+
+/**
+ * @generated from message echo.v1.ContributeToGoalRequest
+ */
+export declare type ContributeToGoalRequest = Message<"echo.v1.ContributeToGoalRequest"> & {
+  /**
+   * @generated from field: string goal_id = 1;
+   */
+  goalId: string;
+
+  /**
+   * @generated from field: echo.v1.Money amount = 2;
+   */
+  amount?: Money;
+
+  /**
+   * @generated from field: optional string note = 3;
+   */
+  note?: string;
+};
+
+/**
+ * Describes the message echo.v1.ContributeToGoalRequest.
+ * Use `create(ContributeToGoalRequestSchema)` to create a new message.
+ */
+export declare const ContributeToGoalRequestSchema: GenMessage<ContributeToGoalRequest>;
+
+/**
+ * @generated from message echo.v1.ContributeToGoalResponse
+ */
+export declare type ContributeToGoalResponse = Message<"echo.v1.ContributeToGoalResponse"> & {
+  /**
+   * @generated from field: echo.v1.Goal goal = 1;
+   */
+  goal?: Goal;
+
+  /**
+   * @generated from field: echo.v1.GoalContribution contribution = 2;
+   */
+  contribution?: GoalContribution;
+
+  /**
+   * Celebration feedback
+   *
+   * @generated from field: bool milestone_reached = 3;
+   */
+  milestoneReached: boolean;
+
+  /**
+   * 25, 50, 75, 100
+   *
+   * @generated from field: optional int32 milestone_percent = 4;
+   */
+  milestonePercent?: number;
+
+  /**
+   * "Great job! You're 50% there!"
+   *
+   * @generated from field: string feedback_message = 5;
+   */
+  feedbackMessage: string;
+};
+
+/**
+ * Describes the message echo.v1.ContributeToGoalResponse.
+ * Use `create(ContributeToGoalResponseSchema)` to create a new message.
+ */
+export declare const ContributeToGoalResponseSchema: GenMessage<ContributeToGoalResponse>;
 
 /**
  * @generated from message echo.v1.RecurringSubscription
@@ -801,6 +1169,36 @@ export declare type RecurringSubscription = Message<"echo.v1.RecurringSubscripti
    * @generated from field: google.protobuf.Timestamp updated_at = 21;
    */
   updatedAt?: Timestamp;
+
+  /**
+   * Additional computed fields
+   *
+   * Number of times seen
+   *
+   * @generated from field: int32 occurrence_count = 30;
+   */
+  occurrenceCount: number;
+
+  /**
+   * Total amount spent on this subscription
+   *
+   * @generated from field: echo.v1.Money total_spent = 31;
+   */
+  totalSpent?: Money;
+
+  /**
+   * Linked category if categorized
+   *
+   * @generated from field: optional string category_id = 32;
+   */
+  categoryId?: string;
+
+  /**
+   * Category name for display
+   *
+   * @generated from field: optional string category_name = 33;
+   */
+  categoryName?: string;
 };
 
 /**
@@ -813,6 +1211,19 @@ export declare const RecurringSubscriptionSchema: GenMessage<RecurringSubscripti
  * @generated from message echo.v1.ListRecurringSubscriptionsRequest
  */
 export declare type ListRecurringSubscriptionsRequest = Message<"echo.v1.ListRecurringSubscriptionsRequest"> & {
+  /**
+   * Filter by status
+   *
+   * @generated from field: optional echo.v1.RecurringStatus status_filter = 1;
+   */
+  statusFilter?: RecurringStatus;
+
+  /**
+   * Include canceled subscriptions
+   *
+   * @generated from field: bool include_canceled = 2;
+   */
+  includeCanceled: boolean;
 };
 
 /**
@@ -829,6 +1240,18 @@ export declare type ListRecurringSubscriptionsResponse = Message<"echo.v1.ListRe
    * @generated from field: repeated echo.v1.RecurringSubscription subscriptions = 1;
    */
   subscriptions: RecurringSubscription[];
+
+  /**
+   * Sum of all active subscriptions normalized to monthly
+   *
+   * @generated from field: echo.v1.Money total_monthly_cost = 2;
+   */
+  totalMonthlyCost?: Money;
+
+  /**
+   * @generated from field: int32 active_count = 3;
+   */
+  activeCount: number;
 };
 
 /**
@@ -836,6 +1259,181 @@ export declare type ListRecurringSubscriptionsResponse = Message<"echo.v1.ListRe
  * Use `create(ListRecurringSubscriptionsResponseSchema)` to create a new message.
  */
 export declare const ListRecurringSubscriptionsResponseSchema: GenMessage<ListRecurringSubscriptionsResponse>;
+
+/**
+ * Detect recurring patterns in transaction history
+ *
+ * @generated from message echo.v1.DetectRecurringSubscriptionsRequest
+ */
+export declare type DetectRecurringSubscriptionsRequest = Message<"echo.v1.DetectRecurringSubscriptionsRequest"> & {
+  /**
+   * Optional: limit detection to specific time range
+   *
+   * @generated from field: optional google.protobuf.Timestamp since = 1;
+   */
+  since?: Timestamp;
+
+  /**
+   * Minimum occurrences to consider recurring (default: 2)
+   *
+   * @generated from field: optional int32 min_occurrences = 2;
+   */
+  minOccurrences?: number;
+};
+
+/**
+ * Describes the message echo.v1.DetectRecurringSubscriptionsRequest.
+ * Use `create(DetectRecurringSubscriptionsRequestSchema)` to create a new message.
+ */
+export declare const DetectRecurringSubscriptionsRequestSchema: GenMessage<DetectRecurringSubscriptionsRequest>;
+
+/**
+ * @generated from message echo.v1.DetectRecurringSubscriptionsResponse
+ */
+export declare type DetectRecurringSubscriptionsResponse = Message<"echo.v1.DetectRecurringSubscriptionsResponse"> & {
+  /**
+   * Newly detected subscriptions
+   *
+   * @generated from field: repeated echo.v1.RecurringSubscription detected = 1;
+   */
+  detected: RecurringSubscription[];
+
+  /**
+   * Number of new subscriptions detected
+   *
+   * @generated from field: int32 new_count = 2;
+   */
+  newCount: number;
+
+  /**
+   * Number of existing subscriptions updated
+   *
+   * @generated from field: int32 updated_count = 3;
+   */
+  updatedCount: number;
+};
+
+/**
+ * Describes the message echo.v1.DetectRecurringSubscriptionsResponse.
+ * Use `create(DetectRecurringSubscriptionsResponseSchema)` to create a new message.
+ */
+export declare const DetectRecurringSubscriptionsResponseSchema: GenMessage<DetectRecurringSubscriptionsResponse>;
+
+/**
+ * Update subscription status (pause, cancel, reactivate)
+ *
+ * @generated from message echo.v1.UpdateSubscriptionStatusRequest
+ */
+export declare type UpdateSubscriptionStatusRequest = Message<"echo.v1.UpdateSubscriptionStatusRequest"> & {
+  /**
+   * @generated from field: string subscription_id = 1;
+   */
+  subscriptionId: string;
+
+  /**
+   * @generated from field: echo.v1.RecurringStatus status = 2;
+   */
+  status: RecurringStatus;
+};
+
+/**
+ * Describes the message echo.v1.UpdateSubscriptionStatusRequest.
+ * Use `create(UpdateSubscriptionStatusRequestSchema)` to create a new message.
+ */
+export declare const UpdateSubscriptionStatusRequestSchema: GenMessage<UpdateSubscriptionStatusRequest>;
+
+/**
+ * @generated from message echo.v1.UpdateSubscriptionStatusResponse
+ */
+export declare type UpdateSubscriptionStatusResponse = Message<"echo.v1.UpdateSubscriptionStatusResponse"> & {
+  /**
+   * @generated from field: echo.v1.RecurringSubscription subscription = 1;
+   */
+  subscription?: RecurringSubscription;
+};
+
+/**
+ * Describes the message echo.v1.UpdateSubscriptionStatusResponse.
+ * Use `create(UpdateSubscriptionStatusResponseSchema)` to create a new message.
+ */
+export declare const UpdateSubscriptionStatusResponseSchema: GenMessage<UpdateSubscriptionStatusResponse>;
+
+/**
+ * Review checklist for subscription management
+ *
+ * @generated from message echo.v1.GetSubscriptionReviewChecklistRequest
+ */
+export declare type GetSubscriptionReviewChecklistRequest = Message<"echo.v1.GetSubscriptionReviewChecklistRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.GetSubscriptionReviewChecklistRequest.
+ * Use `create(GetSubscriptionReviewChecklistRequestSchema)` to create a new message.
+ */
+export declare const GetSubscriptionReviewChecklistRequestSchema: GenMessage<GetSubscriptionReviewChecklistRequest>;
+
+/**
+ * @generated from message echo.v1.GetSubscriptionReviewChecklistResponse
+ */
+export declare type GetSubscriptionReviewChecklistResponse = Message<"echo.v1.GetSubscriptionReviewChecklistResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.SubscriptionReviewItem items = 1;
+   */
+  items: SubscriptionReviewItem[];
+
+  /**
+   * If all "review" items are canceled
+   *
+   * @generated from field: echo.v1.Money potential_monthly_savings = 2;
+   */
+  potentialMonthlySavings?: Money;
+
+  /**
+   * "You have 3 subscriptions to review"
+   *
+   * @generated from field: string summary = 3;
+   */
+  summary: string;
+};
+
+/**
+ * Describes the message echo.v1.GetSubscriptionReviewChecklistResponse.
+ * Use `create(GetSubscriptionReviewChecklistResponseSchema)` to create a new message.
+ */
+export declare const GetSubscriptionReviewChecklistResponseSchema: GenMessage<GetSubscriptionReviewChecklistResponse>;
+
+/**
+ * @generated from message echo.v1.SubscriptionReviewItem
+ */
+export declare type SubscriptionReviewItem = Message<"echo.v1.SubscriptionReviewItem"> & {
+  /**
+   * @generated from field: echo.v1.RecurringSubscription subscription = 1;
+   */
+  subscription?: RecurringSubscription;
+
+  /**
+   * @generated from field: echo.v1.SubscriptionReviewReason reason = 2;
+   */
+  reason: SubscriptionReviewReason;
+
+  /**
+   * "Not used in 60+ days", "Price increased", etc.
+   *
+   * @generated from field: string reason_message = 3;
+   */
+  reasonMessage: string;
+
+  /**
+   * @generated from field: bool recommended_cancel = 4;
+   */
+  recommendedCancel: boolean;
+};
+
+/**
+ * Describes the message echo.v1.SubscriptionReviewItem.
+ * Use `create(SubscriptionReviewItemSchema)` to create a new message.
+ */
+export declare const SubscriptionReviewItemSchema: GenMessage<SubscriptionReviewItem>;
 
 /**
  * Category Rules for "Remember this" learning flow
@@ -1287,6 +1885,56 @@ export enum RecurringCadence {
 export declare const RecurringCadenceSchema: GenEnum<RecurringCadence>;
 
 /**
+ * @generated from enum echo.v1.SubscriptionReviewReason
+ */
+export enum SubscriptionReviewReason {
+  /**
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * No related transactions recently
+   *
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_UNUSED = 1;
+   */
+  UNUSED = 1,
+
+  /**
+   * Amount increased from previous
+   *
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE = 2;
+   */
+  PRICE_INCREASE = 2,
+
+  /**
+   * Similar to another subscription
+   *
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_DUPLICATE = 3;
+   */
+  DUPLICATE = 3,
+
+  /**
+   * Above average for category
+   *
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_HIGH_COST = 4;
+   */
+  HIGH_COST = 4,
+
+  /**
+   * Recently detected, confirm it's wanted
+   *
+   * @generated from enum value: SUBSCRIPTION_REVIEW_REASON_NEW = 5;
+   */
+  NEW = 5,
+}
+
+/**
+ * Describes the enum echo.v1.SubscriptionReviewReason.
+ */
+export declare const SubscriptionReviewReasonSchema: GenEnum<SubscriptionReviewReason>;
+
+/**
  * @generated from service echo.v1.FinanceService
  */
 export declare const FinanceService: GenService<{
@@ -1357,12 +2005,38 @@ export declare const FinanceService: GenService<{
     output: typeof CreateManualTransactionResponseSchema;
   },
   /**
+   * Goals management
+   *
    * @generated from rpc echo.v1.FinanceService.CreateGoal
    */
   createGoal: {
     methodKind: "unary";
     input: typeof CreateGoalRequestSchema;
     output: typeof CreateGoalResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.GetGoal
+   */
+  getGoal: {
+    methodKind: "unary";
+    input: typeof GetGoalRequestSchema;
+    output: typeof GetGoalResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.UpdateGoal
+   */
+  updateGoal: {
+    methodKind: "unary";
+    input: typeof UpdateGoalRequestSchema;
+    output: typeof UpdateGoalResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.DeleteGoal
+   */
+  deleteGoal: {
+    methodKind: "unary";
+    input: typeof DeleteGoalRequestSchema;
+    output: typeof DeleteGoalResponseSchema;
   },
   /**
    * @generated from rpc echo.v1.FinanceService.ListGoals
@@ -1373,12 +2047,54 @@ export declare const FinanceService: GenService<{
     output: typeof ListGoalsResponseSchema;
   },
   /**
+   * @generated from rpc echo.v1.FinanceService.GetGoalProgress
+   */
+  getGoalProgress: {
+    methodKind: "unary";
+    input: typeof GetGoalProgressRequestSchema;
+    output: typeof GetGoalProgressResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.ContributeToGoal
+   */
+  contributeToGoal: {
+    methodKind: "unary";
+    input: typeof ContributeToGoalRequestSchema;
+    output: typeof ContributeToGoalResponseSchema;
+  },
+  /**
+   * Recurring subscriptions management
+   *
    * @generated from rpc echo.v1.FinanceService.ListRecurringSubscriptions
    */
   listRecurringSubscriptions: {
     methodKind: "unary";
     input: typeof ListRecurringSubscriptionsRequestSchema;
     output: typeof ListRecurringSubscriptionsResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.DetectRecurringSubscriptions
+   */
+  detectRecurringSubscriptions: {
+    methodKind: "unary";
+    input: typeof DetectRecurringSubscriptionsRequestSchema;
+    output: typeof DetectRecurringSubscriptionsResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.UpdateSubscriptionStatus
+   */
+  updateSubscriptionStatus: {
+    methodKind: "unary";
+    input: typeof UpdateSubscriptionStatusRequestSchema;
+    output: typeof UpdateSubscriptionStatusResponseSchema;
+  },
+  /**
+   * @generated from rpc echo.v1.FinanceService.GetSubscriptionReviewChecklist
+   */
+  getSubscriptionReviewChecklist: {
+    methodKind: "unary";
+    input: typeof GetSubscriptionReviewChecklistRequestSchema;
+    output: typeof GetSubscriptionReviewChecklistResponseSchema;
   },
   /**
    * Categorization rules for "Remember this" learning

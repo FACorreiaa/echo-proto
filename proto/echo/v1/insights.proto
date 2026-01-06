@@ -8,6 +8,8 @@ import "google/protobuf/timestamp.proto";
 import "echo/v1/common.proto";
 import "echo/v1/finance.proto";
 
+option go_package = "buf.build/gen/go/echo-tracker/echo/protocolbuffers/go/echo/v1;echov1";
+
 service InsightsService {
   rpc GetMonthlyInsights(GetMonthlyInsightsRequest) returns (GetMonthlyInsightsResponse);
   rpc GetWrapped(GetWrappedRequest) returns (GetWrappedResponse);
@@ -54,7 +56,78 @@ message MonthlyInsights {
     items: { string: { min_len: 1 max_len: 240 } }
   }];
 
+  // "3 things that changed this month" - key changes vs previous month
+  repeated InsightChange changes = 21 [(buf.validate.field).repeated = { max_items: 5 }];
+
+  // "1 action to take this week" - most impactful recommendation
+  ActionRecommendation recommended_action = 22;
+
+  // Comparison with previous month
+  Money spend_vs_last_month = 23;  // Positive = spent more, negative = spent less
+  double spend_change_percent = 24;  // e.g., +15.5 or -8.2
+
   google.protobuf.Timestamp created_at = 30 [(buf.validate.field).required = true];
+}
+
+// A significant change detected this month
+message InsightChange {
+  InsightChangeType type = 1;
+  string title = 2;        // "Dining out increased"
+  string description = 3;  // "You spent €120 more on restaurants than last month"
+  Money amount_change = 4; // The delta amount
+  double percent_change = 5;  // Percentage change
+  optional string category_id = 6;
+  optional string merchant_name = 7;
+  string icon = 8;  // Emoji or icon name
+  InsightChangeSentiment sentiment = 9;  // positive, negative, neutral
+}
+
+enum InsightChangeType {
+  INSIGHT_CHANGE_TYPE_UNSPECIFIED = 0;
+  INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE = 1;   // Category spending went up
+  INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE = 2;   // Category spending went down
+  INSIGHT_CHANGE_TYPE_NEW_MERCHANT = 3;        // Started spending at new merchant
+  INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE = 4;   // Merchant spending increased
+  INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED = 5;  // New recurring charge found
+  INSIGHT_CHANGE_TYPE_GOAL_PROGRESS = 6;       // Goal milestone reached or behind
+  INSIGHT_CHANGE_TYPE_INCOME_CHANGE = 7;       // Income increased/decreased
+  INSIGHT_CHANGE_TYPE_SAVINGS_RATE = 8;        // Savings rate changed significantly
+}
+
+enum InsightChangeSentiment {
+  INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED = 0;
+  INSIGHT_CHANGE_SENTIMENT_POSITIVE = 1;   // Good for finances (saved more, etc.)
+  INSIGHT_CHANGE_SENTIMENT_NEGATIVE = 2;   // Concerning (overspent, etc.)
+  INSIGHT_CHANGE_SENTIMENT_NEUTRAL = 3;    // Informational
+}
+
+// A recommended action for the user
+message ActionRecommendation {
+  ActionType type = 1;
+  string title = 2;           // "Review your subscriptions"
+  string description = 3;     // "You have 3 subscriptions you haven't used in 30 days"
+  string cta_text = 4;        // "Review Now"
+  string cta_action = 5;      // Deep link or action identifier
+  Money potential_impact = 6; // Potential savings or impact
+  ActionPriority priority = 7;
+  string icon = 8;
+}
+
+enum ActionType {
+  ACTION_TYPE_UNSPECIFIED = 0;
+  ACTION_TYPE_REVIEW_SUBSCRIPTIONS = 1;    // Review/cancel unused subscriptions
+  ACTION_TYPE_REDUCE_CATEGORY = 2;         // Cut back on specific category
+  ACTION_TYPE_CONTRIBUTE_TO_GOAL = 3;      // Add to savings goal
+  ACTION_TYPE_CATEGORIZE_TRANSACTIONS = 4; // Categorize uncategorized items
+  ACTION_TYPE_SET_BUDGET = 5;              // Set budget for high-spend category
+  ACTION_TYPE_REVIEW_LARGE_EXPENSE = 6;    // Review unusually large expense
+}
+
+enum ActionPriority {
+  ACTION_PRIORITY_UNSPECIFIED = 0;
+  ACTION_PRIORITY_LOW = 1;
+  ACTION_PRIORITY_MEDIUM = 2;
+  ACTION_PRIORITY_HIGH = 3;
 }
 
 message GetMonthlyInsightsRequest {

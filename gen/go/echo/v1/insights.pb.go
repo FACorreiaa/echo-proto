@@ -23,6 +23,238 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type InsightChangeType int32
+
+const (
+	InsightChangeType_INSIGHT_CHANGE_TYPE_UNSPECIFIED           InsightChangeType = 0
+	InsightChangeType_INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE     InsightChangeType = 1 // Category spending went up
+	InsightChangeType_INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE     InsightChangeType = 2 // Category spending went down
+	InsightChangeType_INSIGHT_CHANGE_TYPE_NEW_MERCHANT          InsightChangeType = 3 // Started spending at new merchant
+	InsightChangeType_INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE     InsightChangeType = 4 // Merchant spending increased
+	InsightChangeType_INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED InsightChangeType = 5 // New recurring charge found
+	InsightChangeType_INSIGHT_CHANGE_TYPE_GOAL_PROGRESS         InsightChangeType = 6 // Goal milestone reached or behind
+	InsightChangeType_INSIGHT_CHANGE_TYPE_INCOME_CHANGE         InsightChangeType = 7 // Income increased/decreased
+	InsightChangeType_INSIGHT_CHANGE_TYPE_SAVINGS_RATE          InsightChangeType = 8 // Savings rate changed significantly
+)
+
+// Enum value maps for InsightChangeType.
+var (
+	InsightChangeType_name = map[int32]string{
+		0: "INSIGHT_CHANGE_TYPE_UNSPECIFIED",
+		1: "INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE",
+		2: "INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE",
+		3: "INSIGHT_CHANGE_TYPE_NEW_MERCHANT",
+		4: "INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE",
+		5: "INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED",
+		6: "INSIGHT_CHANGE_TYPE_GOAL_PROGRESS",
+		7: "INSIGHT_CHANGE_TYPE_INCOME_CHANGE",
+		8: "INSIGHT_CHANGE_TYPE_SAVINGS_RATE",
+	}
+	InsightChangeType_value = map[string]int32{
+		"INSIGHT_CHANGE_TYPE_UNSPECIFIED":           0,
+		"INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE":     1,
+		"INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE":     2,
+		"INSIGHT_CHANGE_TYPE_NEW_MERCHANT":          3,
+		"INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE":     4,
+		"INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED": 5,
+		"INSIGHT_CHANGE_TYPE_GOAL_PROGRESS":         6,
+		"INSIGHT_CHANGE_TYPE_INCOME_CHANGE":         7,
+		"INSIGHT_CHANGE_TYPE_SAVINGS_RATE":          8,
+	}
+)
+
+func (x InsightChangeType) Enum() *InsightChangeType {
+	p := new(InsightChangeType)
+	*p = x
+	return p
+}
+
+func (x InsightChangeType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (InsightChangeType) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_insights_proto_enumTypes[0].Descriptor()
+}
+
+func (InsightChangeType) Type() protoreflect.EnumType {
+	return &file_echo_v1_insights_proto_enumTypes[0]
+}
+
+func (x InsightChangeType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use InsightChangeType.Descriptor instead.
+func (InsightChangeType) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{0}
+}
+
+type InsightChangeSentiment int32
+
+const (
+	InsightChangeSentiment_INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED InsightChangeSentiment = 0
+	InsightChangeSentiment_INSIGHT_CHANGE_SENTIMENT_POSITIVE    InsightChangeSentiment = 1 // Good for finances (saved more, etc.)
+	InsightChangeSentiment_INSIGHT_CHANGE_SENTIMENT_NEGATIVE    InsightChangeSentiment = 2 // Concerning (overspent, etc.)
+	InsightChangeSentiment_INSIGHT_CHANGE_SENTIMENT_NEUTRAL     InsightChangeSentiment = 3 // Informational
+)
+
+// Enum value maps for InsightChangeSentiment.
+var (
+	InsightChangeSentiment_name = map[int32]string{
+		0: "INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED",
+		1: "INSIGHT_CHANGE_SENTIMENT_POSITIVE",
+		2: "INSIGHT_CHANGE_SENTIMENT_NEGATIVE",
+		3: "INSIGHT_CHANGE_SENTIMENT_NEUTRAL",
+	}
+	InsightChangeSentiment_value = map[string]int32{
+		"INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED": 0,
+		"INSIGHT_CHANGE_SENTIMENT_POSITIVE":    1,
+		"INSIGHT_CHANGE_SENTIMENT_NEGATIVE":    2,
+		"INSIGHT_CHANGE_SENTIMENT_NEUTRAL":     3,
+	}
+)
+
+func (x InsightChangeSentiment) Enum() *InsightChangeSentiment {
+	p := new(InsightChangeSentiment)
+	*p = x
+	return p
+}
+
+func (x InsightChangeSentiment) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (InsightChangeSentiment) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_insights_proto_enumTypes[1].Descriptor()
+}
+
+func (InsightChangeSentiment) Type() protoreflect.EnumType {
+	return &file_echo_v1_insights_proto_enumTypes[1]
+}
+
+func (x InsightChangeSentiment) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use InsightChangeSentiment.Descriptor instead.
+func (InsightChangeSentiment) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{1}
+}
+
+type ActionType int32
+
+const (
+	ActionType_ACTION_TYPE_UNSPECIFIED             ActionType = 0
+	ActionType_ACTION_TYPE_REVIEW_SUBSCRIPTIONS    ActionType = 1 // Review/cancel unused subscriptions
+	ActionType_ACTION_TYPE_REDUCE_CATEGORY         ActionType = 2 // Cut back on specific category
+	ActionType_ACTION_TYPE_CONTRIBUTE_TO_GOAL      ActionType = 3 // Add to savings goal
+	ActionType_ACTION_TYPE_CATEGORIZE_TRANSACTIONS ActionType = 4 // Categorize uncategorized items
+	ActionType_ACTION_TYPE_SET_BUDGET              ActionType = 5 // Set budget for high-spend category
+	ActionType_ACTION_TYPE_REVIEW_LARGE_EXPENSE    ActionType = 6 // Review unusually large expense
+)
+
+// Enum value maps for ActionType.
+var (
+	ActionType_name = map[int32]string{
+		0: "ACTION_TYPE_UNSPECIFIED",
+		1: "ACTION_TYPE_REVIEW_SUBSCRIPTIONS",
+		2: "ACTION_TYPE_REDUCE_CATEGORY",
+		3: "ACTION_TYPE_CONTRIBUTE_TO_GOAL",
+		4: "ACTION_TYPE_CATEGORIZE_TRANSACTIONS",
+		5: "ACTION_TYPE_SET_BUDGET",
+		6: "ACTION_TYPE_REVIEW_LARGE_EXPENSE",
+	}
+	ActionType_value = map[string]int32{
+		"ACTION_TYPE_UNSPECIFIED":             0,
+		"ACTION_TYPE_REVIEW_SUBSCRIPTIONS":    1,
+		"ACTION_TYPE_REDUCE_CATEGORY":         2,
+		"ACTION_TYPE_CONTRIBUTE_TO_GOAL":      3,
+		"ACTION_TYPE_CATEGORIZE_TRANSACTIONS": 4,
+		"ACTION_TYPE_SET_BUDGET":              5,
+		"ACTION_TYPE_REVIEW_LARGE_EXPENSE":    6,
+	}
+)
+
+func (x ActionType) Enum() *ActionType {
+	p := new(ActionType)
+	*p = x
+	return p
+}
+
+func (x ActionType) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ActionType) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_insights_proto_enumTypes[2].Descriptor()
+}
+
+func (ActionType) Type() protoreflect.EnumType {
+	return &file_echo_v1_insights_proto_enumTypes[2]
+}
+
+func (x ActionType) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ActionType.Descriptor instead.
+func (ActionType) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{2}
+}
+
+type ActionPriority int32
+
+const (
+	ActionPriority_ACTION_PRIORITY_UNSPECIFIED ActionPriority = 0
+	ActionPriority_ACTION_PRIORITY_LOW         ActionPriority = 1
+	ActionPriority_ACTION_PRIORITY_MEDIUM      ActionPriority = 2
+	ActionPriority_ACTION_PRIORITY_HIGH        ActionPriority = 3
+)
+
+// Enum value maps for ActionPriority.
+var (
+	ActionPriority_name = map[int32]string{
+		0: "ACTION_PRIORITY_UNSPECIFIED",
+		1: "ACTION_PRIORITY_LOW",
+		2: "ACTION_PRIORITY_MEDIUM",
+		3: "ACTION_PRIORITY_HIGH",
+	}
+	ActionPriority_value = map[string]int32{
+		"ACTION_PRIORITY_UNSPECIFIED": 0,
+		"ACTION_PRIORITY_LOW":         1,
+		"ACTION_PRIORITY_MEDIUM":      2,
+		"ACTION_PRIORITY_HIGH":        3,
+	}
+)
+
+func (x ActionPriority) Enum() *ActionPriority {
+	p := new(ActionPriority)
+	*p = x
+	return p
+}
+
+func (x ActionPriority) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ActionPriority) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_insights_proto_enumTypes[3].Descriptor()
+}
+
+func (ActionPriority) Type() protoreflect.EnumType {
+	return &file_echo_v1_insights_proto_enumTypes[3]
+}
+
+func (x ActionPriority) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ActionPriority.Descriptor instead.
+func (ActionPriority) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{3}
+}
+
 type WrappedPeriod int32
 
 const (
@@ -56,11 +288,11 @@ func (x WrappedPeriod) String() string {
 }
 
 func (WrappedPeriod) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_insights_proto_enumTypes[0].Descriptor()
+	return file_echo_v1_insights_proto_enumTypes[4].Descriptor()
 }
 
 func (WrappedPeriod) Type() protoreflect.EnumType {
-	return &file_echo_v1_insights_proto_enumTypes[0]
+	return &file_echo_v1_insights_proto_enumTypes[4]
 }
 
 func (x WrappedPeriod) Number() protoreflect.EnumNumber {
@@ -69,7 +301,7 @@ func (x WrappedPeriod) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use WrappedPeriod.Descriptor instead.
 func (WrappedPeriod) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{0}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{4}
 }
 
 // Alert severity levels
@@ -109,11 +341,11 @@ func (x AlertSeverity) String() string {
 }
 
 func (AlertSeverity) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_insights_proto_enumTypes[1].Descriptor()
+	return file_echo_v1_insights_proto_enumTypes[5].Descriptor()
 }
 
 func (AlertSeverity) Type() protoreflect.EnumType {
-	return &file_echo_v1_insights_proto_enumTypes[1]
+	return &file_echo_v1_insights_proto_enumTypes[5]
 }
 
 func (x AlertSeverity) Number() protoreflect.EnumNumber {
@@ -122,7 +354,7 @@ func (x AlertSeverity) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AlertSeverity.Descriptor instead.
 func (AlertSeverity) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{1}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{5}
 }
 
 // Alert types
@@ -165,11 +397,11 @@ func (x AlertType) String() string {
 }
 
 func (AlertType) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_insights_proto_enumTypes[2].Descriptor()
+	return file_echo_v1_insights_proto_enumTypes[6].Descriptor()
 }
 
 func (AlertType) Type() protoreflect.EnumType {
-	return &file_echo_v1_insights_proto_enumTypes[2]
+	return &file_echo_v1_insights_proto_enumTypes[6]
 }
 
 func (x AlertType) Number() protoreflect.EnumNumber {
@@ -178,7 +410,7 @@ func (x AlertType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use AlertType.Descriptor instead.
 func (AlertType) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{2}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{6}
 }
 
 // Types of import issues
@@ -227,11 +459,11 @@ func (x ImportIssueType) String() string {
 }
 
 func (ImportIssueType) Descriptor() protoreflect.EnumDescriptor {
-	return file_echo_v1_insights_proto_enumTypes[3].Descriptor()
+	return file_echo_v1_insights_proto_enumTypes[7].Descriptor()
 }
 
 func (ImportIssueType) Type() protoreflect.EnumType {
-	return &file_echo_v1_insights_proto_enumTypes[3]
+	return &file_echo_v1_insights_proto_enumTypes[7]
 }
 
 func (x ImportIssueType) Number() protoreflect.EnumNumber {
@@ -240,7 +472,7 @@ func (x ImportIssueType) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use ImportIssueType.Descriptor instead.
 func (ImportIssueType) EnumDescriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{3}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{7}
 }
 
 type CategorySpend struct {
@@ -358,10 +590,17 @@ type MonthlyInsights struct {
 	TopCategories []*CategorySpend       `protobuf:"bytes,10,rep,name=top_categories,json=topCategories,proto3" json:"top_categories,omitempty"`
 	TopMerchants  []*MerchantSpend       `protobuf:"bytes,11,rep,name=top_merchants,json=topMerchants,proto3" json:"top_merchants,omitempty"`
 	// Human-readable, privacy-safe bullet insights.
-	Highlights    []string               `protobuf:"bytes,20,rep,name=highlights,proto3" json:"highlights,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,30,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	Highlights []string `protobuf:"bytes,20,rep,name=highlights,proto3" json:"highlights,omitempty"`
+	// "3 things that changed this month" - key changes vs previous month
+	Changes []*InsightChange `protobuf:"bytes,21,rep,name=changes,proto3" json:"changes,omitempty"`
+	// "1 action to take this week" - most impactful recommendation
+	RecommendedAction *ActionRecommendation `protobuf:"bytes,22,opt,name=recommended_action,json=recommendedAction,proto3" json:"recommended_action,omitempty"`
+	// Comparison with previous month
+	SpendVsLastMonth   *Money                 `protobuf:"bytes,23,opt,name=spend_vs_last_month,json=spendVsLastMonth,proto3" json:"spend_vs_last_month,omitempty"`       // Positive = spent more, negative = spent less
+	SpendChangePercent float64                `protobuf:"fixed64,24,opt,name=spend_change_percent,json=spendChangePercent,proto3" json:"spend_change_percent,omitempty"` // e.g., +15.5 or -8.2
+	CreatedAt          *timestamppb.Timestamp `protobuf:"bytes,30,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *MonthlyInsights) Reset() {
@@ -457,11 +696,249 @@ func (x *MonthlyInsights) GetHighlights() []string {
 	return nil
 }
 
+func (x *MonthlyInsights) GetChanges() []*InsightChange {
+	if x != nil {
+		return x.Changes
+	}
+	return nil
+}
+
+func (x *MonthlyInsights) GetRecommendedAction() *ActionRecommendation {
+	if x != nil {
+		return x.RecommendedAction
+	}
+	return nil
+}
+
+func (x *MonthlyInsights) GetSpendVsLastMonth() *Money {
+	if x != nil {
+		return x.SpendVsLastMonth
+	}
+	return nil
+}
+
+func (x *MonthlyInsights) GetSpendChangePercent() float64 {
+	if x != nil {
+		return x.SpendChangePercent
+	}
+	return 0
+}
+
 func (x *MonthlyInsights) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
 	return nil
+}
+
+// A significant change detected this month
+type InsightChange struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Type          InsightChangeType      `protobuf:"varint,1,opt,name=type,proto3,enum=echo.v1.InsightChangeType" json:"type,omitempty"`
+	Title         string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`                                        // "Dining out increased"
+	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`                            // "You spent €120 more on restaurants than last month"
+	AmountChange  *Money                 `protobuf:"bytes,4,opt,name=amount_change,json=amountChange,proto3" json:"amount_change,omitempty"`      // The delta amount
+	PercentChange float64                `protobuf:"fixed64,5,opt,name=percent_change,json=percentChange,proto3" json:"percent_change,omitempty"` // Percentage change
+	CategoryId    *string                `protobuf:"bytes,6,opt,name=category_id,json=categoryId,proto3,oneof" json:"category_id,omitempty"`
+	MerchantName  *string                `protobuf:"bytes,7,opt,name=merchant_name,json=merchantName,proto3,oneof" json:"merchant_name,omitempty"`
+	Icon          string                 `protobuf:"bytes,8,opt,name=icon,proto3" json:"icon,omitempty"`                                                // Emoji or icon name
+	Sentiment     InsightChangeSentiment `protobuf:"varint,9,opt,name=sentiment,proto3,enum=echo.v1.InsightChangeSentiment" json:"sentiment,omitempty"` // positive, negative, neutral
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *InsightChange) Reset() {
+	*x = InsightChange{}
+	mi := &file_echo_v1_insights_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *InsightChange) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*InsightChange) ProtoMessage() {}
+
+func (x *InsightChange) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use InsightChange.ProtoReflect.Descriptor instead.
+func (*InsightChange) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *InsightChange) GetType() InsightChangeType {
+	if x != nil {
+		return x.Type
+	}
+	return InsightChangeType_INSIGHT_CHANGE_TYPE_UNSPECIFIED
+}
+
+func (x *InsightChange) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *InsightChange) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *InsightChange) GetAmountChange() *Money {
+	if x != nil {
+		return x.AmountChange
+	}
+	return nil
+}
+
+func (x *InsightChange) GetPercentChange() float64 {
+	if x != nil {
+		return x.PercentChange
+	}
+	return 0
+}
+
+func (x *InsightChange) GetCategoryId() string {
+	if x != nil && x.CategoryId != nil {
+		return *x.CategoryId
+	}
+	return ""
+}
+
+func (x *InsightChange) GetMerchantName() string {
+	if x != nil && x.MerchantName != nil {
+		return *x.MerchantName
+	}
+	return ""
+}
+
+func (x *InsightChange) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *InsightChange) GetSentiment() InsightChangeSentiment {
+	if x != nil {
+		return x.Sentiment
+	}
+	return InsightChangeSentiment_INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED
+}
+
+// A recommended action for the user
+type ActionRecommendation struct {
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	Type            ActionType             `protobuf:"varint,1,opt,name=type,proto3,enum=echo.v1.ActionType" json:"type,omitempty"`
+	Title           string                 `protobuf:"bytes,2,opt,name=title,proto3" json:"title,omitempty"`                                            // "Review your subscriptions"
+	Description     string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`                                // "You have 3 subscriptions you haven't used in 30 days"
+	CtaText         string                 `protobuf:"bytes,4,opt,name=cta_text,json=ctaText,proto3" json:"cta_text,omitempty"`                         // "Review Now"
+	CtaAction       string                 `protobuf:"bytes,5,opt,name=cta_action,json=ctaAction,proto3" json:"cta_action,omitempty"`                   // Deep link or action identifier
+	PotentialImpact *Money                 `protobuf:"bytes,6,opt,name=potential_impact,json=potentialImpact,proto3" json:"potential_impact,omitempty"` // Potential savings or impact
+	Priority        ActionPriority         `protobuf:"varint,7,opt,name=priority,proto3,enum=echo.v1.ActionPriority" json:"priority,omitempty"`
+	Icon            string                 `protobuf:"bytes,8,opt,name=icon,proto3" json:"icon,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *ActionRecommendation) Reset() {
+	*x = ActionRecommendation{}
+	mi := &file_echo_v1_insights_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ActionRecommendation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ActionRecommendation) ProtoMessage() {}
+
+func (x *ActionRecommendation) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ActionRecommendation.ProtoReflect.Descriptor instead.
+func (*ActionRecommendation) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *ActionRecommendation) GetType() ActionType {
+	if x != nil {
+		return x.Type
+	}
+	return ActionType_ACTION_TYPE_UNSPECIFIED
+}
+
+func (x *ActionRecommendation) GetTitle() string {
+	if x != nil {
+		return x.Title
+	}
+	return ""
+}
+
+func (x *ActionRecommendation) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
+func (x *ActionRecommendation) GetCtaText() string {
+	if x != nil {
+		return x.CtaText
+	}
+	return ""
+}
+
+func (x *ActionRecommendation) GetCtaAction() string {
+	if x != nil {
+		return x.CtaAction
+	}
+	return ""
+}
+
+func (x *ActionRecommendation) GetPotentialImpact() *Money {
+	if x != nil {
+		return x.PotentialImpact
+	}
+	return nil
+}
+
+func (x *ActionRecommendation) GetPriority() ActionPriority {
+	if x != nil {
+		return x.Priority
+	}
+	return ActionPriority_ACTION_PRIORITY_UNSPECIFIED
+}
+
+func (x *ActionRecommendation) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
 }
 
 type GetMonthlyInsightsRequest struct {
@@ -473,7 +950,7 @@ type GetMonthlyInsightsRequest struct {
 
 func (x *GetMonthlyInsightsRequest) Reset() {
 	*x = GetMonthlyInsightsRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[3]
+	mi := &file_echo_v1_insights_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -485,7 +962,7 @@ func (x *GetMonthlyInsightsRequest) String() string {
 func (*GetMonthlyInsightsRequest) ProtoMessage() {}
 
 func (x *GetMonthlyInsightsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[3]
+	mi := &file_echo_v1_insights_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -498,7 +975,7 @@ func (x *GetMonthlyInsightsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMonthlyInsightsRequest.ProtoReflect.Descriptor instead.
 func (*GetMonthlyInsightsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{3}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *GetMonthlyInsightsRequest) GetMonthStart() *timestamppb.Timestamp {
@@ -517,7 +994,7 @@ type GetMonthlyInsightsResponse struct {
 
 func (x *GetMonthlyInsightsResponse) Reset() {
 	*x = GetMonthlyInsightsResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[4]
+	mi := &file_echo_v1_insights_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -529,7 +1006,7 @@ func (x *GetMonthlyInsightsResponse) String() string {
 func (*GetMonthlyInsightsResponse) ProtoMessage() {}
 
 func (x *GetMonthlyInsightsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[4]
+	mi := &file_echo_v1_insights_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -542,7 +1019,7 @@ func (x *GetMonthlyInsightsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetMonthlyInsightsResponse.ProtoReflect.Descriptor instead.
 func (*GetMonthlyInsightsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{4}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *GetMonthlyInsightsResponse) GetInsights() *MonthlyInsights {
@@ -564,7 +1041,7 @@ type WrappedCard struct {
 
 func (x *WrappedCard) Reset() {
 	*x = WrappedCard{}
-	mi := &file_echo_v1_insights_proto_msgTypes[5]
+	mi := &file_echo_v1_insights_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -576,7 +1053,7 @@ func (x *WrappedCard) String() string {
 func (*WrappedCard) ProtoMessage() {}
 
 func (x *WrappedCard) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[5]
+	mi := &file_echo_v1_insights_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -589,7 +1066,7 @@ func (x *WrappedCard) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WrappedCard.ProtoReflect.Descriptor instead.
 func (*WrappedCard) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{5}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *WrappedCard) GetTitle() string {
@@ -635,7 +1112,7 @@ type WrappedSummary struct {
 
 func (x *WrappedSummary) Reset() {
 	*x = WrappedSummary{}
-	mi := &file_echo_v1_insights_proto_msgTypes[6]
+	mi := &file_echo_v1_insights_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -647,7 +1124,7 @@ func (x *WrappedSummary) String() string {
 func (*WrappedSummary) ProtoMessage() {}
 
 func (x *WrappedSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[6]
+	mi := &file_echo_v1_insights_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -660,7 +1137,7 @@ func (x *WrappedSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use WrappedSummary.ProtoReflect.Descriptor instead.
 func (*WrappedSummary) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{6}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *WrappedSummary) GetId() string {
@@ -723,7 +1200,7 @@ type GetWrappedRequest struct {
 
 func (x *GetWrappedRequest) Reset() {
 	*x = GetWrappedRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[7]
+	mi := &file_echo_v1_insights_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -735,7 +1212,7 @@ func (x *GetWrappedRequest) String() string {
 func (*GetWrappedRequest) ProtoMessage() {}
 
 func (x *GetWrappedRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[7]
+	mi := &file_echo_v1_insights_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -748,7 +1225,7 @@ func (x *GetWrappedRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWrappedRequest.ProtoReflect.Descriptor instead.
 func (*GetWrappedRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{7}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetWrappedRequest) GetPeriod() WrappedPeriod {
@@ -781,7 +1258,7 @@ type GetWrappedResponse struct {
 
 func (x *GetWrappedResponse) Reset() {
 	*x = GetWrappedResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[8]
+	mi := &file_echo_v1_insights_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -793,7 +1270,7 @@ func (x *GetWrappedResponse) String() string {
 func (*GetWrappedResponse) ProtoMessage() {}
 
 func (x *GetWrappedResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[8]
+	mi := &file_echo_v1_insights_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -806,7 +1283,7 @@ func (x *GetWrappedResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetWrappedResponse.ProtoReflect.Descriptor instead.
 func (*GetWrappedResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{8}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *GetWrappedResponse) GetWrapped() *WrappedSummary {
@@ -826,7 +1303,7 @@ type GetSpendingPulseRequest struct {
 
 func (x *GetSpendingPulseRequest) Reset() {
 	*x = GetSpendingPulseRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[9]
+	mi := &file_echo_v1_insights_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -838,7 +1315,7 @@ func (x *GetSpendingPulseRequest) String() string {
 func (*GetSpendingPulseRequest) ProtoMessage() {}
 
 func (x *GetSpendingPulseRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[9]
+	mi := &file_echo_v1_insights_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -851,7 +1328,7 @@ func (x *GetSpendingPulseRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSpendingPulseRequest.ProtoReflect.Descriptor instead.
 func (*GetSpendingPulseRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{9}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *GetSpendingPulseRequest) GetAsOf() *timestamppb.Timestamp {
@@ -880,7 +1357,7 @@ type SpendingPulse struct {
 
 func (x *SpendingPulse) Reset() {
 	*x = SpendingPulse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[10]
+	mi := &file_echo_v1_insights_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -892,7 +1369,7 @@ func (x *SpendingPulse) String() string {
 func (*SpendingPulse) ProtoMessage() {}
 
 func (x *SpendingPulse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[10]
+	mi := &file_echo_v1_insights_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -905,7 +1382,7 @@ func (x *SpendingPulse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SpendingPulse.ProtoReflect.Descriptor instead.
 func (*SpendingPulse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{10}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *SpendingPulse) GetCurrentMonthSpend() *Money {
@@ -997,7 +1474,7 @@ type TopCategorySpend struct {
 
 func (x *TopCategorySpend) Reset() {
 	*x = TopCategorySpend{}
-	mi := &file_echo_v1_insights_proto_msgTypes[11]
+	mi := &file_echo_v1_insights_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1009,7 +1486,7 @@ func (x *TopCategorySpend) String() string {
 func (*TopCategorySpend) ProtoMessage() {}
 
 func (x *TopCategorySpend) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[11]
+	mi := &file_echo_v1_insights_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1022,7 +1499,7 @@ func (x *TopCategorySpend) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use TopCategorySpend.ProtoReflect.Descriptor instead.
 func (*TopCategorySpend) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{11}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *TopCategorySpend) GetCategoryId() string {
@@ -1067,7 +1544,7 @@ type SurpriseExpense struct {
 
 func (x *SurpriseExpense) Reset() {
 	*x = SurpriseExpense{}
-	mi := &file_echo_v1_insights_proto_msgTypes[12]
+	mi := &file_echo_v1_insights_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1079,7 +1556,7 @@ func (x *SurpriseExpense) String() string {
 func (*SurpriseExpense) ProtoMessage() {}
 
 func (x *SurpriseExpense) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[12]
+	mi := &file_echo_v1_insights_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1092,7 +1569,7 @@ func (x *SurpriseExpense) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SurpriseExpense.ProtoReflect.Descriptor instead.
 func (*SurpriseExpense) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{12}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *SurpriseExpense) GetTransactionId() string {
@@ -1147,7 +1624,7 @@ type GetSpendingPulseResponse struct {
 
 func (x *GetSpendingPulseResponse) Reset() {
 	*x = GetSpendingPulseResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[13]
+	mi := &file_echo_v1_insights_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1159,7 +1636,7 @@ func (x *GetSpendingPulseResponse) String() string {
 func (*GetSpendingPulseResponse) ProtoMessage() {}
 
 func (x *GetSpendingPulseResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[13]
+	mi := &file_echo_v1_insights_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1172,7 +1649,7 @@ func (x *GetSpendingPulseResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSpendingPulseResponse.ProtoReflect.Descriptor instead.
 func (*GetSpendingPulseResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{13}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GetSpendingPulseResponse) GetPulse() *SpendingPulse {
@@ -1198,7 +1675,7 @@ type GetDashboardBlocksRequest struct {
 
 func (x *GetDashboardBlocksRequest) Reset() {
 	*x = GetDashboardBlocksRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[14]
+	mi := &file_echo_v1_insights_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1210,7 +1687,7 @@ func (x *GetDashboardBlocksRequest) String() string {
 func (*GetDashboardBlocksRequest) ProtoMessage() {}
 
 func (x *GetDashboardBlocksRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[14]
+	mi := &file_echo_v1_insights_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1223,7 +1700,7 @@ func (x *GetDashboardBlocksRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDashboardBlocksRequest.ProtoReflect.Descriptor instead.
 func (*GetDashboardBlocksRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{14}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{16}
 }
 
 type DashboardBlock struct {
@@ -1241,7 +1718,7 @@ type DashboardBlock struct {
 
 func (x *DashboardBlock) Reset() {
 	*x = DashboardBlock{}
-	mi := &file_echo_v1_insights_proto_msgTypes[15]
+	mi := &file_echo_v1_insights_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1253,7 +1730,7 @@ func (x *DashboardBlock) String() string {
 func (*DashboardBlock) ProtoMessage() {}
 
 func (x *DashboardBlock) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[15]
+	mi := &file_echo_v1_insights_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1266,7 +1743,7 @@ func (x *DashboardBlock) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DashboardBlock.ProtoReflect.Descriptor instead.
 func (*DashboardBlock) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{15}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *DashboardBlock) GetType() string {
@@ -1327,7 +1804,7 @@ type GetDashboardBlocksResponse struct {
 
 func (x *GetDashboardBlocksResponse) Reset() {
 	*x = GetDashboardBlocksResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[16]
+	mi := &file_echo_v1_insights_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1339,7 +1816,7 @@ func (x *GetDashboardBlocksResponse) String() string {
 func (*GetDashboardBlocksResponse) ProtoMessage() {}
 
 func (x *GetDashboardBlocksResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[16]
+	mi := &file_echo_v1_insights_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1352,7 +1829,7 @@ func (x *GetDashboardBlocksResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDashboardBlocksResponse.ProtoReflect.Descriptor instead.
 func (*GetDashboardBlocksResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{16}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GetDashboardBlocksResponse) GetBlocks() []*DashboardBlock {
@@ -1381,7 +1858,7 @@ type Alert struct {
 
 func (x *Alert) Reset() {
 	*x = Alert{}
-	mi := &file_echo_v1_insights_proto_msgTypes[17]
+	mi := &file_echo_v1_insights_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1393,7 +1870,7 @@ func (x *Alert) String() string {
 func (*Alert) ProtoMessage() {}
 
 func (x *Alert) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[17]
+	mi := &file_echo_v1_insights_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1406,7 +1883,7 @@ func (x *Alert) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Alert.ProtoReflect.Descriptor instead.
 func (*Alert) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{17}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *Alert) GetId() string {
@@ -1490,7 +1967,7 @@ type ListAlertsRequest struct {
 
 func (x *ListAlertsRequest) Reset() {
 	*x = ListAlertsRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[18]
+	mi := &file_echo_v1_insights_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1502,7 +1979,7 @@ func (x *ListAlertsRequest) String() string {
 func (*ListAlertsRequest) ProtoMessage() {}
 
 func (x *ListAlertsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[18]
+	mi := &file_echo_v1_insights_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1515,7 +1992,7 @@ func (x *ListAlertsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAlertsRequest.ProtoReflect.Descriptor instead.
 func (*ListAlertsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{18}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *ListAlertsRequest) GetUnreadOnly() bool {
@@ -1541,7 +2018,7 @@ type ListAlertsResponse struct {
 
 func (x *ListAlertsResponse) Reset() {
 	*x = ListAlertsResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[19]
+	mi := &file_echo_v1_insights_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1553,7 +2030,7 @@ func (x *ListAlertsResponse) String() string {
 func (*ListAlertsResponse) ProtoMessage() {}
 
 func (x *ListAlertsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[19]
+	mi := &file_echo_v1_insights_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1566,7 +2043,7 @@ func (x *ListAlertsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListAlertsResponse.ProtoReflect.Descriptor instead.
 func (*ListAlertsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{19}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *ListAlertsResponse) GetAlerts() []*Alert {
@@ -1586,7 +2063,7 @@ type MarkAlertReadRequest struct {
 
 func (x *MarkAlertReadRequest) Reset() {
 	*x = MarkAlertReadRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[20]
+	mi := &file_echo_v1_insights_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1598,7 +2075,7 @@ func (x *MarkAlertReadRequest) String() string {
 func (*MarkAlertReadRequest) ProtoMessage() {}
 
 func (x *MarkAlertReadRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[20]
+	mi := &file_echo_v1_insights_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1611,7 +2088,7 @@ func (x *MarkAlertReadRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkAlertReadRequest.ProtoReflect.Descriptor instead.
 func (*MarkAlertReadRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{20}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *MarkAlertReadRequest) GetAlertId() string {
@@ -1629,7 +2106,7 @@ type MarkAlertReadResponse struct {
 
 func (x *MarkAlertReadResponse) Reset() {
 	*x = MarkAlertReadResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[21]
+	mi := &file_echo_v1_insights_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1641,7 +2118,7 @@ func (x *MarkAlertReadResponse) String() string {
 func (*MarkAlertReadResponse) ProtoMessage() {}
 
 func (x *MarkAlertReadResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[21]
+	mi := &file_echo_v1_insights_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1654,7 +2131,7 @@ func (x *MarkAlertReadResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use MarkAlertReadResponse.ProtoReflect.Descriptor instead.
 func (*MarkAlertReadResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{21}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{23}
 }
 
 // Dismiss alert
@@ -1667,7 +2144,7 @@ type DismissAlertRequest struct {
 
 func (x *DismissAlertRequest) Reset() {
 	*x = DismissAlertRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[22]
+	mi := &file_echo_v1_insights_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1679,7 +2156,7 @@ func (x *DismissAlertRequest) String() string {
 func (*DismissAlertRequest) ProtoMessage() {}
 
 func (x *DismissAlertRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[22]
+	mi := &file_echo_v1_insights_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1692,7 +2169,7 @@ func (x *DismissAlertRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DismissAlertRequest.ProtoReflect.Descriptor instead.
 func (*DismissAlertRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{22}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DismissAlertRequest) GetAlertId() string {
@@ -1710,7 +2187,7 @@ type DismissAlertResponse struct {
 
 func (x *DismissAlertResponse) Reset() {
 	*x = DismissAlertResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[23]
+	mi := &file_echo_v1_insights_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1722,7 +2199,7 @@ func (x *DismissAlertResponse) String() string {
 func (*DismissAlertResponse) ProtoMessage() {}
 
 func (x *DismissAlertResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[23]
+	mi := &file_echo_v1_insights_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1735,7 +2212,7 @@ func (x *DismissAlertResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DismissAlertResponse.ProtoReflect.Descriptor instead.
 func (*DismissAlertResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{23}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{25}
 }
 
 // Get insights about a specific import job
@@ -1748,7 +2225,7 @@ type GetImportInsightsRequest struct {
 
 func (x *GetImportInsightsRequest) Reset() {
 	*x = GetImportInsightsRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[24]
+	mi := &file_echo_v1_insights_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1760,7 +2237,7 @@ func (x *GetImportInsightsRequest) String() string {
 func (*GetImportInsightsRequest) ProtoMessage() {}
 
 func (x *GetImportInsightsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[24]
+	mi := &file_echo_v1_insights_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1773,7 +2250,7 @@ func (x *GetImportInsightsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetImportInsightsRequest.ProtoReflect.Descriptor instead.
 func (*GetImportInsightsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{24}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *GetImportInsightsRequest) GetImportJobId() string {
@@ -1792,7 +2269,7 @@ type GetImportInsightsResponse struct {
 
 func (x *GetImportInsightsResponse) Reset() {
 	*x = GetImportInsightsResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[25]
+	mi := &file_echo_v1_insights_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1804,7 +2281,7 @@ func (x *GetImportInsightsResponse) String() string {
 func (*GetImportInsightsResponse) ProtoMessage() {}
 
 func (x *GetImportInsightsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[25]
+	mi := &file_echo_v1_insights_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1817,7 +2294,7 @@ func (x *GetImportInsightsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetImportInsightsResponse.ProtoReflect.Descriptor instead.
 func (*GetImportInsightsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{25}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *GetImportInsightsResponse) GetInsights() *ImportInsights {
@@ -1855,7 +2332,7 @@ type ImportInsights struct {
 
 func (x *ImportInsights) Reset() {
 	*x = ImportInsights{}
-	mi := &file_echo_v1_insights_proto_msgTypes[26]
+	mi := &file_echo_v1_insights_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1867,7 +2344,7 @@ func (x *ImportInsights) String() string {
 func (*ImportInsights) ProtoMessage() {}
 
 func (x *ImportInsights) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[26]
+	mi := &file_echo_v1_insights_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1880,7 +2357,7 @@ func (x *ImportInsights) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportInsights.ProtoReflect.Descriptor instead.
 func (*ImportInsights) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{26}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *ImportInsights) GetImportJobId() string {
@@ -1994,7 +2471,7 @@ type ImportIssue struct {
 
 func (x *ImportIssue) Reset() {
 	*x = ImportIssue{}
-	mi := &file_echo_v1_insights_proto_msgTypes[27]
+	mi := &file_echo_v1_insights_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2006,7 +2483,7 @@ func (x *ImportIssue) String() string {
 func (*ImportIssue) ProtoMessage() {}
 
 func (x *ImportIssue) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[27]
+	mi := &file_echo_v1_insights_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2019,7 +2496,7 @@ func (x *ImportIssue) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportIssue.ProtoReflect.Descriptor instead.
 func (*ImportIssue) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{27}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *ImportIssue) GetType() ImportIssueType {
@@ -2059,7 +2536,7 @@ type GetDataSourceHealthRequest struct {
 
 func (x *GetDataSourceHealthRequest) Reset() {
 	*x = GetDataSourceHealthRequest{}
-	mi := &file_echo_v1_insights_proto_msgTypes[28]
+	mi := &file_echo_v1_insights_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2071,7 +2548,7 @@ func (x *GetDataSourceHealthRequest) String() string {
 func (*GetDataSourceHealthRequest) ProtoMessage() {}
 
 func (x *GetDataSourceHealthRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[28]
+	mi := &file_echo_v1_insights_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2084,7 +2561,7 @@ func (x *GetDataSourceHealthRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDataSourceHealthRequest.ProtoReflect.Descriptor instead.
 func (*GetDataSourceHealthRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{28}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{30}
 }
 
 type GetDataSourceHealthResponse struct {
@@ -2098,7 +2575,7 @@ type GetDataSourceHealthResponse struct {
 
 func (x *GetDataSourceHealthResponse) Reset() {
 	*x = GetDataSourceHealthResponse{}
-	mi := &file_echo_v1_insights_proto_msgTypes[29]
+	mi := &file_echo_v1_insights_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2110,7 +2587,7 @@ func (x *GetDataSourceHealthResponse) String() string {
 func (*GetDataSourceHealthResponse) ProtoMessage() {}
 
 func (x *GetDataSourceHealthResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[29]
+	mi := &file_echo_v1_insights_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2123,7 +2600,7 @@ func (x *GetDataSourceHealthResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDataSourceHealthResponse.ProtoReflect.Descriptor instead.
 func (*GetDataSourceHealthResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{29}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetDataSourceHealthResponse) GetSources() []*DataSourceHealth {
@@ -2168,7 +2645,7 @@ type DataSourceHealth struct {
 
 func (x *DataSourceHealth) Reset() {
 	*x = DataSourceHealth{}
-	mi := &file_echo_v1_insights_proto_msgTypes[30]
+	mi := &file_echo_v1_insights_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2180,7 +2657,7 @@ func (x *DataSourceHealth) String() string {
 func (*DataSourceHealth) ProtoMessage() {}
 
 func (x *DataSourceHealth) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[30]
+	mi := &file_echo_v1_insights_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2193,7 +2670,7 @@ func (x *DataSourceHealth) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DataSourceHealth.ProtoReflect.Descriptor instead.
 func (*DataSourceHealth) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{30}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DataSourceHealth) GetInstitutionName() string {
@@ -2271,7 +2748,7 @@ type DateGap struct {
 
 func (x *DateGap) Reset() {
 	*x = DateGap{}
-	mi := &file_echo_v1_insights_proto_msgTypes[31]
+	mi := &file_echo_v1_insights_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2283,7 +2760,7 @@ func (x *DateGap) String() string {
 func (*DateGap) ProtoMessage() {}
 
 func (x *DateGap) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_insights_proto_msgTypes[31]
+	mi := &file_echo_v1_insights_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2296,7 +2773,7 @@ func (x *DateGap) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DateGap.ProtoReflect.Descriptor instead.
 func (*DateGap) Descriptor() ([]byte, []int) {
-	return file_echo_v1_insights_proto_rawDescGZIP(), []int{31}
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *DateGap) GetStart() *timestamppb.Timestamp {
@@ -2332,7 +2809,7 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\rMerchantSpend\x12/\n" +
 	"\rmerchant_name\x18\x01 \x01(\tB\n" +
 	"\xbaH\ar\x05\x10\x01\x18\xff\x01R\fmerchantName\x12,\n" +
-	"\x05total\x18\x02 \x01(\v2\x0e.echo.v1.MoneyB\x06\xbaH\x03\xc8\x01\x01R\x05total\"\xb7\x04\n" +
+	"\x05total\x18\x02 \x01(\v2\x0e.echo.v1.MoneyB\x06\xbaH\x03\xc8\x01\x01R\x05total\"\xb2\x06\n" +
 	"\x0fMonthlyInsights\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12!\n" +
 	"\auser_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06userId\x12C\n" +
@@ -2347,9 +2824,36 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\rtop_merchants\x18\v \x03(\v2\x16.echo.v1.MerchantSpendB\b\xbaH\x05\x92\x01\x02\x102R\ftopMerchants\x121\n" +
 	"\n" +
 	"highlights\x18\x14 \x03(\tB\x11\xbaH\x0e\x92\x01\v\x10\x14\"\ar\x05\x10\x01\x18\xf0\x01R\n" +
-	"highlights\x12A\n" +
+	"highlights\x12:\n" +
+	"\achanges\x18\x15 \x03(\v2\x16.echo.v1.InsightChangeB\b\xbaH\x05\x92\x01\x02\x10\x05R\achanges\x12L\n" +
+	"\x12recommended_action\x18\x16 \x01(\v2\x1d.echo.v1.ActionRecommendationR\x11recommendedAction\x12=\n" +
+	"\x13spend_vs_last_month\x18\x17 \x01(\v2\x0e.echo.v1.MoneyR\x10spendVsLastMonth\x120\n" +
+	"\x14spend_change_percent\x18\x18 \x01(\x01R\x12spendChangePercent\x12A\n" +
 	"\n" +
-	"created_at\x18\x1e \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\"`\n" +
+	"created_at\x18\x1e \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\tcreatedAt\"\x98\x03\n" +
+	"\rInsightChange\x12.\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x1a.echo.v1.InsightChangeTypeR\x04type\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x123\n" +
+	"\ramount_change\x18\x04 \x01(\v2\x0e.echo.v1.MoneyR\famountChange\x12%\n" +
+	"\x0epercent_change\x18\x05 \x01(\x01R\rpercentChange\x12$\n" +
+	"\vcategory_id\x18\x06 \x01(\tH\x00R\n" +
+	"categoryId\x88\x01\x01\x12(\n" +
+	"\rmerchant_name\x18\a \x01(\tH\x01R\fmerchantName\x88\x01\x01\x12\x12\n" +
+	"\x04icon\x18\b \x01(\tR\x04icon\x12=\n" +
+	"\tsentiment\x18\t \x01(\x0e2\x1f.echo.v1.InsightChangeSentimentR\tsentimentB\x0e\n" +
+	"\f_category_idB\x10\n" +
+	"\x0e_merchant_name\"\xb5\x02\n" +
+	"\x14ActionRecommendation\x12'\n" +
+	"\x04type\x18\x01 \x01(\x0e2\x13.echo.v1.ActionTypeR\x04type\x12\x14\n" +
+	"\x05title\x18\x02 \x01(\tR\x05title\x12 \n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12\x19\n" +
+	"\bcta_text\x18\x04 \x01(\tR\actaText\x12\x1d\n" +
+	"\n" +
+	"cta_action\x18\x05 \x01(\tR\tctaAction\x129\n" +
+	"\x10potential_impact\x18\x06 \x01(\v2\x0e.echo.v1.MoneyR\x0fpotentialImpact\x123\n" +
+	"\bpriority\x18\a \x01(\x0e2\x17.echo.v1.ActionPriorityR\bpriority\x12\x12\n" +
+	"\x04icon\x18\b \x01(\tR\x04icon\"`\n" +
 	"\x19GetMonthlyInsightsRequest\x12C\n" +
 	"\vmonth_start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\n" +
 	"monthStart\"Z\n" +
@@ -2508,7 +3012,36 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\aDateGap\x128\n" +
 	"\x05start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x05start\x124\n" +
 	"\x03end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x03end\x12\"\n" +
-	"\bgap_days\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\agapDays*b\n" +
+	"\bgap_days\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\agapDays*\x82\x03\n" +
+	"\x11InsightChangeType\x12#\n" +
+	"\x1fINSIGHT_CHANGE_TYPE_UNSPECIFIED\x10\x00\x12)\n" +
+	"%INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE\x10\x01\x12)\n" +
+	"%INSIGHT_CHANGE_TYPE_CATEGORY_DECREASE\x10\x02\x12$\n" +
+	" INSIGHT_CHANGE_TYPE_NEW_MERCHANT\x10\x03\x12)\n" +
+	"%INSIGHT_CHANGE_TYPE_MERCHANT_INCREASE\x10\x04\x12-\n" +
+	")INSIGHT_CHANGE_TYPE_SUBSCRIPTION_DETECTED\x10\x05\x12%\n" +
+	"!INSIGHT_CHANGE_TYPE_GOAL_PROGRESS\x10\x06\x12%\n" +
+	"!INSIGHT_CHANGE_TYPE_INCOME_CHANGE\x10\a\x12$\n" +
+	" INSIGHT_CHANGE_TYPE_SAVINGS_RATE\x10\b*\xb6\x01\n" +
+	"\x16InsightChangeSentiment\x12(\n" +
+	"$INSIGHT_CHANGE_SENTIMENT_UNSPECIFIED\x10\x00\x12%\n" +
+	"!INSIGHT_CHANGE_SENTIMENT_POSITIVE\x10\x01\x12%\n" +
+	"!INSIGHT_CHANGE_SENTIMENT_NEGATIVE\x10\x02\x12$\n" +
+	" INSIGHT_CHANGE_SENTIMENT_NEUTRAL\x10\x03*\xff\x01\n" +
+	"\n" +
+	"ActionType\x12\x1b\n" +
+	"\x17ACTION_TYPE_UNSPECIFIED\x10\x00\x12$\n" +
+	" ACTION_TYPE_REVIEW_SUBSCRIPTIONS\x10\x01\x12\x1f\n" +
+	"\x1bACTION_TYPE_REDUCE_CATEGORY\x10\x02\x12\"\n" +
+	"\x1eACTION_TYPE_CONTRIBUTE_TO_GOAL\x10\x03\x12'\n" +
+	"#ACTION_TYPE_CATEGORIZE_TRANSACTIONS\x10\x04\x12\x1a\n" +
+	"\x16ACTION_TYPE_SET_BUDGET\x10\x05\x12$\n" +
+	" ACTION_TYPE_REVIEW_LARGE_EXPENSE\x10\x06*\x80\x01\n" +
+	"\x0eActionPriority\x12\x1f\n" +
+	"\x1bACTION_PRIORITY_UNSPECIFIED\x10\x00\x12\x17\n" +
+	"\x13ACTION_PRIORITY_LOW\x10\x01\x12\x1a\n" +
+	"\x16ACTION_PRIORITY_MEDIUM\x10\x02\x12\x18\n" +
+	"\x14ACTION_PRIORITY_HIGH\x10\x03*b\n" +
 	"\rWrappedPeriod\x12\x1e\n" +
 	"\x1aWRAPPED_PERIOD_UNSPECIFIED\x10\x00\x12\x18\n" +
 	"\x14WRAPPED_PERIOD_MONTH\x10\x01\x12\x17\n" +
@@ -2558,126 +3091,141 @@ func file_echo_v1_insights_proto_rawDescGZIP() []byte {
 	return file_echo_v1_insights_proto_rawDescData
 }
 
-var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 4)
-var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 32)
+var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
+var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 var file_echo_v1_insights_proto_goTypes = []any{
-	(WrappedPeriod)(0),                  // 0: echo.v1.WrappedPeriod
-	(AlertSeverity)(0),                  // 1: echo.v1.AlertSeverity
-	(AlertType)(0),                      // 2: echo.v1.AlertType
-	(ImportIssueType)(0),                // 3: echo.v1.ImportIssueType
-	(*CategorySpend)(nil),               // 4: echo.v1.CategorySpend
-	(*MerchantSpend)(nil),               // 5: echo.v1.MerchantSpend
-	(*MonthlyInsights)(nil),             // 6: echo.v1.MonthlyInsights
-	(*GetMonthlyInsightsRequest)(nil),   // 7: echo.v1.GetMonthlyInsightsRequest
-	(*GetMonthlyInsightsResponse)(nil),  // 8: echo.v1.GetMonthlyInsightsResponse
-	(*WrappedCard)(nil),                 // 9: echo.v1.WrappedCard
-	(*WrappedSummary)(nil),              // 10: echo.v1.WrappedSummary
-	(*GetWrappedRequest)(nil),           // 11: echo.v1.GetWrappedRequest
-	(*GetWrappedResponse)(nil),          // 12: echo.v1.GetWrappedResponse
-	(*GetSpendingPulseRequest)(nil),     // 13: echo.v1.GetSpendingPulseRequest
-	(*SpendingPulse)(nil),               // 14: echo.v1.SpendingPulse
-	(*TopCategorySpend)(nil),            // 15: echo.v1.TopCategorySpend
-	(*SurpriseExpense)(nil),             // 16: echo.v1.SurpriseExpense
-	(*GetSpendingPulseResponse)(nil),    // 17: echo.v1.GetSpendingPulseResponse
-	(*GetDashboardBlocksRequest)(nil),   // 18: echo.v1.GetDashboardBlocksRequest
-	(*DashboardBlock)(nil),              // 19: echo.v1.DashboardBlock
-	(*GetDashboardBlocksResponse)(nil),  // 20: echo.v1.GetDashboardBlocksResponse
-	(*Alert)(nil),                       // 21: echo.v1.Alert
-	(*ListAlertsRequest)(nil),           // 22: echo.v1.ListAlertsRequest
-	(*ListAlertsResponse)(nil),          // 23: echo.v1.ListAlertsResponse
-	(*MarkAlertReadRequest)(nil),        // 24: echo.v1.MarkAlertReadRequest
-	(*MarkAlertReadResponse)(nil),       // 25: echo.v1.MarkAlertReadResponse
-	(*DismissAlertRequest)(nil),         // 26: echo.v1.DismissAlertRequest
-	(*DismissAlertResponse)(nil),        // 27: echo.v1.DismissAlertResponse
-	(*GetImportInsightsRequest)(nil),    // 28: echo.v1.GetImportInsightsRequest
-	(*GetImportInsightsResponse)(nil),   // 29: echo.v1.GetImportInsightsResponse
-	(*ImportInsights)(nil),              // 30: echo.v1.ImportInsights
-	(*ImportIssue)(nil),                 // 31: echo.v1.ImportIssue
-	(*GetDataSourceHealthRequest)(nil),  // 32: echo.v1.GetDataSourceHealthRequest
-	(*GetDataSourceHealthResponse)(nil), // 33: echo.v1.GetDataSourceHealthResponse
-	(*DataSourceHealth)(nil),            // 34: echo.v1.DataSourceHealth
-	(*DateGap)(nil),                     // 35: echo.v1.DateGap
-	(*Money)(nil),                       // 36: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),       // 37: google.protobuf.Timestamp
-	(TransactionSource)(0),              // 38: echo.v1.TransactionSource
+	(InsightChangeType)(0),              // 0: echo.v1.InsightChangeType
+	(InsightChangeSentiment)(0),         // 1: echo.v1.InsightChangeSentiment
+	(ActionType)(0),                     // 2: echo.v1.ActionType
+	(ActionPriority)(0),                 // 3: echo.v1.ActionPriority
+	(WrappedPeriod)(0),                  // 4: echo.v1.WrappedPeriod
+	(AlertSeverity)(0),                  // 5: echo.v1.AlertSeverity
+	(AlertType)(0),                      // 6: echo.v1.AlertType
+	(ImportIssueType)(0),                // 7: echo.v1.ImportIssueType
+	(*CategorySpend)(nil),               // 8: echo.v1.CategorySpend
+	(*MerchantSpend)(nil),               // 9: echo.v1.MerchantSpend
+	(*MonthlyInsights)(nil),             // 10: echo.v1.MonthlyInsights
+	(*InsightChange)(nil),               // 11: echo.v1.InsightChange
+	(*ActionRecommendation)(nil),        // 12: echo.v1.ActionRecommendation
+	(*GetMonthlyInsightsRequest)(nil),   // 13: echo.v1.GetMonthlyInsightsRequest
+	(*GetMonthlyInsightsResponse)(nil),  // 14: echo.v1.GetMonthlyInsightsResponse
+	(*WrappedCard)(nil),                 // 15: echo.v1.WrappedCard
+	(*WrappedSummary)(nil),              // 16: echo.v1.WrappedSummary
+	(*GetWrappedRequest)(nil),           // 17: echo.v1.GetWrappedRequest
+	(*GetWrappedResponse)(nil),          // 18: echo.v1.GetWrappedResponse
+	(*GetSpendingPulseRequest)(nil),     // 19: echo.v1.GetSpendingPulseRequest
+	(*SpendingPulse)(nil),               // 20: echo.v1.SpendingPulse
+	(*TopCategorySpend)(nil),            // 21: echo.v1.TopCategorySpend
+	(*SurpriseExpense)(nil),             // 22: echo.v1.SurpriseExpense
+	(*GetSpendingPulseResponse)(nil),    // 23: echo.v1.GetSpendingPulseResponse
+	(*GetDashboardBlocksRequest)(nil),   // 24: echo.v1.GetDashboardBlocksRequest
+	(*DashboardBlock)(nil),              // 25: echo.v1.DashboardBlock
+	(*GetDashboardBlocksResponse)(nil),  // 26: echo.v1.GetDashboardBlocksResponse
+	(*Alert)(nil),                       // 27: echo.v1.Alert
+	(*ListAlertsRequest)(nil),           // 28: echo.v1.ListAlertsRequest
+	(*ListAlertsResponse)(nil),          // 29: echo.v1.ListAlertsResponse
+	(*MarkAlertReadRequest)(nil),        // 30: echo.v1.MarkAlertReadRequest
+	(*MarkAlertReadResponse)(nil),       // 31: echo.v1.MarkAlertReadResponse
+	(*DismissAlertRequest)(nil),         // 32: echo.v1.DismissAlertRequest
+	(*DismissAlertResponse)(nil),        // 33: echo.v1.DismissAlertResponse
+	(*GetImportInsightsRequest)(nil),    // 34: echo.v1.GetImportInsightsRequest
+	(*GetImportInsightsResponse)(nil),   // 35: echo.v1.GetImportInsightsResponse
+	(*ImportInsights)(nil),              // 36: echo.v1.ImportInsights
+	(*ImportIssue)(nil),                 // 37: echo.v1.ImportIssue
+	(*GetDataSourceHealthRequest)(nil),  // 38: echo.v1.GetDataSourceHealthRequest
+	(*GetDataSourceHealthResponse)(nil), // 39: echo.v1.GetDataSourceHealthResponse
+	(*DataSourceHealth)(nil),            // 40: echo.v1.DataSourceHealth
+	(*DateGap)(nil),                     // 41: echo.v1.DateGap
+	(*Money)(nil),                       // 42: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),       // 43: google.protobuf.Timestamp
+	(TransactionSource)(0),              // 44: echo.v1.TransactionSource
 }
 var file_echo_v1_insights_proto_depIdxs = []int32{
-	36, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
-	36, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
-	37, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
-	36, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
-	36, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
-	36, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
-	4,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
-	5,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
-	37, // 8: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
-	37, // 9: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
-	6,  // 10: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
-	0,  // 11: echo.v1.WrappedSummary.period:type_name -> echo.v1.WrappedPeriod
-	37, // 12: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
-	37, // 13: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
-	9,  // 14: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
-	37, // 15: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
-	0,  // 16: echo.v1.GetWrappedRequest.period:type_name -> echo.v1.WrappedPeriod
-	37, // 17: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
-	37, // 18: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
-	10, // 19: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
-	37, // 20: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
-	36, // 21: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
-	36, // 22: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
-	36, // 23: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
-	37, // 24: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
-	15, // 25: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
-	16, // 26: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
-	36, // 27: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
-	36, // 28: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
-	37, // 29: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
-	14, // 30: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
-	19, // 31: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
-	2,  // 32: echo.v1.Alert.alert_type:type_name -> echo.v1.AlertType
-	1,  // 33: echo.v1.Alert.severity:type_name -> echo.v1.AlertSeverity
-	37, // 34: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
-	37, // 35: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
-	21, // 36: echo.v1.ListAlertsResponse.alerts:type_name -> echo.v1.Alert
-	30, // 37: echo.v1.GetImportInsightsResponse.insights:type_name -> echo.v1.ImportInsights
-	37, // 38: echo.v1.ImportInsights.earliest_date:type_name -> google.protobuf.Timestamp
-	37, // 39: echo.v1.ImportInsights.latest_date:type_name -> google.protobuf.Timestamp
-	36, // 40: echo.v1.ImportInsights.total_income:type_name -> echo.v1.Money
-	36, // 41: echo.v1.ImportInsights.total_expenses:type_name -> echo.v1.Money
-	31, // 42: echo.v1.ImportInsights.issues:type_name -> echo.v1.ImportIssue
-	3,  // 43: echo.v1.ImportIssue.type:type_name -> echo.v1.ImportIssueType
-	34, // 44: echo.v1.GetDataSourceHealthResponse.sources:type_name -> echo.v1.DataSourceHealth
-	37, // 45: echo.v1.GetDataSourceHealthResponse.oldest_transaction:type_name -> google.protobuf.Timestamp
-	38, // 46: echo.v1.DataSourceHealth.source_type:type_name -> echo.v1.TransactionSource
-	37, // 47: echo.v1.DataSourceHealth.first_transaction:type_name -> google.protobuf.Timestamp
-	37, // 48: echo.v1.DataSourceHealth.last_transaction:type_name -> google.protobuf.Timestamp
-	37, // 49: echo.v1.DataSourceHealth.last_import:type_name -> google.protobuf.Timestamp
-	35, // 50: echo.v1.DataSourceHealth.gaps:type_name -> echo.v1.DateGap
-	37, // 51: echo.v1.DateGap.start:type_name -> google.protobuf.Timestamp
-	37, // 52: echo.v1.DateGap.end:type_name -> google.protobuf.Timestamp
-	7,  // 53: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
-	11, // 54: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
-	13, // 55: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
-	18, // 56: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
-	22, // 57: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
-	24, // 58: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
-	26, // 59: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
-	28, // 60: echo.v1.InsightsService.GetImportInsights:input_type -> echo.v1.GetImportInsightsRequest
-	32, // 61: echo.v1.InsightsService.GetDataSourceHealth:input_type -> echo.v1.GetDataSourceHealthRequest
-	8,  // 62: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
-	12, // 63: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
-	17, // 64: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
-	20, // 65: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
-	23, // 66: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
-	25, // 67: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
-	27, // 68: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
-	29, // 69: echo.v1.InsightsService.GetImportInsights:output_type -> echo.v1.GetImportInsightsResponse
-	33, // 70: echo.v1.InsightsService.GetDataSourceHealth:output_type -> echo.v1.GetDataSourceHealthResponse
-	62, // [62:71] is the sub-list for method output_type
-	53, // [53:62] is the sub-list for method input_type
-	53, // [53:53] is the sub-list for extension type_name
-	53, // [53:53] is the sub-list for extension extendee
-	0,  // [0:53] is the sub-list for field type_name
+	42, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
+	42, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
+	43, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
+	42, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
+	42, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
+	42, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
+	8,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
+	9,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
+	11, // 8: echo.v1.MonthlyInsights.changes:type_name -> echo.v1.InsightChange
+	12, // 9: echo.v1.MonthlyInsights.recommended_action:type_name -> echo.v1.ActionRecommendation
+	42, // 10: echo.v1.MonthlyInsights.spend_vs_last_month:type_name -> echo.v1.Money
+	43, // 11: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
+	0,  // 12: echo.v1.InsightChange.type:type_name -> echo.v1.InsightChangeType
+	42, // 13: echo.v1.InsightChange.amount_change:type_name -> echo.v1.Money
+	1,  // 14: echo.v1.InsightChange.sentiment:type_name -> echo.v1.InsightChangeSentiment
+	2,  // 15: echo.v1.ActionRecommendation.type:type_name -> echo.v1.ActionType
+	42, // 16: echo.v1.ActionRecommendation.potential_impact:type_name -> echo.v1.Money
+	3,  // 17: echo.v1.ActionRecommendation.priority:type_name -> echo.v1.ActionPriority
+	43, // 18: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
+	10, // 19: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
+	4,  // 20: echo.v1.WrappedSummary.period:type_name -> echo.v1.WrappedPeriod
+	43, // 21: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
+	43, // 22: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
+	15, // 23: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
+	43, // 24: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
+	4,  // 25: echo.v1.GetWrappedRequest.period:type_name -> echo.v1.WrappedPeriod
+	43, // 26: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
+	43, // 27: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
+	16, // 28: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
+	43, // 29: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
+	42, // 30: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
+	42, // 31: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
+	42, // 32: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
+	43, // 33: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
+	21, // 34: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
+	22, // 35: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
+	42, // 36: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
+	42, // 37: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
+	43, // 38: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
+	20, // 39: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
+	25, // 40: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
+	6,  // 41: echo.v1.Alert.alert_type:type_name -> echo.v1.AlertType
+	5,  // 42: echo.v1.Alert.severity:type_name -> echo.v1.AlertSeverity
+	43, // 43: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
+	43, // 44: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
+	27, // 45: echo.v1.ListAlertsResponse.alerts:type_name -> echo.v1.Alert
+	36, // 46: echo.v1.GetImportInsightsResponse.insights:type_name -> echo.v1.ImportInsights
+	43, // 47: echo.v1.ImportInsights.earliest_date:type_name -> google.protobuf.Timestamp
+	43, // 48: echo.v1.ImportInsights.latest_date:type_name -> google.protobuf.Timestamp
+	42, // 49: echo.v1.ImportInsights.total_income:type_name -> echo.v1.Money
+	42, // 50: echo.v1.ImportInsights.total_expenses:type_name -> echo.v1.Money
+	37, // 51: echo.v1.ImportInsights.issues:type_name -> echo.v1.ImportIssue
+	7,  // 52: echo.v1.ImportIssue.type:type_name -> echo.v1.ImportIssueType
+	40, // 53: echo.v1.GetDataSourceHealthResponse.sources:type_name -> echo.v1.DataSourceHealth
+	43, // 54: echo.v1.GetDataSourceHealthResponse.oldest_transaction:type_name -> google.protobuf.Timestamp
+	44, // 55: echo.v1.DataSourceHealth.source_type:type_name -> echo.v1.TransactionSource
+	43, // 56: echo.v1.DataSourceHealth.first_transaction:type_name -> google.protobuf.Timestamp
+	43, // 57: echo.v1.DataSourceHealth.last_transaction:type_name -> google.protobuf.Timestamp
+	43, // 58: echo.v1.DataSourceHealth.last_import:type_name -> google.protobuf.Timestamp
+	41, // 59: echo.v1.DataSourceHealth.gaps:type_name -> echo.v1.DateGap
+	43, // 60: echo.v1.DateGap.start:type_name -> google.protobuf.Timestamp
+	43, // 61: echo.v1.DateGap.end:type_name -> google.protobuf.Timestamp
+	13, // 62: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
+	17, // 63: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
+	19, // 64: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
+	24, // 65: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
+	28, // 66: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
+	30, // 67: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
+	32, // 68: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
+	34, // 69: echo.v1.InsightsService.GetImportInsights:input_type -> echo.v1.GetImportInsightsRequest
+	38, // 70: echo.v1.InsightsService.GetDataSourceHealth:input_type -> echo.v1.GetDataSourceHealthRequest
+	14, // 71: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
+	18, // 72: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
+	23, // 73: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
+	26, // 74: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
+	29, // 75: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
+	31, // 76: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
+	33, // 77: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
+	35, // 78: echo.v1.InsightsService.GetImportInsights:output_type -> echo.v1.GetImportInsightsResponse
+	39, // 79: echo.v1.InsightsService.GetDataSourceHealth:output_type -> echo.v1.GetDataSourceHealthResponse
+	71, // [71:80] is the sub-list for method output_type
+	62, // [62:71] is the sub-list for method input_type
+	62, // [62:62] is the sub-list for extension type_name
+	62, // [62:62] is the sub-list for extension extendee
+	0,  // [0:62] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_insights_proto_init() }
@@ -2687,17 +3235,18 @@ func file_echo_v1_insights_proto_init() {
 	}
 	file_echo_v1_common_proto_init()
 	file_echo_v1_finance_proto_init()
-	file_echo_v1_insights_proto_msgTypes[9].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[3].OneofWrappers = []any{}
 	file_echo_v1_insights_proto_msgTypes[11].OneofWrappers = []any{}
-	file_echo_v1_insights_proto_msgTypes[12].OneofWrappers = []any{}
-	file_echo_v1_insights_proto_msgTypes[15].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[13].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[14].OneofWrappers = []any{}
+	file_echo_v1_insights_proto_msgTypes[17].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_insights_proto_rawDesc), len(file_echo_v1_insights_proto_rawDesc)),
-			NumEnums:      4,
-			NumMessages:   32,
+			NumEnums:      8,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

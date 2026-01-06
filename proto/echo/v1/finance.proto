@@ -7,6 +7,8 @@ import "google/protobuf/timestamp.proto";
 
 import "echo/v1/common.proto";
 
+option go_package = "buf.build/gen/go/echo-tracker/echo/protocolbuffers/go/echo/v1;echov1";
+
 service FinanceService {
   rpc CreateAccount(CreateAccountRequest) returns (CreateAccountResponse);
   rpc ListAccounts(ListAccountsRequest) returns (ListAccountsResponse);
@@ -21,10 +23,20 @@ service FinanceService {
   // Quick Capture: Create a transaction from natural language input
   rpc CreateManualTransaction(CreateManualTransactionRequest) returns (CreateManualTransactionResponse);
 
+  // Goals management
   rpc CreateGoal(CreateGoalRequest) returns (CreateGoalResponse);
+  rpc GetGoal(GetGoalRequest) returns (GetGoalResponse);
+  rpc UpdateGoal(UpdateGoalRequest) returns (UpdateGoalResponse);
+  rpc DeleteGoal(DeleteGoalRequest) returns (DeleteGoalResponse);
   rpc ListGoals(ListGoalsRequest) returns (ListGoalsResponse);
+  rpc GetGoalProgress(GetGoalProgressRequest) returns (GetGoalProgressResponse);
+  rpc ContributeToGoal(ContributeToGoalRequest) returns (ContributeToGoalResponse);
 
+  // Recurring subscriptions management
   rpc ListRecurringSubscriptions(ListRecurringSubscriptionsRequest) returns (ListRecurringSubscriptionsResponse);
+  rpc DetectRecurringSubscriptions(DetectRecurringSubscriptionsRequest) returns (DetectRecurringSubscriptionsResponse);
+  rpc UpdateSubscriptionStatus(UpdateSubscriptionStatusRequest) returns (UpdateSubscriptionStatusResponse);
+  rpc GetSubscriptionReviewChecklist(GetSubscriptionReviewChecklistRequest) returns (GetSubscriptionReviewChecklistResponse);
 
   // Categorization rules for "Remember this" learning
   rpc CreateCategoryRule(CreateCategoryRuleRequest) returns (CreateCategoryRuleResponse);
@@ -229,6 +241,14 @@ message Goal {
   google.protobuf.Timestamp end_at = 21 [(buf.validate.field).required = true];
   google.protobuf.Timestamp created_at = 22 [(buf.validate.field).required = true];
   google.protobuf.Timestamp updated_at = 23 [(buf.validate.field).required = true];
+
+  // Progress fields (computed)
+  double progress_percent = 30;  // 0-100, current/target
+  double pace_percent = 31;      // 100 = on track, <100 = behind
+  bool is_behind_pace = 32;
+  string pace_message = 33;      // "On track", "2 weeks behind", etc.
+  int32 days_remaining = 34;
+  Money amount_needed_per_day = 35;  // To reach goal on time
 }
 
 message CreateGoalRequest {
@@ -243,10 +263,86 @@ message CreateGoalResponse {
   Goal goal = 1 [(buf.validate.field).required = true];
 }
 
-message ListGoalsRequest {}
+message ListGoalsRequest {
+  optional GoalStatus status_filter = 1;  // Filter by status
+}
 
 message ListGoalsResponse {
   repeated Goal goals = 1 [(buf.validate.field).repeated = { max_items: 2000 }];
+}
+
+message GetGoalRequest {
+  string goal_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message GetGoalResponse {
+  Goal goal = 1 [(buf.validate.field).required = true];
+}
+
+message UpdateGoalRequest {
+  string goal_id = 1 [(buf.validate.field).string = { uuid: true }];
+  optional string name = 2 [(buf.validate.field).string = { min_len: 1 max_len: 120 }];
+  optional Money target = 3;
+  optional google.protobuf.Timestamp end_at = 4;
+  optional GoalStatus status = 5;
+}
+
+message UpdateGoalResponse {
+  Goal goal = 1 [(buf.validate.field).required = true];
+}
+
+message DeleteGoalRequest {
+  string goal_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message DeleteGoalResponse {}
+
+message GetGoalProgressRequest {
+  string goal_id = 1 [(buf.validate.field).string = { uuid: true }];
+}
+
+message GetGoalProgressResponse {
+  Goal goal = 1 [(buf.validate.field).required = true];
+
+  // Detailed progress breakdown
+  repeated GoalMilestone milestones = 2;  // Progress checkpoints
+  repeated GoalContribution recent_contributions = 3;  // Recent deposits/progress
+
+  // Nudge information
+  bool needs_attention = 10;
+  string nudge_message = 11;  // "Add €50 this week to stay on track"
+  Money suggested_contribution = 12;  // Recommended next contribution
+}
+
+message GoalMilestone {
+  int32 percent = 1;  // 25, 50, 75, 100
+  bool reached = 2;
+  google.protobuf.Timestamp reached_at = 3;
+  google.protobuf.Timestamp expected_by = 4;  // Based on timeline
+}
+
+message GoalContribution {
+  string id = 1 [(buf.validate.field).string = { uuid: true }];
+  Money amount = 2;
+  google.protobuf.Timestamp contributed_at = 3;
+  optional string note = 4;
+  optional string transaction_id = 5;  // Link to transaction if from import
+}
+
+message ContributeToGoalRequest {
+  string goal_id = 1 [(buf.validate.field).string = { uuid: true }];
+  Money amount = 2 [(buf.validate.field).required = true];
+  optional string note = 3 [(buf.validate.field).string = { max_len: 255 }];
+}
+
+message ContributeToGoalResponse {
+  Goal goal = 1 [(buf.validate.field).required = true];
+  GoalContribution contribution = 2;
+
+  // Celebration feedback
+  bool milestone_reached = 3;
+  optional int32 milestone_percent = 4;  // 25, 50, 75, 100
+  string feedback_message = 5;  // "Great job! You're 50% there!"
 }
 
 enum RecurringStatus {
@@ -277,12 +373,72 @@ message RecurringSubscription {
   google.protobuf.Timestamp next_expected_at = 12;
   google.protobuf.Timestamp created_at = 20 [(buf.validate.field).required = true];
   google.protobuf.Timestamp updated_at = 21 [(buf.validate.field).required = true];
+
+  // Additional computed fields
+  int32 occurrence_count = 30;         // Number of times seen
+  Money total_spent = 31;               // Total amount spent on this subscription
+  optional string category_id = 32;     // Linked category if categorized
+  optional string category_name = 33;   // Category name for display
 }
 
-message ListRecurringSubscriptionsRequest {}
+message ListRecurringSubscriptionsRequest {
+  optional RecurringStatus status_filter = 1;  // Filter by status
+  bool include_canceled = 2;  // Include canceled subscriptions
+}
 
 message ListRecurringSubscriptionsResponse {
   repeated RecurringSubscription subscriptions = 1 [(buf.validate.field).repeated = { max_items: 5000 }];
+  Money total_monthly_cost = 2;  // Sum of all active subscriptions normalized to monthly
+  int32 active_count = 3;
+}
+
+// Detect recurring patterns in transaction history
+message DetectRecurringSubscriptionsRequest {
+  // Optional: limit detection to specific time range
+  optional google.protobuf.Timestamp since = 1;
+  // Minimum occurrences to consider recurring (default: 2)
+  optional int32 min_occurrences = 2;
+}
+
+message DetectRecurringSubscriptionsResponse {
+  repeated RecurringSubscription detected = 1;  // Newly detected subscriptions
+  int32 new_count = 2;  // Number of new subscriptions detected
+  int32 updated_count = 3;  // Number of existing subscriptions updated
+}
+
+// Update subscription status (pause, cancel, reactivate)
+message UpdateSubscriptionStatusRequest {
+  string subscription_id = 1 [(buf.validate.field).string = { uuid: true }];
+  RecurringStatus status = 2 [(buf.validate.field).enum = { defined_only: true not_in: [0] }];
+}
+
+message UpdateSubscriptionStatusResponse {
+  RecurringSubscription subscription = 1;
+}
+
+// Review checklist for subscription management
+message GetSubscriptionReviewChecklistRequest {}
+
+message GetSubscriptionReviewChecklistResponse {
+  repeated SubscriptionReviewItem items = 1;
+  Money potential_monthly_savings = 2;  // If all "review" items are canceled
+  string summary = 3;  // "You have 3 subscriptions to review"
+}
+
+message SubscriptionReviewItem {
+  RecurringSubscription subscription = 1;
+  SubscriptionReviewReason reason = 2;
+  string reason_message = 3;  // "Not used in 60+ days", "Price increased", etc.
+  bool recommended_cancel = 4;
+}
+
+enum SubscriptionReviewReason {
+  SUBSCRIPTION_REVIEW_REASON_UNSPECIFIED = 0;
+  SUBSCRIPTION_REVIEW_REASON_UNUSED = 1;        // No related transactions recently
+  SUBSCRIPTION_REVIEW_REASON_PRICE_INCREASE = 2; // Amount increased from previous
+  SUBSCRIPTION_REVIEW_REASON_DUPLICATE = 3;      // Similar to another subscription
+  SUBSCRIPTION_REVIEW_REASON_HIGH_COST = 4;      // Above average for category
+  SUBSCRIPTION_REVIEW_REASON_NEW = 5;            // Recently detected, confirm it's wanted
 }
 
 // Category Rules for "Remember this" learning flow
