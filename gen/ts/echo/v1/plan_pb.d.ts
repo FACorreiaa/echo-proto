@@ -788,6 +788,13 @@ export declare type ExcelMappingConfig = Message<"echo.v1.ExcelMappingConfig"> &
    * @generated from field: string percentage_column = 5;
    */
   percentageColumn: string;
+
+  /**
+   * Optional: specific cell coordinate like "B10"
+   *
+   * @generated from field: string start_cell = 6;
+   */
+  startCell: string;
 };
 
 /**

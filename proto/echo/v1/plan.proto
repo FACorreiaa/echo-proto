@@ -275,6 +275,7 @@ message ExcelMappingConfig {
   int32 header_row = 3;        // Row number where headers start
   bool has_percentage_column = 4;
   string percentage_column = 5;
+  string start_cell = 6;       // Optional: specific cell coordinate like "B10"
 }
 
 message ImportPlanFromExcelResponse {

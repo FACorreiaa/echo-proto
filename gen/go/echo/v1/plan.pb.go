@@ -1826,6 +1826,7 @@ type ExcelMappingConfig struct {
 	HeaderRow           int32                  `protobuf:"varint,3,opt,name=header_row,json=headerRow,proto3" json:"header_row,omitempty"`               // Row number where headers start
 	HasPercentageColumn bool                   `protobuf:"varint,4,opt,name=has_percentage_column,json=hasPercentageColumn,proto3" json:"has_percentage_column,omitempty"`
 	PercentageColumn    string                 `protobuf:"bytes,5,opt,name=percentage_column,json=percentageColumn,proto3" json:"percentage_column,omitempty"`
+	StartCell           string                 `protobuf:"bytes,6,opt,name=start_cell,json=startCell,proto3" json:"start_cell,omitempty"` // Optional: specific cell coordinate like "B10"
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -1891,6 +1892,13 @@ func (x *ExcelMappingConfig) GetHasPercentageColumn() bool {
 func (x *ExcelMappingConfig) GetPercentageColumn() string {
 	if x != nil {
 		return x.PercentageColumn
+	}
+	return ""
+}
+
+func (x *ExcelMappingConfig) GetStartCell() string {
+	if x != nil {
+		return x.StartCell
 	}
 	return ""
 }
@@ -2633,14 +2641,16 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\afile_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06fileId\x12\x1d\n" +
 	"\n" +
 	"sheet_name\x18\x02 \x01(\tR\tsheetName\x125\n" +
-	"\amapping\x18\x03 \x01(\v2\x1b.echo.v1.ExcelMappingConfigR\amapping\"\xe0\x01\n" +
+	"\amapping\x18\x03 \x01(\v2\x1b.echo.v1.ExcelMappingConfigR\amapping\"\xff\x01\n" +
 	"\x12ExcelMappingConfig\x12'\n" +
 	"\x0fcategory_column\x18\x01 \x01(\tR\x0ecategoryColumn\x12!\n" +
 	"\fvalue_column\x18\x02 \x01(\tR\vvalueColumn\x12\x1d\n" +
 	"\n" +
 	"header_row\x18\x03 \x01(\x05R\theaderRow\x122\n" +
 	"\x15has_percentage_column\x18\x04 \x01(\bR\x13hasPercentageColumn\x12+\n" +
-	"\x11percentage_column\x18\x05 \x01(\tR\x10percentageColumn\"\x9c\x01\n" +
+	"\x11percentage_column\x18\x05 \x01(\tR\x10percentageColumn\x12\x1d\n" +
+	"\n" +
+	"start_cell\x18\x06 \x01(\tR\tstartCell\"\x9c\x01\n" +
 	"\x1bImportPlanFromExcelResponse\x12%\n" +
 	"\x04plan\x18\x01 \x01(\v2\x11.echo.v1.UserPlanR\x04plan\x12/\n" +
 	"\x13categories_imported\x18\x02 \x01(\x05R\x12categoriesImported\x12%\n" +
