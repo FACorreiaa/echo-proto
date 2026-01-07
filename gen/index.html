@@ -1272,6 +1272,10 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.ExcelPreviewRow"><span class="badge">M</span>ExcelPreviewRow</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.ExcelSheetAnalysis"><span class="badge">M</span>ExcelSheetAnalysis</a>
                 </li>
               
@@ -11312,6 +11316,30 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.ExcelPreviewRow">ExcelPreviewRow</h3>
+        <p>ExcelPreviewRow represents a single row of preview data</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>cells</td>
+                  <td><a href="#string">string</a></td>
+                  <td>repeated</td>
+                  <td><p>Cell values for this row </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.ExcelSheetAnalysis">ExcelSheetAnalysis</h3>
         <p></p>
 
@@ -11369,6 +11397,13 @@ Positive = spent more, negative = spent less </p></td>
                   <td><a href="#echo.v1.DetectedColumnMapping">DetectedColumnMapping</a></td>
                   <td></td>
                   <td><p>Auto-detected column layout </p></td>
+                </tr>
+              
+                <tr>
+                  <td>preview_rows</td>
+                  <td><a href="#echo.v1.ExcelPreviewRow">ExcelPreviewRow</a></td>
+                  <td>repeated</td>
+                  <td><p>First 5 rows for preview </p></td>
                 </tr>
               
             </tbody>

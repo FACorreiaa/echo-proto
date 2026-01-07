@@ -903,6 +903,13 @@ export declare type ExcelSheetAnalysis = Message<"echo.v1.ExcelSheetAnalysis"> &
    * @generated from field: echo.v1.DetectedColumnMapping detected_mapping = 7;
    */
   detectedMapping?: DetectedColumnMapping;
+
+  /**
+   * First 5 rows for preview
+   *
+   * @generated from field: repeated echo.v1.ExcelPreviewRow preview_rows = 8;
+   */
+  previewRows: ExcelPreviewRow[];
 };
 
 /**
@@ -910,6 +917,26 @@ export declare type ExcelSheetAnalysis = Message<"echo.v1.ExcelSheetAnalysis"> &
  * Use `create(ExcelSheetAnalysisSchema)` to create a new message.
  */
 export declare const ExcelSheetAnalysisSchema: GenMessage<ExcelSheetAnalysis>;
+
+/**
+ * ExcelPreviewRow represents a single row of preview data
+ *
+ * @generated from message echo.v1.ExcelPreviewRow
+ */
+export declare type ExcelPreviewRow = Message<"echo.v1.ExcelPreviewRow"> & {
+  /**
+   * Cell values for this row
+   *
+   * @generated from field: repeated string cells = 1;
+   */
+  cells: string[];
+};
+
+/**
+ * Describes the message echo.v1.ExcelPreviewRow.
+ * Use `create(ExcelPreviewRowSchema)` to create a new message.
+ */
+export declare const ExcelPreviewRowSchema: GenMessage<ExcelPreviewRow>;
 
 /**
  * DetectedColumnMapping contains auto-detected column positions for import

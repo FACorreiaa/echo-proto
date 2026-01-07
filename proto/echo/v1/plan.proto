@@ -300,6 +300,12 @@ message ExcelSheetAnalysis {
   repeated string detected_categories = 5;
   repeated string month_columns = 6;  // e.g., ["jan-26", "feb-26"]
   DetectedColumnMapping detected_mapping = 7; // Auto-detected column layout
+  repeated ExcelPreviewRow preview_rows = 8; // First 5 rows for preview
+}
+
+// ExcelPreviewRow represents a single row of preview data
+message ExcelPreviewRow {
+  repeated string cells = 1;  // Cell values for this row
 }
 
 // DetectedColumnMapping contains auto-detected column positions for import
