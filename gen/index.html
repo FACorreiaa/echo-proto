@@ -1236,6 +1236,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.CreateItemConfigRequest"><span class="badge">M</span>CreateItemConfigRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.CreateItemConfigResponse"><span class="badge">M</span>CreateItemConfigResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.CreateItemInput"><span class="badge">M</span>CreateItemInput</a>
                 </li>
               
@@ -1249,6 +1257,14 @@
               
                 <li>
                   <a href="#echo.v1.CreatePlanResponse"><span class="badge">M</span>CreatePlanResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.DeleteItemConfigRequest"><span class="badge">M</span>DeleteItemConfigRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.DeleteItemConfigResponse"><span class="badge">M</span>DeleteItemConfigResponse</a>
                 </li>
               
                 <li>
@@ -1297,6 +1313,18 @@
               
                 <li>
                   <a href="#echo.v1.ImportPlanFromExcelResponse"><span class="badge">M</span>ImportPlanFromExcelResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ItemConfig"><span class="badge">M</span>ItemConfig</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListItemConfigsRequest"><span class="badge">M</span>ListItemConfigsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListItemConfigsResponse"><span class="badge">M</span>ListItemConfigsResponse</a>
                 </li>
               
                 <li>
@@ -1352,6 +1380,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.UpdateItemConfigRequest"><span class="badge">M</span>UpdateItemConfigRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UpdateItemConfigResponse"><span class="badge">M</span>UpdateItemConfigResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.UpdateItemInput"><span class="badge">M</span>UpdateItemInput</a>
                 </li>
               
@@ -1373,6 +1409,10 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.ItemBehavior"><span class="badge">E</span>ItemBehavior</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.ItemType"><span class="badge">E</span>ItemType</a>
                 </li>
               
@@ -1382,6 +1422,10 @@
               
                 <li>
                   <a href="#echo.v1.PlanStatus"><span class="badge">E</span>PlanStatus</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.TargetTab"><span class="badge">E</span>TargetTab</a>
                 </li>
               
                 <li>
@@ -11069,6 +11113,89 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.CreateItemConfigRequest">CreateItemConfigRequest</h3>
+        <p>CreateItemConfig - creates a new custom type</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>label</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>short_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior</td>
+                  <td><a href="#echo.v1.ItemBehavior">ItemBehavior</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_tab</td>
+                  <td><a href="#echo.v1.TargetTab">TargetTab</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>color_hex</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>icon</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.CreateItemConfigResponse">CreateItemConfigResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>config</td>
+                  <td><a href="#echo.v1.ItemConfig">ItemConfig</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.CreateItemInput">CreateItemInput</h3>
         <p></p>
 
@@ -11118,7 +11245,14 @@ Positive = spent more, negative = spent less </p></td>
                   <td>item_type</td>
                   <td><a href="#echo.v1.ItemType">ItemType</a></td>
                   <td></td>
-                  <td><p>What tab this item appears in </p></td>
+                  <td><p>What tab this item appears in (legacy) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>config_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Dynamic config reference (preferred) </p></td>
                 </tr>
               
             </tbody>
@@ -11217,6 +11351,54 @@ Positive = spent more, negative = spent less </p></td>
                 <tr>
                   <td>plan</td>
                   <td><a href="#echo.v1.UserPlan">UserPlan</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.DeleteItemConfigRequest">DeleteItemConfigRequest</h3>
+        <p>DeleteItemConfig - deletes a custom config (system configs cannot be deleted)</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.DeleteItemConfigResponse">DeleteItemConfigResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -11636,6 +11818,117 @@ Positive = spent more, negative = spent less </p></td>
                   <td>items_imported</td>
                   <td><a href="#int32">int32</a></td>
                   <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ItemConfig">ItemConfig</h3>
+        <p>ItemConfig represents a user-configurable item type</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>label</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Display name: &#34;Budget&#34;, &#34;Investment&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>short_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Button code: &#34;B&#34;, &#34;I&#34;, &#34;D&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior</td>
+                  <td><a href="#echo.v1.ItemBehavior">ItemBehavior</a></td>
+                  <td></td>
+                  <td><p>Mathematical behavior </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_tab</td>
+                  <td><a href="#echo.v1.TargetTab">TargetTab</a></td>
+                  <td></td>
+                  <td><p>Which UI tab displays items of this type </p></td>
+                </tr>
+              
+                <tr>
+                  <td>color_hex</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Color for UI: &#34;#22c55e&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>icon</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Icon name: &#34;wallet&#34;, &#34;trending-up&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_system</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>System defaults cannot be deleted </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sort_order</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Display order in type selector </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListItemConfigsRequest">ListItemConfigsRequest</h3>
+        <p>ListItemConfigs - returns all configs for current user</p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.ListItemConfigsResponse">ListItemConfigsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>configs</td>
+                  <td><a href="#echo.v1.ItemConfig">ItemConfig</a></td>
+                  <td>repeated</td>
                   <td><p> </p></td>
                 </tr>
               
@@ -12107,6 +12400,13 @@ Positive = spent more, negative = spent less </p></td>
                   <td><p>Link to goal (for savings targets) </p></td>
                 </tr>
               
+                <tr>
+                  <td>config_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p>Dynamic config reference (replaces item_type for configurable types) </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -12222,6 +12522,103 @@ Positive = spent more, negative = spent less </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>e.g., &#34;no_category_mapping&#34;, &#34;no_transactions&#34; </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.UpdateItemConfigRequest">UpdateItemConfigRequest</h3>
+        <p>UpdateItemConfig - updates an existing config</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>label</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>short_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior</td>
+                  <td><a href="#echo.v1.ItemBehavior">ItemBehavior</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_tab</td>
+                  <td><a href="#echo.v1.TargetTab">TargetTab</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>color_hex</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>icon</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sort_order</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.UpdateItemConfigResponse">UpdateItemConfigResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>config</td>
+                  <td><a href="#echo.v1.ItemConfig">ItemConfig</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -12489,6 +12886,47 @@ Positive = spent more, negative = spent less </p></td>
           </tbody>
         </table>
       
+        <h3 id="echo.v1.ItemBehavior">ItemBehavior</h3>
+        <p>Behavior types for mathematical logic (dynamic configs)</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ITEM_BEHAVIOR_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ITEM_BEHAVIOR_OUTFLOW</td>
+                <td>1</td>
+                <td><p>Reduces surplus (expenses)</p></td>
+              </tr>
+            
+              <tr>
+                <td>ITEM_BEHAVIOR_INFLOW</td>
+                <td>2</td>
+                <td><p>Adds to surplus (income)</p></td>
+              </tr>
+            
+              <tr>
+                <td>ITEM_BEHAVIOR_ASSET</td>
+                <td>3</td>
+                <td><p>Tracked on balance sheet (&#43;)</p></td>
+              </tr>
+            
+              <tr>
+                <td>ITEM_BEHAVIOR_LIABILITY</td>
+                <td>4</td>
+                <td><p>Tracked on balance sheet (-)</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="echo.v1.ItemType">ItemType</h3>
         <p>Item types for plan items - determines which tab displays this item</p>
         <table class="enum-table">
@@ -12594,6 +13032,59 @@ Positive = spent more, negative = spent less </p></td>
               <tr>
                 <td>PLAN_STATUS_ARCHIVED</td>
                 <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="echo.v1.TargetTab">TargetTab</h3>
+        <p>Target tabs where items appear in the UI</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>TARGET_TAB_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_BUDGETS</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_RECURRING</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_GOALS</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_INCOME</td>
+                <td>4</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_PORTFOLIO</td>
+                <td>5</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>TARGET_TAB_LIABILITIES</td>
+                <td>6</td>
                 <td><p></p></td>
               </tr>
             
@@ -12721,6 +13212,34 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.ComputePlanActualsRequest">ComputePlanActualsRequest</a></td>
                 <td><a href="#echo.v1.ComputePlanActualsResponse">ComputePlanActualsResponse</a></td>
                 <td><p>ComputePlanActuals syncs actual spending from transactions to plan items</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListItemConfigs</td>
+                <td><a href="#echo.v1.ListItemConfigsRequest">ListItemConfigsRequest</a></td>
+                <td><a href="#echo.v1.ListItemConfigsResponse">ListItemConfigsResponse</a></td>
+                <td><p>ListItemConfigs returns all item configs for the current user</p></td>
+              </tr>
+            
+              <tr>
+                <td>CreateItemConfig</td>
+                <td><a href="#echo.v1.CreateItemConfigRequest">CreateItemConfigRequest</a></td>
+                <td><a href="#echo.v1.CreateItemConfigResponse">CreateItemConfigResponse</a></td>
+                <td><p>CreateItemConfig creates a new custom item type</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateItemConfig</td>
+                <td><a href="#echo.v1.UpdateItemConfigRequest">UpdateItemConfigRequest</a></td>
+                <td><a href="#echo.v1.UpdateItemConfigResponse">UpdateItemConfigResponse</a></td>
+                <td><p>UpdateItemConfig updates an existing item config</p></td>
+              </tr>
+            
+              <tr>
+                <td>DeleteItemConfig</td>
+                <td><a href="#echo.v1.DeleteItemConfigRequest">DeleteItemConfigRequest</a></td>
+                <td><a href="#echo.v1.DeleteItemConfigResponse">DeleteItemConfigResponse</a></td>
+                <td><p>DeleteItemConfig deletes a custom item config (system configs cannot be deleted)</p></td>
               </tr>
             
           </tbody>

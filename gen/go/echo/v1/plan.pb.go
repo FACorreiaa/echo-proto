@@ -297,6 +297,124 @@ func (ItemType) EnumDescriptor() ([]byte, []int) {
 	return file_echo_v1_plan_proto_rawDescGZIP(), []int{4}
 }
 
+// Behavior types for mathematical logic (dynamic configs)
+type ItemBehavior int32
+
+const (
+	ItemBehavior_ITEM_BEHAVIOR_UNSPECIFIED ItemBehavior = 0
+	ItemBehavior_ITEM_BEHAVIOR_OUTFLOW     ItemBehavior = 1 // Reduces surplus (expenses)
+	ItemBehavior_ITEM_BEHAVIOR_INFLOW      ItemBehavior = 2 // Adds to surplus (income)
+	ItemBehavior_ITEM_BEHAVIOR_ASSET       ItemBehavior = 3 // Tracked on balance sheet (+)
+	ItemBehavior_ITEM_BEHAVIOR_LIABILITY   ItemBehavior = 4 // Tracked on balance sheet (-)
+)
+
+// Enum value maps for ItemBehavior.
+var (
+	ItemBehavior_name = map[int32]string{
+		0: "ITEM_BEHAVIOR_UNSPECIFIED",
+		1: "ITEM_BEHAVIOR_OUTFLOW",
+		2: "ITEM_BEHAVIOR_INFLOW",
+		3: "ITEM_BEHAVIOR_ASSET",
+		4: "ITEM_BEHAVIOR_LIABILITY",
+	}
+	ItemBehavior_value = map[string]int32{
+		"ITEM_BEHAVIOR_UNSPECIFIED": 0,
+		"ITEM_BEHAVIOR_OUTFLOW":     1,
+		"ITEM_BEHAVIOR_INFLOW":      2,
+		"ITEM_BEHAVIOR_ASSET":       3,
+		"ITEM_BEHAVIOR_LIABILITY":   4,
+	}
+)
+
+func (x ItemBehavior) Enum() *ItemBehavior {
+	p := new(ItemBehavior)
+	*p = x
+	return p
+}
+
+func (x ItemBehavior) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ItemBehavior) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_plan_proto_enumTypes[5].Descriptor()
+}
+
+func (ItemBehavior) Type() protoreflect.EnumType {
+	return &file_echo_v1_plan_proto_enumTypes[5]
+}
+
+func (x ItemBehavior) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ItemBehavior.Descriptor instead.
+func (ItemBehavior) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{5}
+}
+
+// Target tabs where items appear in the UI
+type TargetTab int32
+
+const (
+	TargetTab_TARGET_TAB_UNSPECIFIED TargetTab = 0
+	TargetTab_TARGET_TAB_BUDGETS     TargetTab = 1
+	TargetTab_TARGET_TAB_RECURRING   TargetTab = 2
+	TargetTab_TARGET_TAB_GOALS       TargetTab = 3
+	TargetTab_TARGET_TAB_INCOME      TargetTab = 4
+	TargetTab_TARGET_TAB_PORTFOLIO   TargetTab = 5
+	TargetTab_TARGET_TAB_LIABILITIES TargetTab = 6
+)
+
+// Enum value maps for TargetTab.
+var (
+	TargetTab_name = map[int32]string{
+		0: "TARGET_TAB_UNSPECIFIED",
+		1: "TARGET_TAB_BUDGETS",
+		2: "TARGET_TAB_RECURRING",
+		3: "TARGET_TAB_GOALS",
+		4: "TARGET_TAB_INCOME",
+		5: "TARGET_TAB_PORTFOLIO",
+		6: "TARGET_TAB_LIABILITIES",
+	}
+	TargetTab_value = map[string]int32{
+		"TARGET_TAB_UNSPECIFIED": 0,
+		"TARGET_TAB_BUDGETS":     1,
+		"TARGET_TAB_RECURRING":   2,
+		"TARGET_TAB_GOALS":       3,
+		"TARGET_TAB_INCOME":      4,
+		"TARGET_TAB_PORTFOLIO":   5,
+		"TARGET_TAB_LIABILITIES": 6,
+	}
+)
+
+func (x TargetTab) Enum() *TargetTab {
+	p := new(TargetTab)
+	*p = x
+	return p
+}
+
+func (x TargetTab) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (TargetTab) Descriptor() protoreflect.EnumDescriptor {
+	return file_echo_v1_plan_proto_enumTypes[6].Descriptor()
+}
+
+func (TargetTab) Type() protoreflect.EnumType {
+	return &file_echo_v1_plan_proto_enumTypes[6]
+}
+
+func (x TargetTab) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use TargetTab.Descriptor instead.
+func (TargetTab) EnumDescriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{6}
+}
+
 // UserPlan represents a user's financial plan
 type UserPlan struct {
 	state       protoimpl.MessageState `protogen:"open.v1"`
@@ -672,7 +790,9 @@ type PlanItem struct {
 	// Link to recurring subscription (for auto-synced subscriptions)
 	RecurringSubscriptionId *string `protobuf:"bytes,14,opt,name=recurring_subscription_id,json=recurringSubscriptionId,proto3,oneof" json:"recurring_subscription_id,omitempty"`
 	// Link to goal (for savings targets)
-	GoalId        *string `protobuf:"bytes,15,opt,name=goal_id,json=goalId,proto3,oneof" json:"goal_id,omitempty"`
+	GoalId *string `protobuf:"bytes,15,opt,name=goal_id,json=goalId,proto3,oneof" json:"goal_id,omitempty"`
+	// Dynamic config reference (replaces item_type for configurable types)
+	ConfigId      *string `protobuf:"bytes,16,opt,name=config_id,json=configId,proto3,oneof" json:"config_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -808,6 +928,13 @@ func (x *PlanItem) GetRecurringSubscriptionId() string {
 func (x *PlanItem) GetGoalId() string {
 	if x != nil && x.GoalId != nil {
 		return *x.GoalId
+	}
+	return ""
+}
+
+func (x *PlanItem) GetConfigId() string {
+	if x != nil && x.ConfigId != nil {
+		return *x.ConfigId
 	}
 	return ""
 }
@@ -1101,7 +1228,8 @@ type CreateItemInput struct {
 	WidgetType    WidgetType             `protobuf:"varint,3,opt,name=widget_type,json=widgetType,proto3,enum=echo.v1.WidgetType" json:"widget_type,omitempty"`
 	FieldType     FieldType              `protobuf:"varint,4,opt,name=field_type,json=fieldType,proto3,enum=echo.v1.FieldType" json:"field_type,omitempty"`
 	Labels        map[string]string      `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ItemType      ItemType               `protobuf:"varint,6,opt,name=item_type,json=itemType,proto3,enum=echo.v1.ItemType" json:"item_type,omitempty"` // What tab this item appears in
+	ItemType      ItemType               `protobuf:"varint,6,opt,name=item_type,json=itemType,proto3,enum=echo.v1.ItemType" json:"item_type,omitempty"` // What tab this item appears in (legacy)
+	ConfigId      *string                `protobuf:"bytes,7,opt,name=config_id,json=configId,proto3,oneof" json:"config_id,omitempty"`                  // Dynamic config reference (preferred)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1176,6 +1304,13 @@ func (x *CreateItemInput) GetItemType() ItemType {
 		return x.ItemType
 	}
 	return ItemType_ITEM_TYPE_UNSPECIFIED
+}
+
+func (x *CreateItemInput) GetConfigId() string {
+	if x != nil && x.ConfigId != nil {
+		return *x.ConfigId
+	}
+	return ""
 }
 
 type CreatePlanResponse struct {
@@ -2574,6 +2709,559 @@ func (x *UnmatchedItem) GetReason() string {
 	return ""
 }
 
+// ItemConfig represents a user-configurable item type
+type ItemConfig struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Label         string                 `protobuf:"bytes,2,opt,name=label,proto3" json:"label,omitempty"`                                                  // Display name: "Budget", "Investment"
+	ShortCode     string                 `protobuf:"bytes,3,opt,name=short_code,json=shortCode,proto3" json:"short_code,omitempty"`                         // Button code: "B", "I", "D"
+	Behavior      ItemBehavior           `protobuf:"varint,4,opt,name=behavior,proto3,enum=echo.v1.ItemBehavior" json:"behavior,omitempty"`                 // Mathematical behavior
+	TargetTab     TargetTab              `protobuf:"varint,5,opt,name=target_tab,json=targetTab,proto3,enum=echo.v1.TargetTab" json:"target_tab,omitempty"` // Which UI tab displays items of this type
+	ColorHex      string                 `protobuf:"bytes,6,opt,name=color_hex,json=colorHex,proto3" json:"color_hex,omitempty"`                            // Color for UI: "#22c55e"
+	Icon          string                 `protobuf:"bytes,7,opt,name=icon,proto3" json:"icon,omitempty"`                                                    // Icon name: "wallet", "trending-up"
+	IsSystem      bool                   `protobuf:"varint,8,opt,name=is_system,json=isSystem,proto3" json:"is_system,omitempty"`                           // System defaults cannot be deleted
+	SortOrder     int32                  `protobuf:"varint,9,opt,name=sort_order,json=sortOrder,proto3" json:"sort_order,omitempty"`                        // Display order in type selector
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ItemConfig) Reset() {
+	*x = ItemConfig{}
+	mi := &file_echo_v1_plan_proto_msgTypes[34]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ItemConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ItemConfig) ProtoMessage() {}
+
+func (x *ItemConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[34]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ItemConfig.ProtoReflect.Descriptor instead.
+func (*ItemConfig) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{34}
+}
+
+func (x *ItemConfig) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *ItemConfig) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+func (x *ItemConfig) GetShortCode() string {
+	if x != nil {
+		return x.ShortCode
+	}
+	return ""
+}
+
+func (x *ItemConfig) GetBehavior() ItemBehavior {
+	if x != nil {
+		return x.Behavior
+	}
+	return ItemBehavior_ITEM_BEHAVIOR_UNSPECIFIED
+}
+
+func (x *ItemConfig) GetTargetTab() TargetTab {
+	if x != nil {
+		return x.TargetTab
+	}
+	return TargetTab_TARGET_TAB_UNSPECIFIED
+}
+
+func (x *ItemConfig) GetColorHex() string {
+	if x != nil {
+		return x.ColorHex
+	}
+	return ""
+}
+
+func (x *ItemConfig) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+func (x *ItemConfig) GetIsSystem() bool {
+	if x != nil {
+		return x.IsSystem
+	}
+	return false
+}
+
+func (x *ItemConfig) GetSortOrder() int32 {
+	if x != nil {
+		return x.SortOrder
+	}
+	return 0
+}
+
+// ListItemConfigs - returns all configs for current user
+type ListItemConfigsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListItemConfigsRequest) Reset() {
+	*x = ListItemConfigsRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListItemConfigsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListItemConfigsRequest) ProtoMessage() {}
+
+func (x *ListItemConfigsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListItemConfigsRequest.ProtoReflect.Descriptor instead.
+func (*ListItemConfigsRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{35}
+}
+
+type ListItemConfigsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Configs       []*ItemConfig          `protobuf:"bytes,1,rep,name=configs,proto3" json:"configs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListItemConfigsResponse) Reset() {
+	*x = ListItemConfigsResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[36]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListItemConfigsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListItemConfigsResponse) ProtoMessage() {}
+
+func (x *ListItemConfigsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[36]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListItemConfigsResponse.ProtoReflect.Descriptor instead.
+func (*ListItemConfigsResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *ListItemConfigsResponse) GetConfigs() []*ItemConfig {
+	if x != nil {
+		return x.Configs
+	}
+	return nil
+}
+
+// CreateItemConfig - creates a new custom type
+type CreateItemConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Label         string                 `protobuf:"bytes,1,opt,name=label,proto3" json:"label,omitempty"`
+	ShortCode     string                 `protobuf:"bytes,2,opt,name=short_code,json=shortCode,proto3" json:"short_code,omitempty"`
+	Behavior      ItemBehavior           `protobuf:"varint,3,opt,name=behavior,proto3,enum=echo.v1.ItemBehavior" json:"behavior,omitempty"`
+	TargetTab     TargetTab              `protobuf:"varint,4,opt,name=target_tab,json=targetTab,proto3,enum=echo.v1.TargetTab" json:"target_tab,omitempty"`
+	ColorHex      string                 `protobuf:"bytes,5,opt,name=color_hex,json=colorHex,proto3" json:"color_hex,omitempty"`
+	Icon          string                 `protobuf:"bytes,6,opt,name=icon,proto3" json:"icon,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateItemConfigRequest) Reset() {
+	*x = CreateItemConfigRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateItemConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateItemConfigRequest) ProtoMessage() {}
+
+func (x *CreateItemConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateItemConfigRequest.ProtoReflect.Descriptor instead.
+func (*CreateItemConfigRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *CreateItemConfigRequest) GetLabel() string {
+	if x != nil {
+		return x.Label
+	}
+	return ""
+}
+
+func (x *CreateItemConfigRequest) GetShortCode() string {
+	if x != nil {
+		return x.ShortCode
+	}
+	return ""
+}
+
+func (x *CreateItemConfigRequest) GetBehavior() ItemBehavior {
+	if x != nil {
+		return x.Behavior
+	}
+	return ItemBehavior_ITEM_BEHAVIOR_UNSPECIFIED
+}
+
+func (x *CreateItemConfigRequest) GetTargetTab() TargetTab {
+	if x != nil {
+		return x.TargetTab
+	}
+	return TargetTab_TARGET_TAB_UNSPECIFIED
+}
+
+func (x *CreateItemConfigRequest) GetColorHex() string {
+	if x != nil {
+		return x.ColorHex
+	}
+	return ""
+}
+
+func (x *CreateItemConfigRequest) GetIcon() string {
+	if x != nil {
+		return x.Icon
+	}
+	return ""
+}
+
+type CreateItemConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *ItemConfig            `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateItemConfigResponse) Reset() {
+	*x = CreateItemConfigResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[38]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateItemConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateItemConfigResponse) ProtoMessage() {}
+
+func (x *CreateItemConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[38]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateItemConfigResponse.ProtoReflect.Descriptor instead.
+func (*CreateItemConfigResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{38}
+}
+
+func (x *CreateItemConfigResponse) GetConfig() *ItemConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
+// UpdateItemConfig - updates an existing config
+type UpdateItemConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Label         *string                `protobuf:"bytes,2,opt,name=label,proto3,oneof" json:"label,omitempty"`
+	ShortCode     *string                `protobuf:"bytes,3,opt,name=short_code,json=shortCode,proto3,oneof" json:"short_code,omitempty"`
+	Behavior      *ItemBehavior          `protobuf:"varint,4,opt,name=behavior,proto3,enum=echo.v1.ItemBehavior,oneof" json:"behavior,omitempty"`
+	TargetTab     *TargetTab             `protobuf:"varint,5,opt,name=target_tab,json=targetTab,proto3,enum=echo.v1.TargetTab,oneof" json:"target_tab,omitempty"`
+	ColorHex      *string                `protobuf:"bytes,6,opt,name=color_hex,json=colorHex,proto3,oneof" json:"color_hex,omitempty"`
+	Icon          *string                `protobuf:"bytes,7,opt,name=icon,proto3,oneof" json:"icon,omitempty"`
+	SortOrder     *int32                 `protobuf:"varint,8,opt,name=sort_order,json=sortOrder,proto3,oneof" json:"sort_order,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateItemConfigRequest) Reset() {
+	*x = UpdateItemConfigRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[39]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateItemConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateItemConfigRequest) ProtoMessage() {}
+
+func (x *UpdateItemConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[39]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateItemConfigRequest.ProtoReflect.Descriptor instead.
+func (*UpdateItemConfigRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{39}
+}
+
+func (x *UpdateItemConfigRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateItemConfigRequest) GetLabel() string {
+	if x != nil && x.Label != nil {
+		return *x.Label
+	}
+	return ""
+}
+
+func (x *UpdateItemConfigRequest) GetShortCode() string {
+	if x != nil && x.ShortCode != nil {
+		return *x.ShortCode
+	}
+	return ""
+}
+
+func (x *UpdateItemConfigRequest) GetBehavior() ItemBehavior {
+	if x != nil && x.Behavior != nil {
+		return *x.Behavior
+	}
+	return ItemBehavior_ITEM_BEHAVIOR_UNSPECIFIED
+}
+
+func (x *UpdateItemConfigRequest) GetTargetTab() TargetTab {
+	if x != nil && x.TargetTab != nil {
+		return *x.TargetTab
+	}
+	return TargetTab_TARGET_TAB_UNSPECIFIED
+}
+
+func (x *UpdateItemConfigRequest) GetColorHex() string {
+	if x != nil && x.ColorHex != nil {
+		return *x.ColorHex
+	}
+	return ""
+}
+
+func (x *UpdateItemConfigRequest) GetIcon() string {
+	if x != nil && x.Icon != nil {
+		return *x.Icon
+	}
+	return ""
+}
+
+func (x *UpdateItemConfigRequest) GetSortOrder() int32 {
+	if x != nil && x.SortOrder != nil {
+		return *x.SortOrder
+	}
+	return 0
+}
+
+type UpdateItemConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Config        *ItemConfig            `protobuf:"bytes,1,opt,name=config,proto3" json:"config,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateItemConfigResponse) Reset() {
+	*x = UpdateItemConfigResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[40]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateItemConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateItemConfigResponse) ProtoMessage() {}
+
+func (x *UpdateItemConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[40]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateItemConfigResponse.ProtoReflect.Descriptor instead.
+func (*UpdateItemConfigResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{40}
+}
+
+func (x *UpdateItemConfigResponse) GetConfig() *ItemConfig {
+	if x != nil {
+		return x.Config
+	}
+	return nil
+}
+
+// DeleteItemConfig - deletes a custom config (system configs cannot be deleted)
+type DeleteItemConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteItemConfigRequest) Reset() {
+	*x = DeleteItemConfigRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[41]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteItemConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteItemConfigRequest) ProtoMessage() {}
+
+func (x *DeleteItemConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[41]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteItemConfigRequest.ProtoReflect.Descriptor instead.
+func (*DeleteItemConfigRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{41}
+}
+
+func (x *DeleteItemConfigRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+type DeleteItemConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Success       bool                   `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteItemConfigResponse) Reset() {
+	*x = DeleteItemConfigResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[42]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteItemConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteItemConfigResponse) ProtoMessage() {}
+
+func (x *DeleteItemConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[42]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteItemConfigResponse.ProtoReflect.Descriptor instead.
+func (*DeleteItemConfigResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{42}
+}
+
+func (x *DeleteItemConfigResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
 var File_echo_v1_plan_proto protoreflect.FileDescriptor
 
 const file_echo_v1_plan_proto_rawDesc = "" +
@@ -2623,7 +3311,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x06labels\x18\t \x03(\v2!.echo.v1.PlanCategory.LabelsEntryR\x06labels\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa8\x05\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xd8\x05\n" +
 	"\bPlanItem\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12*\n" +
@@ -2644,13 +3332,16 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x06labels\x18\f \x03(\v2\x1d.echo.v1.PlanItem.LabelsEntryR\x06labels\x12.\n" +
 	"\titem_type\x18\r \x01(\x0e2\x11.echo.v1.ItemTypeR\bitemType\x12?\n" +
 	"\x19recurring_subscription_id\x18\x0e \x01(\tH\x00R\x17recurringSubscriptionId\x88\x01\x01\x12\x1c\n" +
-	"\agoal_id\x18\x0f \x01(\tH\x01R\x06goalId\x88\x01\x01\x1a9\n" +
+	"\agoal_id\x18\x0f \x01(\tH\x01R\x06goalId\x88\x01\x01\x12 \n" +
+	"\tconfig_id\x18\x10 \x01(\tH\x02R\bconfigId\x88\x01\x01\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\x1c\n" +
 	"\x1a_recurring_subscription_idB\n" +
 	"\n" +
-	"\b_goal_id\"\x94\x02\n" +
+	"\b_goal_idB\f\n" +
+	"\n" +
+	"_config_id\"\x94\x02\n" +
 	"\n" +
 	"PlanConfig\x12\x1d\n" +
 	"\n" +
@@ -2684,7 +3375,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x06labels\x18\x04 \x03(\v2(.echo.v1.CreateCategoryInput.LabelsEntryR\x06labels\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe7\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x97\x03\n" +
 	"\x0fCreateItemInput\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04name\x12%\n" +
 	"\x0ebudgeted_minor\x18\x02 \x01(\x03R\rbudgetedMinor\x124\n" +
@@ -2693,10 +3384,13 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\n" +
 	"field_type\x18\x04 \x01(\x0e2\x12.echo.v1.FieldTypeR\tfieldType\x12<\n" +
 	"\x06labels\x18\x05 \x03(\v2$.echo.v1.CreateItemInput.LabelsEntryR\x06labels\x12.\n" +
-	"\titem_type\x18\x06 \x01(\x0e2\x11.echo.v1.ItemTypeR\bitemType\x1a9\n" +
+	"\titem_type\x18\x06 \x01(\x0e2\x11.echo.v1.ItemTypeR\bitemType\x12 \n" +
+	"\tconfig_id\x18\a \x01(\tH\x00R\bconfigId\x88\x01\x01\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\";\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\f\n" +
+	"\n" +
+	"_config_id\";\n" +
 	"\x12CreatePlanResponse\x12%\n" +
 	"\x04plan\x18\x01 \x01(\v2\x11.echo.v1.UserPlanR\x04plan\"3\n" +
 	"\x0eGetPlanRequest\x12!\n" +
@@ -2792,7 +3486,61 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\rUnmatchedItem\x12\x17\n" +
 	"\aitem_id\x18\x01 \x01(\tR\x06itemId\x12\x1b\n" +
 	"\titem_name\x18\x02 \x01(\tR\bitemName\x12\x16\n" +
-	"\x06reason\x18\x03 \x01(\tR\x06reason*\x8a\x01\n" +
+	"\x06reason\x18\x03 \x01(\tR\x06reason\"\xa4\x02\n" +
+	"\n" +
+	"ItemConfig\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
+	"\x05label\x18\x02 \x01(\tR\x05label\x12\x1d\n" +
+	"\n" +
+	"short_code\x18\x03 \x01(\tR\tshortCode\x121\n" +
+	"\bbehavior\x18\x04 \x01(\x0e2\x15.echo.v1.ItemBehaviorR\bbehavior\x121\n" +
+	"\n" +
+	"target_tab\x18\x05 \x01(\x0e2\x12.echo.v1.TargetTabR\ttargetTab\x12\x1b\n" +
+	"\tcolor_hex\x18\x06 \x01(\tR\bcolorHex\x12\x12\n" +
+	"\x04icon\x18\a \x01(\tR\x04icon\x12\x1b\n" +
+	"\tis_system\x18\b \x01(\bR\bisSystem\x12\x1d\n" +
+	"\n" +
+	"sort_order\x18\t \x01(\x05R\tsortOrder\"\x18\n" +
+	"\x16ListItemConfigsRequest\"H\n" +
+	"\x17ListItemConfigsResponse\x12-\n" +
+	"\aconfigs\x18\x01 \x03(\v2\x13.echo.v1.ItemConfigR\aconfigs\"\xf9\x01\n" +
+	"\x17CreateItemConfigRequest\x12\x1d\n" +
+	"\x05label\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x05label\x12(\n" +
+	"\n" +
+	"short_code\x18\x02 \x01(\tB\t\xbaH\x06r\x04\x10\x01\x18\x03R\tshortCode\x121\n" +
+	"\bbehavior\x18\x03 \x01(\x0e2\x15.echo.v1.ItemBehaviorR\bbehavior\x121\n" +
+	"\n" +
+	"target_tab\x18\x04 \x01(\x0e2\x12.echo.v1.TargetTabR\ttargetTab\x12\x1b\n" +
+	"\tcolor_hex\x18\x05 \x01(\tR\bcolorHex\x12\x12\n" +
+	"\x04icon\x18\x06 \x01(\tR\x04icon\"G\n" +
+	"\x18CreateItemConfigResponse\x12+\n" +
+	"\x06config\x18\x01 \x01(\v2\x13.echo.v1.ItemConfigR\x06config\"\x9c\x03\n" +
+	"\x17UpdateItemConfigRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\x12\x19\n" +
+	"\x05label\x18\x02 \x01(\tH\x00R\x05label\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"short_code\x18\x03 \x01(\tH\x01R\tshortCode\x88\x01\x01\x126\n" +
+	"\bbehavior\x18\x04 \x01(\x0e2\x15.echo.v1.ItemBehaviorH\x02R\bbehavior\x88\x01\x01\x126\n" +
+	"\n" +
+	"target_tab\x18\x05 \x01(\x0e2\x12.echo.v1.TargetTabH\x03R\ttargetTab\x88\x01\x01\x12 \n" +
+	"\tcolor_hex\x18\x06 \x01(\tH\x04R\bcolorHex\x88\x01\x01\x12\x17\n" +
+	"\x04icon\x18\a \x01(\tH\x05R\x04icon\x88\x01\x01\x12\"\n" +
+	"\n" +
+	"sort_order\x18\b \x01(\x05H\x06R\tsortOrder\x88\x01\x01B\b\n" +
+	"\x06_labelB\r\n" +
+	"\v_short_codeB\v\n" +
+	"\t_behaviorB\r\n" +
+	"\v_target_tabB\f\n" +
+	"\n" +
+	"_color_hexB\a\n" +
+	"\x05_iconB\r\n" +
+	"\v_sort_order\"G\n" +
+	"\x18UpdateItemConfigResponse\x12+\n" +
+	"\x06config\x18\x01 \x01(\v2\x13.echo.v1.ItemConfigR\x06config\"3\n" +
+	"\x17DeleteItemConfigRequest\x12\x18\n" +
+	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\"4\n" +
+	"\x18DeleteItemConfigResponse\x12\x18\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess*\x8a\x01\n" +
 	"\x0ePlanSourceType\x12 \n" +
 	"\x1cPLAN_SOURCE_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17PLAN_SOURCE_TYPE_MANUAL\x10\x01\x12\x1a\n" +
@@ -2822,7 +3570,21 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x10ITEM_TYPE_BUDGET\x10\x01\x12\x17\n" +
 	"\x13ITEM_TYPE_RECURRING\x10\x02\x12\x12\n" +
 	"\x0eITEM_TYPE_GOAL\x10\x03\x12\x14\n" +
-	"\x10ITEM_TYPE_INCOME\x10\x042\xa7\x06\n" +
+	"\x10ITEM_TYPE_INCOME\x10\x04*\x98\x01\n" +
+	"\fItemBehavior\x12\x1d\n" +
+	"\x19ITEM_BEHAVIOR_UNSPECIFIED\x10\x00\x12\x19\n" +
+	"\x15ITEM_BEHAVIOR_OUTFLOW\x10\x01\x12\x18\n" +
+	"\x14ITEM_BEHAVIOR_INFLOW\x10\x02\x12\x17\n" +
+	"\x13ITEM_BEHAVIOR_ASSET\x10\x03\x12\x1b\n" +
+	"\x17ITEM_BEHAVIOR_LIABILITY\x10\x04*\xbc\x01\n" +
+	"\tTargetTab\x12\x1a\n" +
+	"\x16TARGET_TAB_UNSPECIFIED\x10\x00\x12\x16\n" +
+	"\x12TARGET_TAB_BUDGETS\x10\x01\x12\x18\n" +
+	"\x14TARGET_TAB_RECURRING\x10\x02\x12\x14\n" +
+	"\x10TARGET_TAB_GOALS\x10\x03\x12\x15\n" +
+	"\x11TARGET_TAB_INCOME\x10\x04\x12\x18\n" +
+	"\x14TARGET_TAB_PORTFOLIO\x10\x05\x12\x1a\n" +
+	"\x16TARGET_TAB_LIABILITIES\x10\x062\x88\t\n" +
 	"\vPlanService\x12E\n" +
 	"\n" +
 	"CreatePlan\x12\x1a.echo.v1.CreatePlanRequest\x1a\x1b.echo.v1.CreatePlanResponse\x12<\n" +
@@ -2836,7 +3598,11 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\rDuplicatePlan\x12\x1d.echo.v1.DuplicatePlanRequest\x1a\x1e.echo.v1.DuplicatePlanResponse\x12`\n" +
 	"\x13ImportPlanFromExcel\x12#.echo.v1.ImportPlanFromExcelRequest\x1a$.echo.v1.ImportPlanFromExcelResponse\x12`\n" +
 	"\x13AnalyzeExcelForPlan\x12#.echo.v1.AnalyzeExcelForPlanRequest\x1a$.echo.v1.AnalyzeExcelForPlanResponse\x12]\n" +
-	"\x12ComputePlanActuals\x12\".echo.v1.ComputePlanActualsRequest\x1a#.echo.v1.ComputePlanActualsResponseB\xa0\x01\n" +
+	"\x12ComputePlanActuals\x12\".echo.v1.ComputePlanActualsRequest\x1a#.echo.v1.ComputePlanActualsResponse\x12T\n" +
+	"\x0fListItemConfigs\x12\x1f.echo.v1.ListItemConfigsRequest\x1a .echo.v1.ListItemConfigsResponse\x12W\n" +
+	"\x10CreateItemConfig\x12 .echo.v1.CreateItemConfigRequest\x1a!.echo.v1.CreateItemConfigResponse\x12W\n" +
+	"\x10UpdateItemConfig\x12 .echo.v1.UpdateItemConfigRequest\x1a!.echo.v1.UpdateItemConfigResponse\x12W\n" +
+	"\x10DeleteItemConfig\x12 .echo.v1.DeleteItemConfigRequest\x1a!.echo.v1.DeleteItemConfigResponseB\xa0\x01\n" +
 	"\vcom.echo.v1B\tPlanProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -2851,132 +3617,160 @@ func file_echo_v1_plan_proto_rawDescGZIP() []byte {
 	return file_echo_v1_plan_proto_rawDescData
 }
 
-var file_echo_v1_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 5)
-var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 41)
+var file_echo_v1_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
+var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
 var file_echo_v1_plan_proto_goTypes = []any{
 	(PlanSourceType)(0),                 // 0: echo.v1.PlanSourceType
 	(PlanStatus)(0),                     // 1: echo.v1.PlanStatus
 	(WidgetType)(0),                     // 2: echo.v1.WidgetType
 	(FieldType)(0),                      // 3: echo.v1.FieldType
 	(ItemType)(0),                       // 4: echo.v1.ItemType
-	(*UserPlan)(nil),                    // 5: echo.v1.UserPlan
-	(*PlanCategoryGroup)(nil),           // 6: echo.v1.PlanCategoryGroup
-	(*PlanCategory)(nil),                // 7: echo.v1.PlanCategory
-	(*PlanItem)(nil),                    // 8: echo.v1.PlanItem
-	(*PlanConfig)(nil),                  // 9: echo.v1.PlanConfig
-	(*CreatePlanRequest)(nil),           // 10: echo.v1.CreatePlanRequest
-	(*CreateCategoryGroupInput)(nil),    // 11: echo.v1.CreateCategoryGroupInput
-	(*CreateCategoryInput)(nil),         // 12: echo.v1.CreateCategoryInput
-	(*CreateItemInput)(nil),             // 13: echo.v1.CreateItemInput
-	(*CreatePlanResponse)(nil),          // 14: echo.v1.CreatePlanResponse
-	(*GetPlanRequest)(nil),              // 15: echo.v1.GetPlanRequest
-	(*GetPlanResponse)(nil),             // 16: echo.v1.GetPlanResponse
-	(*ListPlansRequest)(nil),            // 17: echo.v1.ListPlansRequest
-	(*ListPlansResponse)(nil),           // 18: echo.v1.ListPlansResponse
-	(*UpdatePlanRequest)(nil),           // 19: echo.v1.UpdatePlanRequest
-	(*UpdateItemInput)(nil),             // 20: echo.v1.UpdateItemInput
-	(*UpdatePlanResponse)(nil),          // 21: echo.v1.UpdatePlanResponse
-	(*DeletePlanRequest)(nil),           // 22: echo.v1.DeletePlanRequest
-	(*DeletePlanResponse)(nil),          // 23: echo.v1.DeletePlanResponse
-	(*SetActivePlanRequest)(nil),        // 24: echo.v1.SetActivePlanRequest
-	(*SetActivePlanResponse)(nil),       // 25: echo.v1.SetActivePlanResponse
-	(*DuplicatePlanRequest)(nil),        // 26: echo.v1.DuplicatePlanRequest
-	(*DuplicatePlanResponse)(nil),       // 27: echo.v1.DuplicatePlanResponse
-	(*ImportPlanFromExcelRequest)(nil),  // 28: echo.v1.ImportPlanFromExcelRequest
-	(*ExcelMappingConfig)(nil),          // 29: echo.v1.ExcelMappingConfig
-	(*ImportPlanFromExcelResponse)(nil), // 30: echo.v1.ImportPlanFromExcelResponse
-	(*AnalyzeExcelForPlanRequest)(nil),  // 31: echo.v1.AnalyzeExcelForPlanRequest
-	(*AnalyzeExcelForPlanResponse)(nil), // 32: echo.v1.AnalyzeExcelForPlanResponse
-	(*ExcelSheetAnalysis)(nil),          // 33: echo.v1.ExcelSheetAnalysis
-	(*ExcelPreviewRow)(nil),             // 34: echo.v1.ExcelPreviewRow
-	(*DetectedColumnMapping)(nil),       // 35: echo.v1.DetectedColumnMapping
-	(*ComputePlanActualsRequest)(nil),   // 36: echo.v1.ComputePlanActualsRequest
-	(*ComputePlanActualsResponse)(nil),  // 37: echo.v1.ComputePlanActualsResponse
-	(*UnmatchedItem)(nil),               // 38: echo.v1.UnmatchedItem
-	nil,                                 // 39: echo.v1.PlanCategoryGroup.LabelsEntry
-	nil,                                 // 40: echo.v1.PlanCategory.LabelsEntry
-	nil,                                 // 41: echo.v1.PlanItem.LabelsEntry
-	nil,                                 // 42: echo.v1.PlanConfig.FormulaMappingsEntry
-	nil,                                 // 43: echo.v1.CreateCategoryGroupInput.LabelsEntry
-	nil,                                 // 44: echo.v1.CreateCategoryInput.LabelsEntry
-	nil,                                 // 45: echo.v1.CreateItemInput.LabelsEntry
-	(*Money)(nil),                       // 46: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),       // 47: google.protobuf.Timestamp
+	(ItemBehavior)(0),                   // 5: echo.v1.ItemBehavior
+	(TargetTab)(0),                      // 6: echo.v1.TargetTab
+	(*UserPlan)(nil),                    // 7: echo.v1.UserPlan
+	(*PlanCategoryGroup)(nil),           // 8: echo.v1.PlanCategoryGroup
+	(*PlanCategory)(nil),                // 9: echo.v1.PlanCategory
+	(*PlanItem)(nil),                    // 10: echo.v1.PlanItem
+	(*PlanConfig)(nil),                  // 11: echo.v1.PlanConfig
+	(*CreatePlanRequest)(nil),           // 12: echo.v1.CreatePlanRequest
+	(*CreateCategoryGroupInput)(nil),    // 13: echo.v1.CreateCategoryGroupInput
+	(*CreateCategoryInput)(nil),         // 14: echo.v1.CreateCategoryInput
+	(*CreateItemInput)(nil),             // 15: echo.v1.CreateItemInput
+	(*CreatePlanResponse)(nil),          // 16: echo.v1.CreatePlanResponse
+	(*GetPlanRequest)(nil),              // 17: echo.v1.GetPlanRequest
+	(*GetPlanResponse)(nil),             // 18: echo.v1.GetPlanResponse
+	(*ListPlansRequest)(nil),            // 19: echo.v1.ListPlansRequest
+	(*ListPlansResponse)(nil),           // 20: echo.v1.ListPlansResponse
+	(*UpdatePlanRequest)(nil),           // 21: echo.v1.UpdatePlanRequest
+	(*UpdateItemInput)(nil),             // 22: echo.v1.UpdateItemInput
+	(*UpdatePlanResponse)(nil),          // 23: echo.v1.UpdatePlanResponse
+	(*DeletePlanRequest)(nil),           // 24: echo.v1.DeletePlanRequest
+	(*DeletePlanResponse)(nil),          // 25: echo.v1.DeletePlanResponse
+	(*SetActivePlanRequest)(nil),        // 26: echo.v1.SetActivePlanRequest
+	(*SetActivePlanResponse)(nil),       // 27: echo.v1.SetActivePlanResponse
+	(*DuplicatePlanRequest)(nil),        // 28: echo.v1.DuplicatePlanRequest
+	(*DuplicatePlanResponse)(nil),       // 29: echo.v1.DuplicatePlanResponse
+	(*ImportPlanFromExcelRequest)(nil),  // 30: echo.v1.ImportPlanFromExcelRequest
+	(*ExcelMappingConfig)(nil),          // 31: echo.v1.ExcelMappingConfig
+	(*ImportPlanFromExcelResponse)(nil), // 32: echo.v1.ImportPlanFromExcelResponse
+	(*AnalyzeExcelForPlanRequest)(nil),  // 33: echo.v1.AnalyzeExcelForPlanRequest
+	(*AnalyzeExcelForPlanResponse)(nil), // 34: echo.v1.AnalyzeExcelForPlanResponse
+	(*ExcelSheetAnalysis)(nil),          // 35: echo.v1.ExcelSheetAnalysis
+	(*ExcelPreviewRow)(nil),             // 36: echo.v1.ExcelPreviewRow
+	(*DetectedColumnMapping)(nil),       // 37: echo.v1.DetectedColumnMapping
+	(*ComputePlanActualsRequest)(nil),   // 38: echo.v1.ComputePlanActualsRequest
+	(*ComputePlanActualsResponse)(nil),  // 39: echo.v1.ComputePlanActualsResponse
+	(*UnmatchedItem)(nil),               // 40: echo.v1.UnmatchedItem
+	(*ItemConfig)(nil),                  // 41: echo.v1.ItemConfig
+	(*ListItemConfigsRequest)(nil),      // 42: echo.v1.ListItemConfigsRequest
+	(*ListItemConfigsResponse)(nil),     // 43: echo.v1.ListItemConfigsResponse
+	(*CreateItemConfigRequest)(nil),     // 44: echo.v1.CreateItemConfigRequest
+	(*CreateItemConfigResponse)(nil),    // 45: echo.v1.CreateItemConfigResponse
+	(*UpdateItemConfigRequest)(nil),     // 46: echo.v1.UpdateItemConfigRequest
+	(*UpdateItemConfigResponse)(nil),    // 47: echo.v1.UpdateItemConfigResponse
+	(*DeleteItemConfigRequest)(nil),     // 48: echo.v1.DeleteItemConfigRequest
+	(*DeleteItemConfigResponse)(nil),    // 49: echo.v1.DeleteItemConfigResponse
+	nil,                                 // 50: echo.v1.PlanCategoryGroup.LabelsEntry
+	nil,                                 // 51: echo.v1.PlanCategory.LabelsEntry
+	nil,                                 // 52: echo.v1.PlanItem.LabelsEntry
+	nil,                                 // 53: echo.v1.PlanConfig.FormulaMappingsEntry
+	nil,                                 // 54: echo.v1.CreateCategoryGroupInput.LabelsEntry
+	nil,                                 // 55: echo.v1.CreateCategoryInput.LabelsEntry
+	nil,                                 // 56: echo.v1.CreateItemInput.LabelsEntry
+	(*Money)(nil),                       // 57: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),       // 58: google.protobuf.Timestamp
 }
 var file_echo_v1_plan_proto_depIdxs = []int32{
 	1,  // 0: echo.v1.UserPlan.status:type_name -> echo.v1.PlanStatus
 	0,  // 1: echo.v1.UserPlan.source_type:type_name -> echo.v1.PlanSourceType
-	46, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
-	46, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
-	46, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
-	6,  // 5: echo.v1.UserPlan.category_groups:type_name -> echo.v1.PlanCategoryGroup
-	9,  // 6: echo.v1.UserPlan.config:type_name -> echo.v1.PlanConfig
-	47, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
-	47, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
-	7,  // 9: echo.v1.PlanCategoryGroup.categories:type_name -> echo.v1.PlanCategory
-	39, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
-	8,  // 11: echo.v1.PlanCategory.items:type_name -> echo.v1.PlanItem
-	46, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
-	46, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
-	40, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
-	46, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
-	46, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
+	57, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
+	57, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
+	57, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
+	8,  // 5: echo.v1.UserPlan.category_groups:type_name -> echo.v1.PlanCategoryGroup
+	11, // 6: echo.v1.UserPlan.config:type_name -> echo.v1.PlanConfig
+	58, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
+	58, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
+	9,  // 9: echo.v1.PlanCategoryGroup.categories:type_name -> echo.v1.PlanCategory
+	50, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
+	10, // 11: echo.v1.PlanCategory.items:type_name -> echo.v1.PlanItem
+	57, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
+	57, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
+	51, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
+	57, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
+	57, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
 	2,  // 17: echo.v1.PlanItem.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 18: echo.v1.PlanItem.field_type:type_name -> echo.v1.FieldType
-	41, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
+	52, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
 	4,  // 20: echo.v1.PlanItem.item_type:type_name -> echo.v1.ItemType
-	42, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
-	11, // 22: echo.v1.CreatePlanRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
-	12, // 23: echo.v1.CreateCategoryGroupInput.categories:type_name -> echo.v1.CreateCategoryInput
-	43, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
-	13, // 25: echo.v1.CreateCategoryInput.items:type_name -> echo.v1.CreateItemInput
-	44, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
+	53, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
+	13, // 22: echo.v1.CreatePlanRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
+	14, // 23: echo.v1.CreateCategoryGroupInput.categories:type_name -> echo.v1.CreateCategoryInput
+	54, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
+	15, // 25: echo.v1.CreateCategoryInput.items:type_name -> echo.v1.CreateItemInput
+	55, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
 	2,  // 27: echo.v1.CreateItemInput.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 28: echo.v1.CreateItemInput.field_type:type_name -> echo.v1.FieldType
-	45, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
+	56, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
 	4,  // 30: echo.v1.CreateItemInput.item_type:type_name -> echo.v1.ItemType
-	5,  // 31: echo.v1.CreatePlanResponse.plan:type_name -> echo.v1.UserPlan
-	5,  // 32: echo.v1.GetPlanResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 31: echo.v1.CreatePlanResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 32: echo.v1.GetPlanResponse.plan:type_name -> echo.v1.UserPlan
 	1,  // 33: echo.v1.ListPlansRequest.status_filter:type_name -> echo.v1.PlanStatus
-	5,  // 34: echo.v1.ListPlansResponse.plans:type_name -> echo.v1.UserPlan
-	20, // 35: echo.v1.UpdatePlanRequest.items:type_name -> echo.v1.UpdateItemInput
-	5,  // 36: echo.v1.UpdatePlanResponse.plan:type_name -> echo.v1.UserPlan
-	5,  // 37: echo.v1.SetActivePlanResponse.plan:type_name -> echo.v1.UserPlan
-	5,  // 38: echo.v1.DuplicatePlanResponse.plan:type_name -> echo.v1.UserPlan
-	29, // 39: echo.v1.ImportPlanFromExcelRequest.mapping:type_name -> echo.v1.ExcelMappingConfig
-	5,  // 40: echo.v1.ImportPlanFromExcelResponse.plan:type_name -> echo.v1.UserPlan
-	33, // 41: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
-	35, // 42: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
-	34, // 43: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
-	47, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
-	47, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
-	5,  // 46: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
-	38, // 47: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
-	10, // 48: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
-	15, // 49: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
-	17, // 50: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
-	19, // 51: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
-	22, // 52: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
-	24, // 53: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
-	26, // 54: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
-	28, // 55: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
-	31, // 56: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
-	36, // 57: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
-	14, // 58: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
-	16, // 59: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
-	18, // 60: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
-	21, // 61: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
-	23, // 62: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
-	25, // 63: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
-	27, // 64: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
-	30, // 65: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
-	32, // 66: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
-	37, // 67: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
-	58, // [58:68] is the sub-list for method output_type
-	48, // [48:58] is the sub-list for method input_type
-	48, // [48:48] is the sub-list for extension type_name
-	48, // [48:48] is the sub-list for extension extendee
-	0,  // [0:48] is the sub-list for field type_name
+	7,  // 34: echo.v1.ListPlansResponse.plans:type_name -> echo.v1.UserPlan
+	22, // 35: echo.v1.UpdatePlanRequest.items:type_name -> echo.v1.UpdateItemInput
+	7,  // 36: echo.v1.UpdatePlanResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 37: echo.v1.SetActivePlanResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 38: echo.v1.DuplicatePlanResponse.plan:type_name -> echo.v1.UserPlan
+	31, // 39: echo.v1.ImportPlanFromExcelRequest.mapping:type_name -> echo.v1.ExcelMappingConfig
+	7,  // 40: echo.v1.ImportPlanFromExcelResponse.plan:type_name -> echo.v1.UserPlan
+	35, // 41: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
+	37, // 42: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
+	36, // 43: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
+	58, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
+	58, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
+	7,  // 46: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
+	40, // 47: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
+	5,  // 48: echo.v1.ItemConfig.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 49: echo.v1.ItemConfig.target_tab:type_name -> echo.v1.TargetTab
+	41, // 50: echo.v1.ListItemConfigsResponse.configs:type_name -> echo.v1.ItemConfig
+	5,  // 51: echo.v1.CreateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 52: echo.v1.CreateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
+	41, // 53: echo.v1.CreateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
+	5,  // 54: echo.v1.UpdateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 55: echo.v1.UpdateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
+	41, // 56: echo.v1.UpdateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
+	12, // 57: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
+	17, // 58: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
+	19, // 59: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
+	21, // 60: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
+	24, // 61: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
+	26, // 62: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
+	28, // 63: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
+	30, // 64: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
+	33, // 65: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
+	38, // 66: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
+	42, // 67: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
+	44, // 68: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
+	46, // 69: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
+	48, // 70: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
+	16, // 71: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
+	18, // 72: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
+	20, // 73: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
+	23, // 74: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
+	25, // 75: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
+	27, // 76: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
+	29, // 77: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
+	32, // 78: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
+	34, // 79: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
+	39, // 80: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
+	43, // 81: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
+	45, // 82: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
+	47, // 83: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
+	49, // 84: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
+	71, // [71:85] is the sub-list for method output_type
+	57, // [57:71] is the sub-list for method input_type
+	57, // [57:57] is the sub-list for extension type_name
+	57, // [57:57] is the sub-list for extension extendee
+	0,  // [0:57] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_plan_proto_init() }
@@ -2986,14 +3780,16 @@ func file_echo_v1_plan_proto_init() {
 	}
 	file_echo_v1_common_proto_init()
 	file_echo_v1_plan_proto_msgTypes[3].OneofWrappers = []any{}
+	file_echo_v1_plan_proto_msgTypes[8].OneofWrappers = []any{}
 	file_echo_v1_plan_proto_msgTypes[14].OneofWrappers = []any{}
+	file_echo_v1_plan_proto_msgTypes[39].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_plan_proto_rawDesc), len(file_echo_v1_plan_proto_rawDesc)),
-			NumEnums:      5,
-			NumMessages:   41,
+			NumEnums:      7,
+			NumMessages:   50,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

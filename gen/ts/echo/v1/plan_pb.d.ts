@@ -310,6 +310,13 @@ export declare type PlanItem = Message<"echo.v1.PlanItem"> & {
    * @generated from field: optional string goal_id = 15;
    */
   goalId?: string;
+
+  /**
+   * Dynamic config reference (replaces item_type for configurable types)
+   *
+   * @generated from field: optional string config_id = 16;
+   */
+  configId?: string;
 };
 
 /**
@@ -483,11 +490,18 @@ export declare type CreateItemInput = Message<"echo.v1.CreateItemInput"> & {
   labels: { [key: string]: string };
 
   /**
-   * What tab this item appears in
+   * What tab this item appears in (legacy)
    *
    * @generated from field: echo.v1.ItemType item_type = 6;
    */
   itemType: ItemType;
+
+  /**
+   * Dynamic config reference (preferred)
+   *
+   * @generated from field: optional string config_id = 7;
+   */
+  configId?: string;
 };
 
 /**
@@ -1124,6 +1138,272 @@ export declare type UnmatchedItem = Message<"echo.v1.UnmatchedItem"> & {
 export declare const UnmatchedItemSchema: GenMessage<UnmatchedItem>;
 
 /**
+ * ItemConfig represents a user-configurable item type
+ *
+ * @generated from message echo.v1.ItemConfig
+ */
+export declare type ItemConfig = Message<"echo.v1.ItemConfig"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * Display name: "Budget", "Investment"
+   *
+   * @generated from field: string label = 2;
+   */
+  label: string;
+
+  /**
+   * Button code: "B", "I", "D"
+   *
+   * @generated from field: string short_code = 3;
+   */
+  shortCode: string;
+
+  /**
+   * Mathematical behavior
+   *
+   * @generated from field: echo.v1.ItemBehavior behavior = 4;
+   */
+  behavior: ItemBehavior;
+
+  /**
+   * Which UI tab displays items of this type
+   *
+   * @generated from field: echo.v1.TargetTab target_tab = 5;
+   */
+  targetTab: TargetTab;
+
+  /**
+   * Color for UI: "#22c55e"
+   *
+   * @generated from field: string color_hex = 6;
+   */
+  colorHex: string;
+
+  /**
+   * Icon name: "wallet", "trending-up"
+   *
+   * @generated from field: string icon = 7;
+   */
+  icon: string;
+
+  /**
+   * System defaults cannot be deleted
+   *
+   * @generated from field: bool is_system = 8;
+   */
+  isSystem: boolean;
+
+  /**
+   * Display order in type selector
+   *
+   * @generated from field: int32 sort_order = 9;
+   */
+  sortOrder: number;
+};
+
+/**
+ * Describes the message echo.v1.ItemConfig.
+ * Use `create(ItemConfigSchema)` to create a new message.
+ */
+export declare const ItemConfigSchema: GenMessage<ItemConfig>;
+
+/**
+ * ListItemConfigs - returns all configs for current user
+ *
+ * @generated from message echo.v1.ListItemConfigsRequest
+ */
+export declare type ListItemConfigsRequest = Message<"echo.v1.ListItemConfigsRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.ListItemConfigsRequest.
+ * Use `create(ListItemConfigsRequestSchema)` to create a new message.
+ */
+export declare const ListItemConfigsRequestSchema: GenMessage<ListItemConfigsRequest>;
+
+/**
+ * @generated from message echo.v1.ListItemConfigsResponse
+ */
+export declare type ListItemConfigsResponse = Message<"echo.v1.ListItemConfigsResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.ItemConfig configs = 1;
+   */
+  configs: ItemConfig[];
+};
+
+/**
+ * Describes the message echo.v1.ListItemConfigsResponse.
+ * Use `create(ListItemConfigsResponseSchema)` to create a new message.
+ */
+export declare const ListItemConfigsResponseSchema: GenMessage<ListItemConfigsResponse>;
+
+/**
+ * CreateItemConfig - creates a new custom type
+ *
+ * @generated from message echo.v1.CreateItemConfigRequest
+ */
+export declare type CreateItemConfigRequest = Message<"echo.v1.CreateItemConfigRequest"> & {
+  /**
+   * @generated from field: string label = 1;
+   */
+  label: string;
+
+  /**
+   * @generated from field: string short_code = 2;
+   */
+  shortCode: string;
+
+  /**
+   * @generated from field: echo.v1.ItemBehavior behavior = 3;
+   */
+  behavior: ItemBehavior;
+
+  /**
+   * @generated from field: echo.v1.TargetTab target_tab = 4;
+   */
+  targetTab: TargetTab;
+
+  /**
+   * @generated from field: string color_hex = 5;
+   */
+  colorHex: string;
+
+  /**
+   * @generated from field: string icon = 6;
+   */
+  icon: string;
+};
+
+/**
+ * Describes the message echo.v1.CreateItemConfigRequest.
+ * Use `create(CreateItemConfigRequestSchema)` to create a new message.
+ */
+export declare const CreateItemConfigRequestSchema: GenMessage<CreateItemConfigRequest>;
+
+/**
+ * @generated from message echo.v1.CreateItemConfigResponse
+ */
+export declare type CreateItemConfigResponse = Message<"echo.v1.CreateItemConfigResponse"> & {
+  /**
+   * @generated from field: echo.v1.ItemConfig config = 1;
+   */
+  config?: ItemConfig;
+};
+
+/**
+ * Describes the message echo.v1.CreateItemConfigResponse.
+ * Use `create(CreateItemConfigResponseSchema)` to create a new message.
+ */
+export declare const CreateItemConfigResponseSchema: GenMessage<CreateItemConfigResponse>;
+
+/**
+ * UpdateItemConfig - updates an existing config
+ *
+ * @generated from message echo.v1.UpdateItemConfigRequest
+ */
+export declare type UpdateItemConfigRequest = Message<"echo.v1.UpdateItemConfigRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: optional string label = 2;
+   */
+  label?: string;
+
+  /**
+   * @generated from field: optional string short_code = 3;
+   */
+  shortCode?: string;
+
+  /**
+   * @generated from field: optional echo.v1.ItemBehavior behavior = 4;
+   */
+  behavior?: ItemBehavior;
+
+  /**
+   * @generated from field: optional echo.v1.TargetTab target_tab = 5;
+   */
+  targetTab?: TargetTab;
+
+  /**
+   * @generated from field: optional string color_hex = 6;
+   */
+  colorHex?: string;
+
+  /**
+   * @generated from field: optional string icon = 7;
+   */
+  icon?: string;
+
+  /**
+   * @generated from field: optional int32 sort_order = 8;
+   */
+  sortOrder?: number;
+};
+
+/**
+ * Describes the message echo.v1.UpdateItemConfigRequest.
+ * Use `create(UpdateItemConfigRequestSchema)` to create a new message.
+ */
+export declare const UpdateItemConfigRequestSchema: GenMessage<UpdateItemConfigRequest>;
+
+/**
+ * @generated from message echo.v1.UpdateItemConfigResponse
+ */
+export declare type UpdateItemConfigResponse = Message<"echo.v1.UpdateItemConfigResponse"> & {
+  /**
+   * @generated from field: echo.v1.ItemConfig config = 1;
+   */
+  config?: ItemConfig;
+};
+
+/**
+ * Describes the message echo.v1.UpdateItemConfigResponse.
+ * Use `create(UpdateItemConfigResponseSchema)` to create a new message.
+ */
+export declare const UpdateItemConfigResponseSchema: GenMessage<UpdateItemConfigResponse>;
+
+/**
+ * DeleteItemConfig - deletes a custom config (system configs cannot be deleted)
+ *
+ * @generated from message echo.v1.DeleteItemConfigRequest
+ */
+export declare type DeleteItemConfigRequest = Message<"echo.v1.DeleteItemConfigRequest"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+};
+
+/**
+ * Describes the message echo.v1.DeleteItemConfigRequest.
+ * Use `create(DeleteItemConfigRequestSchema)` to create a new message.
+ */
+export declare const DeleteItemConfigRequestSchema: GenMessage<DeleteItemConfigRequest>;
+
+/**
+ * @generated from message echo.v1.DeleteItemConfigResponse
+ */
+export declare type DeleteItemConfigResponse = Message<"echo.v1.DeleteItemConfigResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message echo.v1.DeleteItemConfigResponse.
+ * Use `create(DeleteItemConfigResponseSchema)` to create a new message.
+ */
+export declare const DeleteItemConfigResponseSchema: GenMessage<DeleteItemConfigResponse>;
+
+/**
  * Plan source types
  *
  * @generated from enum echo.v1.PlanSourceType
@@ -1307,6 +1587,98 @@ export enum ItemType {
 export declare const ItemTypeSchema: GenEnum<ItemType>;
 
 /**
+ * Behavior types for mathematical logic (dynamic configs)
+ *
+ * @generated from enum echo.v1.ItemBehavior
+ */
+export enum ItemBehavior {
+  /**
+   * @generated from enum value: ITEM_BEHAVIOR_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Reduces surplus (expenses)
+   *
+   * @generated from enum value: ITEM_BEHAVIOR_OUTFLOW = 1;
+   */
+  OUTFLOW = 1,
+
+  /**
+   * Adds to surplus (income)
+   *
+   * @generated from enum value: ITEM_BEHAVIOR_INFLOW = 2;
+   */
+  INFLOW = 2,
+
+  /**
+   * Tracked on balance sheet (+)
+   *
+   * @generated from enum value: ITEM_BEHAVIOR_ASSET = 3;
+   */
+  ASSET = 3,
+
+  /**
+   * Tracked on balance sheet (-)
+   *
+   * @generated from enum value: ITEM_BEHAVIOR_LIABILITY = 4;
+   */
+  LIABILITY = 4,
+}
+
+/**
+ * Describes the enum echo.v1.ItemBehavior.
+ */
+export declare const ItemBehaviorSchema: GenEnum<ItemBehavior>;
+
+/**
+ * Target tabs where items appear in the UI
+ *
+ * @generated from enum echo.v1.TargetTab
+ */
+export enum TargetTab {
+  /**
+   * @generated from enum value: TARGET_TAB_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: TARGET_TAB_BUDGETS = 1;
+   */
+  BUDGETS = 1,
+
+  /**
+   * @generated from enum value: TARGET_TAB_RECURRING = 2;
+   */
+  RECURRING = 2,
+
+  /**
+   * @generated from enum value: TARGET_TAB_GOALS = 3;
+   */
+  GOALS = 3,
+
+  /**
+   * @generated from enum value: TARGET_TAB_INCOME = 4;
+   */
+  INCOME = 4,
+
+  /**
+   * @generated from enum value: TARGET_TAB_PORTFOLIO = 5;
+   */
+  PORTFOLIO = 5,
+
+  /**
+   * @generated from enum value: TARGET_TAB_LIABILITIES = 6;
+   */
+  LIABILITIES = 6,
+}
+
+/**
+ * Describes the enum echo.v1.TargetTab.
+ */
+export declare const TargetTabSchema: GenEnum<TargetTab>;
+
+/**
  * PlanService manages user financial plans
  *
  * @generated from service echo.v1.PlanService
@@ -1411,6 +1783,46 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof ComputePlanActualsRequestSchema;
     output: typeof ComputePlanActualsResponseSchema;
+  },
+  /**
+   * ListItemConfigs returns all item configs for the current user
+   *
+   * @generated from rpc echo.v1.PlanService.ListItemConfigs
+   */
+  listItemConfigs: {
+    methodKind: "unary";
+    input: typeof ListItemConfigsRequestSchema;
+    output: typeof ListItemConfigsResponseSchema;
+  },
+  /**
+   * CreateItemConfig creates a new custom item type
+   *
+   * @generated from rpc echo.v1.PlanService.CreateItemConfig
+   */
+  createItemConfig: {
+    methodKind: "unary";
+    input: typeof CreateItemConfigRequestSchema;
+    output: typeof CreateItemConfigResponseSchema;
+  },
+  /**
+   * UpdateItemConfig updates an existing item config
+   *
+   * @generated from rpc echo.v1.PlanService.UpdateItemConfig
+   */
+  updateItemConfig: {
+    methodKind: "unary";
+    input: typeof UpdateItemConfigRequestSchema;
+    output: typeof UpdateItemConfigResponseSchema;
+  },
+  /**
+   * DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
+   *
+   * @generated from rpc echo.v1.PlanService.DeleteItemConfig
+   */
+  deleteItemConfig: {
+    methodKind: "unary";
+    input: typeof DeleteItemConfigRequestSchema;
+    output: typeof DeleteItemConfigResponseSchema;
   },
 }>;
 

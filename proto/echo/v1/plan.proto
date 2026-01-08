@@ -39,6 +39,21 @@ service PlanService {
 
   // ComputePlanActuals syncs actual spending from transactions to plan items
   rpc ComputePlanActuals(ComputePlanActualsRequest) returns (ComputePlanActualsResponse);
+
+  // ============= Item Config Management =============
+  // User-configurable item types (Budget, Recurring, Income, etc.)
+  
+  // ListItemConfigs returns all item configs for the current user
+  rpc ListItemConfigs(ListItemConfigsRequest) returns (ListItemConfigsResponse);
+  
+  // CreateItemConfig creates a new custom item type
+  rpc CreateItemConfig(CreateItemConfigRequest) returns (CreateItemConfigResponse);
+  
+  // UpdateItemConfig updates an existing item config
+  rpc UpdateItemConfig(UpdateItemConfigRequest) returns (UpdateItemConfigResponse);
+  
+  // DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
+  rpc DeleteItemConfig(DeleteItemConfigRequest) returns (DeleteItemConfigResponse);
 }
 
 // Plan source types
@@ -82,6 +97,26 @@ enum ItemType {
   ITEM_TYPE_RECURRING = 2;   // Subscription tracked in Recurring tab  
   ITEM_TYPE_GOAL = 3;        // Savings target tracked in Goals tab
   ITEM_TYPE_INCOME = 4;      // Income source
+}
+
+// Behavior types for mathematical logic (dynamic configs)
+enum ItemBehavior {
+  ITEM_BEHAVIOR_UNSPECIFIED = 0;
+  ITEM_BEHAVIOR_OUTFLOW = 1;    // Reduces surplus (expenses)
+  ITEM_BEHAVIOR_INFLOW = 2;     // Adds to surplus (income)
+  ITEM_BEHAVIOR_ASSET = 3;      // Tracked on balance sheet (+)
+  ITEM_BEHAVIOR_LIABILITY = 4;  // Tracked on balance sheet (-)
+}
+
+// Target tabs where items appear in the UI
+enum TargetTab {
+  TARGET_TAB_UNSPECIFIED = 0;
+  TARGET_TAB_BUDGETS = 1;
+  TARGET_TAB_RECURRING = 2;
+  TARGET_TAB_GOALS = 3;
+  TARGET_TAB_INCOME = 4;
+  TARGET_TAB_PORTFOLIO = 5;
+  TARGET_TAB_LIABILITIES = 6;
 }
 
 // UserPlan represents a user's financial plan
@@ -173,6 +208,9 @@ message PlanItem {
 
   // Link to goal (for savings targets)
   optional string goal_id = 15;
+
+  // Dynamic config reference (replaces item_type for configurable types)
+  optional string config_id = 16;
 }
 
 // PlanConfig holds plan-level configuration
@@ -217,7 +255,8 @@ message CreateItemInput {
   WidgetType widget_type = 3;
   FieldType field_type = 4;
   map<string, string> labels = 5;
-  ItemType item_type = 6;  // What tab this item appears in
+  ItemType item_type = 6;  // What tab this item appears in (legacy)
+  optional string config_id = 7;  // Dynamic config reference (preferred)
 }
 
 message CreatePlanResponse {
@@ -365,4 +404,65 @@ message UnmatchedItem {
   string item_id = 1;
   string item_name = 2;
   string reason = 3; // e.g., "no_category_mapping", "no_transactions"
+}
+
+// ============= Item Config Messages =============
+
+// ItemConfig represents a user-configurable item type
+message ItemConfig {
+  string id = 1;
+  string label = 2;           // Display name: "Budget", "Investment"
+  string short_code = 3;      // Button code: "B", "I", "D"
+  ItemBehavior behavior = 4;  // Mathematical behavior
+  TargetTab target_tab = 5;   // Which UI tab displays items of this type
+  string color_hex = 6;       // Color for UI: "#22c55e"
+  string icon = 7;            // Icon name: "wallet", "trending-up"
+  bool is_system = 8;         // System defaults cannot be deleted
+  int32 sort_order = 9;       // Display order in type selector
+}
+
+// ListItemConfigs - returns all configs for current user
+message ListItemConfigsRequest {}
+
+message ListItemConfigsResponse {
+  repeated ItemConfig configs = 1;
+}
+
+// CreateItemConfig - creates a new custom type
+message CreateItemConfigRequest {
+  string label = 1 [(buf.validate.field).string.min_len = 1];
+  string short_code = 2 [(buf.validate.field).string = {min_len: 1, max_len: 3}];
+  ItemBehavior behavior = 3;
+  TargetTab target_tab = 4;
+  string color_hex = 5;
+  string icon = 6;
+}
+
+message CreateItemConfigResponse {
+  ItemConfig config = 1;
+}
+
+// UpdateItemConfig - updates an existing config
+message UpdateItemConfigRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  optional string label = 2;
+  optional string short_code = 3;
+  optional ItemBehavior behavior = 4;
+  optional TargetTab target_tab = 5;
+  optional string color_hex = 6;
+  optional string icon = 7;
+  optional int32 sort_order = 8;
+}
+
+message UpdateItemConfigResponse {
+  ItemConfig config = 1;
+}
+
+// DeleteItemConfig - deletes a custom config (system configs cannot be deleted)
+message DeleteItemConfigRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message DeleteItemConfigResponse {
+  bool success = 1;
 }

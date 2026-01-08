@@ -58,6 +58,18 @@ const (
 	// PlanServiceComputePlanActualsProcedure is the fully-qualified name of the PlanService's
 	// ComputePlanActuals RPC.
 	PlanServiceComputePlanActualsProcedure = "/echo.v1.PlanService/ComputePlanActuals"
+	// PlanServiceListItemConfigsProcedure is the fully-qualified name of the PlanService's
+	// ListItemConfigs RPC.
+	PlanServiceListItemConfigsProcedure = "/echo.v1.PlanService/ListItemConfigs"
+	// PlanServiceCreateItemConfigProcedure is the fully-qualified name of the PlanService's
+	// CreateItemConfig RPC.
+	PlanServiceCreateItemConfigProcedure = "/echo.v1.PlanService/CreateItemConfig"
+	// PlanServiceUpdateItemConfigProcedure is the fully-qualified name of the PlanService's
+	// UpdateItemConfig RPC.
+	PlanServiceUpdateItemConfigProcedure = "/echo.v1.PlanService/UpdateItemConfig"
+	// PlanServiceDeleteItemConfigProcedure is the fully-qualified name of the PlanService's
+	// DeleteItemConfig RPC.
+	PlanServiceDeleteItemConfigProcedure = "/echo.v1.PlanService/DeleteItemConfig"
 )
 
 // PlanServiceClient is a client for the echo.v1.PlanService service.
@@ -82,6 +94,14 @@ type PlanServiceClient interface {
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
 	// ComputePlanActuals syncs actual spending from transactions to plan items
 	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
+	// ListItemConfigs returns all item configs for the current user
+	ListItemConfigs(context.Context, *connect.Request[v1.ListItemConfigsRequest]) (*connect.Response[v1.ListItemConfigsResponse], error)
+	// CreateItemConfig creates a new custom item type
+	CreateItemConfig(context.Context, *connect.Request[v1.CreateItemConfigRequest]) (*connect.Response[v1.CreateItemConfigResponse], error)
+	// UpdateItemConfig updates an existing item config
+	UpdateItemConfig(context.Context, *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error)
+	// DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
+	DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error)
 }
 
 // NewPlanServiceClient constructs a client for the echo.v1.PlanService service. By default, it uses
@@ -155,6 +175,30 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(planServiceMethods.ByName("ComputePlanActuals")),
 			connect.WithClientOptions(opts...),
 		),
+		listItemConfigs: connect.NewClient[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse](
+			httpClient,
+			baseURL+PlanServiceListItemConfigsProcedure,
+			connect.WithSchema(planServiceMethods.ByName("ListItemConfigs")),
+			connect.WithClientOptions(opts...),
+		),
+		createItemConfig: connect.NewClient[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse](
+			httpClient,
+			baseURL+PlanServiceCreateItemConfigProcedure,
+			connect.WithSchema(planServiceMethods.ByName("CreateItemConfig")),
+			connect.WithClientOptions(opts...),
+		),
+		updateItemConfig: connect.NewClient[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse](
+			httpClient,
+			baseURL+PlanServiceUpdateItemConfigProcedure,
+			connect.WithSchema(planServiceMethods.ByName("UpdateItemConfig")),
+			connect.WithClientOptions(opts...),
+		),
+		deleteItemConfig: connect.NewClient[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse](
+			httpClient,
+			baseURL+PlanServiceDeleteItemConfigProcedure,
+			connect.WithSchema(planServiceMethods.ByName("DeleteItemConfig")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -170,6 +214,10 @@ type planServiceClient struct {
 	importPlanFromExcel *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
 	analyzeExcelForPlan *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
 	computePlanActuals  *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
+	listItemConfigs     *connect.Client[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse]
+	createItemConfig    *connect.Client[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse]
+	updateItemConfig    *connect.Client[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse]
+	deleteItemConfig    *connect.Client[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse]
 }
 
 // CreatePlan calls echo.v1.PlanService.CreatePlan.
@@ -222,6 +270,26 @@ func (c *planServiceClient) ComputePlanActuals(ctx context.Context, req *connect
 	return c.computePlanActuals.CallUnary(ctx, req)
 }
 
+// ListItemConfigs calls echo.v1.PlanService.ListItemConfigs.
+func (c *planServiceClient) ListItemConfigs(ctx context.Context, req *connect.Request[v1.ListItemConfigsRequest]) (*connect.Response[v1.ListItemConfigsResponse], error) {
+	return c.listItemConfigs.CallUnary(ctx, req)
+}
+
+// CreateItemConfig calls echo.v1.PlanService.CreateItemConfig.
+func (c *planServiceClient) CreateItemConfig(ctx context.Context, req *connect.Request[v1.CreateItemConfigRequest]) (*connect.Response[v1.CreateItemConfigResponse], error) {
+	return c.createItemConfig.CallUnary(ctx, req)
+}
+
+// UpdateItemConfig calls echo.v1.PlanService.UpdateItemConfig.
+func (c *planServiceClient) UpdateItemConfig(ctx context.Context, req *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error) {
+	return c.updateItemConfig.CallUnary(ctx, req)
+}
+
+// DeleteItemConfig calls echo.v1.PlanService.DeleteItemConfig.
+func (c *planServiceClient) DeleteItemConfig(ctx context.Context, req *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error) {
+	return c.deleteItemConfig.CallUnary(ctx, req)
+}
+
 // PlanServiceHandler is an implementation of the echo.v1.PlanService service.
 type PlanServiceHandler interface {
 	// CreatePlan creates a new financial plan
@@ -244,6 +312,14 @@ type PlanServiceHandler interface {
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
 	// ComputePlanActuals syncs actual spending from transactions to plan items
 	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
+	// ListItemConfigs returns all item configs for the current user
+	ListItemConfigs(context.Context, *connect.Request[v1.ListItemConfigsRequest]) (*connect.Response[v1.ListItemConfigsResponse], error)
+	// CreateItemConfig creates a new custom item type
+	CreateItemConfig(context.Context, *connect.Request[v1.CreateItemConfigRequest]) (*connect.Response[v1.CreateItemConfigResponse], error)
+	// UpdateItemConfig updates an existing item config
+	UpdateItemConfig(context.Context, *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error)
+	// DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
+	DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error)
 }
 
 // NewPlanServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -313,6 +389,30 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(planServiceMethods.ByName("ComputePlanActuals")),
 		connect.WithHandlerOptions(opts...),
 	)
+	planServiceListItemConfigsHandler := connect.NewUnaryHandler(
+		PlanServiceListItemConfigsProcedure,
+		svc.ListItemConfigs,
+		connect.WithSchema(planServiceMethods.ByName("ListItemConfigs")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceCreateItemConfigHandler := connect.NewUnaryHandler(
+		PlanServiceCreateItemConfigProcedure,
+		svc.CreateItemConfig,
+		connect.WithSchema(planServiceMethods.ByName("CreateItemConfig")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceUpdateItemConfigHandler := connect.NewUnaryHandler(
+		PlanServiceUpdateItemConfigProcedure,
+		svc.UpdateItemConfig,
+		connect.WithSchema(planServiceMethods.ByName("UpdateItemConfig")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceDeleteItemConfigHandler := connect.NewUnaryHandler(
+		PlanServiceDeleteItemConfigProcedure,
+		svc.DeleteItemConfig,
+		connect.WithSchema(planServiceMethods.ByName("DeleteItemConfig")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.PlanService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PlanServiceCreatePlanProcedure:
@@ -335,6 +435,14 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceAnalyzeExcelForPlanHandler.ServeHTTP(w, r)
 		case PlanServiceComputePlanActualsProcedure:
 			planServiceComputePlanActualsHandler.ServeHTTP(w, r)
+		case PlanServiceListItemConfigsProcedure:
+			planServiceListItemConfigsHandler.ServeHTTP(w, r)
+		case PlanServiceCreateItemConfigProcedure:
+			planServiceCreateItemConfigHandler.ServeHTTP(w, r)
+		case PlanServiceUpdateItemConfigProcedure:
+			planServiceUpdateItemConfigHandler.ServeHTTP(w, r)
+		case PlanServiceDeleteItemConfigProcedure:
+			planServiceDeleteItemConfigHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -382,4 +490,20 @@ func (UnimplementedPlanServiceHandler) AnalyzeExcelForPlan(context.Context, *con
 
 func (UnimplementedPlanServiceHandler) ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.ComputePlanActuals is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) ListItemConfigs(context.Context, *connect.Request[v1.ListItemConfigsRequest]) (*connect.Response[v1.ListItemConfigsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.ListItemConfigs is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) CreateItemConfig(context.Context, *connect.Request[v1.CreateItemConfigRequest]) (*connect.Response[v1.CreateItemConfigResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.CreateItemConfig is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) UpdateItemConfig(context.Context, *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.UpdateItemConfig is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.DeleteItemConfig is not implemented"))
 }
