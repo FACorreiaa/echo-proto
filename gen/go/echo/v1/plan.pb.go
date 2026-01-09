@@ -3262,6 +3262,644 @@ func (x *DeleteItemConfigResponse) GetSuccess() bool {
 	return false
 }
 
+// BudgetPeriod - A monthly snapshot of budget values
+type BudgetPeriod struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PlanId        string                 `protobuf:"bytes,2,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	Year          int32                  `protobuf:"varint,3,opt,name=year,proto3" json:"year,omitempty"`
+	Month         int32                  `protobuf:"varint,4,opt,name=month,proto3" json:"month,omitempty"`
+	IsLocked      bool                   `protobuf:"varint,5,opt,name=is_locked,json=isLocked,proto3" json:"is_locked,omitempty"`
+	Notes         string                 `protobuf:"bytes,6,opt,name=notes,proto3" json:"notes,omitempty"`
+	Items         []*BudgetPeriodItem    `protobuf:"bytes,7,rep,name=items,proto3" json:"items,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,8,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,9,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BudgetPeriod) Reset() {
+	*x = BudgetPeriod{}
+	mi := &file_echo_v1_plan_proto_msgTypes[43]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BudgetPeriod) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BudgetPeriod) ProtoMessage() {}
+
+func (x *BudgetPeriod) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[43]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BudgetPeriod.ProtoReflect.Descriptor instead.
+func (*BudgetPeriod) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{43}
+}
+
+func (x *BudgetPeriod) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *BudgetPeriod) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *BudgetPeriod) GetYear() int32 {
+	if x != nil {
+		return x.Year
+	}
+	return 0
+}
+
+func (x *BudgetPeriod) GetMonth() int32 {
+	if x != nil {
+		return x.Month
+	}
+	return 0
+}
+
+func (x *BudgetPeriod) GetIsLocked() bool {
+	if x != nil {
+		return x.IsLocked
+	}
+	return false
+}
+
+func (x *BudgetPeriod) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+func (x *BudgetPeriod) GetItems() []*BudgetPeriodItem {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *BudgetPeriod) GetCreatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.CreatedAt
+	}
+	return nil
+}
+
+func (x *BudgetPeriod) GetUpdatedAt() *timestamppb.Timestamp {
+	if x != nil {
+		return x.UpdatedAt
+	}
+	return nil
+}
+
+// BudgetPeriodItem - Budget values for an item in a specific period
+type BudgetPeriodItem struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	PeriodId      string                 `protobuf:"bytes,2,opt,name=period_id,json=periodId,proto3" json:"period_id,omitempty"`
+	ItemId        string                 `protobuf:"bytes,3,opt,name=item_id,json=itemId,proto3" json:"item_id,omitempty"`
+	ItemName      string                 `protobuf:"bytes,4,opt,name=item_name,json=itemName,proto3" json:"item_name,omitempty"`
+	CategoryName  string                 `protobuf:"bytes,5,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	BudgetedMinor int64                  `protobuf:"varint,6,opt,name=budgeted_minor,json=budgetedMinor,proto3" json:"budgeted_minor,omitempty"`
+	ActualMinor   int64                  `protobuf:"varint,7,opt,name=actual_minor,json=actualMinor,proto3" json:"actual_minor,omitempty"`
+	Notes         string                 `protobuf:"bytes,8,opt,name=notes,proto3" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *BudgetPeriodItem) Reset() {
+	*x = BudgetPeriodItem{}
+	mi := &file_echo_v1_plan_proto_msgTypes[44]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *BudgetPeriodItem) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BudgetPeriodItem) ProtoMessage() {}
+
+func (x *BudgetPeriodItem) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[44]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BudgetPeriodItem.ProtoReflect.Descriptor instead.
+func (*BudgetPeriodItem) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{44}
+}
+
+func (x *BudgetPeriodItem) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *BudgetPeriodItem) GetPeriodId() string {
+	if x != nil {
+		return x.PeriodId
+	}
+	return ""
+}
+
+func (x *BudgetPeriodItem) GetItemId() string {
+	if x != nil {
+		return x.ItemId
+	}
+	return ""
+}
+
+func (x *BudgetPeriodItem) GetItemName() string {
+	if x != nil {
+		return x.ItemName
+	}
+	return ""
+}
+
+func (x *BudgetPeriodItem) GetCategoryName() string {
+	if x != nil {
+		return x.CategoryName
+	}
+	return ""
+}
+
+func (x *BudgetPeriodItem) GetBudgetedMinor() int64 {
+	if x != nil {
+		return x.BudgetedMinor
+	}
+	return 0
+}
+
+func (x *BudgetPeriodItem) GetActualMinor() int64 {
+	if x != nil {
+		return x.ActualMinor
+	}
+	return 0
+}
+
+func (x *BudgetPeriodItem) GetNotes() string {
+	if x != nil {
+		return x.Notes
+	}
+	return ""
+}
+
+// GetBudgetPeriod - Gets or creates period for a month
+type GetBudgetPeriodRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	Year          int32                  `protobuf:"varint,2,opt,name=year,proto3" json:"year,omitempty"`
+	Month         int32                  `protobuf:"varint,3,opt,name=month,proto3" json:"month,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetPeriodRequest) Reset() {
+	*x = GetBudgetPeriodRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[45]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetPeriodRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetPeriodRequest) ProtoMessage() {}
+
+func (x *GetBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[45]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetPeriodRequest.ProtoReflect.Descriptor instead.
+func (*GetBudgetPeriodRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{45}
+}
+
+func (x *GetBudgetPeriodRequest) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *GetBudgetPeriodRequest) GetYear() int32 {
+	if x != nil {
+		return x.Year
+	}
+	return 0
+}
+
+func (x *GetBudgetPeriodRequest) GetMonth() int32 {
+	if x != nil {
+		return x.Month
+	}
+	return 0
+}
+
+type GetBudgetPeriodResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Period        *BudgetPeriod          `protobuf:"bytes,1,opt,name=period,proto3" json:"period,omitempty"`
+	WasCreated    bool                   `protobuf:"varint,2,opt,name=was_created,json=wasCreated,proto3" json:"was_created,omitempty"` // True if a new period was created
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetBudgetPeriodResponse) Reset() {
+	*x = GetBudgetPeriodResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[46]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetBudgetPeriodResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetBudgetPeriodResponse) ProtoMessage() {}
+
+func (x *GetBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[46]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetBudgetPeriodResponse.ProtoReflect.Descriptor instead.
+func (*GetBudgetPeriodResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{46}
+}
+
+func (x *GetBudgetPeriodResponse) GetPeriod() *BudgetPeriod {
+	if x != nil {
+		return x.Period
+	}
+	return nil
+}
+
+func (x *GetBudgetPeriodResponse) GetWasCreated() bool {
+	if x != nil {
+		return x.WasCreated
+	}
+	return false
+}
+
+// ListBudgetPeriods - List all periods for a plan
+type ListBudgetPeriodsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBudgetPeriodsRequest) Reset() {
+	*x = ListBudgetPeriodsRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[47]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBudgetPeriodsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBudgetPeriodsRequest) ProtoMessage() {}
+
+func (x *ListBudgetPeriodsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[47]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBudgetPeriodsRequest.ProtoReflect.Descriptor instead.
+func (*ListBudgetPeriodsRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{47}
+}
+
+func (x *ListBudgetPeriodsRequest) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+type ListBudgetPeriodsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Periods       []*BudgetPeriod        `protobuf:"bytes,1,rep,name=periods,proto3" json:"periods,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListBudgetPeriodsResponse) Reset() {
+	*x = ListBudgetPeriodsResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[48]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListBudgetPeriodsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListBudgetPeriodsResponse) ProtoMessage() {}
+
+func (x *ListBudgetPeriodsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[48]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListBudgetPeriodsResponse.ProtoReflect.Descriptor instead.
+func (*ListBudgetPeriodsResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{48}
+}
+
+func (x *ListBudgetPeriodsResponse) GetPeriods() []*BudgetPeriod {
+	if x != nil {
+		return x.Periods
+	}
+	return nil
+}
+
+// UpdateBudgetPeriodItem - Update values for a specific item in a period
+type UpdateBudgetPeriodItemRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PeriodItemId  string                 `protobuf:"bytes,1,opt,name=period_item_id,json=periodItemId,proto3" json:"period_item_id,omitempty"`
+	BudgetedMinor *int64                 `protobuf:"varint,2,opt,name=budgeted_minor,json=budgetedMinor,proto3,oneof" json:"budgeted_minor,omitempty"`
+	ActualMinor   *int64                 `protobuf:"varint,3,opt,name=actual_minor,json=actualMinor,proto3,oneof" json:"actual_minor,omitempty"`
+	Notes         *string                `protobuf:"bytes,4,opt,name=notes,proto3,oneof" json:"notes,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateBudgetPeriodItemRequest) Reset() {
+	*x = UpdateBudgetPeriodItemRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[49]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBudgetPeriodItemRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBudgetPeriodItemRequest) ProtoMessage() {}
+
+func (x *UpdateBudgetPeriodItemRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[49]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBudgetPeriodItemRequest.ProtoReflect.Descriptor instead.
+func (*UpdateBudgetPeriodItemRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *UpdateBudgetPeriodItemRequest) GetPeriodItemId() string {
+	if x != nil {
+		return x.PeriodItemId
+	}
+	return ""
+}
+
+func (x *UpdateBudgetPeriodItemRequest) GetBudgetedMinor() int64 {
+	if x != nil && x.BudgetedMinor != nil {
+		return *x.BudgetedMinor
+	}
+	return 0
+}
+
+func (x *UpdateBudgetPeriodItemRequest) GetActualMinor() int64 {
+	if x != nil && x.ActualMinor != nil {
+		return *x.ActualMinor
+	}
+	return 0
+}
+
+func (x *UpdateBudgetPeriodItemRequest) GetNotes() string {
+	if x != nil && x.Notes != nil {
+		return *x.Notes
+	}
+	return ""
+}
+
+type UpdateBudgetPeriodItemResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Item          *BudgetPeriodItem      `protobuf:"bytes,1,opt,name=item,proto3" json:"item,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdateBudgetPeriodItemResponse) Reset() {
+	*x = UpdateBudgetPeriodItemResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[50]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdateBudgetPeriodItemResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateBudgetPeriodItemResponse) ProtoMessage() {}
+
+func (x *UpdateBudgetPeriodItemResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[50]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateBudgetPeriodItemResponse.ProtoReflect.Descriptor instead.
+func (*UpdateBudgetPeriodItemResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *UpdateBudgetPeriodItemResponse) GetItem() *BudgetPeriodItem {
+	if x != nil {
+		return x.Item
+	}
+	return nil
+}
+
+// CopyBudgetPeriod - Copy values from one period to another
+type CopyBudgetPeriodRequest struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	SourcePeriodId string                 `protobuf:"bytes,1,opt,name=source_period_id,json=sourcePeriodId,proto3" json:"source_period_id,omitempty"`
+	TargetPlanId   string                 `protobuf:"bytes,2,opt,name=target_plan_id,json=targetPlanId,proto3" json:"target_plan_id,omitempty"`
+	TargetYear     int32                  `protobuf:"varint,3,opt,name=target_year,json=targetYear,proto3" json:"target_year,omitempty"`
+	TargetMonth    int32                  `protobuf:"varint,4,opt,name=target_month,json=targetMonth,proto3" json:"target_month,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *CopyBudgetPeriodRequest) Reset() {
+	*x = CopyBudgetPeriodRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[51]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CopyBudgetPeriodRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CopyBudgetPeriodRequest) ProtoMessage() {}
+
+func (x *CopyBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[51]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CopyBudgetPeriodRequest.ProtoReflect.Descriptor instead.
+func (*CopyBudgetPeriodRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{51}
+}
+
+func (x *CopyBudgetPeriodRequest) GetSourcePeriodId() string {
+	if x != nil {
+		return x.SourcePeriodId
+	}
+	return ""
+}
+
+func (x *CopyBudgetPeriodRequest) GetTargetPlanId() string {
+	if x != nil {
+		return x.TargetPlanId
+	}
+	return ""
+}
+
+func (x *CopyBudgetPeriodRequest) GetTargetYear() int32 {
+	if x != nil {
+		return x.TargetYear
+	}
+	return 0
+}
+
+func (x *CopyBudgetPeriodRequest) GetTargetMonth() int32 {
+	if x != nil {
+		return x.TargetMonth
+	}
+	return 0
+}
+
+type CopyBudgetPeriodResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Period        *BudgetPeriod          `protobuf:"bytes,1,opt,name=period,proto3" json:"period,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CopyBudgetPeriodResponse) Reset() {
+	*x = CopyBudgetPeriodResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[52]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CopyBudgetPeriodResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CopyBudgetPeriodResponse) ProtoMessage() {}
+
+func (x *CopyBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[52]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CopyBudgetPeriodResponse.ProtoReflect.Descriptor instead.
+func (*CopyBudgetPeriodResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{52}
+}
+
+func (x *CopyBudgetPeriodResponse) GetPeriod() *BudgetPeriod {
+	if x != nil {
+		return x.Period
+	}
+	return nil
+}
+
 var File_echo_v1_plan_proto protoreflect.FileDescriptor
 
 const file_echo_v1_plan_proto_rawDesc = "" +
@@ -3540,7 +4178,58 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x17DeleteItemConfigRequest\x12\x18\n" +
 	"\x02id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x02id\"4\n" +
 	"\x18DeleteItemConfigResponse\x12\x18\n" +
-	"\asuccess\x18\x01 \x01(\bR\asuccess*\x8a\x01\n" +
+	"\asuccess\x18\x01 \x01(\bR\asuccess\"\xbb\x02\n" +
+	"\fBudgetPeriod\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x17\n" +
+	"\aplan_id\x18\x02 \x01(\tR\x06planId\x12\x12\n" +
+	"\x04year\x18\x03 \x01(\x05R\x04year\x12\x14\n" +
+	"\x05month\x18\x04 \x01(\x05R\x05month\x12\x1b\n" +
+	"\tis_locked\x18\x05 \x01(\bR\bisLocked\x12\x14\n" +
+	"\x05notes\x18\x06 \x01(\tR\x05notes\x12/\n" +
+	"\x05items\x18\a \x03(\v2\x19.echo.v1.BudgetPeriodItemR\x05items\x129\n" +
+	"\n" +
+	"created_at\x18\b \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x129\n" +
+	"\n" +
+	"updated_at\x18\t \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\"\xfa\x01\n" +
+	"\x10BudgetPeriodItem\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x1b\n" +
+	"\tperiod_id\x18\x02 \x01(\tR\bperiodId\x12\x17\n" +
+	"\aitem_id\x18\x03 \x01(\tR\x06itemId\x12\x1b\n" +
+	"\titem_name\x18\x04 \x01(\tR\bitemName\x12#\n" +
+	"\rcategory_name\x18\x05 \x01(\tR\fcategoryName\x12%\n" +
+	"\x0ebudgeted_minor\x18\x06 \x01(\x03R\rbudgetedMinor\x12!\n" +
+	"\factual_minor\x18\a \x01(\x03R\vactualMinor\x12\x14\n" +
+	"\x05notes\x18\b \x01(\tR\x05notes\"}\n" +
+	"\x16GetBudgetPeriodRequest\x12!\n" +
+	"\aplan_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06planId\x12\x1f\n" +
+	"\x04year\x18\x02 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xb4\x10(\xd0\x0fR\x04year\x12\x1f\n" +
+	"\x05month\x18\x03 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\f(\x01R\x05month\"i\n" +
+	"\x17GetBudgetPeriodResponse\x12-\n" +
+	"\x06period\x18\x01 \x01(\v2\x15.echo.v1.BudgetPeriodR\x06period\x12\x1f\n" +
+	"\vwas_created\x18\x02 \x01(\bR\n" +
+	"wasCreated\"=\n" +
+	"\x18ListBudgetPeriodsRequest\x12!\n" +
+	"\aplan_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06planId\"L\n" +
+	"\x19ListBudgetPeriodsResponse\x12/\n" +
+	"\aperiods\x18\x01 \x03(\v2\x15.echo.v1.BudgetPeriodR\aperiods\"\xec\x01\n" +
+	"\x1dUpdateBudgetPeriodItemRequest\x12.\n" +
+	"\x0eperiod_item_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\fperiodItemId\x12*\n" +
+	"\x0ebudgeted_minor\x18\x02 \x01(\x03H\x00R\rbudgetedMinor\x88\x01\x01\x12&\n" +
+	"\factual_minor\x18\x03 \x01(\x03H\x01R\vactualMinor\x88\x01\x01\x12\x19\n" +
+	"\x05notes\x18\x04 \x01(\tH\x02R\x05notes\x88\x01\x01B\x11\n" +
+	"\x0f_budgeted_minorB\x0f\n" +
+	"\r_actual_minorB\b\n" +
+	"\x06_notes\"O\n" +
+	"\x1eUpdateBudgetPeriodItemResponse\x12-\n" +
+	"\x04item\x18\x01 \x01(\v2\x19.echo.v1.BudgetPeriodItemR\x04item\"\xd9\x01\n" +
+	"\x17CopyBudgetPeriodRequest\x122\n" +
+	"\x10source_period_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x0esourcePeriodId\x12.\n" +
+	"\x0etarget_plan_id\x18\x02 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\ftargetPlanId\x12,\n" +
+	"\vtarget_year\x18\x03 \x01(\x05B\v\xbaH\b\x1a\x06\x18\xb4\x10(\xd0\x0fR\n" +
+	"targetYear\x12,\n" +
+	"\ftarget_month\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\f(\x01R\vtargetMonth\"I\n" +
+	"\x18CopyBudgetPeriodResponse\x12-\n" +
+	"\x06period\x18\x01 \x01(\v2\x15.echo.v1.BudgetPeriodR\x06period*\x8a\x01\n" +
 	"\x0ePlanSourceType\x12 \n" +
 	"\x1cPLAN_SOURCE_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17PLAN_SOURCE_TYPE_MANUAL\x10\x01\x12\x1a\n" +
@@ -3584,7 +4273,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x10TARGET_TAB_GOALS\x10\x03\x12\x15\n" +
 	"\x11TARGET_TAB_INCOME\x10\x04\x12\x18\n" +
 	"\x14TARGET_TAB_PORTFOLIO\x10\x05\x12\x1a\n" +
-	"\x16TARGET_TAB_LIABILITIES\x10\x062\x88\t\n" +
+	"\x16TARGET_TAB_LIABILITIES\x10\x062\xfe\v\n" +
 	"\vPlanService\x12E\n" +
 	"\n" +
 	"CreatePlan\x12\x1a.echo.v1.CreatePlanRequest\x1a\x1b.echo.v1.CreatePlanResponse\x12<\n" +
@@ -3602,7 +4291,11 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x0fListItemConfigs\x12\x1f.echo.v1.ListItemConfigsRequest\x1a .echo.v1.ListItemConfigsResponse\x12W\n" +
 	"\x10CreateItemConfig\x12 .echo.v1.CreateItemConfigRequest\x1a!.echo.v1.CreateItemConfigResponse\x12W\n" +
 	"\x10UpdateItemConfig\x12 .echo.v1.UpdateItemConfigRequest\x1a!.echo.v1.UpdateItemConfigResponse\x12W\n" +
-	"\x10DeleteItemConfig\x12 .echo.v1.DeleteItemConfigRequest\x1a!.echo.v1.DeleteItemConfigResponseB\xa0\x01\n" +
+	"\x10DeleteItemConfig\x12 .echo.v1.DeleteItemConfigRequest\x1a!.echo.v1.DeleteItemConfigResponse\x12T\n" +
+	"\x0fGetBudgetPeriod\x12\x1f.echo.v1.GetBudgetPeriodRequest\x1a .echo.v1.GetBudgetPeriodResponse\x12Z\n" +
+	"\x11ListBudgetPeriods\x12!.echo.v1.ListBudgetPeriodsRequest\x1a\".echo.v1.ListBudgetPeriodsResponse\x12i\n" +
+	"\x16UpdateBudgetPeriodItem\x12&.echo.v1.UpdateBudgetPeriodItemRequest\x1a'.echo.v1.UpdateBudgetPeriodItemResponse\x12W\n" +
+	"\x10CopyBudgetPeriod\x12 .echo.v1.CopyBudgetPeriodRequest\x1a!.echo.v1.CopyBudgetPeriodResponseB\xa0\x01\n" +
 	"\vcom.echo.v1B\tPlanProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -3618,99 +4311,109 @@ func file_echo_v1_plan_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 50)
+var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 60)
 var file_echo_v1_plan_proto_goTypes = []any{
-	(PlanSourceType)(0),                 // 0: echo.v1.PlanSourceType
-	(PlanStatus)(0),                     // 1: echo.v1.PlanStatus
-	(WidgetType)(0),                     // 2: echo.v1.WidgetType
-	(FieldType)(0),                      // 3: echo.v1.FieldType
-	(ItemType)(0),                       // 4: echo.v1.ItemType
-	(ItemBehavior)(0),                   // 5: echo.v1.ItemBehavior
-	(TargetTab)(0),                      // 6: echo.v1.TargetTab
-	(*UserPlan)(nil),                    // 7: echo.v1.UserPlan
-	(*PlanCategoryGroup)(nil),           // 8: echo.v1.PlanCategoryGroup
-	(*PlanCategory)(nil),                // 9: echo.v1.PlanCategory
-	(*PlanItem)(nil),                    // 10: echo.v1.PlanItem
-	(*PlanConfig)(nil),                  // 11: echo.v1.PlanConfig
-	(*CreatePlanRequest)(nil),           // 12: echo.v1.CreatePlanRequest
-	(*CreateCategoryGroupInput)(nil),    // 13: echo.v1.CreateCategoryGroupInput
-	(*CreateCategoryInput)(nil),         // 14: echo.v1.CreateCategoryInput
-	(*CreateItemInput)(nil),             // 15: echo.v1.CreateItemInput
-	(*CreatePlanResponse)(nil),          // 16: echo.v1.CreatePlanResponse
-	(*GetPlanRequest)(nil),              // 17: echo.v1.GetPlanRequest
-	(*GetPlanResponse)(nil),             // 18: echo.v1.GetPlanResponse
-	(*ListPlansRequest)(nil),            // 19: echo.v1.ListPlansRequest
-	(*ListPlansResponse)(nil),           // 20: echo.v1.ListPlansResponse
-	(*UpdatePlanRequest)(nil),           // 21: echo.v1.UpdatePlanRequest
-	(*UpdateItemInput)(nil),             // 22: echo.v1.UpdateItemInput
-	(*UpdatePlanResponse)(nil),          // 23: echo.v1.UpdatePlanResponse
-	(*DeletePlanRequest)(nil),           // 24: echo.v1.DeletePlanRequest
-	(*DeletePlanResponse)(nil),          // 25: echo.v1.DeletePlanResponse
-	(*SetActivePlanRequest)(nil),        // 26: echo.v1.SetActivePlanRequest
-	(*SetActivePlanResponse)(nil),       // 27: echo.v1.SetActivePlanResponse
-	(*DuplicatePlanRequest)(nil),        // 28: echo.v1.DuplicatePlanRequest
-	(*DuplicatePlanResponse)(nil),       // 29: echo.v1.DuplicatePlanResponse
-	(*ImportPlanFromExcelRequest)(nil),  // 30: echo.v1.ImportPlanFromExcelRequest
-	(*ExcelMappingConfig)(nil),          // 31: echo.v1.ExcelMappingConfig
-	(*ImportPlanFromExcelResponse)(nil), // 32: echo.v1.ImportPlanFromExcelResponse
-	(*AnalyzeExcelForPlanRequest)(nil),  // 33: echo.v1.AnalyzeExcelForPlanRequest
-	(*AnalyzeExcelForPlanResponse)(nil), // 34: echo.v1.AnalyzeExcelForPlanResponse
-	(*ExcelSheetAnalysis)(nil),          // 35: echo.v1.ExcelSheetAnalysis
-	(*ExcelPreviewRow)(nil),             // 36: echo.v1.ExcelPreviewRow
-	(*DetectedColumnMapping)(nil),       // 37: echo.v1.DetectedColumnMapping
-	(*ComputePlanActualsRequest)(nil),   // 38: echo.v1.ComputePlanActualsRequest
-	(*ComputePlanActualsResponse)(nil),  // 39: echo.v1.ComputePlanActualsResponse
-	(*UnmatchedItem)(nil),               // 40: echo.v1.UnmatchedItem
-	(*ItemConfig)(nil),                  // 41: echo.v1.ItemConfig
-	(*ListItemConfigsRequest)(nil),      // 42: echo.v1.ListItemConfigsRequest
-	(*ListItemConfigsResponse)(nil),     // 43: echo.v1.ListItemConfigsResponse
-	(*CreateItemConfigRequest)(nil),     // 44: echo.v1.CreateItemConfigRequest
-	(*CreateItemConfigResponse)(nil),    // 45: echo.v1.CreateItemConfigResponse
-	(*UpdateItemConfigRequest)(nil),     // 46: echo.v1.UpdateItemConfigRequest
-	(*UpdateItemConfigResponse)(nil),    // 47: echo.v1.UpdateItemConfigResponse
-	(*DeleteItemConfigRequest)(nil),     // 48: echo.v1.DeleteItemConfigRequest
-	(*DeleteItemConfigResponse)(nil),    // 49: echo.v1.DeleteItemConfigResponse
-	nil,                                 // 50: echo.v1.PlanCategoryGroup.LabelsEntry
-	nil,                                 // 51: echo.v1.PlanCategory.LabelsEntry
-	nil,                                 // 52: echo.v1.PlanItem.LabelsEntry
-	nil,                                 // 53: echo.v1.PlanConfig.FormulaMappingsEntry
-	nil,                                 // 54: echo.v1.CreateCategoryGroupInput.LabelsEntry
-	nil,                                 // 55: echo.v1.CreateCategoryInput.LabelsEntry
-	nil,                                 // 56: echo.v1.CreateItemInput.LabelsEntry
-	(*Money)(nil),                       // 57: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),       // 58: google.protobuf.Timestamp
+	(PlanSourceType)(0),                    // 0: echo.v1.PlanSourceType
+	(PlanStatus)(0),                        // 1: echo.v1.PlanStatus
+	(WidgetType)(0),                        // 2: echo.v1.WidgetType
+	(FieldType)(0),                         // 3: echo.v1.FieldType
+	(ItemType)(0),                          // 4: echo.v1.ItemType
+	(ItemBehavior)(0),                      // 5: echo.v1.ItemBehavior
+	(TargetTab)(0),                         // 6: echo.v1.TargetTab
+	(*UserPlan)(nil),                       // 7: echo.v1.UserPlan
+	(*PlanCategoryGroup)(nil),              // 8: echo.v1.PlanCategoryGroup
+	(*PlanCategory)(nil),                   // 9: echo.v1.PlanCategory
+	(*PlanItem)(nil),                       // 10: echo.v1.PlanItem
+	(*PlanConfig)(nil),                     // 11: echo.v1.PlanConfig
+	(*CreatePlanRequest)(nil),              // 12: echo.v1.CreatePlanRequest
+	(*CreateCategoryGroupInput)(nil),       // 13: echo.v1.CreateCategoryGroupInput
+	(*CreateCategoryInput)(nil),            // 14: echo.v1.CreateCategoryInput
+	(*CreateItemInput)(nil),                // 15: echo.v1.CreateItemInput
+	(*CreatePlanResponse)(nil),             // 16: echo.v1.CreatePlanResponse
+	(*GetPlanRequest)(nil),                 // 17: echo.v1.GetPlanRequest
+	(*GetPlanResponse)(nil),                // 18: echo.v1.GetPlanResponse
+	(*ListPlansRequest)(nil),               // 19: echo.v1.ListPlansRequest
+	(*ListPlansResponse)(nil),              // 20: echo.v1.ListPlansResponse
+	(*UpdatePlanRequest)(nil),              // 21: echo.v1.UpdatePlanRequest
+	(*UpdateItemInput)(nil),                // 22: echo.v1.UpdateItemInput
+	(*UpdatePlanResponse)(nil),             // 23: echo.v1.UpdatePlanResponse
+	(*DeletePlanRequest)(nil),              // 24: echo.v1.DeletePlanRequest
+	(*DeletePlanResponse)(nil),             // 25: echo.v1.DeletePlanResponse
+	(*SetActivePlanRequest)(nil),           // 26: echo.v1.SetActivePlanRequest
+	(*SetActivePlanResponse)(nil),          // 27: echo.v1.SetActivePlanResponse
+	(*DuplicatePlanRequest)(nil),           // 28: echo.v1.DuplicatePlanRequest
+	(*DuplicatePlanResponse)(nil),          // 29: echo.v1.DuplicatePlanResponse
+	(*ImportPlanFromExcelRequest)(nil),     // 30: echo.v1.ImportPlanFromExcelRequest
+	(*ExcelMappingConfig)(nil),             // 31: echo.v1.ExcelMappingConfig
+	(*ImportPlanFromExcelResponse)(nil),    // 32: echo.v1.ImportPlanFromExcelResponse
+	(*AnalyzeExcelForPlanRequest)(nil),     // 33: echo.v1.AnalyzeExcelForPlanRequest
+	(*AnalyzeExcelForPlanResponse)(nil),    // 34: echo.v1.AnalyzeExcelForPlanResponse
+	(*ExcelSheetAnalysis)(nil),             // 35: echo.v1.ExcelSheetAnalysis
+	(*ExcelPreviewRow)(nil),                // 36: echo.v1.ExcelPreviewRow
+	(*DetectedColumnMapping)(nil),          // 37: echo.v1.DetectedColumnMapping
+	(*ComputePlanActualsRequest)(nil),      // 38: echo.v1.ComputePlanActualsRequest
+	(*ComputePlanActualsResponse)(nil),     // 39: echo.v1.ComputePlanActualsResponse
+	(*UnmatchedItem)(nil),                  // 40: echo.v1.UnmatchedItem
+	(*ItemConfig)(nil),                     // 41: echo.v1.ItemConfig
+	(*ListItemConfigsRequest)(nil),         // 42: echo.v1.ListItemConfigsRequest
+	(*ListItemConfigsResponse)(nil),        // 43: echo.v1.ListItemConfigsResponse
+	(*CreateItemConfigRequest)(nil),        // 44: echo.v1.CreateItemConfigRequest
+	(*CreateItemConfigResponse)(nil),       // 45: echo.v1.CreateItemConfigResponse
+	(*UpdateItemConfigRequest)(nil),        // 46: echo.v1.UpdateItemConfigRequest
+	(*UpdateItemConfigResponse)(nil),       // 47: echo.v1.UpdateItemConfigResponse
+	(*DeleteItemConfigRequest)(nil),        // 48: echo.v1.DeleteItemConfigRequest
+	(*DeleteItemConfigResponse)(nil),       // 49: echo.v1.DeleteItemConfigResponse
+	(*BudgetPeriod)(nil),                   // 50: echo.v1.BudgetPeriod
+	(*BudgetPeriodItem)(nil),               // 51: echo.v1.BudgetPeriodItem
+	(*GetBudgetPeriodRequest)(nil),         // 52: echo.v1.GetBudgetPeriodRequest
+	(*GetBudgetPeriodResponse)(nil),        // 53: echo.v1.GetBudgetPeriodResponse
+	(*ListBudgetPeriodsRequest)(nil),       // 54: echo.v1.ListBudgetPeriodsRequest
+	(*ListBudgetPeriodsResponse)(nil),      // 55: echo.v1.ListBudgetPeriodsResponse
+	(*UpdateBudgetPeriodItemRequest)(nil),  // 56: echo.v1.UpdateBudgetPeriodItemRequest
+	(*UpdateBudgetPeriodItemResponse)(nil), // 57: echo.v1.UpdateBudgetPeriodItemResponse
+	(*CopyBudgetPeriodRequest)(nil),        // 58: echo.v1.CopyBudgetPeriodRequest
+	(*CopyBudgetPeriodResponse)(nil),       // 59: echo.v1.CopyBudgetPeriodResponse
+	nil,                                    // 60: echo.v1.PlanCategoryGroup.LabelsEntry
+	nil,                                    // 61: echo.v1.PlanCategory.LabelsEntry
+	nil,                                    // 62: echo.v1.PlanItem.LabelsEntry
+	nil,                                    // 63: echo.v1.PlanConfig.FormulaMappingsEntry
+	nil,                                    // 64: echo.v1.CreateCategoryGroupInput.LabelsEntry
+	nil,                                    // 65: echo.v1.CreateCategoryInput.LabelsEntry
+	nil,                                    // 66: echo.v1.CreateItemInput.LabelsEntry
+	(*Money)(nil),                          // 67: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),          // 68: google.protobuf.Timestamp
 }
 var file_echo_v1_plan_proto_depIdxs = []int32{
 	1,  // 0: echo.v1.UserPlan.status:type_name -> echo.v1.PlanStatus
 	0,  // 1: echo.v1.UserPlan.source_type:type_name -> echo.v1.PlanSourceType
-	57, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
-	57, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
-	57, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
+	67, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
+	67, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
+	67, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
 	8,  // 5: echo.v1.UserPlan.category_groups:type_name -> echo.v1.PlanCategoryGroup
 	11, // 6: echo.v1.UserPlan.config:type_name -> echo.v1.PlanConfig
-	58, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
-	58, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
+	68, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
+	68, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 9: echo.v1.PlanCategoryGroup.categories:type_name -> echo.v1.PlanCategory
-	50, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
+	60, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
 	10, // 11: echo.v1.PlanCategory.items:type_name -> echo.v1.PlanItem
-	57, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
-	57, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
-	51, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
-	57, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
-	57, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
+	67, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
+	67, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
+	61, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
+	67, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
+	67, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
 	2,  // 17: echo.v1.PlanItem.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 18: echo.v1.PlanItem.field_type:type_name -> echo.v1.FieldType
-	52, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
+	62, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
 	4,  // 20: echo.v1.PlanItem.item_type:type_name -> echo.v1.ItemType
-	53, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
+	63, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
 	13, // 22: echo.v1.CreatePlanRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
 	14, // 23: echo.v1.CreateCategoryGroupInput.categories:type_name -> echo.v1.CreateCategoryInput
-	54, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
+	64, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
 	15, // 25: echo.v1.CreateCategoryInput.items:type_name -> echo.v1.CreateItemInput
-	55, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
+	65, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
 	2,  // 27: echo.v1.CreateItemInput.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 28: echo.v1.CreateItemInput.field_type:type_name -> echo.v1.FieldType
-	56, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
+	66, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
 	4,  // 30: echo.v1.CreateItemInput.item_type:type_name -> echo.v1.ItemType
 	7,  // 31: echo.v1.CreatePlanResponse.plan:type_name -> echo.v1.UserPlan
 	7,  // 32: echo.v1.GetPlanResponse.plan:type_name -> echo.v1.UserPlan
@@ -3725,8 +4428,8 @@ var file_echo_v1_plan_proto_depIdxs = []int32{
 	35, // 41: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
 	37, // 42: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
 	36, // 43: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
-	58, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
-	58, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
+	68, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
+	68, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
 	7,  // 46: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
 	40, // 47: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
 	5,  // 48: echo.v1.ItemConfig.behavior:type_name -> echo.v1.ItemBehavior
@@ -3738,39 +4441,54 @@ var file_echo_v1_plan_proto_depIdxs = []int32{
 	5,  // 54: echo.v1.UpdateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
 	6,  // 55: echo.v1.UpdateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
 	41, // 56: echo.v1.UpdateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
-	12, // 57: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
-	17, // 58: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
-	19, // 59: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
-	21, // 60: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
-	24, // 61: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
-	26, // 62: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
-	28, // 63: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
-	30, // 64: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
-	33, // 65: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
-	38, // 66: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
-	42, // 67: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
-	44, // 68: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
-	46, // 69: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
-	48, // 70: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
-	16, // 71: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
-	18, // 72: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
-	20, // 73: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
-	23, // 74: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
-	25, // 75: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
-	27, // 76: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
-	29, // 77: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
-	32, // 78: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
-	34, // 79: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
-	39, // 80: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
-	43, // 81: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
-	45, // 82: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
-	47, // 83: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
-	49, // 84: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
-	71, // [71:85] is the sub-list for method output_type
-	57, // [57:71] is the sub-list for method input_type
-	57, // [57:57] is the sub-list for extension type_name
-	57, // [57:57] is the sub-list for extension extendee
-	0,  // [0:57] is the sub-list for field type_name
+	51, // 57: echo.v1.BudgetPeriod.items:type_name -> echo.v1.BudgetPeriodItem
+	68, // 58: echo.v1.BudgetPeriod.created_at:type_name -> google.protobuf.Timestamp
+	68, // 59: echo.v1.BudgetPeriod.updated_at:type_name -> google.protobuf.Timestamp
+	50, // 60: echo.v1.GetBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
+	50, // 61: echo.v1.ListBudgetPeriodsResponse.periods:type_name -> echo.v1.BudgetPeriod
+	51, // 62: echo.v1.UpdateBudgetPeriodItemResponse.item:type_name -> echo.v1.BudgetPeriodItem
+	50, // 63: echo.v1.CopyBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
+	12, // 64: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
+	17, // 65: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
+	19, // 66: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
+	21, // 67: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
+	24, // 68: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
+	26, // 69: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
+	28, // 70: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
+	30, // 71: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
+	33, // 72: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
+	38, // 73: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
+	42, // 74: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
+	44, // 75: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
+	46, // 76: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
+	48, // 77: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
+	52, // 78: echo.v1.PlanService.GetBudgetPeriod:input_type -> echo.v1.GetBudgetPeriodRequest
+	54, // 79: echo.v1.PlanService.ListBudgetPeriods:input_type -> echo.v1.ListBudgetPeriodsRequest
+	56, // 80: echo.v1.PlanService.UpdateBudgetPeriodItem:input_type -> echo.v1.UpdateBudgetPeriodItemRequest
+	58, // 81: echo.v1.PlanService.CopyBudgetPeriod:input_type -> echo.v1.CopyBudgetPeriodRequest
+	16, // 82: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
+	18, // 83: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
+	20, // 84: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
+	23, // 85: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
+	25, // 86: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
+	27, // 87: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
+	29, // 88: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
+	32, // 89: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
+	34, // 90: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
+	39, // 91: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
+	43, // 92: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
+	45, // 93: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
+	47, // 94: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
+	49, // 95: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
+	53, // 96: echo.v1.PlanService.GetBudgetPeriod:output_type -> echo.v1.GetBudgetPeriodResponse
+	55, // 97: echo.v1.PlanService.ListBudgetPeriods:output_type -> echo.v1.ListBudgetPeriodsResponse
+	57, // 98: echo.v1.PlanService.UpdateBudgetPeriodItem:output_type -> echo.v1.UpdateBudgetPeriodItemResponse
+	59, // 99: echo.v1.PlanService.CopyBudgetPeriod:output_type -> echo.v1.CopyBudgetPeriodResponse
+	82, // [82:100] is the sub-list for method output_type
+	64, // [64:82] is the sub-list for method input_type
+	64, // [64:64] is the sub-list for extension type_name
+	64, // [64:64] is the sub-list for extension extendee
+	0,  // [0:64] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_plan_proto_init() }
@@ -3783,13 +4501,14 @@ func file_echo_v1_plan_proto_init() {
 	file_echo_v1_plan_proto_msgTypes[8].OneofWrappers = []any{}
 	file_echo_v1_plan_proto_msgTypes[14].OneofWrappers = []any{}
 	file_echo_v1_plan_proto_msgTypes[39].OneofWrappers = []any{}
+	file_echo_v1_plan_proto_msgTypes[49].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_plan_proto_rawDesc), len(file_echo_v1_plan_proto_rawDesc)),
 			NumEnums:      7,
-			NumMessages:   50,
+			NumMessages:   60,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

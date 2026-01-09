@@ -1212,11 +1212,27 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.BudgetPeriod"><span class="badge">M</span>BudgetPeriod</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.BudgetPeriodItem"><span class="badge">M</span>BudgetPeriodItem</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.ComputePlanActualsRequest"><span class="badge">M</span>ComputePlanActualsRequest</a>
                 </li>
               
                 <li>
                   <a href="#echo.v1.ComputePlanActualsResponse"><span class="badge">M</span>ComputePlanActualsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.CopyBudgetPeriodRequest"><span class="badge">M</span>CopyBudgetPeriodRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.CopyBudgetPeriodResponse"><span class="badge">M</span>CopyBudgetPeriodResponse</a>
                 </li>
               
                 <li>
@@ -1300,6 +1316,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.GetBudgetPeriodRequest"><span class="badge">M</span>GetBudgetPeriodRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetBudgetPeriodResponse"><span class="badge">M</span>GetBudgetPeriodResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.GetPlanRequest"><span class="badge">M</span>GetPlanRequest</a>
                 </li>
               
@@ -1317,6 +1341,14 @@
               
                 <li>
                   <a href="#echo.v1.ItemConfig"><span class="badge">M</span>ItemConfig</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListBudgetPeriodsRequest"><span class="badge">M</span>ListBudgetPeriodsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListBudgetPeriodsResponse"><span class="badge">M</span>ListBudgetPeriodsResponse</a>
                 </li>
               
                 <li>
@@ -1377,6 +1409,14 @@
               
                 <li>
                   <a href="#echo.v1.UnmatchedItem"><span class="badge">M</span>UnmatchedItem</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UpdateBudgetPeriodItemRequest"><span class="badge">M</span>UpdateBudgetPeriodItemRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UpdateBudgetPeriodItemResponse"><span class="badge">M</span>UpdateBudgetPeriodItemResponse</a>
                 </li>
               
                 <li>
@@ -10864,6 +10904,159 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.BudgetPeriod">BudgetPeriod</h3>
+        <p>BudgetPeriod - A monthly snapshot of budget values</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>month</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_locked</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>items</td>
+                  <td><a href="#echo.v1.BudgetPeriodItem">BudgetPeriodItem</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>updated_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.BudgetPeriodItem">BudgetPeriodItem</h3>
+        <p>BudgetPeriodItem - Budget values for an item in a specific period</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>period_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>item_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>budgeted_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actual_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.ComputePlanActualsRequest">ComputePlanActualsRequest</h3>
         <p>ComputePlanActuals request - calculates actual spending from transactions</p>
 
@@ -10945,6 +11138,75 @@ Positive = spent more, negative = spent less </p></td>
                   <td><a href="#echo.v1.UnmatchedItem">UnmatchedItem</a></td>
                   <td>repeated</td>
                   <td><p>Any items without matching transactions </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.CopyBudgetPeriodRequest">CopyBudgetPeriodRequest</h3>
+        <p>CopyBudgetPeriod - Copy values from one period to another</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>source_period_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_month</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.CopyBudgetPeriodResponse">CopyBudgetPeriodResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>period</td>
+                  <td><a href="#echo.v1.BudgetPeriod">BudgetPeriod</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -11704,6 +11966,75 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.GetBudgetPeriodRequest">GetBudgetPeriodRequest</h3>
+        <p>GetBudgetPeriod - Gets or creates period for a month</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>year</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>month</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetBudgetPeriodResponse">GetBudgetPeriodResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>period</td>
+                  <td><a href="#echo.v1.BudgetPeriod">BudgetPeriod</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>was_created</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>True if a new period was created </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.GetPlanRequest">GetPlanRequest</h3>
         <p></p>
 
@@ -11899,6 +12230,54 @@ Positive = spent more, negative = spent less </p></td>
                   <td><a href="#int32">int32</a></td>
                   <td></td>
                   <td><p>Display order in type selector </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListBudgetPeriodsRequest">ListBudgetPeriodsRequest</h3>
+        <p>ListBudgetPeriods - List all periods for a plan</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListBudgetPeriodsResponse">ListBudgetPeriodsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>periods</td>
+                  <td><a href="#echo.v1.BudgetPeriod">BudgetPeriod</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -12522,6 +12901,75 @@ Positive = spent more, negative = spent less </p></td>
                   <td><a href="#string">string</a></td>
                   <td></td>
                   <td><p>e.g., &#34;no_category_mapping&#34;, &#34;no_transactions&#34; </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.UpdateBudgetPeriodItemRequest">UpdateBudgetPeriodItemRequest</h3>
+        <p>UpdateBudgetPeriodItem - Update values for a specific item in a period</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>period_item_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>budgeted_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actual_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>notes</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.UpdateBudgetPeriodItemResponse">UpdateBudgetPeriodItemResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>item</td>
+                  <td><a href="#echo.v1.BudgetPeriodItem">BudgetPeriodItem</a></td>
+                  <td></td>
+                  <td><p> </p></td>
                 </tr>
               
             </tbody>
@@ -13240,6 +13688,34 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.DeleteItemConfigRequest">DeleteItemConfigRequest</a></td>
                 <td><a href="#echo.v1.DeleteItemConfigResponse">DeleteItemConfigResponse</a></td>
                 <td><p>DeleteItemConfig deletes a custom item config (system configs cannot be deleted)</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetBudgetPeriod</td>
+                <td><a href="#echo.v1.GetBudgetPeriodRequest">GetBudgetPeriodRequest</a></td>
+                <td><a href="#echo.v1.GetBudgetPeriodResponse">GetBudgetPeriodResponse</a></td>
+                <td><p>GetBudgetPeriod gets or creates a budget period for a specific month</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListBudgetPeriods</td>
+                <td><a href="#echo.v1.ListBudgetPeriodsRequest">ListBudgetPeriodsRequest</a></td>
+                <td><a href="#echo.v1.ListBudgetPeriodsResponse">ListBudgetPeriodsResponse</a></td>
+                <td><p>ListBudgetPeriods lists all budget periods for a plan</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdateBudgetPeriodItem</td>
+                <td><a href="#echo.v1.UpdateBudgetPeriodItemRequest">UpdateBudgetPeriodItemRequest</a></td>
+                <td><a href="#echo.v1.UpdateBudgetPeriodItemResponse">UpdateBudgetPeriodItemResponse</a></td>
+                <td><p>UpdateBudgetPeriodItem updates a specific item&#39;s values for a period</p></td>
+              </tr>
+            
+              <tr>
+                <td>CopyBudgetPeriod</td>
+                <td><a href="#echo.v1.CopyBudgetPeriodRequest">CopyBudgetPeriodRequest</a></td>
+                <td><a href="#echo.v1.CopyBudgetPeriodResponse">CopyBudgetPeriodResponse</a></td>
+                <td><p>CopyBudgetPeriod copies values from one period to another</p></td>
               </tr>
             
           </tbody>

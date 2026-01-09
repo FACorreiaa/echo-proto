@@ -54,6 +54,21 @@ service PlanService {
   
   // DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
   rpc DeleteItemConfig(DeleteItemConfigRequest) returns (DeleteItemConfigResponse);
+  
+  // ============= Budget Period Management =============
+  // Monthly budget versioning - each month can have different values
+  
+  // GetBudgetPeriod gets or creates a budget period for a specific month
+  rpc GetBudgetPeriod(GetBudgetPeriodRequest) returns (GetBudgetPeriodResponse);
+  
+  // ListBudgetPeriods lists all budget periods for a plan
+  rpc ListBudgetPeriods(ListBudgetPeriodsRequest) returns (ListBudgetPeriodsResponse);
+  
+  // UpdateBudgetPeriodItem updates a specific item's values for a period
+  rpc UpdateBudgetPeriodItem(UpdateBudgetPeriodItemRequest) returns (UpdateBudgetPeriodItemResponse);
+  
+  // CopyBudgetPeriod copies values from one period to another
+  rpc CopyBudgetPeriod(CopyBudgetPeriodRequest) returns (CopyBudgetPeriodResponse);
 }
 
 // Plan source types
@@ -465,4 +480,78 @@ message DeleteItemConfigRequest {
 
 message DeleteItemConfigResponse {
   bool success = 1;
+}
+
+// ============================================================================
+// Budget Period Messages
+// ============================================================================
+
+// BudgetPeriod - A monthly snapshot of budget values
+message BudgetPeriod {
+  string id = 1;
+  string plan_id = 2;
+  int32 year = 3;
+  int32 month = 4;
+  bool is_locked = 5;
+  string notes = 6;
+  repeated BudgetPeriodItem items = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// BudgetPeriodItem - Budget values for an item in a specific period
+message BudgetPeriodItem {
+  string id = 1;
+  string period_id = 2;
+  string item_id = 3;
+  string item_name = 4;
+  string category_name = 5;
+  int64 budgeted_minor = 6;
+  int64 actual_minor = 7;
+  string notes = 8;
+}
+
+// GetBudgetPeriod - Gets or creates period for a month
+message GetBudgetPeriodRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  int32 year = 2 [(buf.validate.field).int32 = {gte: 2000, lte: 2100}];
+  int32 month = 3 [(buf.validate.field).int32 = {gte: 1, lte: 12}];
+}
+
+message GetBudgetPeriodResponse {
+  BudgetPeriod period = 1;
+  bool was_created = 2;  // True if a new period was created
+}
+
+// ListBudgetPeriods - List all periods for a plan
+message ListBudgetPeriodsRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message ListBudgetPeriodsResponse {
+  repeated BudgetPeriod periods = 1;
+}
+
+// UpdateBudgetPeriodItem - Update values for a specific item in a period
+message UpdateBudgetPeriodItemRequest {
+  string period_item_id = 1 [(buf.validate.field).string.uuid = true];
+  optional int64 budgeted_minor = 2;
+  optional int64 actual_minor = 3;
+  optional string notes = 4;
+}
+
+message UpdateBudgetPeriodItemResponse {
+  BudgetPeriodItem item = 1;
+}
+
+// CopyBudgetPeriod - Copy values from one period to another
+message CopyBudgetPeriodRequest {
+  string source_period_id = 1 [(buf.validate.field).string.uuid = true];
+  string target_plan_id = 2 [(buf.validate.field).string.uuid = true];
+  int32 target_year = 3 [(buf.validate.field).int32 = {gte: 2000, lte: 2100}];
+  int32 target_month = 4 [(buf.validate.field).int32 = {gte: 1, lte: 12}];
+}
+
+message CopyBudgetPeriodResponse {
+  BudgetPeriod period = 1;
 }

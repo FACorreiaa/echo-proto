@@ -70,6 +70,18 @@ const (
 	// PlanServiceDeleteItemConfigProcedure is the fully-qualified name of the PlanService's
 	// DeleteItemConfig RPC.
 	PlanServiceDeleteItemConfigProcedure = "/echo.v1.PlanService/DeleteItemConfig"
+	// PlanServiceGetBudgetPeriodProcedure is the fully-qualified name of the PlanService's
+	// GetBudgetPeriod RPC.
+	PlanServiceGetBudgetPeriodProcedure = "/echo.v1.PlanService/GetBudgetPeriod"
+	// PlanServiceListBudgetPeriodsProcedure is the fully-qualified name of the PlanService's
+	// ListBudgetPeriods RPC.
+	PlanServiceListBudgetPeriodsProcedure = "/echo.v1.PlanService/ListBudgetPeriods"
+	// PlanServiceUpdateBudgetPeriodItemProcedure is the fully-qualified name of the PlanService's
+	// UpdateBudgetPeriodItem RPC.
+	PlanServiceUpdateBudgetPeriodItemProcedure = "/echo.v1.PlanService/UpdateBudgetPeriodItem"
+	// PlanServiceCopyBudgetPeriodProcedure is the fully-qualified name of the PlanService's
+	// CopyBudgetPeriod RPC.
+	PlanServiceCopyBudgetPeriodProcedure = "/echo.v1.PlanService/CopyBudgetPeriod"
 )
 
 // PlanServiceClient is a client for the echo.v1.PlanService service.
@@ -102,6 +114,14 @@ type PlanServiceClient interface {
 	UpdateItemConfig(context.Context, *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error)
 	// DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
 	DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error)
+	// GetBudgetPeriod gets or creates a budget period for a specific month
+	GetBudgetPeriod(context.Context, *connect.Request[v1.GetBudgetPeriodRequest]) (*connect.Response[v1.GetBudgetPeriodResponse], error)
+	// ListBudgetPeriods lists all budget periods for a plan
+	ListBudgetPeriods(context.Context, *connect.Request[v1.ListBudgetPeriodsRequest]) (*connect.Response[v1.ListBudgetPeriodsResponse], error)
+	// UpdateBudgetPeriodItem updates a specific item's values for a period
+	UpdateBudgetPeriodItem(context.Context, *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error)
+	// CopyBudgetPeriod copies values from one period to another
+	CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error)
 }
 
 // NewPlanServiceClient constructs a client for the echo.v1.PlanService service. By default, it uses
@@ -199,25 +219,53 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(planServiceMethods.ByName("DeleteItemConfig")),
 			connect.WithClientOptions(opts...),
 		),
+		getBudgetPeriod: connect.NewClient[v1.GetBudgetPeriodRequest, v1.GetBudgetPeriodResponse](
+			httpClient,
+			baseURL+PlanServiceGetBudgetPeriodProcedure,
+			connect.WithSchema(planServiceMethods.ByName("GetBudgetPeriod")),
+			connect.WithClientOptions(opts...),
+		),
+		listBudgetPeriods: connect.NewClient[v1.ListBudgetPeriodsRequest, v1.ListBudgetPeriodsResponse](
+			httpClient,
+			baseURL+PlanServiceListBudgetPeriodsProcedure,
+			connect.WithSchema(planServiceMethods.ByName("ListBudgetPeriods")),
+			connect.WithClientOptions(opts...),
+		),
+		updateBudgetPeriodItem: connect.NewClient[v1.UpdateBudgetPeriodItemRequest, v1.UpdateBudgetPeriodItemResponse](
+			httpClient,
+			baseURL+PlanServiceUpdateBudgetPeriodItemProcedure,
+			connect.WithSchema(planServiceMethods.ByName("UpdateBudgetPeriodItem")),
+			connect.WithClientOptions(opts...),
+		),
+		copyBudgetPeriod: connect.NewClient[v1.CopyBudgetPeriodRequest, v1.CopyBudgetPeriodResponse](
+			httpClient,
+			baseURL+PlanServiceCopyBudgetPeriodProcedure,
+			connect.WithSchema(planServiceMethods.ByName("CopyBudgetPeriod")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
 // planServiceClient implements PlanServiceClient.
 type planServiceClient struct {
-	createPlan          *connect.Client[v1.CreatePlanRequest, v1.CreatePlanResponse]
-	getPlan             *connect.Client[v1.GetPlanRequest, v1.GetPlanResponse]
-	listPlans           *connect.Client[v1.ListPlansRequest, v1.ListPlansResponse]
-	updatePlan          *connect.Client[v1.UpdatePlanRequest, v1.UpdatePlanResponse]
-	deletePlan          *connect.Client[v1.DeletePlanRequest, v1.DeletePlanResponse]
-	setActivePlan       *connect.Client[v1.SetActivePlanRequest, v1.SetActivePlanResponse]
-	duplicatePlan       *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
-	importPlanFromExcel *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
-	analyzeExcelForPlan *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
-	computePlanActuals  *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
-	listItemConfigs     *connect.Client[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse]
-	createItemConfig    *connect.Client[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse]
-	updateItemConfig    *connect.Client[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse]
-	deleteItemConfig    *connect.Client[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse]
+	createPlan             *connect.Client[v1.CreatePlanRequest, v1.CreatePlanResponse]
+	getPlan                *connect.Client[v1.GetPlanRequest, v1.GetPlanResponse]
+	listPlans              *connect.Client[v1.ListPlansRequest, v1.ListPlansResponse]
+	updatePlan             *connect.Client[v1.UpdatePlanRequest, v1.UpdatePlanResponse]
+	deletePlan             *connect.Client[v1.DeletePlanRequest, v1.DeletePlanResponse]
+	setActivePlan          *connect.Client[v1.SetActivePlanRequest, v1.SetActivePlanResponse]
+	duplicatePlan          *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
+	importPlanFromExcel    *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
+	analyzeExcelForPlan    *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
+	computePlanActuals     *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
+	listItemConfigs        *connect.Client[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse]
+	createItemConfig       *connect.Client[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse]
+	updateItemConfig       *connect.Client[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse]
+	deleteItemConfig       *connect.Client[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse]
+	getBudgetPeriod        *connect.Client[v1.GetBudgetPeriodRequest, v1.GetBudgetPeriodResponse]
+	listBudgetPeriods      *connect.Client[v1.ListBudgetPeriodsRequest, v1.ListBudgetPeriodsResponse]
+	updateBudgetPeriodItem *connect.Client[v1.UpdateBudgetPeriodItemRequest, v1.UpdateBudgetPeriodItemResponse]
+	copyBudgetPeriod       *connect.Client[v1.CopyBudgetPeriodRequest, v1.CopyBudgetPeriodResponse]
 }
 
 // CreatePlan calls echo.v1.PlanService.CreatePlan.
@@ -290,6 +338,26 @@ func (c *planServiceClient) DeleteItemConfig(ctx context.Context, req *connect.R
 	return c.deleteItemConfig.CallUnary(ctx, req)
 }
 
+// GetBudgetPeriod calls echo.v1.PlanService.GetBudgetPeriod.
+func (c *planServiceClient) GetBudgetPeriod(ctx context.Context, req *connect.Request[v1.GetBudgetPeriodRequest]) (*connect.Response[v1.GetBudgetPeriodResponse], error) {
+	return c.getBudgetPeriod.CallUnary(ctx, req)
+}
+
+// ListBudgetPeriods calls echo.v1.PlanService.ListBudgetPeriods.
+func (c *planServiceClient) ListBudgetPeriods(ctx context.Context, req *connect.Request[v1.ListBudgetPeriodsRequest]) (*connect.Response[v1.ListBudgetPeriodsResponse], error) {
+	return c.listBudgetPeriods.CallUnary(ctx, req)
+}
+
+// UpdateBudgetPeriodItem calls echo.v1.PlanService.UpdateBudgetPeriodItem.
+func (c *planServiceClient) UpdateBudgetPeriodItem(ctx context.Context, req *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error) {
+	return c.updateBudgetPeriodItem.CallUnary(ctx, req)
+}
+
+// CopyBudgetPeriod calls echo.v1.PlanService.CopyBudgetPeriod.
+func (c *planServiceClient) CopyBudgetPeriod(ctx context.Context, req *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error) {
+	return c.copyBudgetPeriod.CallUnary(ctx, req)
+}
+
 // PlanServiceHandler is an implementation of the echo.v1.PlanService service.
 type PlanServiceHandler interface {
 	// CreatePlan creates a new financial plan
@@ -320,6 +388,14 @@ type PlanServiceHandler interface {
 	UpdateItemConfig(context.Context, *connect.Request[v1.UpdateItemConfigRequest]) (*connect.Response[v1.UpdateItemConfigResponse], error)
 	// DeleteItemConfig deletes a custom item config (system configs cannot be deleted)
 	DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error)
+	// GetBudgetPeriod gets or creates a budget period for a specific month
+	GetBudgetPeriod(context.Context, *connect.Request[v1.GetBudgetPeriodRequest]) (*connect.Response[v1.GetBudgetPeriodResponse], error)
+	// ListBudgetPeriods lists all budget periods for a plan
+	ListBudgetPeriods(context.Context, *connect.Request[v1.ListBudgetPeriodsRequest]) (*connect.Response[v1.ListBudgetPeriodsResponse], error)
+	// UpdateBudgetPeriodItem updates a specific item's values for a period
+	UpdateBudgetPeriodItem(context.Context, *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error)
+	// CopyBudgetPeriod copies values from one period to another
+	CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error)
 }
 
 // NewPlanServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -413,6 +489,30 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(planServiceMethods.ByName("DeleteItemConfig")),
 		connect.WithHandlerOptions(opts...),
 	)
+	planServiceGetBudgetPeriodHandler := connect.NewUnaryHandler(
+		PlanServiceGetBudgetPeriodProcedure,
+		svc.GetBudgetPeriod,
+		connect.WithSchema(planServiceMethods.ByName("GetBudgetPeriod")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceListBudgetPeriodsHandler := connect.NewUnaryHandler(
+		PlanServiceListBudgetPeriodsProcedure,
+		svc.ListBudgetPeriods,
+		connect.WithSchema(planServiceMethods.ByName("ListBudgetPeriods")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceUpdateBudgetPeriodItemHandler := connect.NewUnaryHandler(
+		PlanServiceUpdateBudgetPeriodItemProcedure,
+		svc.UpdateBudgetPeriodItem,
+		connect.WithSchema(planServiceMethods.ByName("UpdateBudgetPeriodItem")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceCopyBudgetPeriodHandler := connect.NewUnaryHandler(
+		PlanServiceCopyBudgetPeriodProcedure,
+		svc.CopyBudgetPeriod,
+		connect.WithSchema(planServiceMethods.ByName("CopyBudgetPeriod")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.PlanService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PlanServiceCreatePlanProcedure:
@@ -443,6 +543,14 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceUpdateItemConfigHandler.ServeHTTP(w, r)
 		case PlanServiceDeleteItemConfigProcedure:
 			planServiceDeleteItemConfigHandler.ServeHTTP(w, r)
+		case PlanServiceGetBudgetPeriodProcedure:
+			planServiceGetBudgetPeriodHandler.ServeHTTP(w, r)
+		case PlanServiceListBudgetPeriodsProcedure:
+			planServiceListBudgetPeriodsHandler.ServeHTTP(w, r)
+		case PlanServiceUpdateBudgetPeriodItemProcedure:
+			planServiceUpdateBudgetPeriodItemHandler.ServeHTTP(w, r)
+		case PlanServiceCopyBudgetPeriodProcedure:
+			planServiceCopyBudgetPeriodHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -506,4 +614,20 @@ func (UnimplementedPlanServiceHandler) UpdateItemConfig(context.Context, *connec
 
 func (UnimplementedPlanServiceHandler) DeleteItemConfig(context.Context, *connect.Request[v1.DeleteItemConfigRequest]) (*connect.Response[v1.DeleteItemConfigResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.DeleteItemConfig is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) GetBudgetPeriod(context.Context, *connect.Request[v1.GetBudgetPeriodRequest]) (*connect.Response[v1.GetBudgetPeriodResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.GetBudgetPeriod is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) ListBudgetPeriods(context.Context, *connect.Request[v1.ListBudgetPeriodsRequest]) (*connect.Response[v1.ListBudgetPeriodsResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.ListBudgetPeriods is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) UpdateBudgetPeriodItem(context.Context, *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.UpdateBudgetPeriodItem is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.CopyBudgetPeriod is not implemented"))
 }

@@ -1404,6 +1404,300 @@ export declare type DeleteItemConfigResponse = Message<"echo.v1.DeleteItemConfig
 export declare const DeleteItemConfigResponseSchema: GenMessage<DeleteItemConfigResponse>;
 
 /**
+ * BudgetPeriod - A monthly snapshot of budget values
+ *
+ * @generated from message echo.v1.BudgetPeriod
+ */
+export declare type BudgetPeriod = Message<"echo.v1.BudgetPeriod"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string plan_id = 2;
+   */
+  planId: string;
+
+  /**
+   * @generated from field: int32 year = 3;
+   */
+  year: number;
+
+  /**
+   * @generated from field: int32 month = 4;
+   */
+  month: number;
+
+  /**
+   * @generated from field: bool is_locked = 5;
+   */
+  isLocked: boolean;
+
+  /**
+   * @generated from field: string notes = 6;
+   */
+  notes: string;
+
+  /**
+   * @generated from field: repeated echo.v1.BudgetPeriodItem items = 7;
+   */
+  items: BudgetPeriodItem[];
+
+  /**
+   * @generated from field: google.protobuf.Timestamp created_at = 8;
+   */
+  createdAt?: Timestamp;
+
+  /**
+   * @generated from field: google.protobuf.Timestamp updated_at = 9;
+   */
+  updatedAt?: Timestamp;
+};
+
+/**
+ * Describes the message echo.v1.BudgetPeriod.
+ * Use `create(BudgetPeriodSchema)` to create a new message.
+ */
+export declare const BudgetPeriodSchema: GenMessage<BudgetPeriod>;
+
+/**
+ * BudgetPeriodItem - Budget values for an item in a specific period
+ *
+ * @generated from message echo.v1.BudgetPeriodItem
+ */
+export declare type BudgetPeriodItem = Message<"echo.v1.BudgetPeriodItem"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string period_id = 2;
+   */
+  periodId: string;
+
+  /**
+   * @generated from field: string item_id = 3;
+   */
+  itemId: string;
+
+  /**
+   * @generated from field: string item_name = 4;
+   */
+  itemName: string;
+
+  /**
+   * @generated from field: string category_name = 5;
+   */
+  categoryName: string;
+
+  /**
+   * @generated from field: int64 budgeted_minor = 6;
+   */
+  budgetedMinor: bigint;
+
+  /**
+   * @generated from field: int64 actual_minor = 7;
+   */
+  actualMinor: bigint;
+
+  /**
+   * @generated from field: string notes = 8;
+   */
+  notes: string;
+};
+
+/**
+ * Describes the message echo.v1.BudgetPeriodItem.
+ * Use `create(BudgetPeriodItemSchema)` to create a new message.
+ */
+export declare const BudgetPeriodItemSchema: GenMessage<BudgetPeriodItem>;
+
+/**
+ * GetBudgetPeriod - Gets or creates period for a month
+ *
+ * @generated from message echo.v1.GetBudgetPeriodRequest
+ */
+export declare type GetBudgetPeriodRequest = Message<"echo.v1.GetBudgetPeriodRequest"> & {
+  /**
+   * @generated from field: string plan_id = 1;
+   */
+  planId: string;
+
+  /**
+   * @generated from field: int32 year = 2;
+   */
+  year: number;
+
+  /**
+   * @generated from field: int32 month = 3;
+   */
+  month: number;
+};
+
+/**
+ * Describes the message echo.v1.GetBudgetPeriodRequest.
+ * Use `create(GetBudgetPeriodRequestSchema)` to create a new message.
+ */
+export declare const GetBudgetPeriodRequestSchema: GenMessage<GetBudgetPeriodRequest>;
+
+/**
+ * @generated from message echo.v1.GetBudgetPeriodResponse
+ */
+export declare type GetBudgetPeriodResponse = Message<"echo.v1.GetBudgetPeriodResponse"> & {
+  /**
+   * @generated from field: echo.v1.BudgetPeriod period = 1;
+   */
+  period?: BudgetPeriod;
+
+  /**
+   * True if a new period was created
+   *
+   * @generated from field: bool was_created = 2;
+   */
+  wasCreated: boolean;
+};
+
+/**
+ * Describes the message echo.v1.GetBudgetPeriodResponse.
+ * Use `create(GetBudgetPeriodResponseSchema)` to create a new message.
+ */
+export declare const GetBudgetPeriodResponseSchema: GenMessage<GetBudgetPeriodResponse>;
+
+/**
+ * ListBudgetPeriods - List all periods for a plan
+ *
+ * @generated from message echo.v1.ListBudgetPeriodsRequest
+ */
+export declare type ListBudgetPeriodsRequest = Message<"echo.v1.ListBudgetPeriodsRequest"> & {
+  /**
+   * @generated from field: string plan_id = 1;
+   */
+  planId: string;
+};
+
+/**
+ * Describes the message echo.v1.ListBudgetPeriodsRequest.
+ * Use `create(ListBudgetPeriodsRequestSchema)` to create a new message.
+ */
+export declare const ListBudgetPeriodsRequestSchema: GenMessage<ListBudgetPeriodsRequest>;
+
+/**
+ * @generated from message echo.v1.ListBudgetPeriodsResponse
+ */
+export declare type ListBudgetPeriodsResponse = Message<"echo.v1.ListBudgetPeriodsResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.BudgetPeriod periods = 1;
+   */
+  periods: BudgetPeriod[];
+};
+
+/**
+ * Describes the message echo.v1.ListBudgetPeriodsResponse.
+ * Use `create(ListBudgetPeriodsResponseSchema)` to create a new message.
+ */
+export declare const ListBudgetPeriodsResponseSchema: GenMessage<ListBudgetPeriodsResponse>;
+
+/**
+ * UpdateBudgetPeriodItem - Update values for a specific item in a period
+ *
+ * @generated from message echo.v1.UpdateBudgetPeriodItemRequest
+ */
+export declare type UpdateBudgetPeriodItemRequest = Message<"echo.v1.UpdateBudgetPeriodItemRequest"> & {
+  /**
+   * @generated from field: string period_item_id = 1;
+   */
+  periodItemId: string;
+
+  /**
+   * @generated from field: optional int64 budgeted_minor = 2;
+   */
+  budgetedMinor?: bigint;
+
+  /**
+   * @generated from field: optional int64 actual_minor = 3;
+   */
+  actualMinor?: bigint;
+
+  /**
+   * @generated from field: optional string notes = 4;
+   */
+  notes?: string;
+};
+
+/**
+ * Describes the message echo.v1.UpdateBudgetPeriodItemRequest.
+ * Use `create(UpdateBudgetPeriodItemRequestSchema)` to create a new message.
+ */
+export declare const UpdateBudgetPeriodItemRequestSchema: GenMessage<UpdateBudgetPeriodItemRequest>;
+
+/**
+ * @generated from message echo.v1.UpdateBudgetPeriodItemResponse
+ */
+export declare type UpdateBudgetPeriodItemResponse = Message<"echo.v1.UpdateBudgetPeriodItemResponse"> & {
+  /**
+   * @generated from field: echo.v1.BudgetPeriodItem item = 1;
+   */
+  item?: BudgetPeriodItem;
+};
+
+/**
+ * Describes the message echo.v1.UpdateBudgetPeriodItemResponse.
+ * Use `create(UpdateBudgetPeriodItemResponseSchema)` to create a new message.
+ */
+export declare const UpdateBudgetPeriodItemResponseSchema: GenMessage<UpdateBudgetPeriodItemResponse>;
+
+/**
+ * CopyBudgetPeriod - Copy values from one period to another
+ *
+ * @generated from message echo.v1.CopyBudgetPeriodRequest
+ */
+export declare type CopyBudgetPeriodRequest = Message<"echo.v1.CopyBudgetPeriodRequest"> & {
+  /**
+   * @generated from field: string source_period_id = 1;
+   */
+  sourcePeriodId: string;
+
+  /**
+   * @generated from field: string target_plan_id = 2;
+   */
+  targetPlanId: string;
+
+  /**
+   * @generated from field: int32 target_year = 3;
+   */
+  targetYear: number;
+
+  /**
+   * @generated from field: int32 target_month = 4;
+   */
+  targetMonth: number;
+};
+
+/**
+ * Describes the message echo.v1.CopyBudgetPeriodRequest.
+ * Use `create(CopyBudgetPeriodRequestSchema)` to create a new message.
+ */
+export declare const CopyBudgetPeriodRequestSchema: GenMessage<CopyBudgetPeriodRequest>;
+
+/**
+ * @generated from message echo.v1.CopyBudgetPeriodResponse
+ */
+export declare type CopyBudgetPeriodResponse = Message<"echo.v1.CopyBudgetPeriodResponse"> & {
+  /**
+   * @generated from field: echo.v1.BudgetPeriod period = 1;
+   */
+  period?: BudgetPeriod;
+};
+
+/**
+ * Describes the message echo.v1.CopyBudgetPeriodResponse.
+ * Use `create(CopyBudgetPeriodResponseSchema)` to create a new message.
+ */
+export declare const CopyBudgetPeriodResponseSchema: GenMessage<CopyBudgetPeriodResponse>;
+
+/**
  * Plan source types
  *
  * @generated from enum echo.v1.PlanSourceType
@@ -1823,6 +2117,46 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof DeleteItemConfigRequestSchema;
     output: typeof DeleteItemConfigResponseSchema;
+  },
+  /**
+   * GetBudgetPeriod gets or creates a budget period for a specific month
+   *
+   * @generated from rpc echo.v1.PlanService.GetBudgetPeriod
+   */
+  getBudgetPeriod: {
+    methodKind: "unary";
+    input: typeof GetBudgetPeriodRequestSchema;
+    output: typeof GetBudgetPeriodResponseSchema;
+  },
+  /**
+   * ListBudgetPeriods lists all budget periods for a plan
+   *
+   * @generated from rpc echo.v1.PlanService.ListBudgetPeriods
+   */
+  listBudgetPeriods: {
+    methodKind: "unary";
+    input: typeof ListBudgetPeriodsRequestSchema;
+    output: typeof ListBudgetPeriodsResponseSchema;
+  },
+  /**
+   * UpdateBudgetPeriodItem updates a specific item's values for a period
+   *
+   * @generated from rpc echo.v1.PlanService.UpdateBudgetPeriodItem
+   */
+  updateBudgetPeriodItem: {
+    methodKind: "unary";
+    input: typeof UpdateBudgetPeriodItemRequestSchema;
+    output: typeof UpdateBudgetPeriodItemResponseSchema;
+  },
+  /**
+   * CopyBudgetPeriod copies values from one period to another
+   *
+   * @generated from rpc echo.v1.PlanService.CopyBudgetPeriod
+   */
+  copyBudgetPeriod: {
+    methodKind: "unary";
+    input: typeof CopyBudgetPeriodRequestSchema;
+    output: typeof CopyBudgetPeriodResponseSchema;
   },
 }>;
 
