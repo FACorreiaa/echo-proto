@@ -502,6 +502,13 @@ export declare type CreateItemInput = Message<"echo.v1.CreateItemInput"> & {
    * @generated from field: optional string config_id = 7;
    */
   configId?: string;
+
+  /**
+   * Initial "Saved" amount for goals or starting balance
+   *
+   * @generated from field: optional int64 initial_actual_minor = 8;
+   */
+  initialActualMinor?: bigint;
 };
 
 /**
@@ -672,6 +679,45 @@ export declare type UpdatePlanResponse = Message<"echo.v1.UpdatePlanResponse"> &
  * Use `create(UpdatePlanResponseSchema)` to create a new message.
  */
 export declare const UpdatePlanResponseSchema: GenMessage<UpdatePlanResponse>;
+
+/**
+ * @generated from message echo.v1.UpdatePlanStructureRequest
+ */
+export declare type UpdatePlanStructureRequest = Message<"echo.v1.UpdatePlanStructureRequest"> & {
+  /**
+   * @generated from field: string plan_id = 1;
+   */
+  planId: string;
+
+  /**
+   * Re-use create input as it defines the full structure
+   *
+   * @generated from field: repeated echo.v1.CreateCategoryGroupInput category_groups = 2;
+   */
+  categoryGroups: CreateCategoryGroupInput[];
+};
+
+/**
+ * Describes the message echo.v1.UpdatePlanStructureRequest.
+ * Use `create(UpdatePlanStructureRequestSchema)` to create a new message.
+ */
+export declare const UpdatePlanStructureRequestSchema: GenMessage<UpdatePlanStructureRequest>;
+
+/**
+ * @generated from message echo.v1.UpdatePlanStructureResponse
+ */
+export declare type UpdatePlanStructureResponse = Message<"echo.v1.UpdatePlanStructureResponse"> & {
+  /**
+   * @generated from field: echo.v1.UserPlan plan = 1;
+   */
+  plan?: UserPlan;
+};
+
+/**
+ * Describes the message echo.v1.UpdatePlanStructureResponse.
+ * Use `create(UpdatePlanStructureResponseSchema)` to create a new message.
+ */
+export declare const UpdatePlanStructureResponseSchema: GenMessage<UpdatePlanStructureResponse>;
 
 /**
  * @generated from message echo.v1.DeletePlanRequest
@@ -2150,6 +2196,16 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof DeletePlanRequestSchema;
     output: typeof DeletePlanResponseSchema;
+  },
+  /**
+   * UpdatePlanStructure updates the entire structure of a plan (categories, items, etc.)
+   *
+   * @generated from rpc echo.v1.PlanService.UpdatePlanStructure
+   */
+  updatePlanStructure: {
+    methodKind: "unary";
+    input: typeof UpdatePlanStructureRequestSchema;
+    output: typeof UpdatePlanStructureResponseSchema;
   },
   /**
    * SetActivePlan marks a plan as the active/live plan

@@ -1452,6 +1452,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.UpdatePlanStructureRequest"><span class="badge">M</span>UpdatePlanStructureRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.UpdatePlanStructureResponse"><span class="badge">M</span>UpdatePlanStructureResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.UserPlan"><span class="badge">M</span>UserPlan</a>
                 </li>
               
@@ -11529,6 +11537,13 @@ Positive = spent more, negative = spent less </p></td>
                   <td><p>Dynamic config reference (preferred) </p></td>
                 </tr>
               
+                <tr>
+                  <td>initial_actual_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td>optional</td>
+                  <td><p>Initial &#34;Saved&#34; amount for goals or starting balance </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -13351,6 +13366,61 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.UpdatePlanStructureRequest">UpdatePlanStructureRequest</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_groups</td>
+                  <td><a href="#echo.v1.CreateCategoryGroupInput">CreateCategoryGroupInput</a></td>
+                  <td>repeated</td>
+                  <td><p>Re-use create input as it defines the full structure </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.UpdatePlanStructureResponse">UpdatePlanStructureResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan</td>
+                  <td><a href="#echo.v1.UserPlan">UserPlan</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.UserPlan">UserPlan</h3>
         <p>UserPlan represents a user's financial plan</p>
 
@@ -13800,6 +13870,13 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.DeletePlanRequest">DeletePlanRequest</a></td>
                 <td><a href="#echo.v1.DeletePlanResponse">DeletePlanResponse</a></td>
                 <td><p>DeletePlan soft-deletes a plan</p></td>
+              </tr>
+            
+              <tr>
+                <td>UpdatePlanStructure</td>
+                <td><a href="#echo.v1.UpdatePlanStructureRequest">UpdatePlanStructureRequest</a></td>
+                <td><a href="#echo.v1.UpdatePlanStructureResponse">UpdatePlanStructureResponse</a></td>
+                <td><p>UpdatePlanStructure updates the entire structure of a plan (categories, items, etc.)</p></td>
               </tr>
             
               <tr>

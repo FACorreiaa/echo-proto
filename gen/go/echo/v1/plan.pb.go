@@ -1222,16 +1222,17 @@ func (x *CreateCategoryInput) GetLabels() map[string]string {
 }
 
 type CreateItemInput struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
-	BudgetedMinor int64                  `protobuf:"varint,2,opt,name=budgeted_minor,json=budgetedMinor,proto3" json:"budgeted_minor,omitempty"`
-	WidgetType    WidgetType             `protobuf:"varint,3,opt,name=widget_type,json=widgetType,proto3,enum=echo.v1.WidgetType" json:"widget_type,omitempty"`
-	FieldType     FieldType              `protobuf:"varint,4,opt,name=field_type,json=fieldType,proto3,enum=echo.v1.FieldType" json:"field_type,omitempty"`
-	Labels        map[string]string      `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
-	ItemType      ItemType               `protobuf:"varint,6,opt,name=item_type,json=itemType,proto3,enum=echo.v1.ItemType" json:"item_type,omitempty"` // What tab this item appears in (legacy)
-	ConfigId      *string                `protobuf:"bytes,7,opt,name=config_id,json=configId,proto3,oneof" json:"config_id,omitempty"`                  // Dynamic config reference (preferred)
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Name               string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	BudgetedMinor      int64                  `protobuf:"varint,2,opt,name=budgeted_minor,json=budgetedMinor,proto3" json:"budgeted_minor,omitempty"`
+	WidgetType         WidgetType             `protobuf:"varint,3,opt,name=widget_type,json=widgetType,proto3,enum=echo.v1.WidgetType" json:"widget_type,omitempty"`
+	FieldType          FieldType              `protobuf:"varint,4,opt,name=field_type,json=fieldType,proto3,enum=echo.v1.FieldType" json:"field_type,omitempty"`
+	Labels             map[string]string      `protobuf:"bytes,5,rep,name=labels,proto3" json:"labels,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	ItemType           ItemType               `protobuf:"varint,6,opt,name=item_type,json=itemType,proto3,enum=echo.v1.ItemType" json:"item_type,omitempty"`                 // What tab this item appears in (legacy)
+	ConfigId           *string                `protobuf:"bytes,7,opt,name=config_id,json=configId,proto3,oneof" json:"config_id,omitempty"`                                  // Dynamic config reference (preferred)
+	InitialActualMinor *int64                 `protobuf:"varint,8,opt,name=initial_actual_minor,json=initialActualMinor,proto3,oneof" json:"initial_actual_minor,omitempty"` // Initial "Saved" amount for goals or starting balance
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *CreateItemInput) Reset() {
@@ -1311,6 +1312,13 @@ func (x *CreateItemInput) GetConfigId() string {
 		return *x.ConfigId
 	}
 	return ""
+}
+
+func (x *CreateItemInput) GetInitialActualMinor() int64 {
+	if x != nil && x.InitialActualMinor != nil {
+		return *x.InitialActualMinor
+	}
+	return 0
 }
 
 type CreatePlanResponse struct {
@@ -1721,6 +1729,102 @@ func (x *UpdatePlanResponse) GetPlan() *UserPlan {
 	return nil
 }
 
+type UpdatePlanStructureRequest struct {
+	state          protoimpl.MessageState      `protogen:"open.v1"`
+	PlanId         string                      `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	CategoryGroups []*CreateCategoryGroupInput `protobuf:"bytes,2,rep,name=category_groups,json=categoryGroups,proto3" json:"category_groups,omitempty"` // Re-use create input as it defines the full structure
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *UpdatePlanStructureRequest) Reset() {
+	*x = UpdatePlanStructureRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[17]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePlanStructureRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePlanStructureRequest) ProtoMessage() {}
+
+func (x *UpdatePlanStructureRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[17]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePlanStructureRequest.ProtoReflect.Descriptor instead.
+func (*UpdatePlanStructureRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{17}
+}
+
+func (x *UpdatePlanStructureRequest) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *UpdatePlanStructureRequest) GetCategoryGroups() []*CreateCategoryGroupInput {
+	if x != nil {
+		return x.CategoryGroups
+	}
+	return nil
+}
+
+type UpdatePlanStructureResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Plan          *UserPlan              `protobuf:"bytes,1,opt,name=plan,proto3" json:"plan,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *UpdatePlanStructureResponse) Reset() {
+	*x = UpdatePlanStructureResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[18]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *UpdatePlanStructureResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdatePlanStructureResponse) ProtoMessage() {}
+
+func (x *UpdatePlanStructureResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[18]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdatePlanStructureResponse.ProtoReflect.Descriptor instead.
+func (*UpdatePlanStructureResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{18}
+}
+
+func (x *UpdatePlanStructureResponse) GetPlan() *UserPlan {
+	if x != nil {
+		return x.Plan
+	}
+	return nil
+}
+
 type DeletePlanRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
@@ -1730,7 +1834,7 @@ type DeletePlanRequest struct {
 
 func (x *DeletePlanRequest) Reset() {
 	*x = DeletePlanRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[17]
+	mi := &file_echo_v1_plan_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1742,7 +1846,7 @@ func (x *DeletePlanRequest) String() string {
 func (*DeletePlanRequest) ProtoMessage() {}
 
 func (x *DeletePlanRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[17]
+	mi := &file_echo_v1_plan_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1755,7 +1859,7 @@ func (x *DeletePlanRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePlanRequest.ProtoReflect.Descriptor instead.
 func (*DeletePlanRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{17}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *DeletePlanRequest) GetPlanId() string {
@@ -1773,7 +1877,7 @@ type DeletePlanResponse struct {
 
 func (x *DeletePlanResponse) Reset() {
 	*x = DeletePlanResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[18]
+	mi := &file_echo_v1_plan_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1785,7 +1889,7 @@ func (x *DeletePlanResponse) String() string {
 func (*DeletePlanResponse) ProtoMessage() {}
 
 func (x *DeletePlanResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[18]
+	mi := &file_echo_v1_plan_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1798,7 +1902,7 @@ func (x *DeletePlanResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePlanResponse.ProtoReflect.Descriptor instead.
 func (*DeletePlanResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{18}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{20}
 }
 
 type SetActivePlanRequest struct {
@@ -1810,7 +1914,7 @@ type SetActivePlanRequest struct {
 
 func (x *SetActivePlanRequest) Reset() {
 	*x = SetActivePlanRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[19]
+	mi := &file_echo_v1_plan_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1822,7 +1926,7 @@ func (x *SetActivePlanRequest) String() string {
 func (*SetActivePlanRequest) ProtoMessage() {}
 
 func (x *SetActivePlanRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[19]
+	mi := &file_echo_v1_plan_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1835,7 +1939,7 @@ func (x *SetActivePlanRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetActivePlanRequest.ProtoReflect.Descriptor instead.
 func (*SetActivePlanRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{19}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *SetActivePlanRequest) GetPlanId() string {
@@ -1854,7 +1958,7 @@ type SetActivePlanResponse struct {
 
 func (x *SetActivePlanResponse) Reset() {
 	*x = SetActivePlanResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[20]
+	mi := &file_echo_v1_plan_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1866,7 +1970,7 @@ func (x *SetActivePlanResponse) String() string {
 func (*SetActivePlanResponse) ProtoMessage() {}
 
 func (x *SetActivePlanResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[20]
+	mi := &file_echo_v1_plan_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1879,7 +1983,7 @@ func (x *SetActivePlanResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SetActivePlanResponse.ProtoReflect.Descriptor instead.
 func (*SetActivePlanResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{20}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *SetActivePlanResponse) GetPlan() *UserPlan {
@@ -1899,7 +2003,7 @@ type DuplicatePlanRequest struct {
 
 func (x *DuplicatePlanRequest) Reset() {
 	*x = DuplicatePlanRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[21]
+	mi := &file_echo_v1_plan_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1911,7 +2015,7 @@ func (x *DuplicatePlanRequest) String() string {
 func (*DuplicatePlanRequest) ProtoMessage() {}
 
 func (x *DuplicatePlanRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[21]
+	mi := &file_echo_v1_plan_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1924,7 +2028,7 @@ func (x *DuplicatePlanRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DuplicatePlanRequest.ProtoReflect.Descriptor instead.
 func (*DuplicatePlanRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{21}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *DuplicatePlanRequest) GetPlanId() string {
@@ -1950,7 +2054,7 @@ type DuplicatePlanResponse struct {
 
 func (x *DuplicatePlanResponse) Reset() {
 	*x = DuplicatePlanResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[22]
+	mi := &file_echo_v1_plan_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1962,7 +2066,7 @@ func (x *DuplicatePlanResponse) String() string {
 func (*DuplicatePlanResponse) ProtoMessage() {}
 
 func (x *DuplicatePlanResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[22]
+	mi := &file_echo_v1_plan_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1975,7 +2079,7 @@ func (x *DuplicatePlanResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DuplicatePlanResponse.ProtoReflect.Descriptor instead.
 func (*DuplicatePlanResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{22}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *DuplicatePlanResponse) GetPlan() *UserPlan {
@@ -1996,7 +2100,7 @@ type ImportPlanFromExcelRequest struct {
 
 func (x *ImportPlanFromExcelRequest) Reset() {
 	*x = ImportPlanFromExcelRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[23]
+	mi := &file_echo_v1_plan_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2008,7 +2112,7 @@ func (x *ImportPlanFromExcelRequest) String() string {
 func (*ImportPlanFromExcelRequest) ProtoMessage() {}
 
 func (x *ImportPlanFromExcelRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[23]
+	mi := &file_echo_v1_plan_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2021,7 +2125,7 @@ func (x *ImportPlanFromExcelRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportPlanFromExcelRequest.ProtoReflect.Descriptor instead.
 func (*ImportPlanFromExcelRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{23}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *ImportPlanFromExcelRequest) GetFileId() string {
@@ -2059,7 +2163,7 @@ type ExcelMappingConfig struct {
 
 func (x *ExcelMappingConfig) Reset() {
 	*x = ExcelMappingConfig{}
-	mi := &file_echo_v1_plan_proto_msgTypes[24]
+	mi := &file_echo_v1_plan_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2071,7 +2175,7 @@ func (x *ExcelMappingConfig) String() string {
 func (*ExcelMappingConfig) ProtoMessage() {}
 
 func (x *ExcelMappingConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[24]
+	mi := &file_echo_v1_plan_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2084,7 +2188,7 @@ func (x *ExcelMappingConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExcelMappingConfig.ProtoReflect.Descriptor instead.
 func (*ExcelMappingConfig) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{24}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *ExcelMappingConfig) GetCategoryColumn() string {
@@ -2140,7 +2244,7 @@ type ImportPlanFromExcelResponse struct {
 
 func (x *ImportPlanFromExcelResponse) Reset() {
 	*x = ImportPlanFromExcelResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[25]
+	mi := &file_echo_v1_plan_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2152,7 +2256,7 @@ func (x *ImportPlanFromExcelResponse) String() string {
 func (*ImportPlanFromExcelResponse) ProtoMessage() {}
 
 func (x *ImportPlanFromExcelResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[25]
+	mi := &file_echo_v1_plan_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2165,7 +2269,7 @@ func (x *ImportPlanFromExcelResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImportPlanFromExcelResponse.ProtoReflect.Descriptor instead.
 func (*ImportPlanFromExcelResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{25}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *ImportPlanFromExcelResponse) GetPlan() *UserPlan {
@@ -2198,7 +2302,7 @@ type AnalyzeExcelForPlanRequest struct {
 
 func (x *AnalyzeExcelForPlanRequest) Reset() {
 	*x = AnalyzeExcelForPlanRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[26]
+	mi := &file_echo_v1_plan_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2210,7 +2314,7 @@ func (x *AnalyzeExcelForPlanRequest) String() string {
 func (*AnalyzeExcelForPlanRequest) ProtoMessage() {}
 
 func (x *AnalyzeExcelForPlanRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[26]
+	mi := &file_echo_v1_plan_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2223,7 +2327,7 @@ func (x *AnalyzeExcelForPlanRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnalyzeExcelForPlanRequest.ProtoReflect.Descriptor instead.
 func (*AnalyzeExcelForPlanRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{26}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *AnalyzeExcelForPlanRequest) GetFileId() string {
@@ -2243,7 +2347,7 @@ type AnalyzeExcelForPlanResponse struct {
 
 func (x *AnalyzeExcelForPlanResponse) Reset() {
 	*x = AnalyzeExcelForPlanResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[27]
+	mi := &file_echo_v1_plan_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2255,7 +2359,7 @@ func (x *AnalyzeExcelForPlanResponse) String() string {
 func (*AnalyzeExcelForPlanResponse) ProtoMessage() {}
 
 func (x *AnalyzeExcelForPlanResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[27]
+	mi := &file_echo_v1_plan_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2268,7 +2372,7 @@ func (x *AnalyzeExcelForPlanResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AnalyzeExcelForPlanResponse.ProtoReflect.Descriptor instead.
 func (*AnalyzeExcelForPlanResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{27}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *AnalyzeExcelForPlanResponse) GetSheets() []*ExcelSheetAnalysis {
@@ -2301,7 +2405,7 @@ type ExcelSheetAnalysis struct {
 
 func (x *ExcelSheetAnalysis) Reset() {
 	*x = ExcelSheetAnalysis{}
-	mi := &file_echo_v1_plan_proto_msgTypes[28]
+	mi := &file_echo_v1_plan_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2313,7 +2417,7 @@ func (x *ExcelSheetAnalysis) String() string {
 func (*ExcelSheetAnalysis) ProtoMessage() {}
 
 func (x *ExcelSheetAnalysis) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[28]
+	mi := &file_echo_v1_plan_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2326,7 +2430,7 @@ func (x *ExcelSheetAnalysis) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExcelSheetAnalysis.ProtoReflect.Descriptor instead.
 func (*ExcelSheetAnalysis) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{28}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *ExcelSheetAnalysis) GetName() string {
@@ -2395,7 +2499,7 @@ type ExcelPreviewRow struct {
 
 func (x *ExcelPreviewRow) Reset() {
 	*x = ExcelPreviewRow{}
-	mi := &file_echo_v1_plan_proto_msgTypes[29]
+	mi := &file_echo_v1_plan_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2407,7 +2511,7 @@ func (x *ExcelPreviewRow) String() string {
 func (*ExcelPreviewRow) ProtoMessage() {}
 
 func (x *ExcelPreviewRow) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[29]
+	mi := &file_echo_v1_plan_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2420,7 +2524,7 @@ func (x *ExcelPreviewRow) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ExcelPreviewRow.ProtoReflect.Descriptor instead.
 func (*ExcelPreviewRow) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{29}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *ExcelPreviewRow) GetCells() []string {
@@ -2444,7 +2548,7 @@ type DetectedColumnMapping struct {
 
 func (x *DetectedColumnMapping) Reset() {
 	*x = DetectedColumnMapping{}
-	mi := &file_echo_v1_plan_proto_msgTypes[30]
+	mi := &file_echo_v1_plan_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2456,7 +2560,7 @@ func (x *DetectedColumnMapping) String() string {
 func (*DetectedColumnMapping) ProtoMessage() {}
 
 func (x *DetectedColumnMapping) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[30]
+	mi := &file_echo_v1_plan_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2469,7 +2573,7 @@ func (x *DetectedColumnMapping) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DetectedColumnMapping.ProtoReflect.Descriptor instead.
 func (*DetectedColumnMapping) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{30}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DetectedColumnMapping) GetCategoryColumn() string {
@@ -2522,7 +2626,7 @@ type ComputePlanActualsRequest struct {
 
 func (x *ComputePlanActualsRequest) Reset() {
 	*x = ComputePlanActualsRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[31]
+	mi := &file_echo_v1_plan_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2534,7 +2638,7 @@ func (x *ComputePlanActualsRequest) String() string {
 func (*ComputePlanActualsRequest) ProtoMessage() {}
 
 func (x *ComputePlanActualsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[31]
+	mi := &file_echo_v1_plan_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2547,7 +2651,7 @@ func (x *ComputePlanActualsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComputePlanActualsRequest.ProtoReflect.Descriptor instead.
 func (*ComputePlanActualsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{31}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *ComputePlanActualsRequest) GetPlanId() string {
@@ -2593,7 +2697,7 @@ type ComputePlanActualsResponse struct {
 
 func (x *ComputePlanActualsResponse) Reset() {
 	*x = ComputePlanActualsResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[32]
+	mi := &file_echo_v1_plan_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2605,7 +2709,7 @@ func (x *ComputePlanActualsResponse) String() string {
 func (*ComputePlanActualsResponse) ProtoMessage() {}
 
 func (x *ComputePlanActualsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[32]
+	mi := &file_echo_v1_plan_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2618,7 +2722,7 @@ func (x *ComputePlanActualsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ComputePlanActualsResponse.ProtoReflect.Descriptor instead.
 func (*ComputePlanActualsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{32}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *ComputePlanActualsResponse) GetPlan() *UserPlan {
@@ -2660,7 +2764,7 @@ type UnmatchedItem struct {
 
 func (x *UnmatchedItem) Reset() {
 	*x = UnmatchedItem{}
-	mi := &file_echo_v1_plan_proto_msgTypes[33]
+	mi := &file_echo_v1_plan_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2672,7 +2776,7 @@ func (x *UnmatchedItem) String() string {
 func (*UnmatchedItem) ProtoMessage() {}
 
 func (x *UnmatchedItem) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[33]
+	mi := &file_echo_v1_plan_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2685,7 +2789,7 @@ func (x *UnmatchedItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UnmatchedItem.ProtoReflect.Descriptor instead.
 func (*UnmatchedItem) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{33}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *UnmatchedItem) GetItemId() string {
@@ -2727,7 +2831,7 @@ type ItemConfig struct {
 
 func (x *ItemConfig) Reset() {
 	*x = ItemConfig{}
-	mi := &file_echo_v1_plan_proto_msgTypes[34]
+	mi := &file_echo_v1_plan_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2739,7 +2843,7 @@ func (x *ItemConfig) String() string {
 func (*ItemConfig) ProtoMessage() {}
 
 func (x *ItemConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[34]
+	mi := &file_echo_v1_plan_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2752,7 +2856,7 @@ func (x *ItemConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ItemConfig.ProtoReflect.Descriptor instead.
 func (*ItemConfig) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{34}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ItemConfig) GetId() string {
@@ -2827,7 +2931,7 @@ type ListItemConfigsRequest struct {
 
 func (x *ListItemConfigsRequest) Reset() {
 	*x = ListItemConfigsRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[35]
+	mi := &file_echo_v1_plan_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2839,7 +2943,7 @@ func (x *ListItemConfigsRequest) String() string {
 func (*ListItemConfigsRequest) ProtoMessage() {}
 
 func (x *ListItemConfigsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[35]
+	mi := &file_echo_v1_plan_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2852,7 +2956,7 @@ func (x *ListItemConfigsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListItemConfigsRequest.ProtoReflect.Descriptor instead.
 func (*ListItemConfigsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{35}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{37}
 }
 
 type ListItemConfigsResponse struct {
@@ -2864,7 +2968,7 @@ type ListItemConfigsResponse struct {
 
 func (x *ListItemConfigsResponse) Reset() {
 	*x = ListItemConfigsResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[36]
+	mi := &file_echo_v1_plan_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2876,7 +2980,7 @@ func (x *ListItemConfigsResponse) String() string {
 func (*ListItemConfigsResponse) ProtoMessage() {}
 
 func (x *ListItemConfigsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[36]
+	mi := &file_echo_v1_plan_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2889,7 +2993,7 @@ func (x *ListItemConfigsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListItemConfigsResponse.ProtoReflect.Descriptor instead.
 func (*ListItemConfigsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{36}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *ListItemConfigsResponse) GetConfigs() []*ItemConfig {
@@ -2914,7 +3018,7 @@ type CreateItemConfigRequest struct {
 
 func (x *CreateItemConfigRequest) Reset() {
 	*x = CreateItemConfigRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[37]
+	mi := &file_echo_v1_plan_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2926,7 +3030,7 @@ func (x *CreateItemConfigRequest) String() string {
 func (*CreateItemConfigRequest) ProtoMessage() {}
 
 func (x *CreateItemConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[37]
+	mi := &file_echo_v1_plan_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2939,7 +3043,7 @@ func (x *CreateItemConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemConfigRequest.ProtoReflect.Descriptor instead.
 func (*CreateItemConfigRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{37}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *CreateItemConfigRequest) GetLabel() string {
@@ -2993,7 +3097,7 @@ type CreateItemConfigResponse struct {
 
 func (x *CreateItemConfigResponse) Reset() {
 	*x = CreateItemConfigResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[38]
+	mi := &file_echo_v1_plan_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3005,7 +3109,7 @@ func (x *CreateItemConfigResponse) String() string {
 func (*CreateItemConfigResponse) ProtoMessage() {}
 
 func (x *CreateItemConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[38]
+	mi := &file_echo_v1_plan_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3018,7 +3122,7 @@ func (x *CreateItemConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateItemConfigResponse.ProtoReflect.Descriptor instead.
 func (*CreateItemConfigResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{38}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *CreateItemConfigResponse) GetConfig() *ItemConfig {
@@ -3045,7 +3149,7 @@ type UpdateItemConfigRequest struct {
 
 func (x *UpdateItemConfigRequest) Reset() {
 	*x = UpdateItemConfigRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[39]
+	mi := &file_echo_v1_plan_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3057,7 +3161,7 @@ func (x *UpdateItemConfigRequest) String() string {
 func (*UpdateItemConfigRequest) ProtoMessage() {}
 
 func (x *UpdateItemConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[39]
+	mi := &file_echo_v1_plan_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3070,7 +3174,7 @@ func (x *UpdateItemConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateItemConfigRequest.ProtoReflect.Descriptor instead.
 func (*UpdateItemConfigRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{39}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *UpdateItemConfigRequest) GetId() string {
@@ -3138,7 +3242,7 @@ type UpdateItemConfigResponse struct {
 
 func (x *UpdateItemConfigResponse) Reset() {
 	*x = UpdateItemConfigResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[40]
+	mi := &file_echo_v1_plan_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3150,7 +3254,7 @@ func (x *UpdateItemConfigResponse) String() string {
 func (*UpdateItemConfigResponse) ProtoMessage() {}
 
 func (x *UpdateItemConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[40]
+	mi := &file_echo_v1_plan_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3163,7 +3267,7 @@ func (x *UpdateItemConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateItemConfigResponse.ProtoReflect.Descriptor instead.
 func (*UpdateItemConfigResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{40}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{42}
 }
 
 func (x *UpdateItemConfigResponse) GetConfig() *ItemConfig {
@@ -3183,7 +3287,7 @@ type DeleteItemConfigRequest struct {
 
 func (x *DeleteItemConfigRequest) Reset() {
 	*x = DeleteItemConfigRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[41]
+	mi := &file_echo_v1_plan_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3195,7 +3299,7 @@ func (x *DeleteItemConfigRequest) String() string {
 func (*DeleteItemConfigRequest) ProtoMessage() {}
 
 func (x *DeleteItemConfigRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[41]
+	mi := &file_echo_v1_plan_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3208,7 +3312,7 @@ func (x *DeleteItemConfigRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemConfigRequest.ProtoReflect.Descriptor instead.
 func (*DeleteItemConfigRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{41}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *DeleteItemConfigRequest) GetId() string {
@@ -3227,7 +3331,7 @@ type DeleteItemConfigResponse struct {
 
 func (x *DeleteItemConfigResponse) Reset() {
 	*x = DeleteItemConfigResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[42]
+	mi := &file_echo_v1_plan_proto_msgTypes[44]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3239,7 +3343,7 @@ func (x *DeleteItemConfigResponse) String() string {
 func (*DeleteItemConfigResponse) ProtoMessage() {}
 
 func (x *DeleteItemConfigResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[42]
+	mi := &file_echo_v1_plan_proto_msgTypes[44]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3252,7 +3356,7 @@ func (x *DeleteItemConfigResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemConfigResponse.ProtoReflect.Descriptor instead.
 func (*DeleteItemConfigResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{42}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{44}
 }
 
 func (x *DeleteItemConfigResponse) GetSuccess() bool {
@@ -3280,7 +3384,7 @@ type BudgetPeriod struct {
 
 func (x *BudgetPeriod) Reset() {
 	*x = BudgetPeriod{}
-	mi := &file_echo_v1_plan_proto_msgTypes[43]
+	mi := &file_echo_v1_plan_proto_msgTypes[45]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3292,7 +3396,7 @@ func (x *BudgetPeriod) String() string {
 func (*BudgetPeriod) ProtoMessage() {}
 
 func (x *BudgetPeriod) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[43]
+	mi := &file_echo_v1_plan_proto_msgTypes[45]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3305,7 +3409,7 @@ func (x *BudgetPeriod) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BudgetPeriod.ProtoReflect.Descriptor instead.
 func (*BudgetPeriod) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{43}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{45}
 }
 
 func (x *BudgetPeriod) GetId() string {
@@ -3388,7 +3492,7 @@ type BudgetPeriodItem struct {
 
 func (x *BudgetPeriodItem) Reset() {
 	*x = BudgetPeriodItem{}
-	mi := &file_echo_v1_plan_proto_msgTypes[44]
+	mi := &file_echo_v1_plan_proto_msgTypes[46]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3400,7 +3504,7 @@ func (x *BudgetPeriodItem) String() string {
 func (*BudgetPeriodItem) ProtoMessage() {}
 
 func (x *BudgetPeriodItem) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[44]
+	mi := &file_echo_v1_plan_proto_msgTypes[46]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3413,7 +3517,7 @@ func (x *BudgetPeriodItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BudgetPeriodItem.ProtoReflect.Descriptor instead.
 func (*BudgetPeriodItem) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{44}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{46}
 }
 
 func (x *BudgetPeriodItem) GetId() string {
@@ -3484,7 +3588,7 @@ type GetBudgetPeriodRequest struct {
 
 func (x *GetBudgetPeriodRequest) Reset() {
 	*x = GetBudgetPeriodRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[45]
+	mi := &file_echo_v1_plan_proto_msgTypes[47]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3496,7 +3600,7 @@ func (x *GetBudgetPeriodRequest) String() string {
 func (*GetBudgetPeriodRequest) ProtoMessage() {}
 
 func (x *GetBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[45]
+	mi := &file_echo_v1_plan_proto_msgTypes[47]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3509,7 +3613,7 @@ func (x *GetBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBudgetPeriodRequest.ProtoReflect.Descriptor instead.
 func (*GetBudgetPeriodRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{45}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{47}
 }
 
 func (x *GetBudgetPeriodRequest) GetPlanId() string {
@@ -3543,7 +3647,7 @@ type GetBudgetPeriodResponse struct {
 
 func (x *GetBudgetPeriodResponse) Reset() {
 	*x = GetBudgetPeriodResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[46]
+	mi := &file_echo_v1_plan_proto_msgTypes[48]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3555,7 +3659,7 @@ func (x *GetBudgetPeriodResponse) String() string {
 func (*GetBudgetPeriodResponse) ProtoMessage() {}
 
 func (x *GetBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[46]
+	mi := &file_echo_v1_plan_proto_msgTypes[48]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3568,7 +3672,7 @@ func (x *GetBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetBudgetPeriodResponse.ProtoReflect.Descriptor instead.
 func (*GetBudgetPeriodResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{46}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{48}
 }
 
 func (x *GetBudgetPeriodResponse) GetPeriod() *BudgetPeriod {
@@ -3595,7 +3699,7 @@ type ListBudgetPeriodsRequest struct {
 
 func (x *ListBudgetPeriodsRequest) Reset() {
 	*x = ListBudgetPeriodsRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[47]
+	mi := &file_echo_v1_plan_proto_msgTypes[49]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3607,7 +3711,7 @@ func (x *ListBudgetPeriodsRequest) String() string {
 func (*ListBudgetPeriodsRequest) ProtoMessage() {}
 
 func (x *ListBudgetPeriodsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[47]
+	mi := &file_echo_v1_plan_proto_msgTypes[49]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3620,7 +3724,7 @@ func (x *ListBudgetPeriodsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBudgetPeriodsRequest.ProtoReflect.Descriptor instead.
 func (*ListBudgetPeriodsRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{47}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{49}
 }
 
 func (x *ListBudgetPeriodsRequest) GetPlanId() string {
@@ -3639,7 +3743,7 @@ type ListBudgetPeriodsResponse struct {
 
 func (x *ListBudgetPeriodsResponse) Reset() {
 	*x = ListBudgetPeriodsResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[48]
+	mi := &file_echo_v1_plan_proto_msgTypes[50]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3651,7 +3755,7 @@ func (x *ListBudgetPeriodsResponse) String() string {
 func (*ListBudgetPeriodsResponse) ProtoMessage() {}
 
 func (x *ListBudgetPeriodsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[48]
+	mi := &file_echo_v1_plan_proto_msgTypes[50]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3664,7 +3768,7 @@ func (x *ListBudgetPeriodsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListBudgetPeriodsResponse.ProtoReflect.Descriptor instead.
 func (*ListBudgetPeriodsResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{48}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{50}
 }
 
 func (x *ListBudgetPeriodsResponse) GetPeriods() []*BudgetPeriod {
@@ -3687,7 +3791,7 @@ type UpdateBudgetPeriodItemRequest struct {
 
 func (x *UpdateBudgetPeriodItemRequest) Reset() {
 	*x = UpdateBudgetPeriodItemRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[49]
+	mi := &file_echo_v1_plan_proto_msgTypes[51]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3699,7 +3803,7 @@ func (x *UpdateBudgetPeriodItemRequest) String() string {
 func (*UpdateBudgetPeriodItemRequest) ProtoMessage() {}
 
 func (x *UpdateBudgetPeriodItemRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[49]
+	mi := &file_echo_v1_plan_proto_msgTypes[51]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3712,7 +3816,7 @@ func (x *UpdateBudgetPeriodItemRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBudgetPeriodItemRequest.ProtoReflect.Descriptor instead.
 func (*UpdateBudgetPeriodItemRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{49}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *UpdateBudgetPeriodItemRequest) GetPeriodItemId() string {
@@ -3752,7 +3856,7 @@ type UpdateBudgetPeriodItemResponse struct {
 
 func (x *UpdateBudgetPeriodItemResponse) Reset() {
 	*x = UpdateBudgetPeriodItemResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[50]
+	mi := &file_echo_v1_plan_proto_msgTypes[52]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3764,7 +3868,7 @@ func (x *UpdateBudgetPeriodItemResponse) String() string {
 func (*UpdateBudgetPeriodItemResponse) ProtoMessage() {}
 
 func (x *UpdateBudgetPeriodItemResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[50]
+	mi := &file_echo_v1_plan_proto_msgTypes[52]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3777,7 +3881,7 @@ func (x *UpdateBudgetPeriodItemResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateBudgetPeriodItemResponse.ProtoReflect.Descriptor instead.
 func (*UpdateBudgetPeriodItemResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{50}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *UpdateBudgetPeriodItemResponse) GetItem() *BudgetPeriodItem {
@@ -3800,7 +3904,7 @@ type CopyBudgetPeriodRequest struct {
 
 func (x *CopyBudgetPeriodRequest) Reset() {
 	*x = CopyBudgetPeriodRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[51]
+	mi := &file_echo_v1_plan_proto_msgTypes[53]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3812,7 +3916,7 @@ func (x *CopyBudgetPeriodRequest) String() string {
 func (*CopyBudgetPeriodRequest) ProtoMessage() {}
 
 func (x *CopyBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[51]
+	mi := &file_echo_v1_plan_proto_msgTypes[53]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3825,7 +3929,7 @@ func (x *CopyBudgetPeriodRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CopyBudgetPeriodRequest.ProtoReflect.Descriptor instead.
 func (*CopyBudgetPeriodRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{51}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{53}
 }
 
 func (x *CopyBudgetPeriodRequest) GetSourcePeriodId() string {
@@ -3865,7 +3969,7 @@ type CopyBudgetPeriodResponse struct {
 
 func (x *CopyBudgetPeriodResponse) Reset() {
 	*x = CopyBudgetPeriodResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[52]
+	mi := &file_echo_v1_plan_proto_msgTypes[54]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3877,7 +3981,7 @@ func (x *CopyBudgetPeriodResponse) String() string {
 func (*CopyBudgetPeriodResponse) ProtoMessage() {}
 
 func (x *CopyBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[52]
+	mi := &file_echo_v1_plan_proto_msgTypes[54]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3890,7 +3994,7 @@ func (x *CopyBudgetPeriodResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CopyBudgetPeriodResponse.ProtoReflect.Descriptor instead.
 func (*CopyBudgetPeriodResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{52}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{54}
 }
 
 func (x *CopyBudgetPeriodResponse) GetPeriod() *BudgetPeriod {
@@ -3911,7 +4015,7 @@ type GetPlanItemsByTabRequest struct {
 
 func (x *GetPlanItemsByTabRequest) Reset() {
 	*x = GetPlanItemsByTabRequest{}
-	mi := &file_echo_v1_plan_proto_msgTypes[53]
+	mi := &file_echo_v1_plan_proto_msgTypes[55]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3923,7 +4027,7 @@ func (x *GetPlanItemsByTabRequest) String() string {
 func (*GetPlanItemsByTabRequest) ProtoMessage() {}
 
 func (x *GetPlanItemsByTabRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[53]
+	mi := &file_echo_v1_plan_proto_msgTypes[55]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3936,7 +4040,7 @@ func (x *GetPlanItemsByTabRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPlanItemsByTabRequest.ProtoReflect.Descriptor instead.
 func (*GetPlanItemsByTabRequest) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{53}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{55}
 }
 
 func (x *GetPlanItemsByTabRequest) GetPlanId() string {
@@ -3964,7 +4068,7 @@ type GetPlanItemsByTabResponse struct {
 
 func (x *GetPlanItemsByTabResponse) Reset() {
 	*x = GetPlanItemsByTabResponse{}
-	mi := &file_echo_v1_plan_proto_msgTypes[54]
+	mi := &file_echo_v1_plan_proto_msgTypes[56]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3976,7 +4080,7 @@ func (x *GetPlanItemsByTabResponse) String() string {
 func (*GetPlanItemsByTabResponse) ProtoMessage() {}
 
 func (x *GetPlanItemsByTabResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[54]
+	mi := &file_echo_v1_plan_proto_msgTypes[56]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3989,7 +4093,7 @@ func (x *GetPlanItemsByTabResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPlanItemsByTabResponse.ProtoReflect.Descriptor instead.
 func (*GetPlanItemsByTabResponse) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{54}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{56}
 }
 
 func (x *GetPlanItemsByTabResponse) GetItems() []*PlanItemWithConfig {
@@ -4034,7 +4138,7 @@ type PlanItemWithConfig struct {
 
 func (x *PlanItemWithConfig) Reset() {
 	*x = PlanItemWithConfig{}
-	mi := &file_echo_v1_plan_proto_msgTypes[55]
+	mi := &file_echo_v1_plan_proto_msgTypes[57]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -4046,7 +4150,7 @@ func (x *PlanItemWithConfig) String() string {
 func (*PlanItemWithConfig) ProtoMessage() {}
 
 func (x *PlanItemWithConfig) ProtoReflect() protoreflect.Message {
-	mi := &file_echo_v1_plan_proto_msgTypes[55]
+	mi := &file_echo_v1_plan_proto_msgTypes[57]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -4059,7 +4163,7 @@ func (x *PlanItemWithConfig) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PlanItemWithConfig.ProtoReflect.Descriptor instead.
 func (*PlanItemWithConfig) Descriptor() ([]byte, []int) {
-	return file_echo_v1_plan_proto_rawDescGZIP(), []int{55}
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{57}
 }
 
 func (x *PlanItemWithConfig) GetId() string {
@@ -4252,7 +4356,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x06labels\x18\x04 \x03(\v2(.echo.v1.CreateCategoryInput.LabelsEntryR\x06labels\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x97\x03\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xe7\x03\n" +
 	"\x0fCreateItemInput\x12\x1b\n" +
 	"\x04name\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x01R\x04name\x12%\n" +
 	"\x0ebudgeted_minor\x18\x02 \x01(\x03R\rbudgetedMinor\x124\n" +
@@ -4262,12 +4366,14 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"field_type\x18\x04 \x01(\x0e2\x12.echo.v1.FieldTypeR\tfieldType\x12<\n" +
 	"\x06labels\x18\x05 \x03(\v2$.echo.v1.CreateItemInput.LabelsEntryR\x06labels\x12.\n" +
 	"\titem_type\x18\x06 \x01(\x0e2\x11.echo.v1.ItemTypeR\bitemType\x12 \n" +
-	"\tconfig_id\x18\a \x01(\tH\x00R\bconfigId\x88\x01\x01\x1a9\n" +
+	"\tconfig_id\x18\a \x01(\tH\x00R\bconfigId\x88\x01\x01\x125\n" +
+	"\x14initial_actual_minor\x18\b \x01(\x03H\x01R\x12initialActualMinor\x88\x01\x01\x1a9\n" +
 	"\vLabelsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01B\f\n" +
 	"\n" +
-	"_config_id\";\n" +
+	"_config_idB\x17\n" +
+	"\x15_initial_actual_minor\";\n" +
 	"\x12CreatePlanResponse\x12%\n" +
 	"\x04plan\x18\x01 \x01(\v2\x11.echo.v1.UserPlanR\x04plan\"3\n" +
 	"\x0eGetPlanRequest\x12!\n" +
@@ -4293,6 +4399,11 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\aitem_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06itemId\x12%\n" +
 	"\x0ebudgeted_minor\x18\x02 \x01(\x03R\rbudgetedMinor\";\n" +
 	"\x12UpdatePlanResponse\x12%\n" +
+	"\x04plan\x18\x01 \x01(\v2\x11.echo.v1.UserPlanR\x04plan\"\x8b\x01\n" +
+	"\x1aUpdatePlanStructureRequest\x12!\n" +
+	"\aplan_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06planId\x12J\n" +
+	"\x0fcategory_groups\x18\x02 \x03(\v2!.echo.v1.CreateCategoryGroupInputR\x0ecategoryGroups\"D\n" +
+	"\x1bUpdatePlanStructureResponse\x12%\n" +
 	"\x04plan\x18\x01 \x01(\v2\x11.echo.v1.UserPlanR\x04plan\"6\n" +
 	"\x11DeletePlanRequest\x12!\n" +
 	"\aplan_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06planId\"\x14\n" +
@@ -4534,7 +4645,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x10TARGET_TAB_GOALS\x10\x03\x12\x15\n" +
 	"\x11TARGET_TAB_INCOME\x10\x04\x12\x18\n" +
 	"\x14TARGET_TAB_PORTFOLIO\x10\x05\x12\x1a\n" +
-	"\x16TARGET_TAB_LIABILITIES\x10\x062\xda\f\n" +
+	"\x16TARGET_TAB_LIABILITIES\x10\x062\xbc\r\n" +
 	"\vPlanService\x12E\n" +
 	"\n" +
 	"CreatePlan\x12\x1a.echo.v1.CreatePlanRequest\x1a\x1b.echo.v1.CreatePlanResponse\x12<\n" +
@@ -4543,7 +4654,8 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\n" +
 	"UpdatePlan\x12\x1a.echo.v1.UpdatePlanRequest\x1a\x1b.echo.v1.UpdatePlanResponse\x12E\n" +
 	"\n" +
-	"DeletePlan\x12\x1a.echo.v1.DeletePlanRequest\x1a\x1b.echo.v1.DeletePlanResponse\x12N\n" +
+	"DeletePlan\x12\x1a.echo.v1.DeletePlanRequest\x1a\x1b.echo.v1.DeletePlanResponse\x12`\n" +
+	"\x13UpdatePlanStructure\x12#.echo.v1.UpdatePlanStructureRequest\x1a$.echo.v1.UpdatePlanStructureResponse\x12N\n" +
 	"\rSetActivePlan\x12\x1d.echo.v1.SetActivePlanRequest\x1a\x1e.echo.v1.SetActivePlanResponse\x12N\n" +
 	"\rDuplicatePlan\x12\x1d.echo.v1.DuplicatePlanRequest\x1a\x1e.echo.v1.DuplicatePlanResponse\x12`\n" +
 	"\x13ImportPlanFromExcel\x12#.echo.v1.ImportPlanFromExcelRequest\x1a$.echo.v1.ImportPlanFromExcelResponse\x12`\n" +
@@ -4573,7 +4685,7 @@ func file_echo_v1_plan_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 63)
+var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 65)
 var file_echo_v1_plan_proto_goTypes = []any{
 	(PlanSourceType)(0),                    // 0: echo.v1.PlanSourceType
 	(PlanStatus)(0),                        // 1: echo.v1.PlanStatus
@@ -4599,86 +4711,88 @@ var file_echo_v1_plan_proto_goTypes = []any{
 	(*UpdatePlanRequest)(nil),              // 21: echo.v1.UpdatePlanRequest
 	(*UpdateItemInput)(nil),                // 22: echo.v1.UpdateItemInput
 	(*UpdatePlanResponse)(nil),             // 23: echo.v1.UpdatePlanResponse
-	(*DeletePlanRequest)(nil),              // 24: echo.v1.DeletePlanRequest
-	(*DeletePlanResponse)(nil),             // 25: echo.v1.DeletePlanResponse
-	(*SetActivePlanRequest)(nil),           // 26: echo.v1.SetActivePlanRequest
-	(*SetActivePlanResponse)(nil),          // 27: echo.v1.SetActivePlanResponse
-	(*DuplicatePlanRequest)(nil),           // 28: echo.v1.DuplicatePlanRequest
-	(*DuplicatePlanResponse)(nil),          // 29: echo.v1.DuplicatePlanResponse
-	(*ImportPlanFromExcelRequest)(nil),     // 30: echo.v1.ImportPlanFromExcelRequest
-	(*ExcelMappingConfig)(nil),             // 31: echo.v1.ExcelMappingConfig
-	(*ImportPlanFromExcelResponse)(nil),    // 32: echo.v1.ImportPlanFromExcelResponse
-	(*AnalyzeExcelForPlanRequest)(nil),     // 33: echo.v1.AnalyzeExcelForPlanRequest
-	(*AnalyzeExcelForPlanResponse)(nil),    // 34: echo.v1.AnalyzeExcelForPlanResponse
-	(*ExcelSheetAnalysis)(nil),             // 35: echo.v1.ExcelSheetAnalysis
-	(*ExcelPreviewRow)(nil),                // 36: echo.v1.ExcelPreviewRow
-	(*DetectedColumnMapping)(nil),          // 37: echo.v1.DetectedColumnMapping
-	(*ComputePlanActualsRequest)(nil),      // 38: echo.v1.ComputePlanActualsRequest
-	(*ComputePlanActualsResponse)(nil),     // 39: echo.v1.ComputePlanActualsResponse
-	(*UnmatchedItem)(nil),                  // 40: echo.v1.UnmatchedItem
-	(*ItemConfig)(nil),                     // 41: echo.v1.ItemConfig
-	(*ListItemConfigsRequest)(nil),         // 42: echo.v1.ListItemConfigsRequest
-	(*ListItemConfigsResponse)(nil),        // 43: echo.v1.ListItemConfigsResponse
-	(*CreateItemConfigRequest)(nil),        // 44: echo.v1.CreateItemConfigRequest
-	(*CreateItemConfigResponse)(nil),       // 45: echo.v1.CreateItemConfigResponse
-	(*UpdateItemConfigRequest)(nil),        // 46: echo.v1.UpdateItemConfigRequest
-	(*UpdateItemConfigResponse)(nil),       // 47: echo.v1.UpdateItemConfigResponse
-	(*DeleteItemConfigRequest)(nil),        // 48: echo.v1.DeleteItemConfigRequest
-	(*DeleteItemConfigResponse)(nil),       // 49: echo.v1.DeleteItemConfigResponse
-	(*BudgetPeriod)(nil),                   // 50: echo.v1.BudgetPeriod
-	(*BudgetPeriodItem)(nil),               // 51: echo.v1.BudgetPeriodItem
-	(*GetBudgetPeriodRequest)(nil),         // 52: echo.v1.GetBudgetPeriodRequest
-	(*GetBudgetPeriodResponse)(nil),        // 53: echo.v1.GetBudgetPeriodResponse
-	(*ListBudgetPeriodsRequest)(nil),       // 54: echo.v1.ListBudgetPeriodsRequest
-	(*ListBudgetPeriodsResponse)(nil),      // 55: echo.v1.ListBudgetPeriodsResponse
-	(*UpdateBudgetPeriodItemRequest)(nil),  // 56: echo.v1.UpdateBudgetPeriodItemRequest
-	(*UpdateBudgetPeriodItemResponse)(nil), // 57: echo.v1.UpdateBudgetPeriodItemResponse
-	(*CopyBudgetPeriodRequest)(nil),        // 58: echo.v1.CopyBudgetPeriodRequest
-	(*CopyBudgetPeriodResponse)(nil),       // 59: echo.v1.CopyBudgetPeriodResponse
-	(*GetPlanItemsByTabRequest)(nil),       // 60: echo.v1.GetPlanItemsByTabRequest
-	(*GetPlanItemsByTabResponse)(nil),      // 61: echo.v1.GetPlanItemsByTabResponse
-	(*PlanItemWithConfig)(nil),             // 62: echo.v1.PlanItemWithConfig
-	nil,                                    // 63: echo.v1.PlanCategoryGroup.LabelsEntry
-	nil,                                    // 64: echo.v1.PlanCategory.LabelsEntry
-	nil,                                    // 65: echo.v1.PlanItem.LabelsEntry
-	nil,                                    // 66: echo.v1.PlanConfig.FormulaMappingsEntry
-	nil,                                    // 67: echo.v1.CreateCategoryGroupInput.LabelsEntry
-	nil,                                    // 68: echo.v1.CreateCategoryInput.LabelsEntry
-	nil,                                    // 69: echo.v1.CreateItemInput.LabelsEntry
-	(*Money)(nil),                          // 70: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),          // 71: google.protobuf.Timestamp
+	(*UpdatePlanStructureRequest)(nil),     // 24: echo.v1.UpdatePlanStructureRequest
+	(*UpdatePlanStructureResponse)(nil),    // 25: echo.v1.UpdatePlanStructureResponse
+	(*DeletePlanRequest)(nil),              // 26: echo.v1.DeletePlanRequest
+	(*DeletePlanResponse)(nil),             // 27: echo.v1.DeletePlanResponse
+	(*SetActivePlanRequest)(nil),           // 28: echo.v1.SetActivePlanRequest
+	(*SetActivePlanResponse)(nil),          // 29: echo.v1.SetActivePlanResponse
+	(*DuplicatePlanRequest)(nil),           // 30: echo.v1.DuplicatePlanRequest
+	(*DuplicatePlanResponse)(nil),          // 31: echo.v1.DuplicatePlanResponse
+	(*ImportPlanFromExcelRequest)(nil),     // 32: echo.v1.ImportPlanFromExcelRequest
+	(*ExcelMappingConfig)(nil),             // 33: echo.v1.ExcelMappingConfig
+	(*ImportPlanFromExcelResponse)(nil),    // 34: echo.v1.ImportPlanFromExcelResponse
+	(*AnalyzeExcelForPlanRequest)(nil),     // 35: echo.v1.AnalyzeExcelForPlanRequest
+	(*AnalyzeExcelForPlanResponse)(nil),    // 36: echo.v1.AnalyzeExcelForPlanResponse
+	(*ExcelSheetAnalysis)(nil),             // 37: echo.v1.ExcelSheetAnalysis
+	(*ExcelPreviewRow)(nil),                // 38: echo.v1.ExcelPreviewRow
+	(*DetectedColumnMapping)(nil),          // 39: echo.v1.DetectedColumnMapping
+	(*ComputePlanActualsRequest)(nil),      // 40: echo.v1.ComputePlanActualsRequest
+	(*ComputePlanActualsResponse)(nil),     // 41: echo.v1.ComputePlanActualsResponse
+	(*UnmatchedItem)(nil),                  // 42: echo.v1.UnmatchedItem
+	(*ItemConfig)(nil),                     // 43: echo.v1.ItemConfig
+	(*ListItemConfigsRequest)(nil),         // 44: echo.v1.ListItemConfigsRequest
+	(*ListItemConfigsResponse)(nil),        // 45: echo.v1.ListItemConfigsResponse
+	(*CreateItemConfigRequest)(nil),        // 46: echo.v1.CreateItemConfigRequest
+	(*CreateItemConfigResponse)(nil),       // 47: echo.v1.CreateItemConfigResponse
+	(*UpdateItemConfigRequest)(nil),        // 48: echo.v1.UpdateItemConfigRequest
+	(*UpdateItemConfigResponse)(nil),       // 49: echo.v1.UpdateItemConfigResponse
+	(*DeleteItemConfigRequest)(nil),        // 50: echo.v1.DeleteItemConfigRequest
+	(*DeleteItemConfigResponse)(nil),       // 51: echo.v1.DeleteItemConfigResponse
+	(*BudgetPeriod)(nil),                   // 52: echo.v1.BudgetPeriod
+	(*BudgetPeriodItem)(nil),               // 53: echo.v1.BudgetPeriodItem
+	(*GetBudgetPeriodRequest)(nil),         // 54: echo.v1.GetBudgetPeriodRequest
+	(*GetBudgetPeriodResponse)(nil),        // 55: echo.v1.GetBudgetPeriodResponse
+	(*ListBudgetPeriodsRequest)(nil),       // 56: echo.v1.ListBudgetPeriodsRequest
+	(*ListBudgetPeriodsResponse)(nil),      // 57: echo.v1.ListBudgetPeriodsResponse
+	(*UpdateBudgetPeriodItemRequest)(nil),  // 58: echo.v1.UpdateBudgetPeriodItemRequest
+	(*UpdateBudgetPeriodItemResponse)(nil), // 59: echo.v1.UpdateBudgetPeriodItemResponse
+	(*CopyBudgetPeriodRequest)(nil),        // 60: echo.v1.CopyBudgetPeriodRequest
+	(*CopyBudgetPeriodResponse)(nil),       // 61: echo.v1.CopyBudgetPeriodResponse
+	(*GetPlanItemsByTabRequest)(nil),       // 62: echo.v1.GetPlanItemsByTabRequest
+	(*GetPlanItemsByTabResponse)(nil),      // 63: echo.v1.GetPlanItemsByTabResponse
+	(*PlanItemWithConfig)(nil),             // 64: echo.v1.PlanItemWithConfig
+	nil,                                    // 65: echo.v1.PlanCategoryGroup.LabelsEntry
+	nil,                                    // 66: echo.v1.PlanCategory.LabelsEntry
+	nil,                                    // 67: echo.v1.PlanItem.LabelsEntry
+	nil,                                    // 68: echo.v1.PlanConfig.FormulaMappingsEntry
+	nil,                                    // 69: echo.v1.CreateCategoryGroupInput.LabelsEntry
+	nil,                                    // 70: echo.v1.CreateCategoryInput.LabelsEntry
+	nil,                                    // 71: echo.v1.CreateItemInput.LabelsEntry
+	(*Money)(nil),                          // 72: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),          // 73: google.protobuf.Timestamp
 }
 var file_echo_v1_plan_proto_depIdxs = []int32{
 	1,  // 0: echo.v1.UserPlan.status:type_name -> echo.v1.PlanStatus
 	0,  // 1: echo.v1.UserPlan.source_type:type_name -> echo.v1.PlanSourceType
-	70, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
-	70, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
-	70, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
+	72, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
+	72, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
+	72, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
 	8,  // 5: echo.v1.UserPlan.category_groups:type_name -> echo.v1.PlanCategoryGroup
 	11, // 6: echo.v1.UserPlan.config:type_name -> echo.v1.PlanConfig
-	71, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
-	71, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
+	73, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
+	73, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 9: echo.v1.PlanCategoryGroup.categories:type_name -> echo.v1.PlanCategory
-	63, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
+	65, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
 	10, // 11: echo.v1.PlanCategory.items:type_name -> echo.v1.PlanItem
-	70, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
-	70, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
-	64, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
-	70, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
-	70, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
+	72, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
+	72, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
+	66, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
+	72, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
+	72, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
 	2,  // 17: echo.v1.PlanItem.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 18: echo.v1.PlanItem.field_type:type_name -> echo.v1.FieldType
-	65, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
+	67, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
 	4,  // 20: echo.v1.PlanItem.item_type:type_name -> echo.v1.ItemType
-	66, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
+	68, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
 	13, // 22: echo.v1.CreatePlanRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
 	14, // 23: echo.v1.CreateCategoryGroupInput.categories:type_name -> echo.v1.CreateCategoryInput
-	67, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
+	69, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
 	15, // 25: echo.v1.CreateCategoryInput.items:type_name -> echo.v1.CreateItemInput
-	68, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
+	70, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
 	2,  // 27: echo.v1.CreateItemInput.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 28: echo.v1.CreateItemInput.field_type:type_name -> echo.v1.FieldType
-	69, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
+	71, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
 	4,  // 30: echo.v1.CreateItemInput.item_type:type_name -> echo.v1.ItemType
 	7,  // 31: echo.v1.CreatePlanResponse.plan:type_name -> echo.v1.UserPlan
 	7,  // 32: echo.v1.GetPlanResponse.plan:type_name -> echo.v1.UserPlan
@@ -4686,83 +4800,87 @@ var file_echo_v1_plan_proto_depIdxs = []int32{
 	7,  // 34: echo.v1.ListPlansResponse.plans:type_name -> echo.v1.UserPlan
 	22, // 35: echo.v1.UpdatePlanRequest.items:type_name -> echo.v1.UpdateItemInput
 	7,  // 36: echo.v1.UpdatePlanResponse.plan:type_name -> echo.v1.UserPlan
-	7,  // 37: echo.v1.SetActivePlanResponse.plan:type_name -> echo.v1.UserPlan
-	7,  // 38: echo.v1.DuplicatePlanResponse.plan:type_name -> echo.v1.UserPlan
-	31, // 39: echo.v1.ImportPlanFromExcelRequest.mapping:type_name -> echo.v1.ExcelMappingConfig
-	7,  // 40: echo.v1.ImportPlanFromExcelResponse.plan:type_name -> echo.v1.UserPlan
-	35, // 41: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
-	37, // 42: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
-	36, // 43: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
-	71, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
-	71, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
-	7,  // 46: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
-	40, // 47: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
-	5,  // 48: echo.v1.ItemConfig.behavior:type_name -> echo.v1.ItemBehavior
-	6,  // 49: echo.v1.ItemConfig.target_tab:type_name -> echo.v1.TargetTab
-	41, // 50: echo.v1.ListItemConfigsResponse.configs:type_name -> echo.v1.ItemConfig
-	5,  // 51: echo.v1.CreateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
-	6,  // 52: echo.v1.CreateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
-	41, // 53: echo.v1.CreateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
-	5,  // 54: echo.v1.UpdateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
-	6,  // 55: echo.v1.UpdateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
-	41, // 56: echo.v1.UpdateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
-	51, // 57: echo.v1.BudgetPeriod.items:type_name -> echo.v1.BudgetPeriodItem
-	71, // 58: echo.v1.BudgetPeriod.created_at:type_name -> google.protobuf.Timestamp
-	71, // 59: echo.v1.BudgetPeriod.updated_at:type_name -> google.protobuf.Timestamp
-	50, // 60: echo.v1.GetBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
-	50, // 61: echo.v1.ListBudgetPeriodsResponse.periods:type_name -> echo.v1.BudgetPeriod
-	51, // 62: echo.v1.UpdateBudgetPeriodItemResponse.item:type_name -> echo.v1.BudgetPeriodItem
-	50, // 63: echo.v1.CopyBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
-	6,  // 64: echo.v1.GetPlanItemsByTabRequest.target_tab:type_name -> echo.v1.TargetTab
-	62, // 65: echo.v1.GetPlanItemsByTabResponse.items:type_name -> echo.v1.PlanItemWithConfig
-	70, // 66: echo.v1.GetPlanItemsByTabResponse.total_budgeted:type_name -> echo.v1.Money
-	70, // 67: echo.v1.GetPlanItemsByTabResponse.total_actual:type_name -> echo.v1.Money
-	70, // 68: echo.v1.PlanItemWithConfig.budgeted:type_name -> echo.v1.Money
-	70, // 69: echo.v1.PlanItemWithConfig.actual:type_name -> echo.v1.Money
-	5,  // 70: echo.v1.PlanItemWithConfig.behavior:type_name -> echo.v1.ItemBehavior
-	12, // 71: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
-	17, // 72: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
-	19, // 73: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
-	21, // 74: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
-	24, // 75: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
-	26, // 76: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
-	28, // 77: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
-	30, // 78: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
-	33, // 79: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
-	38, // 80: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
-	42, // 81: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
-	44, // 82: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
-	46, // 83: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
-	48, // 84: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
-	52, // 85: echo.v1.PlanService.GetBudgetPeriod:input_type -> echo.v1.GetBudgetPeriodRequest
-	54, // 86: echo.v1.PlanService.ListBudgetPeriods:input_type -> echo.v1.ListBudgetPeriodsRequest
-	56, // 87: echo.v1.PlanService.UpdateBudgetPeriodItem:input_type -> echo.v1.UpdateBudgetPeriodItemRequest
-	58, // 88: echo.v1.PlanService.CopyBudgetPeriod:input_type -> echo.v1.CopyBudgetPeriodRequest
-	60, // 89: echo.v1.PlanService.GetPlanItemsByTab:input_type -> echo.v1.GetPlanItemsByTabRequest
-	16, // 90: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
-	18, // 91: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
-	20, // 92: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
-	23, // 93: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
-	25, // 94: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
-	27, // 95: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
-	29, // 96: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
-	32, // 97: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
-	34, // 98: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
-	39, // 99: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
-	43, // 100: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
-	45, // 101: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
-	47, // 102: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
-	49, // 103: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
-	53, // 104: echo.v1.PlanService.GetBudgetPeriod:output_type -> echo.v1.GetBudgetPeriodResponse
-	55, // 105: echo.v1.PlanService.ListBudgetPeriods:output_type -> echo.v1.ListBudgetPeriodsResponse
-	57, // 106: echo.v1.PlanService.UpdateBudgetPeriodItem:output_type -> echo.v1.UpdateBudgetPeriodItemResponse
-	59, // 107: echo.v1.PlanService.CopyBudgetPeriod:output_type -> echo.v1.CopyBudgetPeriodResponse
-	61, // 108: echo.v1.PlanService.GetPlanItemsByTab:output_type -> echo.v1.GetPlanItemsByTabResponse
-	90, // [90:109] is the sub-list for method output_type
-	71, // [71:90] is the sub-list for method input_type
-	71, // [71:71] is the sub-list for extension type_name
-	71, // [71:71] is the sub-list for extension extendee
-	0,  // [0:71] is the sub-list for field type_name
+	13, // 37: echo.v1.UpdatePlanStructureRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
+	7,  // 38: echo.v1.UpdatePlanStructureResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 39: echo.v1.SetActivePlanResponse.plan:type_name -> echo.v1.UserPlan
+	7,  // 40: echo.v1.DuplicatePlanResponse.plan:type_name -> echo.v1.UserPlan
+	33, // 41: echo.v1.ImportPlanFromExcelRequest.mapping:type_name -> echo.v1.ExcelMappingConfig
+	7,  // 42: echo.v1.ImportPlanFromExcelResponse.plan:type_name -> echo.v1.UserPlan
+	37, // 43: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
+	39, // 44: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
+	38, // 45: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
+	73, // 46: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
+	73, // 47: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
+	7,  // 48: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
+	42, // 49: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
+	5,  // 50: echo.v1.ItemConfig.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 51: echo.v1.ItemConfig.target_tab:type_name -> echo.v1.TargetTab
+	43, // 52: echo.v1.ListItemConfigsResponse.configs:type_name -> echo.v1.ItemConfig
+	5,  // 53: echo.v1.CreateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 54: echo.v1.CreateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
+	43, // 55: echo.v1.CreateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
+	5,  // 56: echo.v1.UpdateItemConfigRequest.behavior:type_name -> echo.v1.ItemBehavior
+	6,  // 57: echo.v1.UpdateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
+	43, // 58: echo.v1.UpdateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
+	53, // 59: echo.v1.BudgetPeriod.items:type_name -> echo.v1.BudgetPeriodItem
+	73, // 60: echo.v1.BudgetPeriod.created_at:type_name -> google.protobuf.Timestamp
+	73, // 61: echo.v1.BudgetPeriod.updated_at:type_name -> google.protobuf.Timestamp
+	52, // 62: echo.v1.GetBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
+	52, // 63: echo.v1.ListBudgetPeriodsResponse.periods:type_name -> echo.v1.BudgetPeriod
+	53, // 64: echo.v1.UpdateBudgetPeriodItemResponse.item:type_name -> echo.v1.BudgetPeriodItem
+	52, // 65: echo.v1.CopyBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
+	6,  // 66: echo.v1.GetPlanItemsByTabRequest.target_tab:type_name -> echo.v1.TargetTab
+	64, // 67: echo.v1.GetPlanItemsByTabResponse.items:type_name -> echo.v1.PlanItemWithConfig
+	72, // 68: echo.v1.GetPlanItemsByTabResponse.total_budgeted:type_name -> echo.v1.Money
+	72, // 69: echo.v1.GetPlanItemsByTabResponse.total_actual:type_name -> echo.v1.Money
+	72, // 70: echo.v1.PlanItemWithConfig.budgeted:type_name -> echo.v1.Money
+	72, // 71: echo.v1.PlanItemWithConfig.actual:type_name -> echo.v1.Money
+	5,  // 72: echo.v1.PlanItemWithConfig.behavior:type_name -> echo.v1.ItemBehavior
+	12, // 73: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
+	17, // 74: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
+	19, // 75: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
+	21, // 76: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
+	26, // 77: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
+	24, // 78: echo.v1.PlanService.UpdatePlanStructure:input_type -> echo.v1.UpdatePlanStructureRequest
+	28, // 79: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
+	30, // 80: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
+	32, // 81: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
+	35, // 82: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
+	40, // 83: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
+	44, // 84: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
+	46, // 85: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
+	48, // 86: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
+	50, // 87: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
+	54, // 88: echo.v1.PlanService.GetBudgetPeriod:input_type -> echo.v1.GetBudgetPeriodRequest
+	56, // 89: echo.v1.PlanService.ListBudgetPeriods:input_type -> echo.v1.ListBudgetPeriodsRequest
+	58, // 90: echo.v1.PlanService.UpdateBudgetPeriodItem:input_type -> echo.v1.UpdateBudgetPeriodItemRequest
+	60, // 91: echo.v1.PlanService.CopyBudgetPeriod:input_type -> echo.v1.CopyBudgetPeriodRequest
+	62, // 92: echo.v1.PlanService.GetPlanItemsByTab:input_type -> echo.v1.GetPlanItemsByTabRequest
+	16, // 93: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
+	18, // 94: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
+	20, // 95: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
+	23, // 96: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
+	27, // 97: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
+	25, // 98: echo.v1.PlanService.UpdatePlanStructure:output_type -> echo.v1.UpdatePlanStructureResponse
+	29, // 99: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
+	31, // 100: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
+	34, // 101: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
+	36, // 102: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
+	41, // 103: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
+	45, // 104: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
+	47, // 105: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
+	49, // 106: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
+	51, // 107: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
+	55, // 108: echo.v1.PlanService.GetBudgetPeriod:output_type -> echo.v1.GetBudgetPeriodResponse
+	57, // 109: echo.v1.PlanService.ListBudgetPeriods:output_type -> echo.v1.ListBudgetPeriodsResponse
+	59, // 110: echo.v1.PlanService.UpdateBudgetPeriodItem:output_type -> echo.v1.UpdateBudgetPeriodItemResponse
+	61, // 111: echo.v1.PlanService.CopyBudgetPeriod:output_type -> echo.v1.CopyBudgetPeriodResponse
+	63, // 112: echo.v1.PlanService.GetPlanItemsByTab:output_type -> echo.v1.GetPlanItemsByTabResponse
+	93, // [93:113] is the sub-list for method output_type
+	73, // [73:93] is the sub-list for method input_type
+	73, // [73:73] is the sub-list for extension type_name
+	73, // [73:73] is the sub-list for extension extendee
+	0,  // [0:73] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_plan_proto_init() }
@@ -4774,15 +4892,15 @@ func file_echo_v1_plan_proto_init() {
 	file_echo_v1_plan_proto_msgTypes[3].OneofWrappers = []any{}
 	file_echo_v1_plan_proto_msgTypes[8].OneofWrappers = []any{}
 	file_echo_v1_plan_proto_msgTypes[14].OneofWrappers = []any{}
-	file_echo_v1_plan_proto_msgTypes[39].OneofWrappers = []any{}
-	file_echo_v1_plan_proto_msgTypes[49].OneofWrappers = []any{}
+	file_echo_v1_plan_proto_msgTypes[41].OneofWrappers = []any{}
+	file_echo_v1_plan_proto_msgTypes[51].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_plan_proto_rawDesc), len(file_echo_v1_plan_proto_rawDesc)),
 			NumEnums:      7,
-			NumMessages:   63,
+			NumMessages:   65,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

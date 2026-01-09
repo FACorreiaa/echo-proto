@@ -25,6 +25,9 @@ service PlanService {
   // DeletePlan soft-deletes a plan
   rpc DeletePlan(DeletePlanRequest) returns (DeletePlanResponse);
 
+  // UpdatePlanStructure updates the entire structure of a plan (categories, items, etc.)
+  rpc UpdatePlanStructure(UpdatePlanStructureRequest) returns (UpdatePlanStructureResponse);
+
   // SetActivePlan marks a plan as the active/live plan
   rpc SetActivePlan(SetActivePlanRequest) returns (SetActivePlanResponse);
 
@@ -278,6 +281,7 @@ message CreateItemInput {
   map<string, string> labels = 5;
   ItemType item_type = 6;  // What tab this item appears in (legacy)
   optional string config_id = 7;  // Dynamic config reference (preferred)
+  optional int64 initial_actual_minor = 8; // Initial "Saved" amount for goals or starting balance
 }
 
 message CreatePlanResponse {
@@ -316,6 +320,15 @@ message UpdateItemInput {
 }
 
 message UpdatePlanResponse {
+  UserPlan plan = 1;
+}
+
+message UpdatePlanStructureRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  repeated CreateCategoryGroupInput category_groups = 2; // Re-use create input as it defines the full structure
+}
+
+message UpdatePlanStructureResponse {
   UserPlan plan = 1;
 }
 

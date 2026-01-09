@@ -43,6 +43,9 @@ const (
 	PlanServiceUpdatePlanProcedure = "/echo.v1.PlanService/UpdatePlan"
 	// PlanServiceDeletePlanProcedure is the fully-qualified name of the PlanService's DeletePlan RPC.
 	PlanServiceDeletePlanProcedure = "/echo.v1.PlanService/DeletePlan"
+	// PlanServiceUpdatePlanStructureProcedure is the fully-qualified name of the PlanService's
+	// UpdatePlanStructure RPC.
+	PlanServiceUpdatePlanStructureProcedure = "/echo.v1.PlanService/UpdatePlanStructure"
 	// PlanServiceSetActivePlanProcedure is the fully-qualified name of the PlanService's SetActivePlan
 	// RPC.
 	PlanServiceSetActivePlanProcedure = "/echo.v1.PlanService/SetActivePlan"
@@ -99,6 +102,8 @@ type PlanServiceClient interface {
 	UpdatePlan(context.Context, *connect.Request[v1.UpdatePlanRequest]) (*connect.Response[v1.UpdatePlanResponse], error)
 	// DeletePlan soft-deletes a plan
 	DeletePlan(context.Context, *connect.Request[v1.DeletePlanRequest]) (*connect.Response[v1.DeletePlanResponse], error)
+	// UpdatePlanStructure updates the entire structure of a plan (categories, items, etc.)
+	UpdatePlanStructure(context.Context, *connect.Request[v1.UpdatePlanStructureRequest]) (*connect.Response[v1.UpdatePlanStructureResponse], error)
 	// SetActivePlan marks a plan as the active/live plan
 	SetActivePlan(context.Context, *connect.Request[v1.SetActivePlanRequest]) (*connect.Response[v1.SetActivePlanResponse], error)
 	// DuplicatePlan creates a copy of an existing plan
@@ -168,6 +173,12 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			httpClient,
 			baseURL+PlanServiceDeletePlanProcedure,
 			connect.WithSchema(planServiceMethods.ByName("DeletePlan")),
+			connect.WithClientOptions(opts...),
+		),
+		updatePlanStructure: connect.NewClient[v1.UpdatePlanStructureRequest, v1.UpdatePlanStructureResponse](
+			httpClient,
+			baseURL+PlanServiceUpdatePlanStructureProcedure,
+			connect.WithSchema(planServiceMethods.ByName("UpdatePlanStructure")),
 			connect.WithClientOptions(opts...),
 		),
 		setActivePlan: connect.NewClient[v1.SetActivePlanRequest, v1.SetActivePlanResponse](
@@ -264,6 +275,7 @@ type planServiceClient struct {
 	listPlans              *connect.Client[v1.ListPlansRequest, v1.ListPlansResponse]
 	updatePlan             *connect.Client[v1.UpdatePlanRequest, v1.UpdatePlanResponse]
 	deletePlan             *connect.Client[v1.DeletePlanRequest, v1.DeletePlanResponse]
+	updatePlanStructure    *connect.Client[v1.UpdatePlanStructureRequest, v1.UpdatePlanStructureResponse]
 	setActivePlan          *connect.Client[v1.SetActivePlanRequest, v1.SetActivePlanResponse]
 	duplicatePlan          *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
 	importPlanFromExcel    *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
@@ -303,6 +315,11 @@ func (c *planServiceClient) UpdatePlan(ctx context.Context, req *connect.Request
 // DeletePlan calls echo.v1.PlanService.DeletePlan.
 func (c *planServiceClient) DeletePlan(ctx context.Context, req *connect.Request[v1.DeletePlanRequest]) (*connect.Response[v1.DeletePlanResponse], error) {
 	return c.deletePlan.CallUnary(ctx, req)
+}
+
+// UpdatePlanStructure calls echo.v1.PlanService.UpdatePlanStructure.
+func (c *planServiceClient) UpdatePlanStructure(ctx context.Context, req *connect.Request[v1.UpdatePlanStructureRequest]) (*connect.Response[v1.UpdatePlanStructureResponse], error) {
+	return c.updatePlanStructure.CallUnary(ctx, req)
 }
 
 // SetActivePlan calls echo.v1.PlanService.SetActivePlan.
@@ -387,6 +404,8 @@ type PlanServiceHandler interface {
 	UpdatePlan(context.Context, *connect.Request[v1.UpdatePlanRequest]) (*connect.Response[v1.UpdatePlanResponse], error)
 	// DeletePlan soft-deletes a plan
 	DeletePlan(context.Context, *connect.Request[v1.DeletePlanRequest]) (*connect.Response[v1.DeletePlanResponse], error)
+	// UpdatePlanStructure updates the entire structure of a plan (categories, items, etc.)
+	UpdatePlanStructure(context.Context, *connect.Request[v1.UpdatePlanStructureRequest]) (*connect.Response[v1.UpdatePlanStructureResponse], error)
 	// SetActivePlan marks a plan as the active/live plan
 	SetActivePlan(context.Context, *connect.Request[v1.SetActivePlanRequest]) (*connect.Response[v1.SetActivePlanResponse], error)
 	// DuplicatePlan creates a copy of an existing plan
@@ -452,6 +471,12 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		PlanServiceDeletePlanProcedure,
 		svc.DeletePlan,
 		connect.WithSchema(planServiceMethods.ByName("DeletePlan")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceUpdatePlanStructureHandler := connect.NewUnaryHandler(
+		PlanServiceUpdatePlanStructureProcedure,
+		svc.UpdatePlanStructure,
+		connect.WithSchema(planServiceMethods.ByName("UpdatePlanStructure")),
 		connect.WithHandlerOptions(opts...),
 	)
 	planServiceSetActivePlanHandler := connect.NewUnaryHandler(
@@ -550,6 +575,8 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceUpdatePlanHandler.ServeHTTP(w, r)
 		case PlanServiceDeletePlanProcedure:
 			planServiceDeletePlanHandler.ServeHTTP(w, r)
+		case PlanServiceUpdatePlanStructureProcedure:
+			planServiceUpdatePlanStructureHandler.ServeHTTP(w, r)
 		case PlanServiceSetActivePlanProcedure:
 			planServiceSetActivePlanHandler.ServeHTTP(w, r)
 		case PlanServiceDuplicatePlanProcedure:
@@ -605,6 +632,10 @@ func (UnimplementedPlanServiceHandler) UpdatePlan(context.Context, *connect.Requ
 
 func (UnimplementedPlanServiceHandler) DeletePlan(context.Context, *connect.Request[v1.DeletePlanRequest]) (*connect.Response[v1.DeletePlanResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.DeletePlan is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) UpdatePlanStructure(context.Context, *connect.Request[v1.UpdatePlanStructureRequest]) (*connect.Response[v1.UpdatePlanStructureResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.UpdatePlanStructure is not implemented"))
 }
 
 func (UnimplementedPlanServiceHandler) SetActivePlan(context.Context, *connect.Request[v1.SetActivePlanRequest]) (*connect.Response[v1.SetActivePlanResponse], error) {
