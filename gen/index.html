@@ -1324,6 +1324,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.GetPlanItemsByTabRequest"><span class="badge">M</span>GetPlanItemsByTabRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetPlanItemsByTabResponse"><span class="badge">M</span>GetPlanItemsByTabResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.GetPlanRequest"><span class="badge">M</span>GetPlanRequest</a>
                 </li>
               
@@ -1397,6 +1405,10 @@
               
                 <li>
                   <a href="#echo.v1.PlanItem.LabelsEntry"><span class="badge">M</span>PlanItem.LabelsEntry</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.PlanItemWithConfig"><span class="badge">M</span>PlanItemWithConfig</a>
                 </li>
               
                 <li>
@@ -12035,6 +12047,75 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.GetPlanItemsByTabRequest">GetPlanItemsByTabRequest</h3>
+        <p>GetPlanItemsByTab - Get items from a plan filtered by target tab</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>plan_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>target_tab</td>
+                  <td><a href="#echo.v1.TargetTab">TargetTab</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetPlanItemsByTabResponse">GetPlanItemsByTabResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>items</td>
+                  <td><a href="#echo.v1.PlanItemWithConfig">PlanItemWithConfig</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_budgeted</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_actual</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.GetPlanRequest">GetPlanRequest</h3>
         <p></p>
 
@@ -12813,6 +12894,100 @@ Positive = spent more, negative = spent less </p></td>
                 <tr>
                   <td>value</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.PlanItemWithConfig">PlanItemWithConfig</h3>
+        <p>PlanItemWithConfig - Item with its config details for display</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>budgeted</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>actual</td>
+                  <td><a href="#echo.v1.Money">Money</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>group_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>config_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Config details </p></td>
+                </tr>
+              
+                <tr>
+                  <td>config_label</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>e.g., &#34;Budget&#34;, &#34;Recurring&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>config_short_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>e.g., &#34;B&#34;, &#34;R&#34;, &#34;S&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>config_color_hex</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>behavior</td>
+                  <td><a href="#echo.v1.ItemBehavior">ItemBehavior</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -13716,6 +13891,13 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.CopyBudgetPeriodRequest">CopyBudgetPeriodRequest</a></td>
                 <td><a href="#echo.v1.CopyBudgetPeriodResponse">CopyBudgetPeriodResponse</a></td>
                 <td><p>CopyBudgetPeriod copies values from one period to another</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetPlanItemsByTab</td>
+                <td><a href="#echo.v1.GetPlanItemsByTabRequest">GetPlanItemsByTabRequest</a></td>
+                <td><a href="#echo.v1.GetPlanItemsByTabResponse">GetPlanItemsByTabResponse</a></td>
+                <td><p>GetPlanItemsByTab returns items filtered by target tab</p></td>
               </tr>
             
           </tbody>

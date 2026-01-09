@@ -1698,6 +1698,129 @@ export declare type CopyBudgetPeriodResponse = Message<"echo.v1.CopyBudgetPeriod
 export declare const CopyBudgetPeriodResponseSchema: GenMessage<CopyBudgetPeriodResponse>;
 
 /**
+ * GetPlanItemsByTab - Get items from a plan filtered by target tab
+ *
+ * @generated from message echo.v1.GetPlanItemsByTabRequest
+ */
+export declare type GetPlanItemsByTabRequest = Message<"echo.v1.GetPlanItemsByTabRequest"> & {
+  /**
+   * @generated from field: string plan_id = 1;
+   */
+  planId: string;
+
+  /**
+   * @generated from field: echo.v1.TargetTab target_tab = 2;
+   */
+  targetTab: TargetTab;
+};
+
+/**
+ * Describes the message echo.v1.GetPlanItemsByTabRequest.
+ * Use `create(GetPlanItemsByTabRequestSchema)` to create a new message.
+ */
+export declare const GetPlanItemsByTabRequestSchema: GenMessage<GetPlanItemsByTabRequest>;
+
+/**
+ * @generated from message echo.v1.GetPlanItemsByTabResponse
+ */
+export declare type GetPlanItemsByTabResponse = Message<"echo.v1.GetPlanItemsByTabResponse"> & {
+  /**
+   * @generated from field: repeated echo.v1.PlanItemWithConfig items = 1;
+   */
+  items: PlanItemWithConfig[];
+
+  /**
+   * @generated from field: echo.v1.Money total_budgeted = 2;
+   */
+  totalBudgeted?: Money;
+
+  /**
+   * @generated from field: echo.v1.Money total_actual = 3;
+   */
+  totalActual?: Money;
+};
+
+/**
+ * Describes the message echo.v1.GetPlanItemsByTabResponse.
+ * Use `create(GetPlanItemsByTabResponseSchema)` to create a new message.
+ */
+export declare const GetPlanItemsByTabResponseSchema: GenMessage<GetPlanItemsByTabResponse>;
+
+/**
+ * PlanItemWithConfig - Item with its config details for display
+ *
+ * @generated from message echo.v1.PlanItemWithConfig
+ */
+export declare type PlanItemWithConfig = Message<"echo.v1.PlanItemWithConfig"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * @generated from field: echo.v1.Money budgeted = 3;
+   */
+  budgeted?: Money;
+
+  /**
+   * @generated from field: echo.v1.Money actual = 4;
+   */
+  actual?: Money;
+
+  /**
+   * @generated from field: string category_name = 5;
+   */
+  categoryName: string;
+
+  /**
+   * @generated from field: string group_name = 6;
+   */
+  groupName: string;
+
+  /**
+   * Config details
+   *
+   * @generated from field: string config_id = 7;
+   */
+  configId: string;
+
+  /**
+   * e.g., "Budget", "Recurring"
+   *
+   * @generated from field: string config_label = 8;
+   */
+  configLabel: string;
+
+  /**
+   * e.g., "B", "R", "S"
+   *
+   * @generated from field: string config_short_code = 9;
+   */
+  configShortCode: string;
+
+  /**
+   * @generated from field: string config_color_hex = 10;
+   */
+  configColorHex: string;
+
+  /**
+   * @generated from field: echo.v1.ItemBehavior behavior = 11;
+   */
+  behavior: ItemBehavior;
+};
+
+/**
+ * Describes the message echo.v1.PlanItemWithConfig.
+ * Use `create(PlanItemWithConfigSchema)` to create a new message.
+ */
+export declare const PlanItemWithConfigSchema: GenMessage<PlanItemWithConfig>;
+
+/**
  * Plan source types
  *
  * @generated from enum echo.v1.PlanSourceType
@@ -2157,6 +2280,16 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof CopyBudgetPeriodRequestSchema;
     output: typeof CopyBudgetPeriodResponseSchema;
+  },
+  /**
+   * GetPlanItemsByTab returns items filtered by target tab
+   *
+   * @generated from rpc echo.v1.PlanService.GetPlanItemsByTab
+   */
+  getPlanItemsByTab: {
+    methodKind: "unary";
+    input: typeof GetPlanItemsByTabRequestSchema;
+    output: typeof GetPlanItemsByTabResponseSchema;
   },
 }>;
 

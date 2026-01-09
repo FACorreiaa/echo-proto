@@ -82,6 +82,9 @@ const (
 	// PlanServiceCopyBudgetPeriodProcedure is the fully-qualified name of the PlanService's
 	// CopyBudgetPeriod RPC.
 	PlanServiceCopyBudgetPeriodProcedure = "/echo.v1.PlanService/CopyBudgetPeriod"
+	// PlanServiceGetPlanItemsByTabProcedure is the fully-qualified name of the PlanService's
+	// GetPlanItemsByTab RPC.
+	PlanServiceGetPlanItemsByTabProcedure = "/echo.v1.PlanService/GetPlanItemsByTab"
 )
 
 // PlanServiceClient is a client for the echo.v1.PlanService service.
@@ -122,6 +125,8 @@ type PlanServiceClient interface {
 	UpdateBudgetPeriodItem(context.Context, *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error)
 	// CopyBudgetPeriod copies values from one period to another
 	CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error)
+	// GetPlanItemsByTab returns items filtered by target tab
+	GetPlanItemsByTab(context.Context, *connect.Request[v1.GetPlanItemsByTabRequest]) (*connect.Response[v1.GetPlanItemsByTabResponse], error)
 }
 
 // NewPlanServiceClient constructs a client for the echo.v1.PlanService service. By default, it uses
@@ -243,6 +248,12 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(planServiceMethods.ByName("CopyBudgetPeriod")),
 			connect.WithClientOptions(opts...),
 		),
+		getPlanItemsByTab: connect.NewClient[v1.GetPlanItemsByTabRequest, v1.GetPlanItemsByTabResponse](
+			httpClient,
+			baseURL+PlanServiceGetPlanItemsByTabProcedure,
+			connect.WithSchema(planServiceMethods.ByName("GetPlanItemsByTab")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -266,6 +277,7 @@ type planServiceClient struct {
 	listBudgetPeriods      *connect.Client[v1.ListBudgetPeriodsRequest, v1.ListBudgetPeriodsResponse]
 	updateBudgetPeriodItem *connect.Client[v1.UpdateBudgetPeriodItemRequest, v1.UpdateBudgetPeriodItemResponse]
 	copyBudgetPeriod       *connect.Client[v1.CopyBudgetPeriodRequest, v1.CopyBudgetPeriodResponse]
+	getPlanItemsByTab      *connect.Client[v1.GetPlanItemsByTabRequest, v1.GetPlanItemsByTabResponse]
 }
 
 // CreatePlan calls echo.v1.PlanService.CreatePlan.
@@ -358,6 +370,11 @@ func (c *planServiceClient) CopyBudgetPeriod(ctx context.Context, req *connect.R
 	return c.copyBudgetPeriod.CallUnary(ctx, req)
 }
 
+// GetPlanItemsByTab calls echo.v1.PlanService.GetPlanItemsByTab.
+func (c *planServiceClient) GetPlanItemsByTab(ctx context.Context, req *connect.Request[v1.GetPlanItemsByTabRequest]) (*connect.Response[v1.GetPlanItemsByTabResponse], error) {
+	return c.getPlanItemsByTab.CallUnary(ctx, req)
+}
+
 // PlanServiceHandler is an implementation of the echo.v1.PlanService service.
 type PlanServiceHandler interface {
 	// CreatePlan creates a new financial plan
@@ -396,6 +413,8 @@ type PlanServiceHandler interface {
 	UpdateBudgetPeriodItem(context.Context, *connect.Request[v1.UpdateBudgetPeriodItemRequest]) (*connect.Response[v1.UpdateBudgetPeriodItemResponse], error)
 	// CopyBudgetPeriod copies values from one period to another
 	CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error)
+	// GetPlanItemsByTab returns items filtered by target tab
+	GetPlanItemsByTab(context.Context, *connect.Request[v1.GetPlanItemsByTabRequest]) (*connect.Response[v1.GetPlanItemsByTabResponse], error)
 }
 
 // NewPlanServiceHandler builds an HTTP handler from the service implementation. It returns the path
@@ -513,6 +532,12 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(planServiceMethods.ByName("CopyBudgetPeriod")),
 		connect.WithHandlerOptions(opts...),
 	)
+	planServiceGetPlanItemsByTabHandler := connect.NewUnaryHandler(
+		PlanServiceGetPlanItemsByTabProcedure,
+		svc.GetPlanItemsByTab,
+		connect.WithSchema(planServiceMethods.ByName("GetPlanItemsByTab")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.PlanService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case PlanServiceCreatePlanProcedure:
@@ -551,6 +576,8 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceUpdateBudgetPeriodItemHandler.ServeHTTP(w, r)
 		case PlanServiceCopyBudgetPeriodProcedure:
 			planServiceCopyBudgetPeriodHandler.ServeHTTP(w, r)
+		case PlanServiceGetPlanItemsByTabProcedure:
+			planServiceGetPlanItemsByTabHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -630,4 +657,8 @@ func (UnimplementedPlanServiceHandler) UpdateBudgetPeriodItem(context.Context, *
 
 func (UnimplementedPlanServiceHandler) CopyBudgetPeriod(context.Context, *connect.Request[v1.CopyBudgetPeriodRequest]) (*connect.Response[v1.CopyBudgetPeriodResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.CopyBudgetPeriod is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) GetPlanItemsByTab(context.Context, *connect.Request[v1.GetPlanItemsByTabRequest]) (*connect.Response[v1.GetPlanItemsByTabResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.GetPlanItemsByTab is not implemented"))
 }

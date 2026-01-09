@@ -3900,6 +3900,245 @@ func (x *CopyBudgetPeriodResponse) GetPeriod() *BudgetPeriod {
 	return nil
 }
 
+// GetPlanItemsByTab - Get items from a plan filtered by target tab
+type GetPlanItemsByTabRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	PlanId        string                 `protobuf:"bytes,1,opt,name=plan_id,json=planId,proto3" json:"plan_id,omitempty"`
+	TargetTab     TargetTab              `protobuf:"varint,2,opt,name=target_tab,json=targetTab,proto3,enum=echo.v1.TargetTab" json:"target_tab,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPlanItemsByTabRequest) Reset() {
+	*x = GetPlanItemsByTabRequest{}
+	mi := &file_echo_v1_plan_proto_msgTypes[53]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPlanItemsByTabRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPlanItemsByTabRequest) ProtoMessage() {}
+
+func (x *GetPlanItemsByTabRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[53]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPlanItemsByTabRequest.ProtoReflect.Descriptor instead.
+func (*GetPlanItemsByTabRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{53}
+}
+
+func (x *GetPlanItemsByTabRequest) GetPlanId() string {
+	if x != nil {
+		return x.PlanId
+	}
+	return ""
+}
+
+func (x *GetPlanItemsByTabRequest) GetTargetTab() TargetTab {
+	if x != nil {
+		return x.TargetTab
+	}
+	return TargetTab_TARGET_TAB_UNSPECIFIED
+}
+
+type GetPlanItemsByTabResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*PlanItemWithConfig  `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	TotalBudgeted *Money                 `protobuf:"bytes,2,opt,name=total_budgeted,json=totalBudgeted,proto3" json:"total_budgeted,omitempty"`
+	TotalActual   *Money                 `protobuf:"bytes,3,opt,name=total_actual,json=totalActual,proto3" json:"total_actual,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetPlanItemsByTabResponse) Reset() {
+	*x = GetPlanItemsByTabResponse{}
+	mi := &file_echo_v1_plan_proto_msgTypes[54]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetPlanItemsByTabResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetPlanItemsByTabResponse) ProtoMessage() {}
+
+func (x *GetPlanItemsByTabResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[54]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetPlanItemsByTabResponse.ProtoReflect.Descriptor instead.
+func (*GetPlanItemsByTabResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{54}
+}
+
+func (x *GetPlanItemsByTabResponse) GetItems() []*PlanItemWithConfig {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+func (x *GetPlanItemsByTabResponse) GetTotalBudgeted() *Money {
+	if x != nil {
+		return x.TotalBudgeted
+	}
+	return nil
+}
+
+func (x *GetPlanItemsByTabResponse) GetTotalActual() *Money {
+	if x != nil {
+		return x.TotalActual
+	}
+	return nil
+}
+
+// PlanItemWithConfig - Item with its config details for display
+type PlanItemWithConfig struct {
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	Id           string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name         string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Budgeted     *Money                 `protobuf:"bytes,3,opt,name=budgeted,proto3" json:"budgeted,omitempty"`
+	Actual       *Money                 `protobuf:"bytes,4,opt,name=actual,proto3" json:"actual,omitempty"`
+	CategoryName string                 `protobuf:"bytes,5,opt,name=category_name,json=categoryName,proto3" json:"category_name,omitempty"`
+	GroupName    string                 `protobuf:"bytes,6,opt,name=group_name,json=groupName,proto3" json:"group_name,omitempty"`
+	// Config details
+	ConfigId        string       `protobuf:"bytes,7,opt,name=config_id,json=configId,proto3" json:"config_id,omitempty"`
+	ConfigLabel     string       `protobuf:"bytes,8,opt,name=config_label,json=configLabel,proto3" json:"config_label,omitempty"`               // e.g., "Budget", "Recurring"
+	ConfigShortCode string       `protobuf:"bytes,9,opt,name=config_short_code,json=configShortCode,proto3" json:"config_short_code,omitempty"` // e.g., "B", "R", "S"
+	ConfigColorHex  string       `protobuf:"bytes,10,opt,name=config_color_hex,json=configColorHex,proto3" json:"config_color_hex,omitempty"`
+	Behavior        ItemBehavior `protobuf:"varint,11,opt,name=behavior,proto3,enum=echo.v1.ItemBehavior" json:"behavior,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
+}
+
+func (x *PlanItemWithConfig) Reset() {
+	*x = PlanItemWithConfig{}
+	mi := &file_echo_v1_plan_proto_msgTypes[55]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *PlanItemWithConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlanItemWithConfig) ProtoMessage() {}
+
+func (x *PlanItemWithConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_plan_proto_msgTypes[55]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlanItemWithConfig.ProtoReflect.Descriptor instead.
+func (*PlanItemWithConfig) Descriptor() ([]byte, []int) {
+	return file_echo_v1_plan_proto_rawDescGZIP(), []int{55}
+}
+
+func (x *PlanItemWithConfig) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetBudgeted() *Money {
+	if x != nil {
+		return x.Budgeted
+	}
+	return nil
+}
+
+func (x *PlanItemWithConfig) GetActual() *Money {
+	if x != nil {
+		return x.Actual
+	}
+	return nil
+}
+
+func (x *PlanItemWithConfig) GetCategoryName() string {
+	if x != nil {
+		return x.CategoryName
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetGroupName() string {
+	if x != nil {
+		return x.GroupName
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetConfigId() string {
+	if x != nil {
+		return x.ConfigId
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetConfigLabel() string {
+	if x != nil {
+		return x.ConfigLabel
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetConfigShortCode() string {
+	if x != nil {
+		return x.ConfigShortCode
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetConfigColorHex() string {
+	if x != nil {
+		return x.ConfigColorHex
+	}
+	return ""
+}
+
+func (x *PlanItemWithConfig) GetBehavior() ItemBehavior {
+	if x != nil {
+		return x.Behavior
+	}
+	return ItemBehavior_ITEM_BEHAVIOR_UNSPECIFIED
+}
+
 var File_echo_v1_plan_proto protoreflect.FileDescriptor
 
 const file_echo_v1_plan_proto_rawDesc = "" +
@@ -4229,7 +4468,29 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"targetYear\x12,\n" +
 	"\ftarget_month\x18\x04 \x01(\x05B\t\xbaH\x06\x1a\x04\x18\f(\x01R\vtargetMonth\"I\n" +
 	"\x18CopyBudgetPeriodResponse\x12-\n" +
-	"\x06period\x18\x01 \x01(\v2\x15.echo.v1.BudgetPeriodR\x06period*\x8a\x01\n" +
+	"\x06period\x18\x01 \x01(\v2\x15.echo.v1.BudgetPeriodR\x06period\"p\n" +
+	"\x18GetPlanItemsByTabRequest\x12!\n" +
+	"\aplan_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06planId\x121\n" +
+	"\n" +
+	"target_tab\x18\x02 \x01(\x0e2\x12.echo.v1.TargetTabR\ttargetTab\"\xb8\x01\n" +
+	"\x19GetPlanItemsByTabResponse\x121\n" +
+	"\x05items\x18\x01 \x03(\v2\x1b.echo.v1.PlanItemWithConfigR\x05items\x125\n" +
+	"\x0etotal_budgeted\x18\x02 \x01(\v2\x0e.echo.v1.MoneyR\rtotalBudgeted\x121\n" +
+	"\ftotal_actual\x18\x03 \x01(\v2\x0e.echo.v1.MoneyR\vtotalActual\"\x99\x03\n" +
+	"\x12PlanItemWithConfig\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12*\n" +
+	"\bbudgeted\x18\x03 \x01(\v2\x0e.echo.v1.MoneyR\bbudgeted\x12&\n" +
+	"\x06actual\x18\x04 \x01(\v2\x0e.echo.v1.MoneyR\x06actual\x12#\n" +
+	"\rcategory_name\x18\x05 \x01(\tR\fcategoryName\x12\x1d\n" +
+	"\n" +
+	"group_name\x18\x06 \x01(\tR\tgroupName\x12\x1b\n" +
+	"\tconfig_id\x18\a \x01(\tR\bconfigId\x12!\n" +
+	"\fconfig_label\x18\b \x01(\tR\vconfigLabel\x12*\n" +
+	"\x11config_short_code\x18\t \x01(\tR\x0fconfigShortCode\x12(\n" +
+	"\x10config_color_hex\x18\n" +
+	" \x01(\tR\x0econfigColorHex\x121\n" +
+	"\bbehavior\x18\v \x01(\x0e2\x15.echo.v1.ItemBehaviorR\bbehavior*\x8a\x01\n" +
 	"\x0ePlanSourceType\x12 \n" +
 	"\x1cPLAN_SOURCE_TYPE_UNSPECIFIED\x10\x00\x12\x1b\n" +
 	"\x17PLAN_SOURCE_TYPE_MANUAL\x10\x01\x12\x1a\n" +
@@ -4273,7 +4534,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x10TARGET_TAB_GOALS\x10\x03\x12\x15\n" +
 	"\x11TARGET_TAB_INCOME\x10\x04\x12\x18\n" +
 	"\x14TARGET_TAB_PORTFOLIO\x10\x05\x12\x1a\n" +
-	"\x16TARGET_TAB_LIABILITIES\x10\x062\xfe\v\n" +
+	"\x16TARGET_TAB_LIABILITIES\x10\x062\xda\f\n" +
 	"\vPlanService\x12E\n" +
 	"\n" +
 	"CreatePlan\x12\x1a.echo.v1.CreatePlanRequest\x1a\x1b.echo.v1.CreatePlanResponse\x12<\n" +
@@ -4295,7 +4556,8 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x0fGetBudgetPeriod\x12\x1f.echo.v1.GetBudgetPeriodRequest\x1a .echo.v1.GetBudgetPeriodResponse\x12Z\n" +
 	"\x11ListBudgetPeriods\x12!.echo.v1.ListBudgetPeriodsRequest\x1a\".echo.v1.ListBudgetPeriodsResponse\x12i\n" +
 	"\x16UpdateBudgetPeriodItem\x12&.echo.v1.UpdateBudgetPeriodItemRequest\x1a'.echo.v1.UpdateBudgetPeriodItemResponse\x12W\n" +
-	"\x10CopyBudgetPeriod\x12 .echo.v1.CopyBudgetPeriodRequest\x1a!.echo.v1.CopyBudgetPeriodResponseB\xa0\x01\n" +
+	"\x10CopyBudgetPeriod\x12 .echo.v1.CopyBudgetPeriodRequest\x1a!.echo.v1.CopyBudgetPeriodResponse\x12Z\n" +
+	"\x11GetPlanItemsByTab\x12!.echo.v1.GetPlanItemsByTabRequest\x1a\".echo.v1.GetPlanItemsByTabResponseB\xa0\x01\n" +
 	"\vcom.echo.v1B\tPlanProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -4311,7 +4573,7 @@ func file_echo_v1_plan_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_plan_proto_enumTypes = make([]protoimpl.EnumInfo, 7)
-var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 60)
+var file_echo_v1_plan_proto_msgTypes = make([]protoimpl.MessageInfo, 63)
 var file_echo_v1_plan_proto_goTypes = []any{
 	(PlanSourceType)(0),                    // 0: echo.v1.PlanSourceType
 	(PlanStatus)(0),                        // 1: echo.v1.PlanStatus
@@ -4373,47 +4635,50 @@ var file_echo_v1_plan_proto_goTypes = []any{
 	(*UpdateBudgetPeriodItemResponse)(nil), // 57: echo.v1.UpdateBudgetPeriodItemResponse
 	(*CopyBudgetPeriodRequest)(nil),        // 58: echo.v1.CopyBudgetPeriodRequest
 	(*CopyBudgetPeriodResponse)(nil),       // 59: echo.v1.CopyBudgetPeriodResponse
-	nil,                                    // 60: echo.v1.PlanCategoryGroup.LabelsEntry
-	nil,                                    // 61: echo.v1.PlanCategory.LabelsEntry
-	nil,                                    // 62: echo.v1.PlanItem.LabelsEntry
-	nil,                                    // 63: echo.v1.PlanConfig.FormulaMappingsEntry
-	nil,                                    // 64: echo.v1.CreateCategoryGroupInput.LabelsEntry
-	nil,                                    // 65: echo.v1.CreateCategoryInput.LabelsEntry
-	nil,                                    // 66: echo.v1.CreateItemInput.LabelsEntry
-	(*Money)(nil),                          // 67: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),          // 68: google.protobuf.Timestamp
+	(*GetPlanItemsByTabRequest)(nil),       // 60: echo.v1.GetPlanItemsByTabRequest
+	(*GetPlanItemsByTabResponse)(nil),      // 61: echo.v1.GetPlanItemsByTabResponse
+	(*PlanItemWithConfig)(nil),             // 62: echo.v1.PlanItemWithConfig
+	nil,                                    // 63: echo.v1.PlanCategoryGroup.LabelsEntry
+	nil,                                    // 64: echo.v1.PlanCategory.LabelsEntry
+	nil,                                    // 65: echo.v1.PlanItem.LabelsEntry
+	nil,                                    // 66: echo.v1.PlanConfig.FormulaMappingsEntry
+	nil,                                    // 67: echo.v1.CreateCategoryGroupInput.LabelsEntry
+	nil,                                    // 68: echo.v1.CreateCategoryInput.LabelsEntry
+	nil,                                    // 69: echo.v1.CreateItemInput.LabelsEntry
+	(*Money)(nil),                          // 70: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),          // 71: google.protobuf.Timestamp
 }
 var file_echo_v1_plan_proto_depIdxs = []int32{
 	1,  // 0: echo.v1.UserPlan.status:type_name -> echo.v1.PlanStatus
 	0,  // 1: echo.v1.UserPlan.source_type:type_name -> echo.v1.PlanSourceType
-	67, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
-	67, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
-	67, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
+	70, // 2: echo.v1.UserPlan.total_income:type_name -> echo.v1.Money
+	70, // 3: echo.v1.UserPlan.total_expenses:type_name -> echo.v1.Money
+	70, // 4: echo.v1.UserPlan.surplus:type_name -> echo.v1.Money
 	8,  // 5: echo.v1.UserPlan.category_groups:type_name -> echo.v1.PlanCategoryGroup
 	11, // 6: echo.v1.UserPlan.config:type_name -> echo.v1.PlanConfig
-	68, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
-	68, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
+	71, // 7: echo.v1.UserPlan.created_at:type_name -> google.protobuf.Timestamp
+	71, // 8: echo.v1.UserPlan.updated_at:type_name -> google.protobuf.Timestamp
 	9,  // 9: echo.v1.PlanCategoryGroup.categories:type_name -> echo.v1.PlanCategory
-	60, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
+	63, // 10: echo.v1.PlanCategoryGroup.labels:type_name -> echo.v1.PlanCategoryGroup.LabelsEntry
 	10, // 11: echo.v1.PlanCategory.items:type_name -> echo.v1.PlanItem
-	67, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
-	67, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
-	61, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
-	67, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
-	67, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
+	70, // 12: echo.v1.PlanCategory.budgeted_total:type_name -> echo.v1.Money
+	70, // 13: echo.v1.PlanCategory.actual_total:type_name -> echo.v1.Money
+	64, // 14: echo.v1.PlanCategory.labels:type_name -> echo.v1.PlanCategory.LabelsEntry
+	70, // 15: echo.v1.PlanItem.budgeted:type_name -> echo.v1.Money
+	70, // 16: echo.v1.PlanItem.actual:type_name -> echo.v1.Money
 	2,  // 17: echo.v1.PlanItem.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 18: echo.v1.PlanItem.field_type:type_name -> echo.v1.FieldType
-	62, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
+	65, // 19: echo.v1.PlanItem.labels:type_name -> echo.v1.PlanItem.LabelsEntry
 	4,  // 20: echo.v1.PlanItem.item_type:type_name -> echo.v1.ItemType
-	63, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
+	66, // 21: echo.v1.PlanConfig.formula_mappings:type_name -> echo.v1.PlanConfig.FormulaMappingsEntry
 	13, // 22: echo.v1.CreatePlanRequest.category_groups:type_name -> echo.v1.CreateCategoryGroupInput
 	14, // 23: echo.v1.CreateCategoryGroupInput.categories:type_name -> echo.v1.CreateCategoryInput
-	64, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
+	67, // 24: echo.v1.CreateCategoryGroupInput.labels:type_name -> echo.v1.CreateCategoryGroupInput.LabelsEntry
 	15, // 25: echo.v1.CreateCategoryInput.items:type_name -> echo.v1.CreateItemInput
-	65, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
+	68, // 26: echo.v1.CreateCategoryInput.labels:type_name -> echo.v1.CreateCategoryInput.LabelsEntry
 	2,  // 27: echo.v1.CreateItemInput.widget_type:type_name -> echo.v1.WidgetType
 	3,  // 28: echo.v1.CreateItemInput.field_type:type_name -> echo.v1.FieldType
-	66, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
+	69, // 29: echo.v1.CreateItemInput.labels:type_name -> echo.v1.CreateItemInput.LabelsEntry
 	4,  // 30: echo.v1.CreateItemInput.item_type:type_name -> echo.v1.ItemType
 	7,  // 31: echo.v1.CreatePlanResponse.plan:type_name -> echo.v1.UserPlan
 	7,  // 32: echo.v1.GetPlanResponse.plan:type_name -> echo.v1.UserPlan
@@ -4428,8 +4693,8 @@ var file_echo_v1_plan_proto_depIdxs = []int32{
 	35, // 41: echo.v1.AnalyzeExcelForPlanResponse.sheets:type_name -> echo.v1.ExcelSheetAnalysis
 	37, // 42: echo.v1.ExcelSheetAnalysis.detected_mapping:type_name -> echo.v1.DetectedColumnMapping
 	36, // 43: echo.v1.ExcelSheetAnalysis.preview_rows:type_name -> echo.v1.ExcelPreviewRow
-	68, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
-	68, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
+	71, // 44: echo.v1.ComputePlanActualsRequest.start_date:type_name -> google.protobuf.Timestamp
+	71, // 45: echo.v1.ComputePlanActualsRequest.end_date:type_name -> google.protobuf.Timestamp
 	7,  // 46: echo.v1.ComputePlanActualsResponse.plan:type_name -> echo.v1.UserPlan
 	40, // 47: echo.v1.ComputePlanActualsResponse.unmatched_items:type_name -> echo.v1.UnmatchedItem
 	5,  // 48: echo.v1.ItemConfig.behavior:type_name -> echo.v1.ItemBehavior
@@ -4442,53 +4707,62 @@ var file_echo_v1_plan_proto_depIdxs = []int32{
 	6,  // 55: echo.v1.UpdateItemConfigRequest.target_tab:type_name -> echo.v1.TargetTab
 	41, // 56: echo.v1.UpdateItemConfigResponse.config:type_name -> echo.v1.ItemConfig
 	51, // 57: echo.v1.BudgetPeriod.items:type_name -> echo.v1.BudgetPeriodItem
-	68, // 58: echo.v1.BudgetPeriod.created_at:type_name -> google.protobuf.Timestamp
-	68, // 59: echo.v1.BudgetPeriod.updated_at:type_name -> google.protobuf.Timestamp
+	71, // 58: echo.v1.BudgetPeriod.created_at:type_name -> google.protobuf.Timestamp
+	71, // 59: echo.v1.BudgetPeriod.updated_at:type_name -> google.protobuf.Timestamp
 	50, // 60: echo.v1.GetBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
 	50, // 61: echo.v1.ListBudgetPeriodsResponse.periods:type_name -> echo.v1.BudgetPeriod
 	51, // 62: echo.v1.UpdateBudgetPeriodItemResponse.item:type_name -> echo.v1.BudgetPeriodItem
 	50, // 63: echo.v1.CopyBudgetPeriodResponse.period:type_name -> echo.v1.BudgetPeriod
-	12, // 64: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
-	17, // 65: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
-	19, // 66: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
-	21, // 67: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
-	24, // 68: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
-	26, // 69: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
-	28, // 70: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
-	30, // 71: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
-	33, // 72: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
-	38, // 73: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
-	42, // 74: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
-	44, // 75: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
-	46, // 76: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
-	48, // 77: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
-	52, // 78: echo.v1.PlanService.GetBudgetPeriod:input_type -> echo.v1.GetBudgetPeriodRequest
-	54, // 79: echo.v1.PlanService.ListBudgetPeriods:input_type -> echo.v1.ListBudgetPeriodsRequest
-	56, // 80: echo.v1.PlanService.UpdateBudgetPeriodItem:input_type -> echo.v1.UpdateBudgetPeriodItemRequest
-	58, // 81: echo.v1.PlanService.CopyBudgetPeriod:input_type -> echo.v1.CopyBudgetPeriodRequest
-	16, // 82: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
-	18, // 83: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
-	20, // 84: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
-	23, // 85: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
-	25, // 86: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
-	27, // 87: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
-	29, // 88: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
-	32, // 89: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
-	34, // 90: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
-	39, // 91: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
-	43, // 92: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
-	45, // 93: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
-	47, // 94: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
-	49, // 95: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
-	53, // 96: echo.v1.PlanService.GetBudgetPeriod:output_type -> echo.v1.GetBudgetPeriodResponse
-	55, // 97: echo.v1.PlanService.ListBudgetPeriods:output_type -> echo.v1.ListBudgetPeriodsResponse
-	57, // 98: echo.v1.PlanService.UpdateBudgetPeriodItem:output_type -> echo.v1.UpdateBudgetPeriodItemResponse
-	59, // 99: echo.v1.PlanService.CopyBudgetPeriod:output_type -> echo.v1.CopyBudgetPeriodResponse
-	82, // [82:100] is the sub-list for method output_type
-	64, // [64:82] is the sub-list for method input_type
-	64, // [64:64] is the sub-list for extension type_name
-	64, // [64:64] is the sub-list for extension extendee
-	0,  // [0:64] is the sub-list for field type_name
+	6,  // 64: echo.v1.GetPlanItemsByTabRequest.target_tab:type_name -> echo.v1.TargetTab
+	62, // 65: echo.v1.GetPlanItemsByTabResponse.items:type_name -> echo.v1.PlanItemWithConfig
+	70, // 66: echo.v1.GetPlanItemsByTabResponse.total_budgeted:type_name -> echo.v1.Money
+	70, // 67: echo.v1.GetPlanItemsByTabResponse.total_actual:type_name -> echo.v1.Money
+	70, // 68: echo.v1.PlanItemWithConfig.budgeted:type_name -> echo.v1.Money
+	70, // 69: echo.v1.PlanItemWithConfig.actual:type_name -> echo.v1.Money
+	5,  // 70: echo.v1.PlanItemWithConfig.behavior:type_name -> echo.v1.ItemBehavior
+	12, // 71: echo.v1.PlanService.CreatePlan:input_type -> echo.v1.CreatePlanRequest
+	17, // 72: echo.v1.PlanService.GetPlan:input_type -> echo.v1.GetPlanRequest
+	19, // 73: echo.v1.PlanService.ListPlans:input_type -> echo.v1.ListPlansRequest
+	21, // 74: echo.v1.PlanService.UpdatePlan:input_type -> echo.v1.UpdatePlanRequest
+	24, // 75: echo.v1.PlanService.DeletePlan:input_type -> echo.v1.DeletePlanRequest
+	26, // 76: echo.v1.PlanService.SetActivePlan:input_type -> echo.v1.SetActivePlanRequest
+	28, // 77: echo.v1.PlanService.DuplicatePlan:input_type -> echo.v1.DuplicatePlanRequest
+	30, // 78: echo.v1.PlanService.ImportPlanFromExcel:input_type -> echo.v1.ImportPlanFromExcelRequest
+	33, // 79: echo.v1.PlanService.AnalyzeExcelForPlan:input_type -> echo.v1.AnalyzeExcelForPlanRequest
+	38, // 80: echo.v1.PlanService.ComputePlanActuals:input_type -> echo.v1.ComputePlanActualsRequest
+	42, // 81: echo.v1.PlanService.ListItemConfigs:input_type -> echo.v1.ListItemConfigsRequest
+	44, // 82: echo.v1.PlanService.CreateItemConfig:input_type -> echo.v1.CreateItemConfigRequest
+	46, // 83: echo.v1.PlanService.UpdateItemConfig:input_type -> echo.v1.UpdateItemConfigRequest
+	48, // 84: echo.v1.PlanService.DeleteItemConfig:input_type -> echo.v1.DeleteItemConfigRequest
+	52, // 85: echo.v1.PlanService.GetBudgetPeriod:input_type -> echo.v1.GetBudgetPeriodRequest
+	54, // 86: echo.v1.PlanService.ListBudgetPeriods:input_type -> echo.v1.ListBudgetPeriodsRequest
+	56, // 87: echo.v1.PlanService.UpdateBudgetPeriodItem:input_type -> echo.v1.UpdateBudgetPeriodItemRequest
+	58, // 88: echo.v1.PlanService.CopyBudgetPeriod:input_type -> echo.v1.CopyBudgetPeriodRequest
+	60, // 89: echo.v1.PlanService.GetPlanItemsByTab:input_type -> echo.v1.GetPlanItemsByTabRequest
+	16, // 90: echo.v1.PlanService.CreatePlan:output_type -> echo.v1.CreatePlanResponse
+	18, // 91: echo.v1.PlanService.GetPlan:output_type -> echo.v1.GetPlanResponse
+	20, // 92: echo.v1.PlanService.ListPlans:output_type -> echo.v1.ListPlansResponse
+	23, // 93: echo.v1.PlanService.UpdatePlan:output_type -> echo.v1.UpdatePlanResponse
+	25, // 94: echo.v1.PlanService.DeletePlan:output_type -> echo.v1.DeletePlanResponse
+	27, // 95: echo.v1.PlanService.SetActivePlan:output_type -> echo.v1.SetActivePlanResponse
+	29, // 96: echo.v1.PlanService.DuplicatePlan:output_type -> echo.v1.DuplicatePlanResponse
+	32, // 97: echo.v1.PlanService.ImportPlanFromExcel:output_type -> echo.v1.ImportPlanFromExcelResponse
+	34, // 98: echo.v1.PlanService.AnalyzeExcelForPlan:output_type -> echo.v1.AnalyzeExcelForPlanResponse
+	39, // 99: echo.v1.PlanService.ComputePlanActuals:output_type -> echo.v1.ComputePlanActualsResponse
+	43, // 100: echo.v1.PlanService.ListItemConfigs:output_type -> echo.v1.ListItemConfigsResponse
+	45, // 101: echo.v1.PlanService.CreateItemConfig:output_type -> echo.v1.CreateItemConfigResponse
+	47, // 102: echo.v1.PlanService.UpdateItemConfig:output_type -> echo.v1.UpdateItemConfigResponse
+	49, // 103: echo.v1.PlanService.DeleteItemConfig:output_type -> echo.v1.DeleteItemConfigResponse
+	53, // 104: echo.v1.PlanService.GetBudgetPeriod:output_type -> echo.v1.GetBudgetPeriodResponse
+	55, // 105: echo.v1.PlanService.ListBudgetPeriods:output_type -> echo.v1.ListBudgetPeriodsResponse
+	57, // 106: echo.v1.PlanService.UpdateBudgetPeriodItem:output_type -> echo.v1.UpdateBudgetPeriodItemResponse
+	59, // 107: echo.v1.PlanService.CopyBudgetPeriod:output_type -> echo.v1.CopyBudgetPeriodResponse
+	61, // 108: echo.v1.PlanService.GetPlanItemsByTab:output_type -> echo.v1.GetPlanItemsByTabResponse
+	90, // [90:109] is the sub-list for method output_type
+	71, // [71:90] is the sub-list for method input_type
+	71, // [71:71] is the sub-list for extension type_name
+	71, // [71:71] is the sub-list for extension extendee
+	0,  // [0:71] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_plan_proto_init() }
@@ -4508,7 +4782,7 @@ func file_echo_v1_plan_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_plan_proto_rawDesc), len(file_echo_v1_plan_proto_rawDesc)),
 			NumEnums:      7,
-			NumMessages:   60,
+			NumMessages:   63,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

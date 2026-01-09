@@ -69,6 +69,12 @@ service PlanService {
   
   // CopyBudgetPeriod copies values from one period to another
   rpc CopyBudgetPeriod(CopyBudgetPeriodRequest) returns (CopyBudgetPeriodResponse);
+  
+  // ============= Filtered Item Queries =============
+  // Query items by target tab for Goals/Budgets/Recurring views
+  
+  // GetPlanItemsByTab returns items filtered by target tab
+  rpc GetPlanItemsByTab(GetPlanItemsByTabRequest) returns (GetPlanItemsByTabResponse);
 }
 
 // Plan source types
@@ -554,4 +560,37 @@ message CopyBudgetPeriodRequest {
 
 message CopyBudgetPeriodResponse {
   BudgetPeriod period = 1;
+}
+
+// ============================================================================
+// Filtered Item Queries
+// ============================================================================
+
+// GetPlanItemsByTab - Get items from a plan filtered by target tab
+message GetPlanItemsByTabRequest {
+  string plan_id = 1 [(buf.validate.field).string.uuid = true];
+  TargetTab target_tab = 2;
+}
+
+message GetPlanItemsByTabResponse {
+  repeated PlanItemWithConfig items = 1;
+  Money total_budgeted = 2;
+  Money total_actual = 3;
+}
+
+// PlanItemWithConfig - Item with its config details for display
+message PlanItemWithConfig {
+  string id = 1;
+  string name = 2;
+  Money budgeted = 3;
+  Money actual = 4;
+  string category_name = 5;
+  string group_name = 6;
+  
+  // Config details
+  string config_id = 7;
+  string config_label = 8;      // e.g., "Budget", "Recurring"
+  string config_short_code = 9; // e.g., "B", "R", "S"
+  string config_color_hex = 10;
+  ItemBehavior behavior = 11;
 }
