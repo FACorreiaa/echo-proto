@@ -1233,6 +1233,83 @@ export declare type DateGap = Message<"echo.v1.DateGap"> & {
 export declare const DateGapSchema: GenMessage<DateGap>;
 
 /**
+ * @generated from message echo.v1.GetSystemHealthRequest
+ */
+export declare type GetSystemHealthRequest = Message<"echo.v1.GetSystemHealthRequest"> & {
+};
+
+/**
+ * Describes the message echo.v1.GetSystemHealthRequest.
+ * Use `create(GetSystemHealthRequestSchema)` to create a new message.
+ */
+export declare const GetSystemHealthRequestSchema: GenMessage<GetSystemHealthRequest>;
+
+/**
+ * @generated from message echo.v1.GetSystemHealthResponse
+ */
+export declare type GetSystemHealthResponse = Message<"echo.v1.GetSystemHealthResponse"> & {
+  /**
+   * @generated from field: echo.v1.SystemHealthReport report = 1;
+   */
+  report?: SystemHealthReport;
+};
+
+/**
+ * Describes the message echo.v1.GetSystemHealthResponse.
+ * Use `create(GetSystemHealthResponseSchema)` to create a new message.
+ */
+export declare const GetSystemHealthResponseSchema: GenMessage<GetSystemHealthResponse>;
+
+/**
+ * @generated from message echo.v1.SystemHealthReport
+ */
+export declare type SystemHealthReport = Message<"echo.v1.SystemHealthReport"> & {
+  /**
+   * 0-100
+   *
+   * @generated from field: int32 score = 1;
+   */
+  score: number;
+
+  /**
+   * "CRITICAL", "WARNING", "HEALTHY"
+   *
+   * @generated from field: string status = 2;
+   */
+  status: string;
+
+  /**
+   * "Plan exceeds current liquidity."
+   *
+   * @generated from field: string detailed_status = 3;
+   */
+  detailedStatus: string;
+
+  /**
+   * Component scores (0-100)
+   *
+   * @generated from field: int32 liquidity_score = 4;
+   */
+  liquidityScore: number;
+
+  /**
+   * @generated from field: int32 budget_score = 5;
+   */
+  budgetScore: number;
+
+  /**
+   * @generated from field: int32 savings_score = 6;
+   */
+  savingsScore: number;
+};
+
+/**
+ * Describes the message echo.v1.SystemHealthReport.
+ * Use `create(SystemHealthReportSchema)` to create a new message.
+ */
+export declare const SystemHealthReportSchema: GenMessage<SystemHealthReport>;
+
+/**
  * @generated from enum echo.v1.InsightChangeType
  */
 export enum InsightChangeType {
@@ -1648,6 +1725,16 @@ export declare const InsightsService: GenService<{
     methodKind: "unary";
     input: typeof GetDataSourceHealthRequestSchema;
     output: typeof GetDataSourceHealthResponseSchema;
+  },
+  /**
+   * System Health Score - "Pulse" of financial system
+   *
+   * @generated from rpc echo.v1.InsightsService.GetSystemHealth
+   */
+  getSystemHealth: {
+    methodKind: "unary";
+    input: typeof GetSystemHealthRequestSchema;
+    output: typeof GetSystemHealthResponseSchema;
   },
 }>;
 

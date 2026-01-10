@@ -60,6 +60,9 @@ const (
 	// InsightsServiceGetDataSourceHealthProcedure is the fully-qualified name of the InsightsService's
 	// GetDataSourceHealth RPC.
 	InsightsServiceGetDataSourceHealthProcedure = "/echo.v1.InsightsService/GetDataSourceHealth"
+	// InsightsServiceGetSystemHealthProcedure is the fully-qualified name of the InsightsService's
+	// GetSystemHealth RPC.
+	InsightsServiceGetSystemHealthProcedure = "/echo.v1.InsightsService/GetSystemHealth"
 )
 
 // InsightsServiceClient is a client for the echo.v1.InsightsService service.
@@ -76,6 +79,8 @@ type InsightsServiceClient interface {
 	// Import quality insights - bridge between Import and Insights services
 	GetImportInsights(context.Context, *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error)
 	GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error)
+	// System Health Score - "Pulse" of financial system
+	GetSystemHealth(context.Context, *connect.Request[v1.GetSystemHealthRequest]) (*connect.Response[v1.GetSystemHealthResponse], error)
 }
 
 // NewInsightsServiceClient constructs a client for the echo.v1.InsightsService service. By default,
@@ -143,6 +148,12 @@ func NewInsightsServiceClient(httpClient connect.HTTPClient, baseURL string, opt
 			connect.WithSchema(insightsServiceMethods.ByName("GetDataSourceHealth")),
 			connect.WithClientOptions(opts...),
 		),
+		getSystemHealth: connect.NewClient[v1.GetSystemHealthRequest, v1.GetSystemHealthResponse](
+			httpClient,
+			baseURL+InsightsServiceGetSystemHealthProcedure,
+			connect.WithSchema(insightsServiceMethods.ByName("GetSystemHealth")),
+			connect.WithClientOptions(opts...),
+		),
 	}
 }
 
@@ -157,6 +168,7 @@ type insightsServiceClient struct {
 	dismissAlert        *connect.Client[v1.DismissAlertRequest, v1.DismissAlertResponse]
 	getImportInsights   *connect.Client[v1.GetImportInsightsRequest, v1.GetImportInsightsResponse]
 	getDataSourceHealth *connect.Client[v1.GetDataSourceHealthRequest, v1.GetDataSourceHealthResponse]
+	getSystemHealth     *connect.Client[v1.GetSystemHealthRequest, v1.GetSystemHealthResponse]
 }
 
 // GetMonthlyInsights calls echo.v1.InsightsService.GetMonthlyInsights.
@@ -204,6 +216,11 @@ func (c *insightsServiceClient) GetDataSourceHealth(ctx context.Context, req *co
 	return c.getDataSourceHealth.CallUnary(ctx, req)
 }
 
+// GetSystemHealth calls echo.v1.InsightsService.GetSystemHealth.
+func (c *insightsServiceClient) GetSystemHealth(ctx context.Context, req *connect.Request[v1.GetSystemHealthRequest]) (*connect.Response[v1.GetSystemHealthResponse], error) {
+	return c.getSystemHealth.CallUnary(ctx, req)
+}
+
 // InsightsServiceHandler is an implementation of the echo.v1.InsightsService service.
 type InsightsServiceHandler interface {
 	GetMonthlyInsights(context.Context, *connect.Request[v1.GetMonthlyInsightsRequest]) (*connect.Response[v1.GetMonthlyInsightsResponse], error)
@@ -218,6 +235,8 @@ type InsightsServiceHandler interface {
 	// Import quality insights - bridge between Import and Insights services
 	GetImportInsights(context.Context, *connect.Request[v1.GetImportInsightsRequest]) (*connect.Response[v1.GetImportInsightsResponse], error)
 	GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error)
+	// System Health Score - "Pulse" of financial system
+	GetSystemHealth(context.Context, *connect.Request[v1.GetSystemHealthRequest]) (*connect.Response[v1.GetSystemHealthResponse], error)
 }
 
 // NewInsightsServiceHandler builds an HTTP handler from the service implementation. It returns the
@@ -281,6 +300,12 @@ func NewInsightsServiceHandler(svc InsightsServiceHandler, opts ...connect.Handl
 		connect.WithSchema(insightsServiceMethods.ByName("GetDataSourceHealth")),
 		connect.WithHandlerOptions(opts...),
 	)
+	insightsServiceGetSystemHealthHandler := connect.NewUnaryHandler(
+		InsightsServiceGetSystemHealthProcedure,
+		svc.GetSystemHealth,
+		connect.WithSchema(insightsServiceMethods.ByName("GetSystemHealth")),
+		connect.WithHandlerOptions(opts...),
+	)
 	return "/echo.v1.InsightsService/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case InsightsServiceGetMonthlyInsightsProcedure:
@@ -301,6 +326,8 @@ func NewInsightsServiceHandler(svc InsightsServiceHandler, opts ...connect.Handl
 			insightsServiceGetImportInsightsHandler.ServeHTTP(w, r)
 		case InsightsServiceGetDataSourceHealthProcedure:
 			insightsServiceGetDataSourceHealthHandler.ServeHTTP(w, r)
+		case InsightsServiceGetSystemHealthProcedure:
+			insightsServiceGetSystemHealthHandler.ServeHTTP(w, r)
 		default:
 			http.NotFound(w, r)
 		}
@@ -344,4 +371,8 @@ func (UnimplementedInsightsServiceHandler) GetImportInsights(context.Context, *c
 
 func (UnimplementedInsightsServiceHandler) GetDataSourceHealth(context.Context, *connect.Request[v1.GetDataSourceHealthRequest]) (*connect.Response[v1.GetDataSourceHealthResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetDataSourceHealth is not implemented"))
+}
+
+func (UnimplementedInsightsServiceHandler) GetSystemHealth(context.Context, *connect.Request[v1.GetSystemHealthRequest]) (*connect.Response[v1.GetSystemHealthResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.InsightsService.GetSystemHealth is not implemented"))
 }

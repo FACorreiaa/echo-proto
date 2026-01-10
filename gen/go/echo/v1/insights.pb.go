@@ -2916,6 +2916,171 @@ func (x *DateGap) GetGapDays() int32 {
 	return 0
 }
 
+type GetSystemHealthRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSystemHealthRequest) Reset() {
+	*x = GetSystemHealthRequest{}
+	mi := &file_echo_v1_insights_proto_msgTypes[35]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSystemHealthRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSystemHealthRequest) ProtoMessage() {}
+
+func (x *GetSystemHealthRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[35]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSystemHealthRequest.ProtoReflect.Descriptor instead.
+func (*GetSystemHealthRequest) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{35}
+}
+
+type GetSystemHealthResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Report        *SystemHealthReport    `protobuf:"bytes,1,opt,name=report,proto3" json:"report,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetSystemHealthResponse) Reset() {
+	*x = GetSystemHealthResponse{}
+	mi := &file_echo_v1_insights_proto_msgTypes[36]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetSystemHealthResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetSystemHealthResponse) ProtoMessage() {}
+
+func (x *GetSystemHealthResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[36]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetSystemHealthResponse.ProtoReflect.Descriptor instead.
+func (*GetSystemHealthResponse) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{36}
+}
+
+func (x *GetSystemHealthResponse) GetReport() *SystemHealthReport {
+	if x != nil {
+		return x.Report
+	}
+	return nil
+}
+
+type SystemHealthReport struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Score          int32                  `protobuf:"varint,1,opt,name=score,proto3" json:"score,omitempty"`                                        // 0-100
+	Status         string                 `protobuf:"bytes,2,opt,name=status,proto3" json:"status,omitempty"`                                       // "CRITICAL", "WARNING", "HEALTHY"
+	DetailedStatus string                 `protobuf:"bytes,3,opt,name=detailed_status,json=detailedStatus,proto3" json:"detailed_status,omitempty"` // "Plan exceeds current liquidity."
+	// Component scores (0-100)
+	LiquidityScore int32 `protobuf:"varint,4,opt,name=liquidity_score,json=liquidityScore,proto3" json:"liquidity_score,omitempty"`
+	BudgetScore    int32 `protobuf:"varint,5,opt,name=budget_score,json=budgetScore,proto3" json:"budget_score,omitempty"`
+	SavingsScore   int32 `protobuf:"varint,6,opt,name=savings_score,json=savingsScore,proto3" json:"savings_score,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *SystemHealthReport) Reset() {
+	*x = SystemHealthReport{}
+	mi := &file_echo_v1_insights_proto_msgTypes[37]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SystemHealthReport) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SystemHealthReport) ProtoMessage() {}
+
+func (x *SystemHealthReport) ProtoReflect() protoreflect.Message {
+	mi := &file_echo_v1_insights_proto_msgTypes[37]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SystemHealthReport.ProtoReflect.Descriptor instead.
+func (*SystemHealthReport) Descriptor() ([]byte, []int) {
+	return file_echo_v1_insights_proto_rawDescGZIP(), []int{37}
+}
+
+func (x *SystemHealthReport) GetScore() int32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+func (x *SystemHealthReport) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *SystemHealthReport) GetDetailedStatus() string {
+	if x != nil {
+		return x.DetailedStatus
+	}
+	return ""
+}
+
+func (x *SystemHealthReport) GetLiquidityScore() int32 {
+	if x != nil {
+		return x.LiquidityScore
+	}
+	return 0
+}
+
+func (x *SystemHealthReport) GetBudgetScore() int32 {
+	if x != nil {
+		return x.BudgetScore
+	}
+	return 0
+}
+
+func (x *SystemHealthReport) GetSavingsScore() int32 {
+	if x != nil {
+		return x.SavingsScore
+	}
+	return 0
+}
+
 var File_echo_v1_insights_proto protoreflect.FileDescriptor
 
 const file_echo_v1_insights_proto_rawDesc = "" +
@@ -3148,7 +3313,17 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\aDateGap\x128\n" +
 	"\x05start\x18\x01 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x05start\x124\n" +
 	"\x03end\x18\x02 \x01(\v2\x1a.google.protobuf.TimestampB\x06\xbaH\x03\xc8\x01\x01R\x03end\x12\"\n" +
-	"\bgap_days\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\agapDays*\x82\x03\n" +
+	"\bgap_days\x18\x03 \x01(\x05B\a\xbaH\x04\x1a\x02(\x01R\agapDays\"\x18\n" +
+	"\x16GetSystemHealthRequest\"N\n" +
+	"\x17GetSystemHealthResponse\x123\n" +
+	"\x06report\x18\x01 \x01(\v2\x1b.echo.v1.SystemHealthReportR\x06report\"\xdc\x01\n" +
+	"\x12SystemHealthReport\x12\x14\n" +
+	"\x05score\x18\x01 \x01(\x05R\x05score\x12\x16\n" +
+	"\x06status\x18\x02 \x01(\tR\x06status\x12'\n" +
+	"\x0fdetailed_status\x18\x03 \x01(\tR\x0edetailedStatus\x12'\n" +
+	"\x0fliquidity_score\x18\x04 \x01(\x05R\x0eliquidityScore\x12!\n" +
+	"\fbudget_score\x18\x05 \x01(\x05R\vbudgetScore\x12#\n" +
+	"\rsavings_score\x18\x06 \x01(\x05R\fsavingsScore*\x82\x03\n" +
 	"\x11InsightChangeType\x12#\n" +
 	"\x1fINSIGHT_CHANGE_TYPE_UNSPECIFIED\x10\x00\x12)\n" +
 	"%INSIGHT_CHANGE_TYPE_CATEGORY_INCREASE\x10\x01\x12)\n" +
@@ -3200,7 +3375,7 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"%IMPORT_ISSUE_TYPE_MISSING_DESCRIPTION\x10\x03\x12$\n" +
 	" IMPORT_ISSUE_TYPE_DUPLICATE_ROWS\x10\x04\x12#\n" +
 	"\x1fIMPORT_ISSUE_TYPE_UNCATEGORIZED\x10\x05\x12!\n" +
-	"\x1dIMPORT_ISSUE_TYPE_FUTURE_DATE\x10\x062\x91\x06\n" +
+	"\x1dIMPORT_ISSUE_TYPE_FUTURE_DATE\x10\x062\xe7\x06\n" +
 	"\x0fInsightsService\x12]\n" +
 	"\x12GetMonthlyInsights\x12\".echo.v1.GetMonthlyInsightsRequest\x1a#.echo.v1.GetMonthlyInsightsResponse\x12E\n" +
 	"\n" +
@@ -3212,7 +3387,8 @@ const file_echo_v1_insights_proto_rawDesc = "" +
 	"\rMarkAlertRead\x12\x1d.echo.v1.MarkAlertReadRequest\x1a\x1e.echo.v1.MarkAlertReadResponse\x12K\n" +
 	"\fDismissAlert\x12\x1c.echo.v1.DismissAlertRequest\x1a\x1d.echo.v1.DismissAlertResponse\x12Z\n" +
 	"\x11GetImportInsights\x12!.echo.v1.GetImportInsightsRequest\x1a\".echo.v1.GetImportInsightsResponse\x12`\n" +
-	"\x13GetDataSourceHealth\x12#.echo.v1.GetDataSourceHealthRequest\x1a$.echo.v1.GetDataSourceHealthResponseB\xa4\x01\n" +
+	"\x13GetDataSourceHealth\x12#.echo.v1.GetDataSourceHealthRequest\x1a$.echo.v1.GetDataSourceHealthResponse\x12T\n" +
+	"\x0fGetSystemHealth\x12\x1f.echo.v1.GetSystemHealthRequest\x1a .echo.v1.GetSystemHealthResponseB\xa4\x01\n" +
 	"\vcom.echo.v1B\rInsightsProtoP\x01ZGgithub.com/FACorreiaa/smart-finance-tracker-proto/gen/go/echo/v1;echov1\xa2\x02\x03EXX\xaa\x02\aEcho.V1\xca\x02\bEcho_\\V1\xe2\x02\x14Echo_\\V1\\GPBMetadata\xea\x02\bEcho::V1b\x06proto3"
 
 var (
@@ -3228,7 +3404,7 @@ func file_echo_v1_insights_proto_rawDescGZIP() []byte {
 }
 
 var file_echo_v1_insights_proto_enumTypes = make([]protoimpl.EnumInfo, 8)
-var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 35)
+var file_echo_v1_insights_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
 var file_echo_v1_insights_proto_goTypes = []any{
 	(InsightChangeType)(0),              // 0: echo.v1.InsightChangeType
 	(InsightChangeSentiment)(0),         // 1: echo.v1.InsightChangeSentiment
@@ -3273,98 +3449,104 @@ var file_echo_v1_insights_proto_goTypes = []any{
 	(*GetDataSourceHealthResponse)(nil), // 40: echo.v1.GetDataSourceHealthResponse
 	(*DataSourceHealth)(nil),            // 41: echo.v1.DataSourceHealth
 	(*DateGap)(nil),                     // 42: echo.v1.DateGap
-	(*Money)(nil),                       // 43: echo.v1.Money
-	(*timestamppb.Timestamp)(nil),       // 44: google.protobuf.Timestamp
-	(TransactionSource)(0),              // 45: echo.v1.TransactionSource
+	(*GetSystemHealthRequest)(nil),      // 43: echo.v1.GetSystemHealthRequest
+	(*GetSystemHealthResponse)(nil),     // 44: echo.v1.GetSystemHealthResponse
+	(*SystemHealthReport)(nil),          // 45: echo.v1.SystemHealthReport
+	(*Money)(nil),                       // 46: echo.v1.Money
+	(*timestamppb.Timestamp)(nil),       // 47: google.protobuf.Timestamp
+	(TransactionSource)(0),              // 48: echo.v1.TransactionSource
 }
 var file_echo_v1_insights_proto_depIdxs = []int32{
-	43, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
-	43, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
-	44, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
-	43, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
-	43, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
-	43, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
+	46, // 0: echo.v1.CategorySpend.total:type_name -> echo.v1.Money
+	46, // 1: echo.v1.MerchantSpend.total:type_name -> echo.v1.Money
+	47, // 2: echo.v1.MonthlyInsights.month_start:type_name -> google.protobuf.Timestamp
+	46, // 3: echo.v1.MonthlyInsights.total_spend:type_name -> echo.v1.Money
+	46, // 4: echo.v1.MonthlyInsights.total_income:type_name -> echo.v1.Money
+	46, // 5: echo.v1.MonthlyInsights.net:type_name -> echo.v1.Money
 	8,  // 6: echo.v1.MonthlyInsights.top_categories:type_name -> echo.v1.CategorySpend
 	9,  // 7: echo.v1.MonthlyInsights.top_merchants:type_name -> echo.v1.MerchantSpend
 	11, // 8: echo.v1.MonthlyInsights.changes:type_name -> echo.v1.InsightChange
 	12, // 9: echo.v1.MonthlyInsights.recommended_action:type_name -> echo.v1.ActionRecommendation
-	43, // 10: echo.v1.MonthlyInsights.spend_vs_last_month:type_name -> echo.v1.Money
-	44, // 11: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
+	46, // 10: echo.v1.MonthlyInsights.spend_vs_last_month:type_name -> echo.v1.Money
+	47, // 11: echo.v1.MonthlyInsights.created_at:type_name -> google.protobuf.Timestamp
 	0,  // 12: echo.v1.InsightChange.type:type_name -> echo.v1.InsightChangeType
-	43, // 13: echo.v1.InsightChange.amount_change:type_name -> echo.v1.Money
+	46, // 13: echo.v1.InsightChange.amount_change:type_name -> echo.v1.Money
 	1,  // 14: echo.v1.InsightChange.sentiment:type_name -> echo.v1.InsightChangeSentiment
 	2,  // 15: echo.v1.ActionRecommendation.type:type_name -> echo.v1.ActionType
-	43, // 16: echo.v1.ActionRecommendation.potential_impact:type_name -> echo.v1.Money
+	46, // 16: echo.v1.ActionRecommendation.potential_impact:type_name -> echo.v1.Money
 	3,  // 17: echo.v1.ActionRecommendation.priority:type_name -> echo.v1.ActionPriority
-	44, // 18: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
+	47, // 18: echo.v1.GetMonthlyInsightsRequest.month_start:type_name -> google.protobuf.Timestamp
 	10, // 19: echo.v1.GetMonthlyInsightsResponse.insights:type_name -> echo.v1.MonthlyInsights
-	43, // 20: echo.v1.BehavioralArchetype.amount:type_name -> echo.v1.Money
+	46, // 20: echo.v1.BehavioralArchetype.amount:type_name -> echo.v1.Money
 	4,  // 21: echo.v1.WrappedSummary.period:type_name -> echo.v1.WrappedPeriod
-	44, // 22: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
-	44, // 23: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
+	47, // 22: echo.v1.WrappedSummary.period_start:type_name -> google.protobuf.Timestamp
+	47, // 23: echo.v1.WrappedSummary.period_end:type_name -> google.protobuf.Timestamp
 	15, // 24: echo.v1.WrappedSummary.cards:type_name -> echo.v1.WrappedCard
 	16, // 25: echo.v1.WrappedSummary.archetypes:type_name -> echo.v1.BehavioralArchetype
-	44, // 26: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
+	47, // 26: echo.v1.WrappedSummary.created_at:type_name -> google.protobuf.Timestamp
 	4,  // 27: echo.v1.GetWrappedRequest.period:type_name -> echo.v1.WrappedPeriod
-	44, // 28: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
-	44, // 29: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
+	47, // 28: echo.v1.GetWrappedRequest.period_start:type_name -> google.protobuf.Timestamp
+	47, // 29: echo.v1.GetWrappedRequest.period_end:type_name -> google.protobuf.Timestamp
 	17, // 30: echo.v1.GetWrappedResponse.wrapped:type_name -> echo.v1.WrappedSummary
-	44, // 31: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
-	43, // 32: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
-	43, // 33: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
-	43, // 34: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
-	44, // 35: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
+	47, // 31: echo.v1.GetSpendingPulseRequest.as_of:type_name -> google.protobuf.Timestamp
+	46, // 32: echo.v1.SpendingPulse.current_month_spend:type_name -> echo.v1.Money
+	46, // 33: echo.v1.SpendingPulse.last_month_spend:type_name -> echo.v1.Money
+	46, // 34: echo.v1.SpendingPulse.spend_delta:type_name -> echo.v1.Money
+	47, // 35: echo.v1.SpendingPulse.as_of_date:type_name -> google.protobuf.Timestamp
 	22, // 36: echo.v1.SpendingPulse.top_categories:type_name -> echo.v1.TopCategorySpend
 	23, // 37: echo.v1.SpendingPulse.surprise_expenses:type_name -> echo.v1.SurpriseExpense
-	43, // 38: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
-	43, // 39: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
-	44, // 40: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
+	46, // 38: echo.v1.TopCategorySpend.amount:type_name -> echo.v1.Money
+	46, // 39: echo.v1.SurpriseExpense.amount:type_name -> echo.v1.Money
+	47, // 40: echo.v1.SurpriseExpense.posted_at:type_name -> google.protobuf.Timestamp
 	21, // 41: echo.v1.GetSpendingPulseResponse.pulse:type_name -> echo.v1.SpendingPulse
 	26, // 42: echo.v1.GetDashboardBlocksResponse.blocks:type_name -> echo.v1.DashboardBlock
 	6,  // 43: echo.v1.Alert.alert_type:type_name -> echo.v1.AlertType
 	5,  // 44: echo.v1.Alert.severity:type_name -> echo.v1.AlertSeverity
-	44, // 45: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
-	44, // 46: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
+	47, // 45: echo.v1.Alert.alert_date:type_name -> google.protobuf.Timestamp
+	47, // 46: echo.v1.Alert.created_at:type_name -> google.protobuf.Timestamp
 	28, // 47: echo.v1.ListAlertsResponse.alerts:type_name -> echo.v1.Alert
 	37, // 48: echo.v1.GetImportInsightsResponse.insights:type_name -> echo.v1.ImportInsights
-	44, // 49: echo.v1.ImportInsights.earliest_date:type_name -> google.protobuf.Timestamp
-	44, // 50: echo.v1.ImportInsights.latest_date:type_name -> google.protobuf.Timestamp
-	43, // 51: echo.v1.ImportInsights.total_income:type_name -> echo.v1.Money
-	43, // 52: echo.v1.ImportInsights.total_expenses:type_name -> echo.v1.Money
+	47, // 49: echo.v1.ImportInsights.earliest_date:type_name -> google.protobuf.Timestamp
+	47, // 50: echo.v1.ImportInsights.latest_date:type_name -> google.protobuf.Timestamp
+	46, // 51: echo.v1.ImportInsights.total_income:type_name -> echo.v1.Money
+	46, // 52: echo.v1.ImportInsights.total_expenses:type_name -> echo.v1.Money
 	38, // 53: echo.v1.ImportInsights.issues:type_name -> echo.v1.ImportIssue
 	7,  // 54: echo.v1.ImportIssue.type:type_name -> echo.v1.ImportIssueType
 	41, // 55: echo.v1.GetDataSourceHealthResponse.sources:type_name -> echo.v1.DataSourceHealth
-	44, // 56: echo.v1.GetDataSourceHealthResponse.oldest_transaction:type_name -> google.protobuf.Timestamp
-	45, // 57: echo.v1.DataSourceHealth.source_type:type_name -> echo.v1.TransactionSource
-	44, // 58: echo.v1.DataSourceHealth.first_transaction:type_name -> google.protobuf.Timestamp
-	44, // 59: echo.v1.DataSourceHealth.last_transaction:type_name -> google.protobuf.Timestamp
-	44, // 60: echo.v1.DataSourceHealth.last_import:type_name -> google.protobuf.Timestamp
+	47, // 56: echo.v1.GetDataSourceHealthResponse.oldest_transaction:type_name -> google.protobuf.Timestamp
+	48, // 57: echo.v1.DataSourceHealth.source_type:type_name -> echo.v1.TransactionSource
+	47, // 58: echo.v1.DataSourceHealth.first_transaction:type_name -> google.protobuf.Timestamp
+	47, // 59: echo.v1.DataSourceHealth.last_transaction:type_name -> google.protobuf.Timestamp
+	47, // 60: echo.v1.DataSourceHealth.last_import:type_name -> google.protobuf.Timestamp
 	42, // 61: echo.v1.DataSourceHealth.gaps:type_name -> echo.v1.DateGap
-	44, // 62: echo.v1.DateGap.start:type_name -> google.protobuf.Timestamp
-	44, // 63: echo.v1.DateGap.end:type_name -> google.protobuf.Timestamp
-	13, // 64: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
-	18, // 65: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
-	20, // 66: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
-	25, // 67: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
-	29, // 68: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
-	31, // 69: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
-	33, // 70: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
-	35, // 71: echo.v1.InsightsService.GetImportInsights:input_type -> echo.v1.GetImportInsightsRequest
-	39, // 72: echo.v1.InsightsService.GetDataSourceHealth:input_type -> echo.v1.GetDataSourceHealthRequest
-	14, // 73: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
-	19, // 74: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
-	24, // 75: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
-	27, // 76: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
-	30, // 77: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
-	32, // 78: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
-	34, // 79: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
-	36, // 80: echo.v1.InsightsService.GetImportInsights:output_type -> echo.v1.GetImportInsightsResponse
-	40, // 81: echo.v1.InsightsService.GetDataSourceHealth:output_type -> echo.v1.GetDataSourceHealthResponse
-	73, // [73:82] is the sub-list for method output_type
-	64, // [64:73] is the sub-list for method input_type
-	64, // [64:64] is the sub-list for extension type_name
-	64, // [64:64] is the sub-list for extension extendee
-	0,  // [0:64] is the sub-list for field type_name
+	47, // 62: echo.v1.DateGap.start:type_name -> google.protobuf.Timestamp
+	47, // 63: echo.v1.DateGap.end:type_name -> google.protobuf.Timestamp
+	45, // 64: echo.v1.GetSystemHealthResponse.report:type_name -> echo.v1.SystemHealthReport
+	13, // 65: echo.v1.InsightsService.GetMonthlyInsights:input_type -> echo.v1.GetMonthlyInsightsRequest
+	18, // 66: echo.v1.InsightsService.GetWrapped:input_type -> echo.v1.GetWrappedRequest
+	20, // 67: echo.v1.InsightsService.GetSpendingPulse:input_type -> echo.v1.GetSpendingPulseRequest
+	25, // 68: echo.v1.InsightsService.GetDashboardBlocks:input_type -> echo.v1.GetDashboardBlocksRequest
+	29, // 69: echo.v1.InsightsService.ListAlerts:input_type -> echo.v1.ListAlertsRequest
+	31, // 70: echo.v1.InsightsService.MarkAlertRead:input_type -> echo.v1.MarkAlertReadRequest
+	33, // 71: echo.v1.InsightsService.DismissAlert:input_type -> echo.v1.DismissAlertRequest
+	35, // 72: echo.v1.InsightsService.GetImportInsights:input_type -> echo.v1.GetImportInsightsRequest
+	39, // 73: echo.v1.InsightsService.GetDataSourceHealth:input_type -> echo.v1.GetDataSourceHealthRequest
+	43, // 74: echo.v1.InsightsService.GetSystemHealth:input_type -> echo.v1.GetSystemHealthRequest
+	14, // 75: echo.v1.InsightsService.GetMonthlyInsights:output_type -> echo.v1.GetMonthlyInsightsResponse
+	19, // 76: echo.v1.InsightsService.GetWrapped:output_type -> echo.v1.GetWrappedResponse
+	24, // 77: echo.v1.InsightsService.GetSpendingPulse:output_type -> echo.v1.GetSpendingPulseResponse
+	27, // 78: echo.v1.InsightsService.GetDashboardBlocks:output_type -> echo.v1.GetDashboardBlocksResponse
+	30, // 79: echo.v1.InsightsService.ListAlerts:output_type -> echo.v1.ListAlertsResponse
+	32, // 80: echo.v1.InsightsService.MarkAlertRead:output_type -> echo.v1.MarkAlertReadResponse
+	34, // 81: echo.v1.InsightsService.DismissAlert:output_type -> echo.v1.DismissAlertResponse
+	36, // 82: echo.v1.InsightsService.GetImportInsights:output_type -> echo.v1.GetImportInsightsResponse
+	40, // 83: echo.v1.InsightsService.GetDataSourceHealth:output_type -> echo.v1.GetDataSourceHealthResponse
+	44, // 84: echo.v1.InsightsService.GetSystemHealth:output_type -> echo.v1.GetSystemHealthResponse
+	75, // [75:85] is the sub-list for method output_type
+	65, // [65:75] is the sub-list for method input_type
+	65, // [65:65] is the sub-list for extension type_name
+	65, // [65:65] is the sub-list for extension extendee
+	0,  // [0:65] is the sub-list for field type_name
 }
 
 func init() { file_echo_v1_insights_proto_init() }
@@ -3386,7 +3568,7 @@ func file_echo_v1_insights_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_echo_v1_insights_proto_rawDesc), len(file_echo_v1_insights_proto_rawDesc)),
 			NumEnums:      8,
-			NumMessages:   35,
+			NumMessages:   38,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

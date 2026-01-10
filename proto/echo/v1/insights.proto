@@ -26,6 +26,9 @@ service InsightsService {
   // Import quality insights - bridge between Import and Insights services
   rpc GetImportInsights(GetImportInsightsRequest) returns (GetImportInsightsResponse);
   rpc GetDataSourceHealth(GetDataSourceHealthRequest) returns (GetDataSourceHealthResponse);
+  
+  // System Health Score - "Pulse" of financial system
+  rpc GetSystemHealth(GetSystemHealthRequest) returns (GetSystemHealthResponse);
 }
 
 message CategorySpend {
@@ -401,4 +404,25 @@ message DateGap {
   google.protobuf.Timestamp start = 1 [(buf.validate.field).required = true];
   google.protobuf.Timestamp end = 2 [(buf.validate.field).required = true];
   int32 gap_days = 3 [(buf.validate.field).int32 = { gte: 1 }];
+}
+
+// ============================================================================
+// System Health
+// ============================================================================
+
+message GetSystemHealthRequest {}
+
+message GetSystemHealthResponse {
+  SystemHealthReport report = 1;
+}
+
+message SystemHealthReport {
+  int32 score = 1; // 0-100
+  string status = 2; // "CRITICAL", "WARNING", "HEALTHY"
+  string detailed_status = 3; // "Plan exceeds current liquidity."
+  
+  // Component scores (0-100)
+  int32 liquidity_score = 4;
+  int32 budget_score = 5;
+  int32 savings_score = 6;
 }

@@ -975,6 +975,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.GetSystemHealthRequest"><span class="badge">M</span>GetSystemHealthRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetSystemHealthResponse"><span class="badge">M</span>GetSystemHealthResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.GetWrappedRequest"><span class="badge">M</span>GetWrappedRequest</a>
                 </li>
               
@@ -1024,6 +1032,10 @@
               
                 <li>
                   <a href="#echo.v1.SurpriseExpense"><span class="badge">M</span>SurpriseExpense</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SystemHealthReport"><span class="badge">M</span>SystemHealthReport</a>
                 </li>
               
                 <li>
@@ -8614,6 +8626,37 @@ Number of times seen </p></td>
 
         
       
+        <h3 id="echo.v1.GetSystemHealthRequest">GetSystemHealthRequest</h3>
+        <p></p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.GetSystemHealthResponse">GetSystemHealthResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>report</td>
+                  <td><a href="#echo.v1.SystemHealthReport">SystemHealthReport</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.GetWrappedRequest">GetWrappedRequest</h3>
         <p></p>
 
@@ -9303,6 +9346,65 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.SystemHealthReport">SystemHealthReport</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>score</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>0-100 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>&#34;CRITICAL&#34;, &#34;WARNING&#34;, &#34;HEALTHY&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>detailed_status</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>&#34;Plan exceeds current liquidity.&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>liquidity_score</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Component scores (0-100) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>budget_score</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>savings_score</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.TopCategorySpend">TopCategorySpend</h3>
         <p></p>
 
@@ -9894,6 +9996,13 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.GetDataSourceHealthRequest">GetDataSourceHealthRequest</a></td>
                 <td><a href="#echo.v1.GetDataSourceHealthResponse">GetDataSourceHealthResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>GetSystemHealth</td>
+                <td><a href="#echo.v1.GetSystemHealthRequest">GetSystemHealthRequest</a></td>
+                <td><a href="#echo.v1.GetSystemHealthResponse">GetSystemHealthResponse</a></td>
+                <td><p>System Health Score - &#34;Pulse&#34; of financial system</p></td>
               </tr>
             
           </tbody>
