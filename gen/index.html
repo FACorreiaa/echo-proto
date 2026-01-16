@@ -1582,6 +1582,61 @@
         
           
           <li>
+            <a href="#echo%2fv1%2fwaitlist.proto">echo/v1/waitlist.proto</a>
+            <ul>
+              
+                <li>
+                  <a href="#echo.v1.AddToWaitlistRequest"><span class="badge">M</span>AddToWaitlistRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AddToWaitlistResponse"><span class="badge">M</span>AddToWaitlistResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetWaitlistStatsRequest"><span class="badge">M</span>GetWaitlistStatsRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.GetWaitlistStatsResponse"><span class="badge">M</span>GetWaitlistStatsResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListWaitlistRequest"><span class="badge">M</span>ListWaitlistRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.ListWaitlistResponse"><span class="badge">M</span>ListWaitlistResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SendInviteRequest"><span class="badge">M</span>SendInviteRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.SendInviteResponse"><span class="badge">M</span>SendInviteResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.WaitlistEntry"><span class="badge">M</span>WaitlistEntry</a>
+                </li>
+              
+              
+                <li>
+                  <a href="#echo.v1.WaitlistStatus"><span class="badge">E</span>WaitlistStatus</a>
+                </li>
+              
+              
+              
+                <li>
+                  <a href="#echo.v1.WaitlistService"><span class="badge">S</span>WaitlistService</a>
+                </li>
+              
+            </ul>
+          </li>
+        
+          
+          <li>
             <a href="#echo%2fv1%2fwealth.proto">echo/v1/wealth.proto</a>
             <ul>
               
@@ -14617,6 +14672,413 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.EvaluateTemplateRequest">EvaluateTemplateRequest</a></td>
                 <td><a href="#echo.v1.EvaluateTemplateResponse">EvaluateTemplateResponse</a></td>
                 <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+
+        
+    
+      
+      <div class="file-heading">
+        <h2 id="echo/v1/waitlist.proto">echo/v1/waitlist.proto</h2><a href="#title">Top</a>
+      </div>
+      <p></p>
+
+      
+        <h3 id="echo.v1.AddToWaitlistRequest">AddToWaitlistRequest</h3>
+        <p>AddToWaitlist - Public endpoint for landing page signups</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>email</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AddToWaitlistResponse">AddToWaitlistResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>position</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Position in the waitlist queue </p></td>
+                </tr>
+              
+                <tr>
+                  <td>message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>&#34;You&#39;re #42 on the waitlist!&#34; </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.GetWaitlistStatsRequest">GetWaitlistStatsRequest</h3>
+        <p>GetWaitlistStats - Admin endpoint for metrics</p>
+
+        
+
+        
+      
+        <h3 id="echo.v1.GetWaitlistStatsResponse">GetWaitlistStatsResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>total_signups</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>pending_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>invited_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>joined_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>signups_today</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>signups_this_week</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListWaitlistRequest">ListWaitlistRequest</h3>
+        <p>ListWaitlist - Admin endpoint to view all signups</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>status_filter</td>
+                  <td><a href="#echo.v1.WaitlistStatus">WaitlistStatus</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page</td>
+                  <td><a href="#echo.v1.PageRequest">PageRequest</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.ListWaitlistResponse">ListWaitlistResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>entries</td>
+                  <td><a href="#echo.v1.WaitlistEntry">WaitlistEntry</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_count</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>page</td>
+                  <td><a href="#echo.v1.PageResponse">PageResponse</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.SendInviteRequest">SendInviteRequest</h3>
+        <p>SendInvite - Admin endpoint to send early access invite</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>waitlist_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.SendInviteResponse">SendInviteResponse</h3>
+        <p></p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>invite_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>message</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.WaitlistEntry">WaitlistEntry</h3>
+        <p>WaitlistEntry represents a single waitlist signup</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>email</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>status</td>
+                  <td><a href="#echo.v1.WaitlistStatus">WaitlistStatus</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>created_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>invited_at</td>
+                  <td><a href="#google.protobuf.Timestamp">google.protobuf.Timestamp</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>invite_code</td>
+                  <td><a href="#string">string</a></td>
+                  <td>optional</td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+
+      
+        <h3 id="echo.v1.WaitlistStatus">WaitlistStatus</h3>
+        <p>WaitlistStatus represents the state of a waitlist entry</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>WAITLIST_STATUS_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>WAITLIST_STATUS_PENDING</td>
+                <td>1</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>WAITLIST_STATUS_INVITED</td>
+                <td>2</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>WAITLIST_STATUS_JOINED</td>
+                <td>3</td>
+                <td><p></p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+
+      
+
+      
+        <h3 id="echo.v1.WaitlistService">WaitlistService</h3>
+        <p>WaitlistService manages the pre-launch waitlist for Echo</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Method Name</td><td>Request Type</td><td>Response Type</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>AddToWaitlist</td>
+                <td><a href="#echo.v1.AddToWaitlistRequest">AddToWaitlistRequest</a></td>
+                <td><a href="#echo.v1.AddToWaitlistResponse">AddToWaitlistResponse</a></td>
+                <td><p>AddToWaitlist adds an email to the waitlist (public endpoint)</p></td>
+              </tr>
+            
+              <tr>
+                <td>ListWaitlist</td>
+                <td><a href="#echo.v1.ListWaitlistRequest">ListWaitlistRequest</a></td>
+                <td><a href="#echo.v1.ListWaitlistResponse">ListWaitlistResponse</a></td>
+                <td><p>ListWaitlist returns all waitlist entries (admin only)</p></td>
+              </tr>
+            
+              <tr>
+                <td>SendInvite</td>
+                <td><a href="#echo.v1.SendInviteRequest">SendInviteRequest</a></td>
+                <td><a href="#echo.v1.SendInviteResponse">SendInviteResponse</a></td>
+                <td><p>SendInvite sends an early access invite to a waitlist user (admin only)</p></td>
+              </tr>
+            
+              <tr>
+                <td>GetWaitlistStats</td>
+                <td><a href="#echo.v1.GetWaitlistStatsRequest">GetWaitlistStatsRequest</a></td>
+                <td><a href="#echo.v1.GetWaitlistStatsResponse">GetWaitlistStatsResponse</a></td>
+                <td><p>GetWaitlistStats returns waitlist metrics (admin only)</p></td>
               </tr>
             
           </tbody>

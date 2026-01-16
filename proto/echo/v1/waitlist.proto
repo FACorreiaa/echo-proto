@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package echo.v1;
+
+option go_package = "buf.build/gen/go/echo-tracker/echo/protocolbuffers/go/echo/v1;echov1";
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+import "echo/v1/common.proto";
+
+// WaitlistService manages the pre-launch waitlist for Echo
+service WaitlistService {
+  // AddToWaitlist adds an email to the waitlist (public endpoint)
+  rpc AddToWaitlist(AddToWaitlistRequest) returns (AddToWaitlistResponse);
+  
+  // ListWaitlist returns all waitlist entries (admin only)
+  rpc ListWaitlist(ListWaitlistRequest) returns (ListWaitlistResponse);
+  
+  // SendInvite sends an early access invite to a waitlist user (admin only)
+  rpc SendInvite(SendInviteRequest) returns (SendInviteResponse);
+  
+  // GetWaitlistStats returns waitlist metrics (admin only)
+  rpc GetWaitlistStats(GetWaitlistStatsRequest) returns (GetWaitlistStatsResponse);
+}
+
+// WaitlistStatus represents the state of a waitlist entry
+enum WaitlistStatus {
+  WAITLIST_STATUS_UNSPECIFIED = 0;
+  WAITLIST_STATUS_PENDING = 1;
+  WAITLIST_STATUS_INVITED = 2;
+  WAITLIST_STATUS_JOINED = 3;
+}
+
+// WaitlistEntry represents a single waitlist signup
+message WaitlistEntry {
+  string id = 1;
+  string email = 2;
+  WaitlistStatus status = 3;
+  google.protobuf.Timestamp created_at = 4;
+  optional google.protobuf.Timestamp invited_at = 5;
+  optional string invite_code = 6;
+}
+
+// AddToWaitlist - Public endpoint for landing page signups
+message AddToWaitlistRequest {
+  string email = 1 [(buf.validate.field).string = { 
+    min_len: 3 
+    max_len: 254 
+    email: true 
+  }];
+}
+
+message AddToWaitlistResponse {
+  bool success = 1;
+  int32 position = 2; // Position in the waitlist queue
+  string message = 3; // "You're #42 on the waitlist!"
+}
+
+// ListWaitlist - Admin endpoint to view all signups
+message ListWaitlistRequest {
+  optional WaitlistStatus status_filter = 1;
+  optional PageRequest page = 2;
+}
+
+message ListWaitlistResponse {
+  repeated WaitlistEntry entries = 1;
+  int32 total_count = 2;
+  optional PageResponse page = 3;
+}
+
+// SendInvite - Admin endpoint to send early access invite
+message SendInviteRequest {
+  string waitlist_id = 1 [(buf.validate.field).string = { min_len: 36 max_len: 36 }];
+}
+
+message SendInviteResponse {
+  bool success = 1;
+  string invite_code = 2;
+  string message = 3;
+}
+
+// GetWaitlistStats - Admin endpoint for metrics
+message GetWaitlistStatsRequest {}
+
+message GetWaitlistStatsResponse {
+  int32 total_signups = 1;
+  int32 pending_count = 2;
+  int32 invited_count = 3;
+  int32 joined_count = 4;
+  int32 signups_today = 5;
+  int32 signups_this_week = 6;
+}
