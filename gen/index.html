@@ -1216,11 +1216,23 @@
             <ul>
               
                 <li>
+                  <a href="#echo.v1.AnalysisNode"><span class="badge">M</span>AnalysisNode</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.AnalyzeExcelForPlanRequest"><span class="badge">M</span>AnalyzeExcelForPlanRequest</a>
                 </li>
               
                 <li>
                   <a href="#echo.v1.AnalyzeExcelForPlanResponse"><span class="badge">M</span>AnalyzeExcelForPlanResponse</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AnalyzeExcelTreeRequest"><span class="badge">M</span>AnalyzeExcelTreeRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AnalyzeExcelTreeResponse"><span class="badge">M</span>AnalyzeExcelTreeResponse</a>
                 </li>
               
                 <li>
@@ -1364,6 +1376,14 @@
                 </li>
               
                 <li>
+                  <a href="#echo.v1.LearnFromExcelCorrectionRequest"><span class="badge">M</span>LearnFromExcelCorrectionRequest</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.LearnFromExcelCorrectionResponse"><span class="badge">M</span>LearnFromExcelCorrectionResponse</a>
+                </li>
+              
+                <li>
                   <a href="#echo.v1.ListBudgetPeriodsRequest"><span class="badge">M</span>ListBudgetPeriodsRequest</a>
                 </li>
               
@@ -1475,6 +1495,14 @@
                   <a href="#echo.v1.UserPlan"><span class="badge">M</span>UserPlan</a>
                 </li>
               
+              
+                <li>
+                  <a href="#echo.v1.AnalysisItemTag"><span class="badge">E</span>AnalysisItemTag</a>
+                </li>
+              
+                <li>
+                  <a href="#echo.v1.AnalysisNodeType"><span class="badge">E</span>AnalysisNodeType</a>
+                </li>
               
                 <li>
                   <a href="#echo.v1.FieldType"><span class="badge">E</span>FieldType</a>
@@ -11033,6 +11061,93 @@ Positive = spent more, negative = spent less </p></td>
       <p></p>
 
       
+        <h3 id="echo.v1.AnalysisNode">AnalysisNode</h3>
+        <p>AnalysisNode represents a node in the hierarchical analysis tree</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_minor</td>
+                  <td><a href="#int64">int64</a></td>
+                  <td></td>
+                  <td><p>Value in minor units (cents) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>type</td>
+                  <td><a href="#echo.v1.AnalysisNodeType">AnalysisNodeType</a></td>
+                  <td></td>
+                  <td><p>GROUP, ITEM, IGNORE </p></td>
+                </tr>
+              
+                <tr>
+                  <td>tag</td>
+                  <td><a href="#echo.v1.AnalysisItemTag">AnalysisItemTag</a></td>
+                  <td></td>
+                  <td><p>B, R, S, IN, D </p></td>
+                </tr>
+              
+                <tr>
+                  <td>confidence</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>ML confidence 0.0-1.0 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>excel_cell</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>e.g., &#34;A10&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>excel_row</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Row number </p></td>
+                </tr>
+              
+                <tr>
+                  <td>formula</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Excel formula if present </p></td>
+                </tr>
+              
+                <tr>
+                  <td>children</td>
+                  <td><a href="#echo.v1.AnalysisNode">AnalysisNode</a></td>
+                  <td>repeated</td>
+                  <td><p>Child nodes (items under a group) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.AnalyzeExcelForPlanRequest">AnalyzeExcelForPlanRequest</h3>
         <p></p>
 
@@ -11077,6 +11192,119 @@ Positive = spent more, negative = spent less </p></td>
                 <tr>
                   <td>suggested_sheet</td>
                   <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AnalyzeExcelTreeRequest">AnalyzeExcelTreeRequest</h3>
+        <p>AnalyzeExcelTreeRequest - Analyze Excel with ML</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>file_id</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>sheet_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>category_column</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>Optional: Override auto-detected mapping
+
+e.g., &#34;A&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>value_column</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p>e.g., &#34;C&#34; </p></td>
+                </tr>
+              
+                <tr>
+                  <td>start_row</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Data start row (1-indexed) </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.AnalyzeExcelTreeResponse">AnalyzeExcelTreeResponse</h3>
+        <p>AnalyzeExcelTreeResponse - Hierarchical ML analysis result</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>sheet_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>nodes</td>
+                  <td><a href="#echo.v1.AnalysisNode">AnalysisNode</a></td>
+                  <td>repeated</td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_groups</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>total_items</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>overall_confidence</td>
+                  <td><a href="#double">double</a></td>
+                  <td></td>
+                  <td><p>Average ML confidence </p></td>
+                </tr>
+              
+                <tr>
+                  <td>detected_mapping</td>
+                  <td><a href="#echo.v1.DetectedColumnMapping">DetectedColumnMapping</a></td>
                   <td></td>
                   <td><p> </p></td>
                 </tr>
@@ -12520,6 +12748,61 @@ Positive = spent more, negative = spent less </p></td>
 
         
       
+        <h3 id="echo.v1.LearnFromExcelCorrectionRequest">LearnFromExcelCorrectionRequest</h3>
+        <p>LearnFromExcelCorrectionRequest - Teach ML model from user corrections</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>item_name</td>
+                  <td><a href="#string">string</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>correct_tag</td>
+                  <td><a href="#echo.v1.AnalysisItemTag">AnalysisItemTag</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
+        <h3 id="echo.v1.LearnFromExcelCorrectionResponse">LearnFromExcelCorrectionResponse</h3>
+        <p>LearnFromExcelCorrectionResponse</p>
+
+        
+          <table class="field-table">
+            <thead>
+              <tr><td>Field</td><td>Type</td><td>Label</td><td>Description</td></tr>
+            </thead>
+            <tbody>
+              
+                <tr>
+                  <td>success</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p> </p></td>
+                </tr>
+              
+            </tbody>
+          </table>
+
+          
+
+        
+      
         <h3 id="echo.v1.ListBudgetPeriodsRequest">ListBudgetPeriodsRequest</h3>
         <p>ListBudgetPeriods - List all periods for a plan</p>
 
@@ -13723,6 +14006,88 @@ Positive = spent more, negative = spent less </p></td>
       
 
       
+        <h3 id="echo.v1.AnalysisItemTag">AnalysisItemTag</h3>
+        <p>Semantic tag for items (predicted by ML)</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_BUDGET</td>
+                <td>1</td>
+                <td><p>B - Budget expense</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_RECURRING</td>
+                <td>2</td>
+                <td><p>R - Recurring expense</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_SAVINGS</td>
+                <td>3</td>
+                <td><p>S - Savings goal</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_INCOME</td>
+                <td>4</td>
+                <td><p>IN - Income source</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_ITEM_TAG_DEBT</td>
+                <td>5</td>
+                <td><p>D - Debt payment</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
+        <h3 id="echo.v1.AnalysisNodeType">AnalysisNodeType</h3>
+        <p>Node classification type</p>
+        <table class="enum-table">
+          <thead>
+            <tr><td>Name</td><td>Number</td><td>Description</td></tr>
+          </thead>
+          <tbody>
+            
+              <tr>
+                <td>ANALYSIS_NODE_TYPE_UNSPECIFIED</td>
+                <td>0</td>
+                <td><p></p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_NODE_TYPE_GROUP</td>
+                <td>1</td>
+                <td><p>Category header</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_NODE_TYPE_ITEM</td>
+                <td>2</td>
+                <td><p>Budget line item</p></td>
+              </tr>
+            
+              <tr>
+                <td>ANALYSIS_NODE_TYPE_IGNORE</td>
+                <td>3</td>
+                <td><p>Skip this row</p></td>
+              </tr>
+            
+          </tbody>
+        </table>
+      
         <h3 id="echo.v1.FieldType">FieldType</h3>
         <p>Field types for plan items</p>
         <table class="enum-table">
@@ -14090,6 +14455,20 @@ Positive = spent more, negative = spent less </p></td>
                 <td><a href="#echo.v1.AnalyzeExcelForPlanRequest">AnalyzeExcelForPlanRequest</a></td>
                 <td><a href="#echo.v1.AnalyzeExcelForPlanResponse">AnalyzeExcelForPlanResponse</a></td>
                 <td><p>AnalyzeExcelForPlan analyzes an Excel file to determine structure</p></td>
+              </tr>
+            
+              <tr>
+                <td>AnalyzeExcelTree</td>
+                <td><a href="#echo.v1.AnalyzeExcelTreeRequest">AnalyzeExcelTreeRequest</a></td>
+                <td><a href="#echo.v1.AnalyzeExcelTreeResponse">AnalyzeExcelTreeResponse</a></td>
+                <td><p>AnalyzeExcelTree performs ML-based structural analysis returning a hierarchical tree</p></td>
+              </tr>
+            
+              <tr>
+                <td>LearnFromExcelCorrection</td>
+                <td><a href="#echo.v1.LearnFromExcelCorrectionRequest">LearnFromExcelCorrectionRequest</a></td>
+                <td><a href="#echo.v1.LearnFromExcelCorrectionResponse">LearnFromExcelCorrectionResponse</a></td>
+                <td><p>LearnFromExcelCorrection teaches the ML model from user corrections</p></td>
               </tr>
             
               <tr>

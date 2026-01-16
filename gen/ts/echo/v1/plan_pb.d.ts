@@ -1888,6 +1888,217 @@ export declare type PlanItemWithConfig = Message<"echo.v1.PlanItemWithConfig"> &
 export declare const PlanItemWithConfigSchema: GenMessage<PlanItemWithConfig>;
 
 /**
+ * AnalysisNode represents a node in the hierarchical analysis tree
+ *
+ * @generated from message echo.v1.AnalysisNode
+ */
+export declare type AnalysisNode = Message<"echo.v1.AnalysisNode"> & {
+  /**
+   * @generated from field: string id = 1;
+   */
+  id: string;
+
+  /**
+   * @generated from field: string name = 2;
+   */
+  name: string;
+
+  /**
+   * Value in minor units (cents)
+   *
+   * @generated from field: int64 value_minor = 3;
+   */
+  valueMinor: bigint;
+
+  /**
+   * GROUP, ITEM, IGNORE
+   *
+   * @generated from field: echo.v1.AnalysisNodeType type = 4;
+   */
+  type: AnalysisNodeType;
+
+  /**
+   * B, R, S, IN, D
+   *
+   * @generated from field: echo.v1.AnalysisItemTag tag = 5;
+   */
+  tag: AnalysisItemTag;
+
+  /**
+   * ML confidence 0.0-1.0
+   *
+   * @generated from field: double confidence = 6;
+   */
+  confidence: number;
+
+  /**
+   * e.g., "A10"
+   *
+   * @generated from field: string excel_cell = 7;
+   */
+  excelCell: string;
+
+  /**
+   * Row number
+   *
+   * @generated from field: int32 excel_row = 8;
+   */
+  excelRow: number;
+
+  /**
+   * Excel formula if present
+   *
+   * @generated from field: string formula = 9;
+   */
+  formula: string;
+
+  /**
+   * Child nodes (items under a group)
+   *
+   * @generated from field: repeated echo.v1.AnalysisNode children = 10;
+   */
+  children: AnalysisNode[];
+};
+
+/**
+ * Describes the message echo.v1.AnalysisNode.
+ * Use `create(AnalysisNodeSchema)` to create a new message.
+ */
+export declare const AnalysisNodeSchema: GenMessage<AnalysisNode>;
+
+/**
+ * AnalyzeExcelTreeRequest - Analyze Excel with ML
+ *
+ * @generated from message echo.v1.AnalyzeExcelTreeRequest
+ */
+export declare type AnalyzeExcelTreeRequest = Message<"echo.v1.AnalyzeExcelTreeRequest"> & {
+  /**
+   * @generated from field: string file_id = 1;
+   */
+  fileId: string;
+
+  /**
+   * @generated from field: string sheet_name = 2;
+   */
+  sheetName: string;
+
+  /**
+   * Optional: Override auto-detected mapping
+   *
+   * e.g., "A"
+   *
+   * @generated from field: string category_column = 3;
+   */
+  categoryColumn: string;
+
+  /**
+   * e.g., "C"
+   *
+   * @generated from field: string value_column = 4;
+   */
+  valueColumn: string;
+
+  /**
+   * Data start row (1-indexed)
+   *
+   * @generated from field: int32 start_row = 5;
+   */
+  startRow: number;
+};
+
+/**
+ * Describes the message echo.v1.AnalyzeExcelTreeRequest.
+ * Use `create(AnalyzeExcelTreeRequestSchema)` to create a new message.
+ */
+export declare const AnalyzeExcelTreeRequestSchema: GenMessage<AnalyzeExcelTreeRequest>;
+
+/**
+ * AnalyzeExcelTreeResponse - Hierarchical ML analysis result
+ *
+ * @generated from message echo.v1.AnalyzeExcelTreeResponse
+ */
+export declare type AnalyzeExcelTreeResponse = Message<"echo.v1.AnalyzeExcelTreeResponse"> & {
+  /**
+   * @generated from field: string sheet_name = 1;
+   */
+  sheetName: string;
+
+  /**
+   * @generated from field: repeated echo.v1.AnalysisNode nodes = 2;
+   */
+  nodes: AnalysisNode[];
+
+  /**
+   * @generated from field: int32 total_groups = 3;
+   */
+  totalGroups: number;
+
+  /**
+   * @generated from field: int32 total_items = 4;
+   */
+  totalItems: number;
+
+  /**
+   * Average ML confidence
+   *
+   * @generated from field: double overall_confidence = 5;
+   */
+  overallConfidence: number;
+
+  /**
+   * @generated from field: echo.v1.DetectedColumnMapping detected_mapping = 6;
+   */
+  detectedMapping?: DetectedColumnMapping;
+};
+
+/**
+ * Describes the message echo.v1.AnalyzeExcelTreeResponse.
+ * Use `create(AnalyzeExcelTreeResponseSchema)` to create a new message.
+ */
+export declare const AnalyzeExcelTreeResponseSchema: GenMessage<AnalyzeExcelTreeResponse>;
+
+/**
+ * LearnFromExcelCorrectionRequest - Teach ML model from user corrections
+ *
+ * @generated from message echo.v1.LearnFromExcelCorrectionRequest
+ */
+export declare type LearnFromExcelCorrectionRequest = Message<"echo.v1.LearnFromExcelCorrectionRequest"> & {
+  /**
+   * @generated from field: string item_name = 1;
+   */
+  itemName: string;
+
+  /**
+   * @generated from field: echo.v1.AnalysisItemTag correct_tag = 2;
+   */
+  correctTag: AnalysisItemTag;
+};
+
+/**
+ * Describes the message echo.v1.LearnFromExcelCorrectionRequest.
+ * Use `create(LearnFromExcelCorrectionRequestSchema)` to create a new message.
+ */
+export declare const LearnFromExcelCorrectionRequestSchema: GenMessage<LearnFromExcelCorrectionRequest>;
+
+/**
+ * LearnFromExcelCorrectionResponse
+ *
+ * @generated from message echo.v1.LearnFromExcelCorrectionResponse
+ */
+export declare type LearnFromExcelCorrectionResponse = Message<"echo.v1.LearnFromExcelCorrectionResponse"> & {
+  /**
+   * @generated from field: bool success = 1;
+   */
+  success: boolean;
+};
+
+/**
+ * Describes the message echo.v1.LearnFromExcelCorrectionResponse.
+ * Use `create(LearnFromExcelCorrectionResponseSchema)` to create a new message.
+ */
+export declare const LearnFromExcelCorrectionResponseSchema: GenMessage<LearnFromExcelCorrectionResponse>;
+
+/**
  * Plan source types
  *
  * @generated from enum echo.v1.PlanSourceType
@@ -2163,6 +2374,96 @@ export enum TargetTab {
 export declare const TargetTabSchema: GenEnum<TargetTab>;
 
 /**
+ * Node classification type
+ *
+ * @generated from enum echo.v1.AnalysisNodeType
+ */
+export enum AnalysisNodeType {
+  /**
+   * @generated from enum value: ANALYSIS_NODE_TYPE_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * Category header
+   *
+   * @generated from enum value: ANALYSIS_NODE_TYPE_GROUP = 1;
+   */
+  GROUP = 1,
+
+  /**
+   * Budget line item
+   *
+   * @generated from enum value: ANALYSIS_NODE_TYPE_ITEM = 2;
+   */
+  ITEM = 2,
+
+  /**
+   * Skip this row
+   *
+   * @generated from enum value: ANALYSIS_NODE_TYPE_IGNORE = 3;
+   */
+  IGNORE = 3,
+}
+
+/**
+ * Describes the enum echo.v1.AnalysisNodeType.
+ */
+export declare const AnalysisNodeTypeSchema: GenEnum<AnalysisNodeType>;
+
+/**
+ * Semantic tag for items (predicted by ML)
+ *
+ * @generated from enum echo.v1.AnalysisItemTag
+ */
+export enum AnalysisItemTag {
+  /**
+   * @generated from enum value: ANALYSIS_ITEM_TAG_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * B - Budget expense
+   *
+   * @generated from enum value: ANALYSIS_ITEM_TAG_BUDGET = 1;
+   */
+  BUDGET = 1,
+
+  /**
+   * R - Recurring expense
+   *
+   * @generated from enum value: ANALYSIS_ITEM_TAG_RECURRING = 2;
+   */
+  RECURRING = 2,
+
+  /**
+   * S - Savings goal
+   *
+   * @generated from enum value: ANALYSIS_ITEM_TAG_SAVINGS = 3;
+   */
+  SAVINGS = 3,
+
+  /**
+   * IN - Income source
+   *
+   * @generated from enum value: ANALYSIS_ITEM_TAG_INCOME = 4;
+   */
+  INCOME = 4,
+
+  /**
+   * D - Debt payment
+   *
+   * @generated from enum value: ANALYSIS_ITEM_TAG_DEBT = 5;
+   */
+  DEBT = 5,
+}
+
+/**
+ * Describes the enum echo.v1.AnalysisItemTag.
+ */
+export declare const AnalysisItemTagSchema: GenEnum<AnalysisItemTag>;
+
+/**
  * PlanService manages user financial plans
  *
  * @generated from service echo.v1.PlanService
@@ -2267,6 +2568,26 @@ export declare const PlanService: GenService<{
     methodKind: "unary";
     input: typeof AnalyzeExcelForPlanRequestSchema;
     output: typeof AnalyzeExcelForPlanResponseSchema;
+  },
+  /**
+   * AnalyzeExcelTree performs ML-based structural analysis returning a hierarchical tree
+   *
+   * @generated from rpc echo.v1.PlanService.AnalyzeExcelTree
+   */
+  analyzeExcelTree: {
+    methodKind: "unary";
+    input: typeof AnalyzeExcelTreeRequestSchema;
+    output: typeof AnalyzeExcelTreeResponseSchema;
+  },
+  /**
+   * LearnFromExcelCorrection teaches the ML model from user corrections
+   *
+   * @generated from rpc echo.v1.PlanService.LearnFromExcelCorrection
+   */
+  learnFromExcelCorrection: {
+    methodKind: "unary";
+    input: typeof LearnFromExcelCorrectionRequestSchema;
+    output: typeof LearnFromExcelCorrectionResponseSchema;
   },
   /**
    * ComputePlanActuals syncs actual spending from transactions to plan items

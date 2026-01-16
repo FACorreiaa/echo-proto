@@ -40,6 +40,12 @@ service PlanService {
   // AnalyzeExcelForPlan analyzes an Excel file to determine structure
   rpc AnalyzeExcelForPlan(AnalyzeExcelForPlanRequest) returns (AnalyzeExcelForPlanResponse);
 
+  // AnalyzeExcelTree performs ML-based structural analysis returning a hierarchical tree
+  rpc AnalyzeExcelTree(AnalyzeExcelTreeRequest) returns (AnalyzeExcelTreeResponse);
+
+  // LearnFromExcelCorrection teaches the ML model from user corrections
+  rpc LearnFromExcelCorrection(LearnFromExcelCorrectionRequest) returns (LearnFromExcelCorrectionResponse);
+
   // ComputePlanActuals syncs actual spending from transactions to plan items
   rpc ComputePlanActuals(ComputePlanActualsRequest) returns (ComputePlanActualsResponse);
 
@@ -609,4 +615,72 @@ message PlanItemWithConfig {
   string config_short_code = 9; // e.g., "B", "R", "S"
   string config_color_hex = 10;
   ItemBehavior behavior = 11;
+}
+
+// ============================================================================
+// ML-Based Excel Tree Analysis
+// ============================================================================
+
+// Node classification type
+enum AnalysisNodeType {
+  ANALYSIS_NODE_TYPE_UNSPECIFIED = 0;
+  ANALYSIS_NODE_TYPE_GROUP = 1;   // Category header
+  ANALYSIS_NODE_TYPE_ITEM = 2;    // Budget line item
+  ANALYSIS_NODE_TYPE_IGNORE = 3;  // Skip this row
+}
+
+// Semantic tag for items (predicted by ML)
+enum AnalysisItemTag {
+  ANALYSIS_ITEM_TAG_UNSPECIFIED = 0;
+  ANALYSIS_ITEM_TAG_BUDGET = 1;     // B - Budget expense
+  ANALYSIS_ITEM_TAG_RECURRING = 2;  // R - Recurring expense
+  ANALYSIS_ITEM_TAG_SAVINGS = 3;    // S - Savings goal
+  ANALYSIS_ITEM_TAG_INCOME = 4;     // IN - Income source
+  ANALYSIS_ITEM_TAG_DEBT = 5;       // D - Debt payment
+}
+
+// AnalysisNode represents a node in the hierarchical analysis tree
+message AnalysisNode {
+  string id = 1;
+  string name = 2;
+  int64 value_minor = 3;         // Value in minor units (cents)
+  AnalysisNodeType type = 4;     // GROUP, ITEM, IGNORE
+  AnalysisItemTag tag = 5;       // B, R, S, IN, D
+  double confidence = 6;         // ML confidence 0.0-1.0
+  string excel_cell = 7;         // e.g., "A10"
+  int32 excel_row = 8;           // Row number
+  string formula = 9;            // Excel formula if present
+  repeated AnalysisNode children = 10; // Child nodes (items under a group)
+}
+
+// AnalyzeExcelTreeRequest - Analyze Excel with ML
+message AnalyzeExcelTreeRequest {
+  string file_id = 1 [(buf.validate.field).string.uuid = true];
+  string sheet_name = 2;
+  
+  // Optional: Override auto-detected mapping
+  string category_column = 3;    // e.g., "A"
+  string value_column = 4;       // e.g., "C"
+  int32 start_row = 5;           // Data start row (1-indexed)
+}
+
+// AnalyzeExcelTreeResponse - Hierarchical ML analysis result
+message AnalyzeExcelTreeResponse {
+  string sheet_name = 1;
+  repeated AnalysisNode nodes = 2;
+  int32 total_groups = 3;
+  int32 total_items = 4;
+  double overall_confidence = 5;  // Average ML confidence
+  DetectedColumnMapping detected_mapping = 6;
+}
+
+// LearnFromExcelCorrectionRequest - Teach ML model from user corrections
+message LearnFromExcelCorrectionRequest {
+  string item_name = 1;
+  AnalysisItemTag correct_tag = 2;
+}
+
+// LearnFromExcelCorrectionResponse
+message LearnFromExcelCorrectionResponse {
+  bool success = 1;
 }

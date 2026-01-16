@@ -58,6 +58,12 @@ const (
 	// PlanServiceAnalyzeExcelForPlanProcedure is the fully-qualified name of the PlanService's
 	// AnalyzeExcelForPlan RPC.
 	PlanServiceAnalyzeExcelForPlanProcedure = "/echo.v1.PlanService/AnalyzeExcelForPlan"
+	// PlanServiceAnalyzeExcelTreeProcedure is the fully-qualified name of the PlanService's
+	// AnalyzeExcelTree RPC.
+	PlanServiceAnalyzeExcelTreeProcedure = "/echo.v1.PlanService/AnalyzeExcelTree"
+	// PlanServiceLearnFromExcelCorrectionProcedure is the fully-qualified name of the PlanService's
+	// LearnFromExcelCorrection RPC.
+	PlanServiceLearnFromExcelCorrectionProcedure = "/echo.v1.PlanService/LearnFromExcelCorrection"
 	// PlanServiceComputePlanActualsProcedure is the fully-qualified name of the PlanService's
 	// ComputePlanActuals RPC.
 	PlanServiceComputePlanActualsProcedure = "/echo.v1.PlanService/ComputePlanActuals"
@@ -112,6 +118,10 @@ type PlanServiceClient interface {
 	ImportPlanFromExcel(context.Context, *connect.Request[v1.ImportPlanFromExcelRequest]) (*connect.Response[v1.ImportPlanFromExcelResponse], error)
 	// AnalyzeExcelForPlan analyzes an Excel file to determine structure
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
+	// AnalyzeExcelTree performs ML-based structural analysis returning a hierarchical tree
+	AnalyzeExcelTree(context.Context, *connect.Request[v1.AnalyzeExcelTreeRequest]) (*connect.Response[v1.AnalyzeExcelTreeResponse], error)
+	// LearnFromExcelCorrection teaches the ML model from user corrections
+	LearnFromExcelCorrection(context.Context, *connect.Request[v1.LearnFromExcelCorrectionRequest]) (*connect.Response[v1.LearnFromExcelCorrectionResponse], error)
 	// ComputePlanActuals syncs actual spending from transactions to plan items
 	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
 	// ListItemConfigs returns all item configs for the current user
@@ -205,6 +215,18 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 			connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelForPlan")),
 			connect.WithClientOptions(opts...),
 		),
+		analyzeExcelTree: connect.NewClient[v1.AnalyzeExcelTreeRequest, v1.AnalyzeExcelTreeResponse](
+			httpClient,
+			baseURL+PlanServiceAnalyzeExcelTreeProcedure,
+			connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelTree")),
+			connect.WithClientOptions(opts...),
+		),
+		learnFromExcelCorrection: connect.NewClient[v1.LearnFromExcelCorrectionRequest, v1.LearnFromExcelCorrectionResponse](
+			httpClient,
+			baseURL+PlanServiceLearnFromExcelCorrectionProcedure,
+			connect.WithSchema(planServiceMethods.ByName("LearnFromExcelCorrection")),
+			connect.WithClientOptions(opts...),
+		),
 		computePlanActuals: connect.NewClient[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse](
 			httpClient,
 			baseURL+PlanServiceComputePlanActualsProcedure,
@@ -270,26 +292,28 @@ func NewPlanServiceClient(httpClient connect.HTTPClient, baseURL string, opts ..
 
 // planServiceClient implements PlanServiceClient.
 type planServiceClient struct {
-	createPlan             *connect.Client[v1.CreatePlanRequest, v1.CreatePlanResponse]
-	getPlan                *connect.Client[v1.GetPlanRequest, v1.GetPlanResponse]
-	listPlans              *connect.Client[v1.ListPlansRequest, v1.ListPlansResponse]
-	updatePlan             *connect.Client[v1.UpdatePlanRequest, v1.UpdatePlanResponse]
-	deletePlan             *connect.Client[v1.DeletePlanRequest, v1.DeletePlanResponse]
-	updatePlanStructure    *connect.Client[v1.UpdatePlanStructureRequest, v1.UpdatePlanStructureResponse]
-	setActivePlan          *connect.Client[v1.SetActivePlanRequest, v1.SetActivePlanResponse]
-	duplicatePlan          *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
-	importPlanFromExcel    *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
-	analyzeExcelForPlan    *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
-	computePlanActuals     *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
-	listItemConfigs        *connect.Client[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse]
-	createItemConfig       *connect.Client[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse]
-	updateItemConfig       *connect.Client[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse]
-	deleteItemConfig       *connect.Client[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse]
-	getBudgetPeriod        *connect.Client[v1.GetBudgetPeriodRequest, v1.GetBudgetPeriodResponse]
-	listBudgetPeriods      *connect.Client[v1.ListBudgetPeriodsRequest, v1.ListBudgetPeriodsResponse]
-	updateBudgetPeriodItem *connect.Client[v1.UpdateBudgetPeriodItemRequest, v1.UpdateBudgetPeriodItemResponse]
-	copyBudgetPeriod       *connect.Client[v1.CopyBudgetPeriodRequest, v1.CopyBudgetPeriodResponse]
-	getPlanItemsByTab      *connect.Client[v1.GetPlanItemsByTabRequest, v1.GetPlanItemsByTabResponse]
+	createPlan               *connect.Client[v1.CreatePlanRequest, v1.CreatePlanResponse]
+	getPlan                  *connect.Client[v1.GetPlanRequest, v1.GetPlanResponse]
+	listPlans                *connect.Client[v1.ListPlansRequest, v1.ListPlansResponse]
+	updatePlan               *connect.Client[v1.UpdatePlanRequest, v1.UpdatePlanResponse]
+	deletePlan               *connect.Client[v1.DeletePlanRequest, v1.DeletePlanResponse]
+	updatePlanStructure      *connect.Client[v1.UpdatePlanStructureRequest, v1.UpdatePlanStructureResponse]
+	setActivePlan            *connect.Client[v1.SetActivePlanRequest, v1.SetActivePlanResponse]
+	duplicatePlan            *connect.Client[v1.DuplicatePlanRequest, v1.DuplicatePlanResponse]
+	importPlanFromExcel      *connect.Client[v1.ImportPlanFromExcelRequest, v1.ImportPlanFromExcelResponse]
+	analyzeExcelForPlan      *connect.Client[v1.AnalyzeExcelForPlanRequest, v1.AnalyzeExcelForPlanResponse]
+	analyzeExcelTree         *connect.Client[v1.AnalyzeExcelTreeRequest, v1.AnalyzeExcelTreeResponse]
+	learnFromExcelCorrection *connect.Client[v1.LearnFromExcelCorrectionRequest, v1.LearnFromExcelCorrectionResponse]
+	computePlanActuals       *connect.Client[v1.ComputePlanActualsRequest, v1.ComputePlanActualsResponse]
+	listItemConfigs          *connect.Client[v1.ListItemConfigsRequest, v1.ListItemConfigsResponse]
+	createItemConfig         *connect.Client[v1.CreateItemConfigRequest, v1.CreateItemConfigResponse]
+	updateItemConfig         *connect.Client[v1.UpdateItemConfigRequest, v1.UpdateItemConfigResponse]
+	deleteItemConfig         *connect.Client[v1.DeleteItemConfigRequest, v1.DeleteItemConfigResponse]
+	getBudgetPeriod          *connect.Client[v1.GetBudgetPeriodRequest, v1.GetBudgetPeriodResponse]
+	listBudgetPeriods        *connect.Client[v1.ListBudgetPeriodsRequest, v1.ListBudgetPeriodsResponse]
+	updateBudgetPeriodItem   *connect.Client[v1.UpdateBudgetPeriodItemRequest, v1.UpdateBudgetPeriodItemResponse]
+	copyBudgetPeriod         *connect.Client[v1.CopyBudgetPeriodRequest, v1.CopyBudgetPeriodResponse]
+	getPlanItemsByTab        *connect.Client[v1.GetPlanItemsByTabRequest, v1.GetPlanItemsByTabResponse]
 }
 
 // CreatePlan calls echo.v1.PlanService.CreatePlan.
@@ -340,6 +364,16 @@ func (c *planServiceClient) ImportPlanFromExcel(ctx context.Context, req *connec
 // AnalyzeExcelForPlan calls echo.v1.PlanService.AnalyzeExcelForPlan.
 func (c *planServiceClient) AnalyzeExcelForPlan(ctx context.Context, req *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error) {
 	return c.analyzeExcelForPlan.CallUnary(ctx, req)
+}
+
+// AnalyzeExcelTree calls echo.v1.PlanService.AnalyzeExcelTree.
+func (c *planServiceClient) AnalyzeExcelTree(ctx context.Context, req *connect.Request[v1.AnalyzeExcelTreeRequest]) (*connect.Response[v1.AnalyzeExcelTreeResponse], error) {
+	return c.analyzeExcelTree.CallUnary(ctx, req)
+}
+
+// LearnFromExcelCorrection calls echo.v1.PlanService.LearnFromExcelCorrection.
+func (c *planServiceClient) LearnFromExcelCorrection(ctx context.Context, req *connect.Request[v1.LearnFromExcelCorrectionRequest]) (*connect.Response[v1.LearnFromExcelCorrectionResponse], error) {
+	return c.learnFromExcelCorrection.CallUnary(ctx, req)
 }
 
 // ComputePlanActuals calls echo.v1.PlanService.ComputePlanActuals.
@@ -414,6 +448,10 @@ type PlanServiceHandler interface {
 	ImportPlanFromExcel(context.Context, *connect.Request[v1.ImportPlanFromExcelRequest]) (*connect.Response[v1.ImportPlanFromExcelResponse], error)
 	// AnalyzeExcelForPlan analyzes an Excel file to determine structure
 	AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error)
+	// AnalyzeExcelTree performs ML-based structural analysis returning a hierarchical tree
+	AnalyzeExcelTree(context.Context, *connect.Request[v1.AnalyzeExcelTreeRequest]) (*connect.Response[v1.AnalyzeExcelTreeResponse], error)
+	// LearnFromExcelCorrection teaches the ML model from user corrections
+	LearnFromExcelCorrection(context.Context, *connect.Request[v1.LearnFromExcelCorrectionRequest]) (*connect.Response[v1.LearnFromExcelCorrectionResponse], error)
 	// ComputePlanActuals syncs actual spending from transactions to plan items
 	ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error)
 	// ListItemConfigs returns all item configs for the current user
@@ -503,6 +541,18 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 		connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelForPlan")),
 		connect.WithHandlerOptions(opts...),
 	)
+	planServiceAnalyzeExcelTreeHandler := connect.NewUnaryHandler(
+		PlanServiceAnalyzeExcelTreeProcedure,
+		svc.AnalyzeExcelTree,
+		connect.WithSchema(planServiceMethods.ByName("AnalyzeExcelTree")),
+		connect.WithHandlerOptions(opts...),
+	)
+	planServiceLearnFromExcelCorrectionHandler := connect.NewUnaryHandler(
+		PlanServiceLearnFromExcelCorrectionProcedure,
+		svc.LearnFromExcelCorrection,
+		connect.WithSchema(planServiceMethods.ByName("LearnFromExcelCorrection")),
+		connect.WithHandlerOptions(opts...),
+	)
 	planServiceComputePlanActualsHandler := connect.NewUnaryHandler(
 		PlanServiceComputePlanActualsProcedure,
 		svc.ComputePlanActuals,
@@ -585,6 +635,10 @@ func NewPlanServiceHandler(svc PlanServiceHandler, opts ...connect.HandlerOption
 			planServiceImportPlanFromExcelHandler.ServeHTTP(w, r)
 		case PlanServiceAnalyzeExcelForPlanProcedure:
 			planServiceAnalyzeExcelForPlanHandler.ServeHTTP(w, r)
+		case PlanServiceAnalyzeExcelTreeProcedure:
+			planServiceAnalyzeExcelTreeHandler.ServeHTTP(w, r)
+		case PlanServiceLearnFromExcelCorrectionProcedure:
+			planServiceLearnFromExcelCorrectionHandler.ServeHTTP(w, r)
 		case PlanServiceComputePlanActualsProcedure:
 			planServiceComputePlanActualsHandler.ServeHTTP(w, r)
 		case PlanServiceListItemConfigsProcedure:
@@ -652,6 +706,14 @@ func (UnimplementedPlanServiceHandler) ImportPlanFromExcel(context.Context, *con
 
 func (UnimplementedPlanServiceHandler) AnalyzeExcelForPlan(context.Context, *connect.Request[v1.AnalyzeExcelForPlanRequest]) (*connect.Response[v1.AnalyzeExcelForPlanResponse], error) {
 	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.AnalyzeExcelForPlan is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) AnalyzeExcelTree(context.Context, *connect.Request[v1.AnalyzeExcelTreeRequest]) (*connect.Response[v1.AnalyzeExcelTreeResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.AnalyzeExcelTree is not implemented"))
+}
+
+func (UnimplementedPlanServiceHandler) LearnFromExcelCorrection(context.Context, *connect.Request[v1.LearnFromExcelCorrectionRequest]) (*connect.Response[v1.LearnFromExcelCorrectionResponse], error) {
+	return nil, connect.NewError(connect.CodeUnimplemented, errors.New("echo.v1.PlanService.LearnFromExcelCorrection is not implemented"))
 }
 
 func (UnimplementedPlanServiceHandler) ComputePlanActuals(context.Context, *connect.Request[v1.ComputePlanActualsRequest]) (*connect.Response[v1.ComputePlanActualsResponse], error) {
