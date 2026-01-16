@@ -70,7 +70,7 @@ message ListWaitlistResponse {
 
 // SendInvite - Admin endpoint to send early access invite
 message SendInviteRequest {
-  string waitlist_id = 1 [(buf.validate.field).string = { min_len: 36 max_len: 36 }];
+  string waitlist_id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message SendInviteResponse {

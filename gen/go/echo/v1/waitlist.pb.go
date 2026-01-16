@@ -638,9 +638,9 @@ const file_echo_v1_waitlist_proto_rawDesc = "" +
 	"\vtotal_count\x18\x02 \x01(\x05R\n" +
 	"totalCount\x12.\n" +
 	"\x04page\x18\x03 \x01(\v2\x15.echo.v1.PageResponseH\x00R\x04page\x88\x01\x01B\a\n" +
-	"\x05_page\"?\n" +
-	"\x11SendInviteRequest\x12*\n" +
-	"\vwaitlist_id\x18\x01 \x01(\tB\t\xbaH\x06r\x04\x10$\x18$R\n" +
+	"\x05_page\">\n" +
+	"\x11SendInviteRequest\x12)\n" +
+	"\vwaitlist_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\n" +
 	"waitlistId\"i\n" +
 	"\x12SendInviteResponse\x12\x18\n" +
 	"\asuccess\x18\x01 \x01(\bR\asuccess\x12\x1f\n" +
