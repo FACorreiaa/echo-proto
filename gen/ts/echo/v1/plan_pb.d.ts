@@ -1958,6 +1958,20 @@ export declare type AnalysisNode = Message<"echo.v1.AnalysisNode"> & {
    * @generated from field: repeated echo.v1.AnalysisNode children = 10;
    */
   children: AnalysisNode[];
+
+  /**
+   * confidence < 0.80 (requires user verification)
+   *
+   * @generated from field: bool needs_review = 11;
+   */
+  needsReview: boolean;
+
+  /**
+   * confidence >= 0.80 (trusted prediction)
+   *
+   * @generated from field: bool is_auto_approved = 12;
+   */
+  isAutoApproved: boolean;
 };
 
 /**
@@ -2049,6 +2063,20 @@ export declare type AnalyzeExcelTreeResponse = Message<"echo.v1.AnalyzeExcelTree
    * @generated from field: echo.v1.DetectedColumnMapping detected_mapping = 6;
    */
   detectedMapping?: DetectedColumnMapping;
+
+  /**
+   * Count of items with confidence < 0.80
+   *
+   * @generated from field: int32 items_needing_review = 7;
+   */
+  itemsNeedingReview: number;
+
+  /**
+   * Count of items with confidence >= 0.80
+   *
+   * @generated from field: int32 auto_approved_items = 8;
+   */
+  autoApprovedItems: number;
 };
 
 /**

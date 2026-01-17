@@ -4381,19 +4381,21 @@ func (x *PlanItemWithConfig) GetBehavior() ItemBehavior {
 
 // AnalysisNode represents a node in the hierarchical analysis tree
 type AnalysisNode struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	ValueMinor    int64                  `protobuf:"varint,3,opt,name=value_minor,json=valueMinor,proto3" json:"value_minor,omitempty"` // Value in minor units (cents)
-	Type          AnalysisNodeType       `protobuf:"varint,4,opt,name=type,proto3,enum=echo.v1.AnalysisNodeType" json:"type,omitempty"` // GROUP, ITEM, IGNORE
-	Tag           AnalysisItemTag        `protobuf:"varint,5,opt,name=tag,proto3,enum=echo.v1.AnalysisItemTag" json:"tag,omitempty"`    // B, R, S, IN, D
-	Confidence    float64                `protobuf:"fixed64,6,opt,name=confidence,proto3" json:"confidence,omitempty"`                  // ML confidence 0.0-1.0
-	ExcelCell     string                 `protobuf:"bytes,7,opt,name=excel_cell,json=excelCell,proto3" json:"excel_cell,omitempty"`     // e.g., "A10"
-	ExcelRow      int32                  `protobuf:"varint,8,opt,name=excel_row,json=excelRow,proto3" json:"excel_row,omitempty"`       // Row number
-	Formula       string                 `protobuf:"bytes,9,opt,name=formula,proto3" json:"formula,omitempty"`                          // Excel formula if present
-	Children      []*AnalysisNode        `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`                       // Child nodes (items under a group)
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	Id             string                 `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name           string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	ValueMinor     int64                  `protobuf:"varint,3,opt,name=value_minor,json=valueMinor,proto3" json:"value_minor,omitempty"`                // Value in minor units (cents)
+	Type           AnalysisNodeType       `protobuf:"varint,4,opt,name=type,proto3,enum=echo.v1.AnalysisNodeType" json:"type,omitempty"`                // GROUP, ITEM, IGNORE
+	Tag            AnalysisItemTag        `protobuf:"varint,5,opt,name=tag,proto3,enum=echo.v1.AnalysisItemTag" json:"tag,omitempty"`                   // B, R, S, IN, D
+	Confidence     float64                `protobuf:"fixed64,6,opt,name=confidence,proto3" json:"confidence,omitempty"`                                 // ML confidence 0.0-1.0
+	ExcelCell      string                 `protobuf:"bytes,7,opt,name=excel_cell,json=excelCell,proto3" json:"excel_cell,omitempty"`                    // e.g., "A10"
+	ExcelRow       int32                  `protobuf:"varint,8,opt,name=excel_row,json=excelRow,proto3" json:"excel_row,omitempty"`                      // Row number
+	Formula        string                 `protobuf:"bytes,9,opt,name=formula,proto3" json:"formula,omitempty"`                                         // Excel formula if present
+	Children       []*AnalysisNode        `protobuf:"bytes,10,rep,name=children,proto3" json:"children,omitempty"`                                      // Child nodes (items under a group)
+	NeedsReview    bool                   `protobuf:"varint,11,opt,name=needs_review,json=needsReview,proto3" json:"needs_review,omitempty"`            // confidence < 0.80 (requires user verification)
+	IsAutoApproved bool                   `protobuf:"varint,12,opt,name=is_auto_approved,json=isAutoApproved,proto3" json:"is_auto_approved,omitempty"` // confidence >= 0.80 (trusted prediction)
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *AnalysisNode) Reset() {
@@ -4496,6 +4498,20 @@ func (x *AnalysisNode) GetChildren() []*AnalysisNode {
 	return nil
 }
 
+func (x *AnalysisNode) GetNeedsReview() bool {
+	if x != nil {
+		return x.NeedsReview
+	}
+	return false
+}
+
+func (x *AnalysisNode) GetIsAutoApproved() bool {
+	if x != nil {
+		return x.IsAutoApproved
+	}
+	return false
+}
+
 // AnalyzeExcelTreeRequest - Analyze Excel with ML
 type AnalyzeExcelTreeRequest struct {
 	state     protoimpl.MessageState `protogen:"open.v1"`
@@ -4576,15 +4592,17 @@ func (x *AnalyzeExcelTreeRequest) GetStartRow() int32 {
 
 // AnalyzeExcelTreeResponse - Hierarchical ML analysis result
 type AnalyzeExcelTreeResponse struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	SheetName         string                 `protobuf:"bytes,1,opt,name=sheet_name,json=sheetName,proto3" json:"sheet_name,omitempty"`
-	Nodes             []*AnalysisNode        `protobuf:"bytes,2,rep,name=nodes,proto3" json:"nodes,omitempty"`
-	TotalGroups       int32                  `protobuf:"varint,3,opt,name=total_groups,json=totalGroups,proto3" json:"total_groups,omitempty"`
-	TotalItems        int32                  `protobuf:"varint,4,opt,name=total_items,json=totalItems,proto3" json:"total_items,omitempty"`
-	OverallConfidence float64                `protobuf:"fixed64,5,opt,name=overall_confidence,json=overallConfidence,proto3" json:"overall_confidence,omitempty"` // Average ML confidence
-	DetectedMapping   *DetectedColumnMapping `protobuf:"bytes,6,opt,name=detected_mapping,json=detectedMapping,proto3" json:"detected_mapping,omitempty"`
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	SheetName          string                 `protobuf:"bytes,1,opt,name=sheet_name,json=sheetName,proto3" json:"sheet_name,omitempty"`
+	Nodes              []*AnalysisNode        `protobuf:"bytes,2,rep,name=nodes,proto3" json:"nodes,omitempty"`
+	TotalGroups        int32                  `protobuf:"varint,3,opt,name=total_groups,json=totalGroups,proto3" json:"total_groups,omitempty"`
+	TotalItems         int32                  `protobuf:"varint,4,opt,name=total_items,json=totalItems,proto3" json:"total_items,omitempty"`
+	OverallConfidence  float64                `protobuf:"fixed64,5,opt,name=overall_confidence,json=overallConfidence,proto3" json:"overall_confidence,omitempty"` // Average ML confidence
+	DetectedMapping    *DetectedColumnMapping `protobuf:"bytes,6,opt,name=detected_mapping,json=detectedMapping,proto3" json:"detected_mapping,omitempty"`
+	ItemsNeedingReview int32                  `protobuf:"varint,7,opt,name=items_needing_review,json=itemsNeedingReview,proto3" json:"items_needing_review,omitempty"` // Count of items with confidence < 0.80
+	AutoApprovedItems  int32                  `protobuf:"varint,8,opt,name=auto_approved_items,json=autoApprovedItems,proto3" json:"auto_approved_items,omitempty"`    // Count of items with confidence >= 0.80
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
 }
 
 func (x *AnalyzeExcelTreeResponse) Reset() {
@@ -4657,6 +4675,20 @@ func (x *AnalyzeExcelTreeResponse) GetDetectedMapping() *DetectedColumnMapping {
 		return x.DetectedMapping
 	}
 	return nil
+}
+
+func (x *AnalyzeExcelTreeResponse) GetItemsNeedingReview() int32 {
+	if x != nil {
+		return x.ItemsNeedingReview
+	}
+	return 0
+}
+
+func (x *AnalyzeExcelTreeResponse) GetAutoApprovedItems() int32 {
+	if x != nil {
+		return x.AutoApprovedItems
+	}
+	return 0
 }
 
 // LearnFromExcelCorrectionRequest - Teach ML model from user corrections
@@ -5121,7 +5153,7 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\x11config_short_code\x18\t \x01(\tR\x0fconfigShortCode\x12(\n" +
 	"\x10config_color_hex\x18\n" +
 	" \x01(\tR\x0econfigColorHex\x121\n" +
-	"\bbehavior\x18\v \x01(\x0e2\x15.echo.v1.ItemBehaviorR\bbehavior\"\xd7\x02\n" +
+	"\bbehavior\x18\v \x01(\x0e2\x15.echo.v1.ItemBehaviorR\bbehavior\"\xa4\x03\n" +
 	"\fAnalysisNode\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1f\n" +
@@ -5137,14 +5169,16 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\texcel_row\x18\b \x01(\x05R\bexcelRow\x12\x18\n" +
 	"\aformula\x18\t \x01(\tR\aformula\x121\n" +
 	"\bchildren\x18\n" +
-	" \x03(\v2\x15.echo.v1.AnalysisNodeR\bchildren\"\xc4\x01\n" +
+	" \x03(\v2\x15.echo.v1.AnalysisNodeR\bchildren\x12!\n" +
+	"\fneeds_review\x18\v \x01(\bR\vneedsReview\x12(\n" +
+	"\x10is_auto_approved\x18\f \x01(\bR\x0eisAutoApproved\"\xc4\x01\n" +
 	"\x17AnalyzeExcelTreeRequest\x12!\n" +
 	"\afile_id\x18\x01 \x01(\tB\b\xbaH\x05r\x03\xb0\x01\x01R\x06fileId\x12\x1d\n" +
 	"\n" +
 	"sheet_name\x18\x02 \x01(\tR\tsheetName\x12'\n" +
 	"\x0fcategory_column\x18\x03 \x01(\tR\x0ecategoryColumn\x12!\n" +
 	"\fvalue_column\x18\x04 \x01(\tR\vvalueColumn\x12\x1b\n" +
-	"\tstart_row\x18\x05 \x01(\x05R\bstartRow\"\xa4\x02\n" +
+	"\tstart_row\x18\x05 \x01(\x05R\bstartRow\"\x86\x03\n" +
 	"\x18AnalyzeExcelTreeResponse\x12\x1d\n" +
 	"\n" +
 	"sheet_name\x18\x01 \x01(\tR\tsheetName\x12+\n" +
@@ -5153,7 +5187,9 @@ const file_echo_v1_plan_proto_rawDesc = "" +
 	"\vtotal_items\x18\x04 \x01(\x05R\n" +
 	"totalItems\x12-\n" +
 	"\x12overall_confidence\x18\x05 \x01(\x01R\x11overallConfidence\x12I\n" +
-	"\x10detected_mapping\x18\x06 \x01(\v2\x1e.echo.v1.DetectedColumnMappingR\x0fdetectedMapping\"y\n" +
+	"\x10detected_mapping\x18\x06 \x01(\v2\x1e.echo.v1.DetectedColumnMappingR\x0fdetectedMapping\x120\n" +
+	"\x14items_needing_review\x18\a \x01(\x05R\x12itemsNeedingReview\x12.\n" +
+	"\x13auto_approved_items\x18\b \x01(\x05R\x11autoApprovedItems\"y\n" +
 	"\x1fLearnFromExcelCorrectionRequest\x12\x1b\n" +
 	"\titem_name\x18\x01 \x01(\tR\bitemName\x129\n" +
 	"\vcorrect_tag\x18\x02 \x01(\x0e2\x18.echo.v1.AnalysisItemTagR\n" +

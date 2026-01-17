@@ -651,6 +651,8 @@ message AnalysisNode {
   int32 excel_row = 8;           // Row number
   string formula = 9;            // Excel formula if present
   repeated AnalysisNode children = 10; // Child nodes (items under a group)
+  bool needs_review = 11;        // confidence < 0.80 (requires user verification)
+  bool is_auto_approved = 12;    // confidence >= 0.80 (trusted prediction)
 }
 
 // AnalyzeExcelTreeRequest - Analyze Excel with ML
@@ -672,6 +674,8 @@ message AnalyzeExcelTreeResponse {
   int32 total_items = 4;
   double overall_confidence = 5;  // Average ML confidence
   DetectedColumnMapping detected_mapping = 6;
+  int32 items_needing_review = 7; // Count of items with confidence < 0.80
+  int32 auto_approved_items = 8;  // Count of items with confidence >= 0.80
 }
 
 // LearnFromExcelCorrectionRequest - Teach ML model from user corrections

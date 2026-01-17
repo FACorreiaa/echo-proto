@@ -11141,6 +11141,20 @@ Positive = spent more, negative = spent less </p></td>
                   <td><p>Child nodes (items under a group) </p></td>
                 </tr>
               
+                <tr>
+                  <td>needs_review</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>confidence &lt; 0.80 (requires user verification) </p></td>
+                </tr>
+              
+                <tr>
+                  <td>is_auto_approved</td>
+                  <td><a href="#bool">bool</a></td>
+                  <td></td>
+                  <td><p>confidence &gt;= 0.80 (trusted prediction) </p></td>
+                </tr>
+              
             </tbody>
           </table>
 
@@ -11307,6 +11321,20 @@ e.g., &#34;A&#34; </p></td>
                   <td><a href="#echo.v1.DetectedColumnMapping">DetectedColumnMapping</a></td>
                   <td></td>
                   <td><p> </p></td>
+                </tr>
+              
+                <tr>
+                  <td>items_needing_review</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Count of items with confidence &lt; 0.80 </p></td>
+                </tr>
+              
+                <tr>
+                  <td>auto_approved_items</td>
+                  <td><a href="#int32">int32</a></td>
+                  <td></td>
+                  <td><p>Count of items with confidence &gt;= 0.80 </p></td>
                 </tr>
               
             </tbody>
